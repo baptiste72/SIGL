@@ -1,0 +1,34 @@
+<mat-drawer-container class="example-container" autosize>
+  <mat-drawer #drawer class="sidenav" mode="side" [(opened)]="opened">
+    <img class="logo-eseo" src="assets/images/logo-eseo.png" alt="logo ESEO" />
+    <div class="ul-navigation">
+      <a href="./dashboard-apprentice"><div><mat-icon matPrefix>home</mat-icon>Journal de formation</div></a>
+      <a href="./documents"><div><mat-icon matPrefix>description</mat-icon>Docs Pédagogiques</div></a>
+      <a href="./notes"><div><mat-icon matPrefix>edit_note</mat-icon>Notes</div></a>
+      <a href="./documents"><div><mat-icon matPrefix>co_present</mat-icon>Livrables</div></a>
+      <a href="./documents"><div><mat-icon matPrefix>calendar_month</mat-icon>Évènements</div></a>
+      <a href="./profil"><div><mat-icon matPrefix>account_circle</mat-icon>Mon compte</div></a>
+      <a href="./documents"><div><mat-icon matPrefix>cancel</mat-icon>Déconnexion</div></a>
+    </div>
+  </mat-drawer>
+
+  <mat-drawer-content>
+    <div>
+      <div class="ul-topbar">
+        <button type="button" mat-button (click)="drawer.toggle()">
+          <mat-icon matPrefix>menu</mat-icon>
+        </button>
+
+        <div class="topbar-right">
+          <div class="divider">
+            <mat-icon matPrefix>person</mat-icon>Mathilde Renaud
+          </div>
+          <mat-icon matPrefix>settings</mat-icon>
+          <mat-icon matPrefix>notifications</mat-icon>
+          <mat-icon matPrefix>cancel</mat-icon>
+        </div>
+      </div>
+    </div>
+    <ng-content></ng-content>
+  </mat-drawer-content>
+</mat-drawer-container>

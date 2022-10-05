@@ -1,0 +1,31 @@
+@import "/src/styles/helpers/constants.scss";
+@import "/src/styles/helpers/mixins.scss";
+
+.documents-page-card {
+  box-shadow: $box-shadow-secondary;
+  padding: 0px;
+  width: 100%;
+  @include respond-to('medium') {
+    width: 70%;
+  }
+}
+
+.documents-page-card-header {
+  padding-top: 12px;
+  box-shadow: $box-shadow-secondary;
+  background-color: $blue;
+  color: $white;
+  justify-content: center;
+}
+
+.documents-page-card-title {
+  display: flex;
+}
+
+.download-icons {
+ color: $blue;
+}
+
+.mat-column-download-link {
+  text-align: center;
+}
