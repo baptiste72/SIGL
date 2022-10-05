@@ -1,0 +1,36 @@
+@import "/src/styles/helpers/constants.scss";
+
+.documents-card {
+  box-shadow: $box-shadow-secondary;
+  padding: 0px;
+}
+
+.documents-card-header {
+  padding-top: 12px;
+  box-shadow: $box-shadow-secondary;
+  background-color: $blue;
+  color: $white;
+  justify-content: center;
+}
+
+.documents-card-title {
+  display: flex;
+}
+
+.documents-icon {
+  color: $grey;
+}
+
+.documents-link {
+  text-decoration: none;
+  color: $dark-grey;
+  display: flex;
+  align-items: center;
+}
+
+.documents-item:hover {
+  background-color: $blue-tr;
+  .documents-icon, .documents-name {
+    color : $blue;
+  }
+}

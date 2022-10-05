@@ -1,0 +1,66 @@
+@import "/src/styles/helpers/mixins.scss";
+
+.navigation-content {
+  padding: 0px 50px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.app-evaluation {
+  width: 100%;
+  margin-bottom: 50px;
+  @include respond-to('medium') {
+    width: 100%;
+  }
+  @include respond-to('large') {
+    width: 100%;
+  }
+  @include respond-to('extralarge') {
+    width: 70%;
+    margin: 0px 50px 50px 0px;
+  }
+}
+
+.app-notes {
+  width: 100%;
+  margin-bottom: 50px;
+  @include respond-to('medium') {
+    width: 100%;
+  }
+  @include respond-to('large') {
+    width: 50%;
+  }
+  @include respond-to('extralarge') {
+    width: 25%;
+    margin-bottom: none;
+  }
+}
+
+.app-events {
+  width: 100%;
+  margin: 0px 0px 50px 0px;;
+  @include respond-to('medium') {
+    width: 100%;
+  }
+  @include respond-to('large') {
+    width: 100%;
+  }
+  @include respond-to('extralarge') {
+    width: 70%;
+    margin: 0px 50px 0px 0px;
+  }
+}
+
+.app-documents {
+  width: 100%;
+  @include respond-to('medium') {
+    width: 100%;
+  }
+  @include respond-to('large') {
+    width: 50%;
+  }
+  @include respond-to('extralarge') {
+    width: 25%;
+    margin-bottom: none;
+  }
+}

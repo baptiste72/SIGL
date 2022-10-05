@@ -1,0 +1,38 @@
+@import "/src/styles/helpers/constants.scss";
+
+.note-card {
+  box-shadow: $box-shadow-secondary;
+  padding: 0px;
+}
+
+.note-card-header {
+  padding-top: 12px;
+  box-shadow: $box-shadow-secondary;
+  background-color: $green;
+  color: $white;
+  justify-content: center;
+}
+
+.note-card-title {
+  display: flex;
+}
+
+.note-icon {
+  color: $grey;
+}
+
+.note-link {
+  text-decoration: none;
+  color: $dark-grey;
+  display: flex;
+  align-items: center;
+}
+
+.note-item:hover {
+  background-color: $green-tr;
+  .note-icon, .note-name {
+    color : $green;
+  }
+}
+
+
