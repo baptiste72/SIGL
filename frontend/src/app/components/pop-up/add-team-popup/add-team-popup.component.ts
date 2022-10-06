@@ -7,17 +7,13 @@ import { MatSelect } from '@angular/material/select';
   templateUrl: './add-team-popup.component.html',
   styleUrls: ['./add-team-popup.component.scss']
 })
-export class AddTeamPopupComponent implements OnInit {
+export class AddTeamPopupComponent {
   fromPage!: string;
   fromDialog!: string;
 
   constructor(public dialogRef: MatDialogRef<AddTeamPopupComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public mydata: any
     ) { }
-
-
-  ngOnInit(): void {
-  }
 
   closeDialog() { this.dialogRef.close({ event: 'close', data: this.fromDialog }); }
 

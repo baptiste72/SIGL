@@ -7,13 +7,10 @@ import {MatSnackBar} from '@angular/material/snack-bar';
   templateUrl: './connection.component.html',
   styleUrls: ['./connection.component.scss']
 })
-export class ConnectionComponent implements OnInit {
+export class ConnectionComponent {
   hide = true;
 
   constructor(private authService: AuthService, private router: Router, private _snackBar: MatSnackBar) { }
-
-  ngOnInit(): void {
-  }
 
   public login(data: any) {
     this.authService.login(data).subscribe({
