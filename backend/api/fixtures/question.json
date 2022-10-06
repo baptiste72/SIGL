@@ -1,0 +1,18 @@
+[
+    {
+      "model": "api.question",
+      "pk": 1,
+      "fields": {
+        "question_text": "What is your favourite BITCHES",
+        "pub_date": "1994-02-04"
+      }
+    },
+    {
+      "model": "api.question",
+      "pk": 2,
+      "fields": {
+        "question_text": "What is your favourite COLOR",
+        "pub_date": "1994-03-04"
+      }
+    }
+  ]

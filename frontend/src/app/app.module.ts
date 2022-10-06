@@ -37,7 +37,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { FormsModule } from '@angular/forms';
 import { EventsPageComponent } from './components/pages/events-page/events-page.component';
 import { AddEventPopupComponent } from './components/pop-up/add-event-popup/add-event-popup.component';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 @NgModule({
