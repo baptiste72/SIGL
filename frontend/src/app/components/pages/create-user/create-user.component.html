@@ -1,0 +1,42 @@
+<div class="background">
+  <img class="logo-eseo" src="assets/images/logo-eseo.png" alt="logo ESEO" />
+
+  <div class="connection-div">
+    <div class="back-arrow">
+      <a href="./connection">
+        <mat-icon matPrefix>west</mat-icon>
+      </a>
+    </div>
+    <h1>Création d'utilisateur</h1>
+    <form class="connection-form">
+      <div class="div-input user-name">
+        <h3>Nom</h3>
+        <mat-form-field class="full-width" appearance="fill">
+          <mat-label>Entrez le nom</mat-label>
+          <mat-icon matPrefix>account_circle</mat-icon>
+          <input [(ngModel)]="register.last_name" name="last_name" type="text" matInput />
+        </mat-form-field>
+        <h3>Prénom</h3>
+        <mat-form-field class="full-width" appearance="fill">
+          <mat-label>Entrez le prénom</mat-label>
+          <mat-icon matPrefix>account_circle</mat-icon>
+          <input [(ngModel)]="register.first_name" name="first_name" type="text" matInput />
+        </mat-form-field>
+        <h3>Mot de passe</h3>
+        <mat-form-field class="full-width" appearance="fill">
+          <mat-label>Entrez le mot de passe</mat-label>
+          <mat-icon matPrefix>lock</mat-icon>
+          <input [(ngModel)]="register.password" name="password" type="password" matInput />
+        </mat-form-field>
+        <h3>Email</h3>
+        <mat-form-field class="full-width" appearance="fill">
+          <mat-label>Entrez votre adresse mail</mat-label>
+          <mat-icon matPrefix>mail</mat-icon>
+          <input [(ngModel)]="register.email" name="email" type="email" matInput />
+        </mat-form-field>
+      </div>
+
+      <button mat-flat-button class="btn_primary" (click)="createUser(register)">Créer utilisateur</button>
+    </form>
+  </div>
+</div>

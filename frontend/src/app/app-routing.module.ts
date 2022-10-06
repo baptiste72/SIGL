@@ -7,6 +7,7 @@ import { ForgotPasswordComponent } from './components/pages/forgot-password/forg
 import { NewPasswordComponent } from './components/pages/new-password/new-password.component';
 import { NotesPageComponent } from './components/pages/notes-page/notes-page.component';
 import { PersonalInformationsComponent } from './components/pages/personal-informations/personal-informations.component';
+import { CreateUserComponent } from './components/pages/create-user/create-user.component';
 
 const routes: Routes = [
   { path: 'connection', component: ConnectionComponent },
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'profil', component: PersonalInformationsComponent },
   { path: 'documents', component: DocumentsPageComponent },
   { path: 'notes', component: NotesPageComponent },
+  { path: 'create-user', component: CreateUserComponent },
 ];
 
 @NgModule({
