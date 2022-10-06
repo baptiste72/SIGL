@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-t0l=ne9o9901*rm$il&-4)wxy0h34o)cvi#s87we1lurj-^vcz
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -90,7 +90,7 @@ DATABASES = {
         'USER': os.environ.get('POSTGRES_USER'),
         'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
         'HOST': 'db',
-        'PORT': 5433,
+        'PORT': '5433',
     }
 }
 
