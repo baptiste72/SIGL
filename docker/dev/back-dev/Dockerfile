@@ -5,7 +5,7 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /code
 
-COPY ./back/requirements.txt /code
+COPY ./backend/requirements.txt /code
 
 RUN pip install -r requirements.txt \ 
  && pip install djangorestframework \
@@ -13,4 +13,4 @@ RUN pip install -r requirements.txt \
  && pip install drf-yasg -U \
  && pip install flake8
 
-COPY ./back/siglback /code
+COPY ./backend /code

@@ -1,4 +1,4 @@
-"""siglback URL Configuration
+"""backend URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.2/topics/http/urls/
@@ -33,7 +33,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/',
         include([
-            path('', include('siglapi.urls')),
+            path('', include('api.urls')),
             path('swagger/schema/', schema_view.with_ui('swagger',
                     cache_timeout=0), name="swagger-schema"),
         ])

@@ -8,7 +8,7 @@ services:
     ports:
       - "80:4200"
     volumes:
-      - ./../../front:/sigl
+      - ./../../frontend:/sigl
     restart: always
 
   db:
@@ -27,7 +27,7 @@ services:
       dockerfile: ./docker/dev/back-dev/Dockerfile
     command: python manage.py runserver 0.0.0.0:8000 
     volumes:
-      - ./../../back/siglback:/code
+      - ./../../backend:/code
     ports:
       - "8000:8000"
     environment:

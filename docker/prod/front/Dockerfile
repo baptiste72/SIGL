@@ -5,7 +5,7 @@ FROM node:alpine AS build
 WORKDIR /app
 
 # Copy all files from current directory to working dir in image
-COPY ./front .
+COPY ./frontend .
 
 # Build assets
 RUN npm run build

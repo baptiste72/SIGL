@@ -1,6 +1,6 @@
 [
     {
-      "model": "siglapi.question",
+      "model": "api.question",
       "pk": 1,
       "fields": {
         "question_text": "What is your favourite BITCHES",
@@ -8,7 +8,7 @@
       }
     },
     {
-      "model": "siglapi.question",
+      "model": "api.question",
       "pk": 2,
       "fields": {
         "question_text": "What is your favourite COLOR",
