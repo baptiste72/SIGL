@@ -1,14 +1,6 @@
 from django.db import models
-
+from authentication.models import User
 from base.semester import Semester
-
-
-class User(models.Model):
-    # table des personnes
-    last_name = models.CharField(max_length=100)
-    first_name = models.CharField(max_length=100)
-    password = models.CharField(max_length=100)
-    email = models.EmailField(max_length=300)
 
 
 class Deadline(models.Model):

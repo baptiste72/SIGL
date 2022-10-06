@@ -4,6 +4,7 @@ import { ConfigurationComponent } from './components/pages/configuration/configu
 import { ConnectionComponent } from './components/pages/connection/connection.component';
 import { DashboardApprenticeComponent } from './components/pages/dashboard-apprentice/dashboard-apprentice.component';
 import { DocumentsPageComponent } from './components/pages/documents-page/documents-page.component';
+import { EventsPageComponent } from './components/pages/events-page/events-page.component';
 import { ForgotPasswordComponent } from './components/pages/forgot-password/forgot-password.component';
 import { NewPasswordComponent } from './components/pages/new-password/new-password.component';
 import { NotesPageComponent } from './components/pages/notes-page/notes-page.component';
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'documents', component: DocumentsPageComponent },
   { path: 'notes', component: NotesPageComponent },
   { path: 'configuration', component: ConfigurationComponent },
+  { path: 'events', component: EventsPageComponent },
 ];
 
 @NgModule({
