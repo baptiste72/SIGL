@@ -30,7 +30,8 @@ import { MatTreeModule } from '@angular/material/tree';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { CreateUserComponent } from './components/pages/create-user/create-user.component';
+import { ConfigurationComponent } from './components/pages/configuration/configuration.component';
+import { AddUserPopupComponent } from './components/pop-up/add-user-popup/add-user-popup.component';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
@@ -49,7 +50,8 @@ import { FormsModule } from '@angular/forms';
     DocumentsPageComponent,
     NotesPageComponent,
     AddNotePopupComponent,
-    CreateUserComponent
+    ConfigurationComponent,
+    AddUserPopupComponent
   ],
   imports: [
     BrowserModule,
