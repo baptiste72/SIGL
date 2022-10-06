@@ -30,6 +30,8 @@ import { MatTreeModule } from '@angular/material/tree';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { CreateUserComponent } from './components/pages/create-user/create-user.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     EventsComponent,
     DocumentsPageComponent,
     NotesPageComponent,
-    AddNotePopupComponent
+    AddNotePopupComponent,
+    CreateUserComponent
   ],
   imports: [
     BrowserModule,
@@ -64,7 +67,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatTreeModule,
     MatSelectModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent],

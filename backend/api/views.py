@@ -1,20 +1,19 @@
 from re import I
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from base.models import SuperHero
-from .serializers import SuperHeroSerializer
 
+from base.models import User
+from .serializers import UserSerializer
 
 @api_view(['GET'])
-def getSuperHeroes(request):
-    super_heroes = SuperHero.objects.all()
-    serializers = SuperHeroSerializer(super_heroes, many=True)
+def getUser(request):
+    user = User.objects.all()
+    serializers = UserSerializer(user, many=True)
     return Response(serializers.data)
 
-
 @api_view(['POST'])
-def addSuperHero(request):
-    serializer = SuperHeroSerializer(data=request.data)
+def addUser(request):
+    serializer = UserSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
     return Response(serializer.data)
