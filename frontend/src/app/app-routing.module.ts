@@ -11,7 +11,7 @@ import { PersonalInformationsComponent } from './components/pages/personal-infor
 
 const routes: Routes = [
   { path: '', component: ConnectionComponent },
-  { path: 'connection', component: ConnectionComponent },
+  { path: 'login', component: ConnectionComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'new-password', component: NewPasswordComponent },
   { path: 'dashboard-apprentice', component: DashboardApprenticeComponent },

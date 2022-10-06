@@ -37,12 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'typing_extensions',
 
     'rest_framework',
     'base',
     'corsheaders',
     'drf_yasg',
+    'authentication'
 ]
 
 MIDDLEWARE = [
@@ -86,7 +86,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'db_sigl',
         'USER': 'postgres',
-        'PASSWORD': 'secret123456',
+        'PASSWORD': 'root',
         'HOST': 'localhost',
     }
 }
@@ -133,7 +133,10 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+AUTH_USER_MODEL = 'authentication.User'
+
 CORS_ORIGIN_ALLOW_ALL = False
+CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:4200',
 )

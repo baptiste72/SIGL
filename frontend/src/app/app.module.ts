@@ -33,6 +33,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { ConfigurationComponent } from './components/pages/configuration/configuration.component';
 import { AddUserPopupComponent } from './components/pop-up/add-user-popup/add-user-popup.component';
 import { FormsModule } from '@angular/forms';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+
 
 @NgModule({
   declarations: [
@@ -70,7 +72,8 @@ import { FormsModule } from '@angular/forms';
     MatSelectModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    FormsModule
+    FormsModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent],
