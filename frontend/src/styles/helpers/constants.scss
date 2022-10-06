@@ -33,3 +33,23 @@ $box-shadow-secondary :  0px 4px 4px rgba(0, 0, 0, 0.25);
 .bold {
   font-weight: bold;
 }
+
+.bg-red {
+  background-color: $red;
+}
+
+.bg-green {
+  background-color: $green;
+}
+
+.bg-gradient {
+  background: $blue-violet-gradient ;
+}
+
+.bg-purple {
+  background-color: $purple;
+}
+
+.margin-bottom-50 {
+  margin-bottom: 50px;
+}

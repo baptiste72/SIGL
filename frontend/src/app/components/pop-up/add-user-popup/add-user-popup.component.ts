@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit, Optional, ViewChild, AfterViewInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/services/auth/auth.service';
 
 interface Promotion {
@@ -21,8 +22,8 @@ export class AddUserPopupComponent implements OnInit {
   selectedRole = '';
   register: any;
 
-  constructor(public dialogRef: MatDialogRef<AddUserPopupComponent>, 
-    private authService: AuthService, 
+  constructor(public dialogRef: MatDialogRef<AddUserPopupComponent>,
+    private authService: AuthService, private _snackBar: MatSnackBar,
     @Optional() @Inject(MAT_DIALOG_DATA) public mydata: any
     ) { }
 
@@ -34,7 +35,6 @@ export class AddUserPopupComponent implements OnInit {
       password : '',
       email :''
     };
-
   }
 
   closeDialog() {
@@ -42,11 +42,15 @@ export class AddUserPopupComponent implements OnInit {
   }
 
   public addUser(data: any) {
-    console.log(data)
-    // FIXME: à corriger
-     this.authService.register(data).subscribe((result) => {
-       console.warn(result)
-     })     
+     this.authService.register(data).subscribe({
+      next: (v) => {
+        this._snackBar.open("✔ Inscription réussie", "Ok", { duration: 2000});
+        this.closeDialog();
+      },
+      error: (err) => {
+        this._snackBar.open("❌ Une erreur est survenue", "Ok", { duration: 2000})
+      }
+    });
 }
 
 

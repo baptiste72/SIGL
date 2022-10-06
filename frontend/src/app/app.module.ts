@@ -16,6 +16,11 @@ import { EvaluationsComponent } from './components/evaluations/evaluations.compo
 import { EventsComponent } from './components/events/events.component';
 import { DocumentsPageComponent } from './components/pages/documents-page/documents-page.component';
 import { AddNotePopupComponent } from './components/pop-up/add-note-popup/add-note-popup.component';
+import { ConfigurationComponent } from './components/pages/configuration/configuration.component';
+import { AddUserPopupComponent } from './components/pop-up/add-user-popup/add-user-popup.component';
+import { AddPromotionPopupComponent } from './components/pop-up/add-promotion-popup/add-promotion-popup.component';
+import { AddTeamPopupComponent } from './components/pop-up/add-team-popup/add-team-popup.component';
+import { NotesPageComponent } from './components/pages/notes-page/notes-page.component';
 
 import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
@@ -23,15 +28,12 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatCardModule } from '@angular/material/card';
-import { NotesPageComponent } from './components/pages/notes-page/notes-page.component';
 import { MatListModule } from '@angular/material/list';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { ConfigurationComponent } from './components/pages/configuration/configuration.component';
-import { AddUserPopupComponent } from './components/pop-up/add-user-popup/add-user-popup.component';
 import { FormsModule } from '@angular/forms';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 
@@ -53,7 +55,9 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     NotesPageComponent,
     AddNotePopupComponent,
     ConfigurationComponent,
-    AddUserPopupComponent
+    AddUserPopupComponent,
+    AddPromotionPopupComponent,
+    AddTeamPopupComponent
   ],
   imports: [
     BrowserModule,
