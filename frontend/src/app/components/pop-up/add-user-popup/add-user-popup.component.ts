@@ -1,7 +1,6 @@
 import { Component, Inject, OnInit, Optional, ViewChild, AfterViewInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSelect } from '@angular/material/select';
-import { UserService } from 'src/app/components/services/user.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 interface Promotion {
   name: string;
@@ -22,8 +21,8 @@ export class AddUserPopupComponent implements OnInit {
   selectedRole = '';
   register: any;
 
-  constructor(public dialogRef: MatDialogRef<AddUserPopupComponent>,
-    private userService:UserService,
+  constructor(public dialogRef: MatDialogRef<AddUserPopupComponent>, 
+    private authService: AuthService, 
     @Optional() @Inject(MAT_DIALOG_DATA) public mydata: any
     ) { }
 
@@ -38,13 +37,16 @@ export class AddUserPopupComponent implements OnInit {
 
   }
 
-  closeDialog() { this.dialogRef.close({ event: 'close', data: this.fromDialog }); }
+  closeDialog() {
+    this.dialogRef.close({ event: 'close', data: this.fromDialog });
+  }
 
-  addUser(data:any){
-  console.warn(data)
-  this.userService.saveUser(data).subscribe((result)=>{
-    console.warn(result)
-  })
+  public addUser(data: any) {
+    console.log(data)
+    // FIXME: à corriger
+     this.authService.register(data).subscribe((result) => {
+       console.warn(result)
+     })     
 }
 
 

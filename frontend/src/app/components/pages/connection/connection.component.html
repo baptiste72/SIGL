@@ -4,13 +4,13 @@
   <div class="connection-div">
     <h1>Connexion</h1>
 
-    <form class="connection-form">
+    <form class="connection-form" #loginForm="ngForm" (ngSubmit)="login(loginForm.value)">
       <div class="div-input user-name">
-        <h3>Nom d’utilisateur</h3>
+        <h3>Adresse email</h3>
         <mat-form-field class="full-width" appearance="fill">
-          <mat-label>Entrez votre nom d’utilisateur</mat-label>
+          <mat-label>Entrez votre adresse email</mat-label>
           <mat-icon matPrefix>account_circle</mat-icon>
-          <input type="tel" matInput />
+          <input type="email" matInput name="email" ngModel/>
         </mat-form-field>
       </div>
 
@@ -19,7 +19,7 @@
         <mat-form-field class="full-width" appearance="fill">
           <mat-label>Entrez votre mot de passe</mat-label>
           <mat-icon matPrefix>lock</mat-icon>
-          <input matInput [type]="hide ? 'password' : 'text'" />
+          <input matInput [type]="hide ? 'password' : 'text'" name="password" ngModel/>
           <button
             class="btn-hide-password"
             mat-icon-button
@@ -34,7 +34,7 @@
         <a href="/forgot-password" class="mdp_forget">Mot de passe oublié ?</a>
       </div>
 
-      <button mat-flat-button class="btn_primary">SE CONNECTER</button>
+      <button mat-flat-button class="btn_primary" type="submit">SE CONNECTER</button>
     </form>
 
     <button class="btn-microsoft">
