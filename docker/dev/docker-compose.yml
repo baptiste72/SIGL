@@ -65,11 +65,11 @@ services:
       - postgresql:/var/lib/postgresql
       - postgresql_data:/var/lib/postgresql/data
 
-#  sonarscanner:
-#    build:
-#      context: ./../..
-#      dockerfile: ./docker/dev/sonarscanner/Dockerfile
-#    container_name: sonarscanner
+  sonarscanner:
+    build:
+      context: ./../..
+      dockerfile: ./docker/dev/sonarscanner/Dockerfile
+    container_name: sonarscanner
 
 volumes:
   sonarqube_data:
