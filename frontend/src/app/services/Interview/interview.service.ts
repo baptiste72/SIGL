@@ -11,8 +11,14 @@ private urlPrefix = "api/v1";
 
 constructor(private http: HttpClient) { }
 
+
+public getInterviews(): Observable<any> {
+    return this.http.get<any>(`${environment.apiUrl}/${this.urlPrefix}/interviews`);
+}
+   
 public addinterview(post: any): Observable<any> {
-  return this.http.post<any>(`${environment.apiUrl}/${this.urlPrefix}/add-interview`, post);
+    return this.http.post<any>(`${environment.apiUrl}/${this.urlPrefix}/add-interview`, post);
+
 }
 
 }

@@ -7,7 +7,7 @@
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Soutenance S7</mat-label>
       <mat-icon matPrefix>note</mat-icon>
-      <input type="text" matInput />
+      <input required [(ngModel)]="interview.name" type="text" matInput />
     </mat-form-field>
   </div>
 
@@ -15,8 +15,8 @@
     <h3>Semestre</h3>
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Choisissez un semestre</mat-label>
-      <mat-select required>
-        <mat-option *ngFor="let semester of semesters" [value]="semester">
+      <mat-select required [(ngModel)]="interview.semester">
+        <mat-option *ngFor="let semester of semesters" [value]="semester.name">
           {{ semester.name }}
         </mat-option>
       </mat-select>
@@ -27,7 +27,7 @@
     <h3>Période</h3>
     <mat-form-field class="full-width" appearance="fill">
         <mat-label>Choisisez une date</mat-label>
-        <input matInput [matDatepicker]="picker">
+        <input required [(ngModel)]="interview.date" matInput [matDatepicker]="picker">
         <mat-hint>MM/DD/YYYY</mat-hint>
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
@@ -39,12 +39,12 @@
     <mat-form-field appearance="fill">
       <mat-label>8:00</mat-label>
       <mat-icon matPrefix>schedule</mat-icon>
-      <input matInput type="text">
+      <input required [(ngModel)]="interview.first_hour" matInput type="text">
     </mat-form-field>
 
     <mat-form-field appearance="fill" >
       <mat-label>11:00</mat-label>
-      <input matInput type="number" class="hour-container" placeholder="0">
+      <input required [(ngModel)]="interview.last_hour" matInput type="text" class="hour-container">
     </mat-form-field>
   </div>
 
@@ -52,8 +52,8 @@
     <h3>Invités</h3>
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Choisisez les invités</mat-label>
-      <mat-select required>
-        <mat-option *ngFor="let guest of guests" [value]="guest">
+      <mat-select required [(ngModel)]="interview.guest"> 
+        <mat-option *ngFor="let guest of guests" [value]="guest.name">
           {{ guest.name }}
         </mat-option>
       </mat-select>
@@ -64,13 +64,13 @@
     <h3>Description</h3>
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Ajouter une description</mat-label>
-      <textarea matInput placeholder="Ex. J'ai réalisé..."></textarea>
+      <textarea matInput [(ngModel)]="interview.description" placeholder="Ex. J'ai réalisé..."></textarea>
     </mat-form-field>
   </div>
 </div>
 
 <mat-divider></mat-divider>
 <div mat-dialog-actions align="end">
-  <button mat-button class="green bold">CREER</button>
+  <button mat-button class="green bold" (click)="addinterview(interview)" >CREER</button>
   <button mat-button class="red bold" (click)="closeDialog()">ANNULER</button>
 </div>
