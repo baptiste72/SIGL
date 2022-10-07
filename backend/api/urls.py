@@ -7,4 +7,7 @@ urlpatterns = [
     # FIXME: Les noms de routes devraient être en kebab-case
     path('TeachersInCharge', views.getTeacherInCharge, name='getTeacherInCharge'),
     path('Trainees', views.getTrainee, name='getTrainee'),
+    
+    path('interviews', views.getInterview, name='getInterview'),
+    path('add-interview', views.addInterview, name='addInterview'),
 ]

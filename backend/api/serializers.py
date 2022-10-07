@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from base.models import Mentor, Company, FormationCenter, TeacherInCharge, Trainee, YearGroup
+from base.models import Mentor, Company, FormationCenter, TeacherInCharge, Trainee, YearGroup,Interview
 
 
 class CompanySerializer(serializers.ModelSerializer):
@@ -48,3 +48,9 @@ class TraineeSerializer(serializers.ModelSerializer):
         model = Trainee
         fields = ('id', 'last_name', 'first_name',
                   'password', 'email', 'yearGroup')
+
+
+class InterviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Interview
+        fields = '__all__'

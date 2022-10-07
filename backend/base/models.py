@@ -3,13 +3,14 @@ from authentication.models import User
 from base.semester import Semester
 
 
-class Deadline(models.Model):
+class Interview(models.Model):
     # table des échéances
     timestamp = models.DateTimeField(auto_now_add=True)
     description = models.CharField(max_length=100)
     promotion = models.CharField(max_length=100)
-    semester = models.CharField(max_length=10, choices=[
-                                (tag, tag.value) for tag in Semester])
+    
+    #list stand by après les tests
+    #semester = models.CharField(max_length=10, choices=[(tag, tag.value) for tag in Semester])
 
 
 class TeacherInCharge(User):
