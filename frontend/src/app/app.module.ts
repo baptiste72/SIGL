@@ -38,6 +38,10 @@ import { FormsModule } from '@angular/forms';
 import { EventsPageComponent } from './components/pages/events-page/events-page.component';
 import { AddEventPopupComponent } from './components/pop-up/add-event-popup/add-event-popup.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSortModule } from '@angular/material/sort';
+import { DeadlineTableComponent } from './deadline-table/deadline-table.component';
+import { AddDeadlinePopupComponent } from './components/pop-up/add-deadline-popup/add-deadline-popup.component';
+import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
 
 
 @NgModule({
@@ -61,7 +65,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     AddPromotionPopupComponent,
     AddTeamPopupComponent,
     EventsPageComponent,
-    AddEventPopupComponent
+    AddEventPopupComponent,
+    DeadlineTableComponent,
+    AddDeadlinePopupComponent
   ],
   imports: [
     BrowserModule,
@@ -81,7 +87,11 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatDatepickerModule,
     MatNativeDateModule,
     FormsModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatSortModule,
+    NgxMatDatetimePickerModule,
+    NgxMatTimepickerModule,
+    NgxMatNativeDateModule
   ],
   providers: [],
   bootstrap: [AppComponent],

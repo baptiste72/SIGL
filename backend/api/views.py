@@ -2,8 +2,8 @@ from re import I
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
-from base.models import Mentor, TeacherInCharge, Trainee,Interview
-from .serializers import MentorSerializer, TeacherInChargeSerializer, TraineeSerializer, InterviewSerializer
+from base.models import *
+from .serializers import *
 
 
 @api_view(['GET'])
@@ -45,6 +45,21 @@ def getInterview(request):
 @api_view(['POST'])
 def addInterview(request):
     serializer = InterviewSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def getDeadline(request):
+    DeadlineList = Deadline.objects.all()
+    serializers = DeadlineSerializer(DeadlineList, many=True)
+    return Response(serializers.data)
+
+
+@api_view(['POST'])
+def addDeadline(request):
+    serializer = DeadlineSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
     return Response(serializer.data)

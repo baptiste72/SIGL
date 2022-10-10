@@ -35,8 +35,7 @@ export class AddEventPopupComponent implements OnInit {
       first_hour : '',
       last_hour :'',
       description :'',
-      guest:'',
-      semester:'',
+      semester:' ',
     };
   }
   public addinterview(data: any) {

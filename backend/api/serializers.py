@@ -1,5 +1,5 @@
-from rest_framework import serializers
-from base.models import Mentor, Company, FormationCenter, TeacherInCharge, Trainee, YearGroup,Interview
+from rest_framework import serializers,fields
+from base.models import * 
 
 
 class CompanySerializer(serializers.ModelSerializer):
@@ -54,3 +54,10 @@ class InterviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Interview
         fields = '__all__'
+        
+class DeadlineSerializer(serializers.ModelSerializer):
+    date = fields.DateField(input_formats=['%Y-%m-%dT%H:%M:%S.%fZ'])
+    class Meta:
+        model = Deadline
+        fields = ('name', 'date',
+                  'description')

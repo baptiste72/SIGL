@@ -10,4 +10,8 @@ urlpatterns = [
     
     path('interviews', views.getInterview, name='getInterview'),
     path('add-interview', views.addInterview, name='addInterview'),
+    
+    path('deadlines', views.getDeadline, name='getDeadline'),
+    path('add-deadline', views.addDeadline, name='addDeadline'),
+
 ]
