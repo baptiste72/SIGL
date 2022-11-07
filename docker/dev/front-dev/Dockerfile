@@ -1,5 +1,5 @@
-# Pull Node.js alpine image
-FROM node:alpine
+# Pull Node.js LTS alpine image
+FROM node:lts-alpine
 
 # Add metadata
 LABEL description="Set up Angular for development" \
@@ -8,10 +8,20 @@ LABEL description="Set up Angular for development" \
 # Set working directory
 WORKDIR /sigl
 
-# Install the Angular CLI
-RUN apk update && apk upgrade && rm -rf /var/cache/apk/* \
- && npm install --global npm@8.19.2 \
- && npm install --global @angular/cli
+# Copy frontend to container
+COPY frontend .
+
+# Install the Angular CLI and dependencies
+RUN apk add --no-cache curl \
+ && npm install --global @angular/cli \
+ && npm install
+
+# Check server is running
+HEALTHCHECK --interval=1m --timeout=10s \
+ CMD curl --fail http://localhost:4200/ || exit 1
+
+# Change user to node
+USER node
 
 # Launch the server
 ENTRYPOINT ["ng", "serve", "--host", "0.0.0.0"]
