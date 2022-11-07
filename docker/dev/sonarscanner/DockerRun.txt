@@ -1,17 +1,29 @@
+####Valeurs à remplacer####
+ # /c/your/source/front #
+ #      projectKey      #
+ #        login         #
+ #       host.url       #
+###########################
+
+#  Une fois compléter, copier à partir de là dans Git Bash pour la partie front #
+cd /c/your/source/front
 docker run \
-	-v "D:\ESEO\OneDrive - ESEO\e5a\S9\SIGL\InfosSonarqube\FakeProjectTest\ProjetSIGL\test-sigl\front":/usr/src/front \
+	-v "D:\ESEO\OneDrive - ESEO\e5a\S9\SIGL\Projet-Sigl\test-sigl\front":/usr/src/front \
 	dev-sonarscanner \
-  	-Dsonar.projectKey=angular \
+  	-Dsonar.projectKey=projet-sigl-front2 \
   	-Dsonar.sources=. \
-  	-Dsonar.host.url=http://172.21.0.77:9000 \
-  	-Dsonar.login=a23cd658c28f2f80f9a62dbd599c6ee618893cb6 \
+  	-Dsonar.host.url=http://172.21.0.86:9000 \
+  	-Dsonar.login=sqp_dfd1e5a4abd8b571321f39862b78965f3479e9d6 \
+	-Dsonar.exclusions=**node_modules** \
 	-X
 
+#  Une fois compléter, copier à partir de là dans Git Bash pour la partie back #
+cd /c/your/source/back
 docker run \
- 	-v "D:\ESEO\OneDrive - ESEO\e5a\S9\SIGL\InfosSonarqube\FakeProjectTest\ProjetSIGL\test-sigl\back":/usr/src/back \
+ 	-v "D:\ESEO\OneDrive - ESEO\e5a\S9\SIGL\Projet-Sigl\test-sigl\front":/usr/src/back \
   	dev-sonarscanner \
-  	-Dsonar.projectKey=python \
+  	-Dsonar.projectKey=projet-sigl-back \
   	-Dsonar.sources=. \
-  	-Dsonar.host.url=http://172.21.0.77:9000 \
-  	-Dsonar.login=001af5b2aaafbe4d82021243058107ece8f74f22 \
+  	-Dsonar.host.url=http://172.21.0.86:9000 \
+  	-Dsonar.login=sqp_08257975ca6374704103ac50c30814c05b9a0c60 \
   	-X
