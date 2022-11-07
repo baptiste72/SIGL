@@ -56,7 +56,7 @@ class InterviewSerializer(serializers.ModelSerializer):
         fields = '__all__'
         
 class DeadlineSerializer(serializers.ModelSerializer):
-    date = fields.DateField(input_formats=['%Y-%m-%dT%H:%M:%S.%fZ'])
+    date = fields.DateTimeField(input_formats=['%Y-%m-%dT%H:%M:%S.%fZ'])
     class Meta:
         model = Deadline
         fields = ('name', 'date',

@@ -23,13 +23,11 @@ export class AddDeadlinePopupComponent implements OnInit {
     @Optional() @Inject(MAT_DIALOG_DATA) public mydata: any) { }
 
   fromDialog!: string;
-  DateSchedule = new Date();
-  Datetest = new Date(500000000000);  
   ngOnInit(): void {
     this.fromDialog = "I am from dialog land...";
     this.js_deadline = {
       name : '',
-      date : this.DateSchedule,
+      date : '',
       description :'',
     };
   }

@@ -39,7 +39,6 @@ import { EventsPageComponent } from './components/pages/events-page/events-page.
 import { AddEventPopupComponent } from './components/pop-up/add-event-popup/add-event-popup.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
-import { DeadlineTableComponent } from './deadline-table/deadline-table.component';
 import { AddDeadlinePopupComponent } from './components/pop-up/add-deadline-popup/add-deadline-popup.component';
 import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
 
@@ -66,7 +65,6 @@ import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateMod
     AddTeamPopupComponent,
     EventsPageComponent,
     AddEventPopupComponent,
-    DeadlineTableComponent,
     AddDeadlinePopupComponent
   ],
   imports: [

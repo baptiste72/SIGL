@@ -13,6 +13,7 @@ import {DeadlineService} from 'src/app/services/deadline/deadline.service'
 })
 export class EventsPageComponent implements OnInit {
   interviews: any;
+  deadlines: any;
   dialogRef: any;
   constructor(public dialog: MatDialog,
     private interviewService: InterviewService, private deadlineService: DeadlineService,private _snackBar: MatSnackBar,
@@ -20,6 +21,7 @@ export class EventsPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.getInterviews();
+    this.getDeadlines();
   }
 
   public getInterviews() {
@@ -29,8 +31,8 @@ export class EventsPageComponent implements OnInit {
   }
 
   public getDeadlines() {
-      this.interviewService.getInterviews().subscribe(response => {
-        this.interviews = response;
+      this.deadlineService.getDeadlines().subscribe(response => {
+        this.deadlines = response;
       });
   }
 
