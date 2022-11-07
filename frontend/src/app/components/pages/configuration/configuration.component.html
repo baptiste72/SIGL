@@ -1,0 +1,130 @@
+<app-navigation>
+  <div class="navigation-content margin-bottom-50">
+    <mat-card class="configuration-page-card">
+      <mat-card-header class="configuration-page-card-header">
+        <mat-card-title class="configuration-page-card-title">
+          <mat-icon
+            aria-hidden="false"
+            aria-label="configuration icon"
+            fontIcon="groups"
+          ></mat-icon>
+          UTILISATEURS
+        </mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="configuration-actions-btns">
+          <button mat-raised-button class="btn_primary bg-green" (click)="addUser()">AJOUT UTILISATEUR</button>
+          <button mat-raised-button class="btn_primary bg-red" (click)="addPromotion()">AJOUT PROMOTION</button>
+        </div>
+
+        <div class="mat-elevation-z8">
+          <table mat-table [dataSource]="dataSourceUsers">
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef>Prénom</th>
+              <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+            </ng-container>
+
+            <!-- Surname time Column -->
+            <ng-container matColumnDef="surname">
+              <th mat-header-cell *matHeaderCellDef>Nom</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.surname }}
+              </td>
+            </ng-container>
+
+            <!-- Role By Column -->
+            <ng-container matColumnDef="role">
+              <th mat-header-cell *matHeaderCellDef>Rôle</th>
+              <td mat-cell *matCellDef="let element">{{ element.role }}</td>
+            </ng-container>
+
+            <!-- Update Link Column -->
+            <ng-container matColumnDef="update">
+              <th mat-header-cell *matHeaderCellDef>Modifications</th>
+              <td mat-cell *matCellDef="let element">
+                <mat-icon class="edit-icons" aria-hidden="false" aria-label="documents icon" fontIcon="edit"></mat-icon>
+                <mat-icon class="delete-icons" aria-hidden="false" aria-label="documents icon" fontIcon="close"></mat-icon>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsUsers"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsUsers"></tr>
+          </table>
+
+          <mat-paginator
+            [pageSizeOptions]="[5, 10, 20]"
+            showFirstLastButtons
+            aria-label="Select page of periodic elements"
+          >
+          </mat-paginator>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="navigation-content">
+    <mat-card class="configuration-page-card">
+      <mat-card-header class="configuration-page-card-header">
+        <mat-card-title class="configuration-page-card-title">
+          <mat-icon
+            aria-hidden="false"
+            aria-label="configuration icon"
+            fontIcon="diversity_3"
+          ></mat-icon>
+          ÉQUIPES PÉDAGOGIQUES
+        </mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="configuration-actions-btns2">
+          <button mat-raised-button class="btn_primary bg-purple" (click)="addTeam()">AJOUT ÉQUIPE TUTORALE</button>
+        </div>
+
+        <div class="mat-elevation-z8">
+          <table mat-table [dataSource]="dataSourceTeams">
+            <!-- Apprentice Column -->
+            <ng-container matColumnDef="apprentice">
+              <th mat-header-cell *matHeaderCellDef>Apprenti</th>
+              <td mat-cell *matCellDef="let element">{{ element.apprentice }}</td>
+            </ng-container>
+
+            <!-- Tutor time Column -->
+            <ng-container matColumnDef="tutor">
+              <th mat-header-cell *matHeaderCellDef>Tuteur pédagogique</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.tutor }}
+              </td>
+            </ng-container>
+
+            <!-- Master By Column -->
+            <ng-container matColumnDef="master">
+              <th mat-header-cell *matHeaderCellDef>Maître d'apprentissage</th>
+              <td mat-cell *matCellDef="let element">{{ element.master }}</td>
+            </ng-container>
+
+            <!-- Update Link Column -->
+            <ng-container matColumnDef="update">
+              <th mat-header-cell *matHeaderCellDef>Modifications</th>
+              <td mat-cell *matCellDef="let element">
+                <mat-icon class="edit-icons" aria-hidden="false" aria-label="documents icon" fontIcon="edit"></mat-icon>
+                <mat-icon class="delete-icons" aria-hidden="false" aria-label="documents icon" fontIcon="close"></mat-icon>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsTeams"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsTeams"></tr>
+          </table>
+
+          <mat-paginator
+            [pageSizeOptions]="[5, 10, 20]"
+            showFirstLastButtons
+            aria-label="Select page of periodic elements"
+          >
+          </mat-paginator>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</app-navigation>

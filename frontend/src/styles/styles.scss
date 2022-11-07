@@ -30,6 +30,11 @@
 @import "/src/app/components/pages/dashboard-apprentice/dashboard-apprentice.component.scss";
 @import "/src/app/components/pages/documents-page/documents-page.component.scss";
 @import "/src/app/components/pages/notes-page/notes-page.component.scss";
+@import "/src/app/components/pages/configuration/configuration.component.scss";
+@import "/src/app/components/pages/events-page/events-page.component.scss";
+
 
 /* POPUP */
-@import "/src/app/components/pop-up/add-note-popup/add-note-popup.component.scss"
+@import "/src/app/components/pop-up/add-note-popup/add-note-popup.component.scss";
+@import "/src/app/components/pop-up/add-promotion-popup/add-promotion-popup.component.scss";
+@import "/src/app/components/pop-up/add-event-popup/add-event-popup.component.scss";

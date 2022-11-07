@@ -67,3 +67,7 @@
   display: flex;
   align-items: center;
 }
+
+.mat-drawer-inner-container::-webkit-scrollbar {
+  display: none;
+}

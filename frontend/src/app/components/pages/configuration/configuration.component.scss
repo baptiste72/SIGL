@@ -1,0 +1,40 @@
+@import "/src/styles/helpers/constants.scss";
+@import "/src/styles/helpers/mixins.scss";
+
+.configuration-page-card {
+  box-shadow: $box-shadow-secondary;
+  padding: 0px;
+  width: 100%;
+}
+
+.configuration-page-card-header {
+  padding-top: 12px;
+  box-shadow: $box-shadow-secondary;
+  background: $blue-violet-gradient;
+  color: $white;
+  justify-content: center;
+}
+
+.configuration-page-card-title {
+  display: flex;
+}
+
+.configuration-actions-btns {
+  display: flex;
+  width: 50%;
+  justify-content: space-around;
+}
+
+.configuration-actions-btns2 {
+  display: flex;
+  width: 50%;
+  margin-left: 30px;
+}
+
+.edit-icons {
+ color: $green;
+}
+
+.delete-icons {
+  color: $red;
+}

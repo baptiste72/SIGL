@@ -1,0 +1,67 @@
+<app-navigation>
+  <div class="navigation-content">
+    <mat-card class="events-page-card">
+      <mat-card-header class="events-page-card-header">
+        <mat-card-title class="events-page-card-title">
+          <mat-icon
+            aria-hidden="false"
+            aria-label="events icon"
+            fontIcon="calendar_month"
+          ></mat-icon>
+          Rendez-vous pédagogique
+        </mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+       <button class="btn_primary bg-green" (click)="addEvent()">AJOUT</button>
+       <div class="container">
+        <table class="table table-striped">
+          <thead>
+              <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>date</th>
+                <th>first_hour</th>
+                <th>last_hour</th>
+                <th>description</th>
+                <th>guest</th>
+                <th>semester</th>
+              </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let interviews of interviews">
+              <td>{{ interviews.id }}</td>
+              <td>{{ interviews.name }}</td>
+              <td>{{ interviews.date }}</td>
+              <td>{{ interviews.first_hour }}</td>
+              <td>{{ interviews.last_hour }}</td>
+              <td>{{ interviews.description }}</td>
+              <td>{{ interviews.guest }}</td>
+              <td>{{ interviews.semester }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="events-page-card">
+      <mat-card-header class="events-page-card-header">
+        <mat-card-title class="events-page-card-title">
+          <mat-icon
+            aria-hidden="false"
+            aria-label="events icon"
+            fontIcon="calendar_month"
+          ></mat-icon>
+          Echéances 
+        </mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+       <button class="btn_primary bg-green" (click)="addDeadline()">AJOUT</button>
+       <div class="container">
+       <app-deadline-table></app-deadline-table>
+      </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</app-navigation>
