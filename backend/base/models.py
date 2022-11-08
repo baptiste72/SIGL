@@ -1,7 +1,7 @@
 from django.db import models
 from authentication.models import User
 from base.semester import Semester
-
+import json
 
 class Interview(models.Model):
     # table des entretien
@@ -67,3 +67,15 @@ class YearGroup(models.Model):
                                 (tag, tag.value) for tag in Semester])
     trainee = models.ForeignKey(
         Trainee, related_name="yearGroup", on_delete=models.CASCADE, null=True)
+
+class TutorTeam(models.Model):
+    # table équipes tutorales
+    mentor = models.ForeignKey(
+        Mentor, related_name="tutorTeam", on_delete=models.CASCADE, null=True)
+    teacherInCharge = models.ForeignKey(
+        TeacherInCharge, related_name="tutorTeam", on_delete=models.CASCADE, null=True)
+    trainee = models.ForeignKey(
+        Trainee, related_name="tutorTeam", on_delete=models.CASCADE, null=True)
+    
+    def __unicode__(self):
+        return self.name

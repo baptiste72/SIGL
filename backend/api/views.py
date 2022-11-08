@@ -4,6 +4,7 @@ from rest_framework.decorators import api_view
 
 from base.models import *
 from .serializers import *
+import json
 
 
 @api_view(['GET'])
@@ -63,3 +64,37 @@ def addDeadline(request):
     if serializer.is_valid():
         serializer.save()
     return Response(serializer.data)
+
+@api_view(['GET'])
+def getTutorTeam(request):
+    # récupération du contenu de la table TutorTeam
+    TutorTeamList = TutorTeam.objects.all()    
+    serializers = TutorTeamSerializer(TutorTeamList, many=True)
+
+    # boucle permettant de récupérer la totalité des équipes tutorales
+    response = []
+    for data in range(len(serializers.data)):
+        # récupération des clées étrangères
+        teacherInChargeID = serializers.data[data]['teacherInCharge']
+        mentorID = serializers.data[data]['mentor']
+        traineeID = serializers.data[data]['trainee']
+
+        # récupération des données liées aux clées étrangères
+        # on aurait pu le faire en une requête dans la base User 
+        # mais d'un point de vue métier ça n'a pas le même sens
+        teacherInCharge = TeacherInCharge.objects.filter(pk=teacherInChargeID).values('first_name', 'last_name', 'email')
+        mentor = Mentor.objects.filter(pk=mentorID).values('first_name', 'last_name', 'email')
+        trainee = Trainee.objects.filter(pk=traineeID).values('first_name', 'last_name', 'email')
+
+        # fabriaction d'un json object equipe tutorale contenant réellement les infos
+        context = {            
+            'mentor': mentor,
+            'trainee': trainee,
+            'teacherInCharge': teacherInCharge
+        }
+        
+        # ajout de l'équipe tutorale récupérée ou autre équipe tutorale
+        response.append(context)
+        
+    # print(response)
+    return Response(response)

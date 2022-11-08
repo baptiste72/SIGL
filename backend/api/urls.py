@@ -13,5 +13,7 @@ urlpatterns = [
     
     path('deadlines', views.getDeadline, name='getDeadline'),
     path('add-deadline', views.addDeadline, name='addDeadline'),
+    
+    path('tutor-team', views.getTutorTeam, name='getTutorTeam'),
 
 ]
