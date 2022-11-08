@@ -5,16 +5,16 @@
  #       host.url       #
 ###########################
 
-#  Une fois compléter, copier à partir de là dans Git Bash pour la partie front #
+#  Une fois complété, copier à partir de là dans Git Bash pour la partie front #
 cd /c/your/source/front
 docker run \
-	-v "D:\ESEO\OneDrive - ESEO\e5a\S9\SIGL\Projet-Sigl\test-sigl\front":/usr/src/front \
-	dev-sonarscanner \
+	-v /home/alexandre/Dev/SIGL/sigl/frontend:/usr/src/front \
+	dev_sonarscanner \
   	-Dsonar.projectKey=projet-sigl-front \
   	-Dsonar.sources=. \
   	-Dsonar.host.url=http://172.21.0.65:9000 \
   	-Dsonar.login=sqp_528e9fd97de18e2e101eff36106d2db7e4de8d5f \
-	-Dsonar.exclusions=**node_modules** \
+	-Dsonar.exclusions=node_modules \
 	-X
 
 #  Une fois compléter, copier à partir de là dans Git Bash pour la partie back #
@@ -24,6 +24,6 @@ docker run \
   	dev-sonarscanner \
   	-Dsonar.projectKey=projet-sigl-back \
   	-Dsonar.sources=. \
-  	-Dsonar.host.url=http://172.21.0.86:9000 \
+  	-Dsonar.host.url=http://172.21.0.65:9000 \
   	-Dsonar.login=sqp_08257975ca6374704103ac50c30814c05b9a0c60 \
   	-X
