@@ -8,23 +8,25 @@ import { User } from '../../models/User';
   providedIn: 'root'
 })
 export class AuthService {
+
   private urlPrefix = "auth";
 
   constructor(private http: HttpClient) { }
 
   public register(user: User): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/${this.urlPrefix}/register`, user);
+    return this.http.post<any>(`${environment.apiUrl}/${this.urlPrefix}/register`, user, { withCredentials: true });
   }
 
-  public login(credentials: any): Observable<User> {
-    return this.http.post<any>( `${environment.apiUrl}/${this.urlPrefix}/login`, credentials);
+  public login(credentials: any): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/${this.urlPrefix}/login`, credentials, { withCredentials: true });
   }
 
   public logout(): Observable<any> {
-    return this.http.post<any>( `${environment.apiUrl}/${this.urlPrefix}/logout`, '');
+    return this.http.post<any>(`${environment.apiUrl}/${this.urlPrefix}/logout`, '', { withCredentials: true });
   }
 
-  public getUser(): Observable<User> {
-    return this.http.get<User>(`${environment.apiUrl}/${this.urlPrefix}/user`);
+  public getUser(): Observable<any> {
+    return this.http.get<User>(`${environment.apiUrl}/${this.urlPrefix}/user`, { withCredentials: true });
   }
+
 }

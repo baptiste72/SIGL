@@ -19,6 +19,7 @@ export class NavigationComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // TODO: Récupérer l'utilisateur connecté
   }
 
   public logout() {

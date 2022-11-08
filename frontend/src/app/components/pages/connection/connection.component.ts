@@ -14,7 +14,8 @@ export class ConnectionComponent {
 
   public login(data: any) {
     this.authService.login(data).subscribe({
-      next: (v) => {
+      next: (authData) => {
+        sessionStorage.setItem('token', authData.jwt);
         this._snackBar.open("✔ Connexion réussie", "Ok", { duration: 2000});
         this.router.navigate(['dashboard-apprentice'])
       },

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -42,6 +42,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { DeadlineTableComponent } from './deadline-table/deadline-table.component';
 import { AddDeadlinePopupComponent } from './components/pop-up/add-deadline-popup/add-deadline-popup.component';
 import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
+import { AuthInterceptor } from './helpers/auth-interceptor';
 
 
 @NgModule({
@@ -93,7 +94,9 @@ import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateMod
     NgxMatTimepickerModule,
     NgxMatNativeDateModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent],
   exports: [
 
