@@ -16,9 +16,9 @@ class TutorTeamHelper:
             # récupération des données liées aux clées étrangères
             # on aurait pu le faire en une requête dans la base User 
             # mais d'un point de vue métier ça n'a pas le même sens
-            teacherInCharge = TeacherInCharge.objects.filter(pk=teacherInChargeID).values('first_name', 'last_name', 'email')
-            mentor = Mentor.objects.filter(pk=mentorID).values('first_name', 'last_name', 'email')
-            trainee = Trainee.objects.filter(pk=traineeID).values('first_name', 'last_name', 'email')
+            teacherInCharge = TeacherInCharge.objects.filter(pk=teacherInChargeID).values('id', 'first_name', 'last_name', 'email')
+            mentor = Mentor.objects.filter(pk=mentorID).values('id','first_name', 'last_name', 'email')
+            trainee = Trainee.objects.filter(pk=traineeID).values('id','first_name', 'last_name', 'email')
 
             # fabriaction d'un json object equipe tutorale contenant réellement les infos
             context = {            

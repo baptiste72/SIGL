@@ -72,3 +72,17 @@ def getTutorTeam(request):
     serializers = TutorTeamSerializer(TutorTeamList, many=True)
     response = TutorTeamHelper.getAllTutorTeam(serializers)
     return Response(response)
+
+@api_view(['POST'])
+def addTutorTeam(request):
+    serializer = TutorTeamSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+    return Response(serializer.data)
+
+# exemple de donnée à recevoir du front
+# "id":2,
+# "mentor":5,
+# "teacherInCharge":6,
+# "trainee":4
+# }

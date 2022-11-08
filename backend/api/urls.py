@@ -15,5 +15,6 @@ urlpatterns = [
     path('add-deadline', views.addDeadline, name='addDeadline'),
     
     path('tutor-team', views.getTutorTeam, name='getTutorTeam'),
+    path('add-tutor-team', views.addTutorTeam, name='addTutorTeam'),
 
 ]
