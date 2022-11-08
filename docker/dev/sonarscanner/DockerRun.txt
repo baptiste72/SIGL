@@ -10,10 +10,10 @@ cd /c/your/source/front
 docker run \
 	-v "D:\ESEO\OneDrive - ESEO\e5a\S9\SIGL\Projet-Sigl\test-sigl\front":/usr/src/front \
 	dev-sonarscanner \
-  	-Dsonar.projectKey=projet-sigl-front2 \
+  	-Dsonar.projectKey=projet-sigl-front \
   	-Dsonar.sources=. \
-  	-Dsonar.host.url=http://172.21.0.86:9000 \
-  	-Dsonar.login=sqp_dfd1e5a4abd8b571321f39862b78965f3479e9d6 \
+  	-Dsonar.host.url=http://172.21.0.65:9000 \
+  	-Dsonar.login=sqp_528e9fd97de18e2e101eff36106d2db7e4de8d5f \
 	-Dsonar.exclusions=**node_modules** \
 	-X
 
