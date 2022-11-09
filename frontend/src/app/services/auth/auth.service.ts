@@ -22,6 +22,8 @@ export class AuthService {
   }
 
   public logout(): Observable<any> {
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('user');
     return this.http.post<any>(`${environment.apiUrl}/${this.urlPrefix}/logout`, '', { withCredentials: true });
   }
 

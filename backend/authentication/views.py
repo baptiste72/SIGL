@@ -64,6 +64,7 @@ class UserView(APIView):
 
 class LogoutView(APIView):
     def post(self, request):
+        # FIXME: Code mort, voir s'il est pertinent de conserver une méthode logout côté Backend
         response = Response()
         response.delete_cookie('jwt')
         response.data = {
