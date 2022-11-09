@@ -18,7 +18,7 @@ const routes: Routes = [
   { path: 'dashboard-apprentice', component: DashboardApprenticeComponent },
   { path: 'profil', component: PersonalInformationsComponent },
   { path: 'documents', component: DocumentsPageComponent },
-  { path: 'notes', component: NotesPageComponent },
+  { path: 'marks', component: NotesPageComponent },
   { path: 'configuration', component: ConfigurationComponent },
   { path: 'events', component: EventsPageComponent },
 ];

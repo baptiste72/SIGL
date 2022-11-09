@@ -25,11 +25,15 @@ export class NavigationComponent implements OnInit {
     }
   }
 
+  public redirectTo(page: string) {
+    this.router.navigate([page]);
+  }
+
   public logout() {
     this.authService.logout().subscribe({
       next: () => {
         this._snackBar.open("Vous êtes déconnecté", "Ok", { duration: 2000});
-        this.router.navigate(['login']);
+        this.redirectTo('login');
       },
       error: (err) => {
         this._snackBar.open("❌ Identifiant ou mot de passe invalide", "Ok", { duration: 2000})
