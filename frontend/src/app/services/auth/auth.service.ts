@@ -13,6 +13,14 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
+  private httpPost(route: string, parameter: any, options?: any) {
+    return this.http.post<any>(`${environment.apiUrl}/${this.urlPrefix}/${route}`, parameter, options);
+  }
+
+  private httpGet(route: string, options?: any) {
+    return this.http.get<any>(`${environment.apiUrl}/${this.urlPrefix}/${route}`, options);
+  }
+
   public register(user: User): Observable<any> {
     return this.http.post<any>(`${environment.apiUrl}/${this.urlPrefix}/register`, user, { withCredentials: true });
   }
@@ -24,6 +32,8 @@ export class AuthService {
   public logout(): Observable<any> {
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('user');
+    sessionStorage.removeItem('microsoftFlow');
+
     return this.http.post<any>(`${environment.apiUrl}/${this.urlPrefix}/logout`, '', { withCredentials: true });
   }
 
@@ -31,4 +41,11 @@ export class AuthService {
     return this.http.get<User>(`${environment.apiUrl}/${this.urlPrefix}/user`, { withCredentials: true });
   }
 
+  public microsoftLogin(): Observable<any> {
+    return this.httpGet('microsoft-login')
+  }
+
+  public microsoftGetUser(flow: any): Observable<any> {
+    return this.httpPost('microsoft-get-user', flow, { withCredentials: true });
+  }
 }
