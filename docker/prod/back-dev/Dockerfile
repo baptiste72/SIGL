@@ -2,7 +2,7 @@
 FROM python:alpine
 
 # Add metadata
-LABEL description="Set up Django for development" \
+LABEL description="Set up Django for production" \
       version="1.0"
 
 # Set environment variables
@@ -20,12 +20,8 @@ RUN apk add --no-cache curl libpq-dev \
  && addgroup python && adduser python -D -G python python \
  && pip install --no-cache-dir -r requirements.txt
 
-# Check server is running
-HEALTHCHECK --interval=1m --timeout=10s \
- CMD curl --fail http://localhost:8000/api/v1/swagger/schema/ || exit 1
-
 # Change user to python
 USER python
 
 # Launch the server
-ENTRYPOINT ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+ENTRYPOINT ["python", "manage.py", "runserver", "projet-sigl.fr:8000"]
