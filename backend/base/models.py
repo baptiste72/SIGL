@@ -1,7 +1,7 @@
 from django.db import models
 from authentication.models import User
 from base.semester import Semester
-
+from django.utils import timezone
 
 class Interview(models.Model):
     # table des entretien
@@ -63,7 +63,6 @@ class Trainee(User):
 class YearGroup(models.Model):
     # tables des promotions
     worded = models.CharField(max_length=200)
-    semester = models.CharField(max_length=10, choices=[
-                                (tag, tag.value) for tag in Semester])
+    beginDate = models.DateTimeField(default=timezone.now)
     trainee = models.ForeignKey(
         Trainee, related_name="yearGroup", on_delete=models.CASCADE, null=True)

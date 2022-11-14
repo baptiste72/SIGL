@@ -44,6 +44,7 @@ import { AddDeadlinePopupComponent } from './components/pop-up/add-deadline-popu
 import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
 import { MatTabsModule } from '@angular/material/tabs';
 import { AddCompanyPopupComponent } from './components/pop-up/add-company-popup/add-company-popup.component';
+import { AddSemesterPopupComponent } from './components/pop-up/add-semester-popup/add-semester-popup.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import { AddCompanyPopupComponent } from './components/pop-up/add-company-popup/
     AddEventPopupComponent,
     DeadlineTableComponent,
     AddDeadlinePopupComponent,
-    AddCompanyPopupComponent
+    AddCompanyPopupComponent,
+    AddSemesterPopupComponent
   ],
   imports: [
     BrowserModule,

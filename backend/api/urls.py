@@ -13,5 +13,8 @@ urlpatterns = [
     
     path('deadlines', views.getDeadline, name='getDeadline'),
     path('add-deadline', views.addDeadline, name='addDeadline'),
-
+    
+    path('year-group', views.getYearGroup, name='getYearGroup'),
+    path('add-year-group', views.addYearGroup, name='addYearGroup'),
+    path('delete-year-group-by-id', views.deleteYearGroupById, name='deleteYearGroupById'),
 ]
