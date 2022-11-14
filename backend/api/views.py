@@ -93,13 +93,6 @@ def addTutorTeam(request):
         serializer.save()
     return Response(serializer.data)
 
-# exemple de donnée à recevoir du front
-# "id":2,
-# "mentor":5,
-# "teacherInCharge":6,
-# "trainee":4
-# }
-
 @api_view(['POST'])
 def deleteYearGroupById(request):
     deleteYearGroup = YearGroup.objects.filter(id=request.data.get('id'))

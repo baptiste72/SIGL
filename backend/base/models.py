@@ -58,7 +58,6 @@ class Apprentice(User):
     def __unicode__(self):
         return self.name
 
-
 class YearGroup(models.Model):
     # tables des promotions
     worded = models.CharField(max_length=200)
