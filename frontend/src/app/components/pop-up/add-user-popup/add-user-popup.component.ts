@@ -1,5 +1,4 @@
 import { Component, Inject, OnInit, Optional, ViewChild, AfterViewInit } from '@angular/core';
-import { FormGroup, FormBuilder, Form } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/services/auth/auth.service';
@@ -17,20 +16,22 @@ interface Role {
   templateUrl: './add-user-popup.component.html',
   styleUrls: ['./add-user-popup.component.scss']
 })
+
 export class AddUserPopupComponent implements OnInit {
   fromPage!: string;
   fromDialog!: string;
   selectedRole = '';
   register: any;
 
+  promotions: Promotion[] = [{name: 'Noether'},{name: 'Promotion2'},{name: 'Promotion3'}];
+  roles: Role[] = [{name: 'Apprenti'},{name: 'Maître apprentissage'},{name: 'Tuteur pédagogique'}];
+
   constructor(public dialogRef: MatDialogRef<AddUserPopupComponent>,
     private authService: AuthService, private _snackBar: MatSnackBar,
-    private formBuilder: FormBuilder,
     @Optional() @Inject(MAT_DIALOG_DATA) public mydata: any
     ) { }
 
   ngOnInit(): void {
-    this.fromDialog = "I am from dialog land...";
     this.register = {
       role: '',
       promotion: '',
@@ -49,55 +50,56 @@ export class AddUserPopupComponent implements OnInit {
     if(this.userFormValidator(data)) {
       this.authService.register(data).subscribe({
         next: (v) => {
-          this._snackBar.open("✔ Inscription réussie", "Ok", { duration: 2000});
+          this.displaySnackBar("✔ Inscription réussie");
           this.closeDialog();
         },
         error: (err) => {
-          this._snackBar.open("❌ Une erreur est survenue", "Ok", { duration: 2000})
+          this.displaySnackBar("❌ Une erreur est survenue");
         }
       });
     } else {
-      this._snackBar.open("❌ Formulaire invalide", "Ok", { duration: 2000})
+      this.displaySnackBar("❌ Formulaire invalide");
     }
-}
+  }
 
   private userFormValidator(data: any) {
 
-    var passwordCondition = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/g
-    var emailCondition = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g
+    var passwordCondition = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/g;
+    var emailCondition = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
     var lastNameCondition = data.last_name != "" && data.last_name.length >= 2;
     var firstNameCondition = data.first_name != "" && data.first_name.length >= 2;
 
     //Check each field and print corresponding error message
     if(!data.role) {
-      this._snackBar.open("❌ Rôle est requis", "Ok", { duration: 2000})
-      return false
+      this.displaySnackBar("❌ Rôle est requis");
+      return false;
     }
 
     if(data.role == "Apprenti" && data.promotion == "") {
-      this._snackBar.open("❌ Promotion est requis", "Ok", { duration: 2000})
-      return false
+      this.displaySnackBar("❌ Promotion est requis");
+      return false;
     }
 
     if (!(lastNameCondition && firstNameCondition)) {
-      this._snackBar.open("❌ Noms invalides", "Ok", { duration: 2000})
-      return false
+      this.displaySnackBar("❌ Noms invalides");
+      return false;
     }
 
     if(!passwordCondition.test(data.password)) {
-      this._snackBar.open("❌ Mot de passe invalide", "Ok", { duration: 2000})
-      return false
+      this.displaySnackBar("❌ Mot de passe invalide");
+      return false;
     }
 
     if(!emailCondition.test(data.email)) {
-      this._snackBar.open("❌ Email invalide", "Ok", { duration: 2000})
-      return false
+      this.displaySnackBar("❌ Email invalide");
+      return false;
     }
 
-  //If no errors, return true to validate data's form
-    return true
+    return true;
   }
 
-  promotions: Promotion[] = [{name: 'Noether'},{name: 'Promotion2'},{name: 'Promotion3'}];
-  roles: Role[] = [{name: 'Apprenti'},{name: 'Maître apprentissage'},{name: 'Tuteur pédagogique'}];
+  private displaySnackBar(msg: string) {
+    this._snackBar.open(msg, "Ok", { duration: 2000});
+  }
+
 }
