@@ -14,4 +14,6 @@ urlpatterns = [
     path('deadlines', views.getDeadline, name='getDeadline'),
     path('add-deadline', views.addDeadline, name='addDeadline'),
 
+    path('notes', views.getNote, name='getNote'),
+    path('add-note', views.addNote, name='addNote'),
 ]

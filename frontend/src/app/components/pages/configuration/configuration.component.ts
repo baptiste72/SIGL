@@ -5,6 +5,7 @@ import { AddUserPopupComponent } from '../../pop-up/add-user-popup/add-user-popu
 import { MatDialog } from '@angular/material/dialog';
 import { AddPromotionPopupComponent } from '../../pop-up/add-promotion-popup/add-promotion-popup.component';
 import { AddTeamPopupComponent } from '../../pop-up/add-team-popup/add-team-popup.component';
+import { AddNotePopupComponent } from '../../pop-up/add-note-popup/add-note-popup.component';
 
 @Component({
   templateUrl: './configuration.component.html',
@@ -47,6 +48,14 @@ export class ConfigurationComponent implements AfterViewInit {
     this.dialog.open(AddTeamPopupComponent,
       {
         width: '600px'
+      }
+    );
+  }
+
+  addNote() {
+    this.dialog.open(AddNotePopupComponent,
+      {
+        width: '1200px'
       }
     );
   }

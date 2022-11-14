@@ -63,3 +63,25 @@ def addDeadline(request):
     if serializer.is_valid():
         serializer.save()
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+def getNote(request):
+    NoteList = Note.objects.all()
+    serializers = NoteSerializer(NoteList, many=True)
+    return Response(serializers.data)
+
+
+@api_view(['GET'])
+def treeNote(request):
+    NoteList = Note.objects.all()
+    serializers = NoteSerializer(NoteList, many=True)
+    print(serializers.data)
+    return Response(serializers.data)
+
+@api_view(['POST'])
+def addNote(request):
+    serializer = NoteSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+    return Response(serializer.data)

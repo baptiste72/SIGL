@@ -78,7 +78,7 @@ export class NotesPageComponent {
   openDialog() {
     this.dialog.open(AddNotePopupComponent,
       {
-        width: '600px'
+        width: '1200px'
       }
     );
   }

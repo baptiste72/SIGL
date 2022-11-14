@@ -15,6 +15,7 @@ export class AddTeamPopupComponent {
     @Optional() @Inject(MAT_DIALOG_DATA) public mydata: any
     ) { }
 
+
   closeDialog() { this.dialogRef.close({ event: 'close', data: this.fromDialog }); }
 
   addTeam() {
