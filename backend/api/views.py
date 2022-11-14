@@ -63,3 +63,24 @@ def addDeadline(request):
     if serializer.is_valid():
         serializer.save()
     return Response(serializer.data)
+
+@api_view(['GET'])
+def getYearGroup(request):
+    YearGroupList = YearGroup.objects.all()
+    serializers = YearGroupSerializer(YearGroupList, many=True)
+    return Response(serializers.data)
+
+@api_view(['POST'])
+def addYearGroup(request):
+    serializer = YearGroupSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def deleteYearGroupById(request):
+    deleteYearGroup = YearGroup.objects.filter(id=request.data.get('id'))
+    serializer = YearGroupSerializerDelete(data=request.data)
+    if serializer.is_valid():
+        deleteYearGroup.delete()
+    return Response(serializer.data)
