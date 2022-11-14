@@ -35,10 +35,15 @@ class TeacherInChargeSerializer(serializers.ModelSerializer):
 
 
 class YearGroupSerializer(serializers.ModelSerializer):
+    beginDate = fields.DateTimeField(input_formats=['%Y-%m-%dT%H:%M:%S.%fZ'])
     class Meta:
         model = YearGroup
-        fields = '__all__'
+        fields = ('id', 'worded', 'beginDate')
 
+class YearGroupSerializerDelete(serializers.ModelSerializer):
+    class Meta:
+        model = YearGroup
+        fields = ('id',)
 
 class TraineeSerializer(serializers.ModelSerializer):
 
