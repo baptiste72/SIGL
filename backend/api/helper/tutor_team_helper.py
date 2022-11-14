@@ -1,5 +1,5 @@
 
-from base.models import Mentor, Trainee, TeacherInCharge
+from base.models import Mentor, Apprentice, Tutor
 
 # class permettant d'aider à la récupération des équipes tutorales
 class TutorTeamHelper:
@@ -9,22 +9,22 @@ class TutorTeamHelper:
         response = []
         for data in range(len(serializers.data)):
             # récupération des clées étrangères
-            teacherInChargeID = serializers.data[data]['teacherInCharge']
+            apprenticeID = serializers.data[data]['apprentice']
             mentorID = serializers.data[data]['mentor']
-            traineeID = serializers.data[data]['trainee']
+            tutorID = serializers.data[data]['tutor']
 
             # récupération des données liées aux clées étrangères
             # on aurait pu le faire en une requête dans la base User 
             # mais d'un point de vue métier ça n'a pas le même sens
-            teacherInCharge = TeacherInCharge.objects.filter(pk=teacherInChargeID).values('id', 'first_name', 'last_name', 'email')
+            apprentice = Apprentice.objects.filter(pk=apprenticeID).values('id','first_name', 'last_name', 'email')
             mentor = Mentor.objects.filter(pk=mentorID).values('id','first_name', 'last_name', 'email')
-            trainee = Trainee.objects.filter(pk=traineeID).values('id','first_name', 'last_name', 'email')
-
+            tutor = Tutor.objects.filter(pk=tutorID).values('id', 'first_name', 'last_name', 'email')
+            
             # fabriaction d'un json object equipe tutorale contenant réellement les infos
-            context = {            
+            context = {
+                'apprentice': apprentice,       
                 'mentor': mentor,
-                'trainee': trainee,
-                'teacherInCharge': teacherInCharge
+                'tutor': tutor
             }
             
             # ajout de l'équipe tutorale récupérée ou autre équipe tutorale

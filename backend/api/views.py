@@ -15,16 +15,16 @@ def getMentor(request):
 
 
 @api_view(['GET'])
-def getTeacherInCharge(request):
-    teacherInChargeList = TeacherInCharge.objects.all()
-    serializers = TeacherInChargeSerializer(teacherInChargeList, many=True)
+def getTutor(request):
+    tutorList = Tutor.objects.all()
+    serializers = TutorSerializer(tutorList, many=True)
     return Response(serializers.data)
 
 
 @api_view(['GET'])
-def getTrainee(request):
-    traineeList = Trainee.objects.all()
-    serializers = TraineeSerializer(traineeList, many=True)
+def getApprentice(request):
+    apprenticeList = Apprentice.objects.all()
+    serializers = ApprenticeSerializer(apprenticeList, many=True)
     return Response(serializers.data)
 
 
@@ -66,6 +66,19 @@ def addDeadline(request):
     return Response(serializer.data)
 
 @api_view(['GET'])
+def getYearGroup(request):
+    YearGroupList = YearGroup.objects.all()
+    serializers = YearGroupSerializer(YearGroupList, many=True)
+    return Response(serializers.data)
+
+@api_view(['POST'])
+def addYearGroup(request):
+    serializer = YearGroupSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+    return Response(serializer.data)
+
+@api_view(['GET'])
 def getTutorTeam(request):
     # récupération du contenu de la table TutorTeam
     TutorTeamList = TutorTeam.objects.all()    
@@ -86,3 +99,11 @@ def addTutorTeam(request):
 # "teacherInCharge":6,
 # "trainee":4
 # }
+
+@api_view(['POST'])
+def deleteYearGroupById(request):
+    deleteYearGroup = YearGroup.objects.filter(id=request.data.get('id'))
+    serializer = YearGroupSerializerDelete(data=request.data)
+    if serializer.is_valid():
+        deleteYearGroup.delete()
+    return Response(serializer.data)

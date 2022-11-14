@@ -4,54 +4,55 @@ from base.models import *
 class TutorTeamSerializer(serializers.ModelSerializer):
     class Meta:
         model = TutorTeam
-        fields = ('id', 'mentor', 'teacherInCharge', 'trainee')
-        
-class CompanySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Company
-        fields = '__all__'
-
+        fields = ('id', 'mentor', 'tutor', 'apprentice')
 
 class MentorSerializer(serializers.ModelSerializer):
 
-    company = CompanySerializer(many=True)
     tutorTeam = TutorTeamSerializer(many=True)
 
     class Meta:
         model = Mentor
         fields = ('id', 'last_name', 'first_name',
-                  'password', 'email', 'company', 'tutorTeam')
+                  'password', 'email', 'company', 'tutorTeam')   
+class CompanySerializer(serializers.ModelSerializer):
+    
+    mentor = MentorSerializer(many=True)
+    class Meta:
+        model = Company
+        fields = '__all__'
 
+class TutorSerializer(serializers.ModelSerializer):
 
+    tutorTeam = TutorTeamSerializer(many=True)
+    class Meta:
+        model = Tutor
+        fields = ('id', 'last_name', 'first_name',
+                  'password', 'email', 'formationCenter', 'tutorTeam')
 class FormationCenterSerializer(serializers.ModelSerializer):
+    
+    tutor = TutorSerializer(many=True)
     class Meta:
         model = FormationCenter
         fields = '__all__'
 
-
-class TeacherInChargeSerializer(serializers.ModelSerializer):
-
-    formationCenter = FormationCenterSerializer(many=True)
-    tutorTeam = TutorTeamSerializer(many=True)
-    class Meta:
-        model = TeacherInCharge
-        fields = ('id', 'last_name', 'first_name',
-                  'password', 'email', 'formationCenter', 'tutorTeam')
-
-
 class YearGroupSerializer(serializers.ModelSerializer):
+    beginDate = fields.DateTimeField(input_formats=['%Y-%m-%dT%H:%M:%S.%fZ'])
     class Meta:
         model = YearGroup
-        fields = '__all__'
+        fields = ('id', 'worded', 'beginDate')
 
+class YearGroupSerializerDelete(serializers.ModelSerializer):
+    class Meta:
+        model = YearGroup
+        fields = ('id',)
 
-class TraineeSerializer(serializers.ModelSerializer):
+class ApprenticeSerializer(serializers.ModelSerializer):
 
     yearGroup = YearGroupSerializer(many=True)
     tutorTeam = TutorTeamSerializer(many=True)
 
     class Meta:
-        model = Trainee
+        model = Apprentice
         fields = ('id', 'last_name', 'first_name',
                   'password', 'email', 'yearGroup', 'tutorTeam')
 
