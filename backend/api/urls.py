@@ -14,8 +14,8 @@ urlpatterns = [
     path('deadlines', views.getDeadline, name='getDeadline'),
     path('add-deadline', views.addDeadline, name='addDeadline'),
 
-    path('tutor-team', views.getTutorTeam, name='getTutorTeam'),
-    path('add-tutor-team', views.addTutorTeam, name='addTutorTeam'),
+    path('tutor-teams', views.getTutorTeams, name='getTutorTeams'),
+    path('add-tutor-teams', views.addTutorTeams, name='addTutorTeams'),
 
     path('year-group', views.getYearGroup, name='getYearGroup'),
     path('add-year-group', views.addYearGroup, name='addYearGroup'),

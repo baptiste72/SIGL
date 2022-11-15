@@ -10,7 +10,7 @@ export class DashboardApprenticeComponent implements OnInit {
   public user: User;
 
   constructor(private authService: AuthService) {
-    this.user = new User("Mathilde", "RENAUD", "", "")
+    this.user = new User(1, "Mathilde", "RENAUD", "")
   }
 
   ngOnInit(): void {

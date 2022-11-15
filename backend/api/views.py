@@ -79,15 +79,15 @@ def addYearGroup(request):
     return Response(serializer.data)
 
 @api_view(['GET'])
-def getTutorTeam(request):
+def getTutorTeams(request):
     # récupération du contenu de la table TutorTeam
     TutorTeamList = TutorTeam.objects.all()    
     serializers = TutorTeamSerializer(TutorTeamList, many=True)
-    response = TutorTeamHelper.getAllTutorTeam(serializers)
+    response = TutorTeamHelper.getAllTutorTeams(serializers)
     return Response(response)
 
 @api_view(['POST'])
-def addTutorTeam(request):
+def addTutorTeams(request):
     serializer = TutorTeamSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()

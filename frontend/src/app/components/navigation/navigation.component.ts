@@ -15,7 +15,7 @@ export class NavigationComponent implements OnInit {
   @Input() user: User;
 
   constructor(private authService: AuthService, private router: Router) {
-    this.user = new User("Mathilde", "RENAUD", "", "")
+    this.user = new User(2,"Mathilde", "RENAUD", "")
   }
 
   ngOnInit(): void {
