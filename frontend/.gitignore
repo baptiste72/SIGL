@@ -11,6 +11,7 @@
 npm-debug.log
 yarn-error.log
 package-lock.json
+frontend/node_modules/__ngcc_entry_points__.json
 
 # IDEs and editors
 .idea/

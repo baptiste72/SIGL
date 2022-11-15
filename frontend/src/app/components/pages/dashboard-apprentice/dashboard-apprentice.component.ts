@@ -1,6 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { User } from 'src/app/models/User';
-import { AuthService } from 'src/app/services/auth/auth.service';
+import { Component } from '@angular/core';
 
 @Component({
   templateUrl: './dashboard-apprentice.component.html',
