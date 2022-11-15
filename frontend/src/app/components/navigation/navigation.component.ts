@@ -15,7 +15,7 @@ export class NavigationComponent implements OnInit {
   public user: User;
 
   constructor(private authService: AuthService, private router: Router, private _snackBar: MatSnackBar) {
-    this.user = new User("","","","");
+    this.user = new User(0, "", "", "");
   }
 
   public ngOnInit(): void {
