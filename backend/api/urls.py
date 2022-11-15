@@ -14,6 +14,10 @@ urlpatterns = [
     path('deadlines', views.getDeadline, name='getDeadline'),
     path('add-deadline', views.addDeadline, name='addDeadline'),
 
-    path('notes', views.getNote, name='getNote'),
+    #url(r'^api/v1/note/(?P<pk>[0-9]+)$', views.getNote),
+    path('note/<int:id>', views.getNote, name='getNote'),
+    path('notes', views.getNotes, name='getNotes'),
     path('add-note', views.addNote, name='addNote'),
+    path('treeNote', views.treeNote, name='treeNote'),
+
 ]

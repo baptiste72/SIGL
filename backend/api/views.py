@@ -1,8 +1,13 @@
 from re import I
-from rest_framework.response import Response
-from rest_framework.decorators import api_view
 
 from base.models import *
+from .helper import data_treatement
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from django.http.response import JsonResponse
+from rest_framework.parsers import JSONParser 
+from rest_framework import status
+
 from .serializers import *
 
 
@@ -66,22 +71,36 @@ def addDeadline(request):
 
 
 @api_view(['GET'])
-def getNote(request):
+def getNotes(request):
     NoteList = Note.objects.all()
     serializers = NoteSerializer(NoteList, many=True)
     return Response(serializers.data)
 
 
-@api_view(['GET'])
+# renvois les données en Tree afin d'afficher l'aborescence des notes
+@api_view(['GET']) 
 def treeNote(request):
     NoteList = Note.objects.all()
     serializers = NoteSerializer(NoteList, many=True)
-    print(serializers.data)
-    return Response(serializers.data)
+    data=data_treatement.data_treatement.treeNotes(serializers.data)
+    print(data)
+    return Response(data)
 
 @api_view(['POST'])
 def addNote(request):
     serializer = NoteSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
+    #print(serializer.errors)
     return Response(serializer.data)
+
+@api_view(['GET'])
+def getNote(request, id):
+    try: 
+        NoteId = Note.objects.get(pk=id) 
+    except Note.DoesNotExist: 
+        return JsonResponse({'message': 'The tutorial does not exist'}, status=status.HTTP_404_NOT_FOUND) 
+ 
+    if request.method == 'GET': 
+        tutorial_serializer = NoteSerializer(NoteId) 
+        return JsonResponse(tutorial_serializer.data) 

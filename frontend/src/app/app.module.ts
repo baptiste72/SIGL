@@ -42,6 +42,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { DeadlineTableComponent } from './deadline-table/deadline-table.component';
 import { AddDeadlinePopupComponent } from './components/pop-up/add-deadline-popup/add-deadline-popup.component';
 import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
+import { ModifyNotePopupComponent } from './components/pop-up/modify-note-popup/modify-note-popup.component';
 
 
 @NgModule({
@@ -60,6 +61,7 @@ import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateMod
     DocumentsPageComponent,
     NotesPageComponent,
     AddNotePopupComponent,
+    ModifyNotePopupComponent,
     ConfigurationComponent,
     AddUserPopupComponent,
     AddPromotionPopupComponent,

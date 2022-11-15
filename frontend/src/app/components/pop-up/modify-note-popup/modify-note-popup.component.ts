@@ -9,15 +9,15 @@ interface Semester {
 
 @Component({
   selector: 'app-add-note-popup',
-  templateUrl: './add-note-popup.component.html',
-  styleUrls: ['./add-note-popup.component.scss']
+  templateUrl: './modify-note-popup.component.html',
+  styleUrls: ['./modify-note-popup.component.scss']
 })
-export class AddNotePopupComponent implements OnInit {
+export class ModifyNotePopupComponent implements OnInit {
   js_note: any;
 
   fromPage!: string;
   fromDialog!: string;
-  constructor( private noteService: NoteService,   public dialogRef: MatDialogRef<AddNotePopupComponent>,
+  constructor( private noteService: NoteService,   public dialogRef: MatDialogRef<ModifyNotePopupComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public mydata: any,private _snackBar: MatSnackBar,
     ) { }
 

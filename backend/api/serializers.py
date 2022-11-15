@@ -63,8 +63,8 @@ class DeadlineSerializer(serializers.ModelSerializer):
                   'description')
         
 class NoteSerializer(serializers.ModelSerializer):
-    DateStart = fields.DateField(input_formats=['%Y-%m-%dT%H:%M:%S.%fZ'])
-    DateEnd = fields.DateField(input_formats=['%Y-%m-%dT%H:%M:%S.%fZ'])
+    dateStart = fields.DateTimeField(input_formats=['%Y-%m-%dT%H:%M:%S.%fZ'])
+    dateEnd = fields.DateTimeField(input_formats=['%Y-%m-%dT%H:%M:%S.%fZ'])
     class Meta:
         model = Note
-        fields = ('title', 'text','semester','DateStart','DateEnd')
+        fields ='__all__' # ('title', 'text','semester','DateStart','DateEnd')

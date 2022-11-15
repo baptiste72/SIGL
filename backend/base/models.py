@@ -69,8 +69,8 @@ class YearGroup(models.Model):
         Trainee, related_name="yearGroup", on_delete=models.CASCADE, null=True)
     
 class Note(models.Model):
-    title = models.CharField(max_length=400, verbose_name='titre')
-    text = models.CharField(max_length=35000,blank=True, verbose_name='text')
+    title = models.CharField(max_length=400)
+    text = models.CharField(max_length=35000,blank=True)
     semester = models.CharField(max_length=255)
     dateStart = models.DateTimeField()
     dateEnd = models.DateTimeField()

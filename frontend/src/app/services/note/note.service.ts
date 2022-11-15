@@ -12,18 +12,20 @@ private urlPrefix = "api/v1";
 
 constructor(private http: HttpClient) { }
 
+public getnote(id:any): Observable<any> {
+  return this.http.get<any>(`${environment.apiUrl}/${this.urlPrefix}/note/${id}`);
+}
 
 public getnotes(): Observable<any> {
     return this.http.get<any>(`${environment.apiUrl}/${this.urlPrefix}/notes`);
 }
 
 public treenotes(): Observable<any> {
-  return this.http.get<any>(`${environment.apiUrl}/${this.urlPrefix}/notes`);
+  return this.http.get<any>(`${environment.apiUrl}/${this.urlPrefix}/treeNote`);
 }
 
 public addnote(post: any): Observable<any> {
     return this.http.post<any>(`${environment.apiUrl}/${this.urlPrefix}/add-note`, post);
-
 }
 
 }
