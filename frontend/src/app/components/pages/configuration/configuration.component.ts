@@ -69,9 +69,7 @@ export class ConfigurationComponent implements AfterViewInit, OnInit {
         this.dataSourcePromotions = new MatTableDataSource<Promotion>(promotions);
       },
       error: (err) => {
-        this._snackBar.open('❌ Une erreur est survenue lors de la récupération des semestres', 'Ok', {
-          duration: 2000,
-        });
+        this._snackBar.open('❌ Une erreur est survenue lors de la récupération des semestres', 'Ok', { duration: 2000, });
       },
     });
   }
@@ -83,12 +81,7 @@ export class ConfigurationComponent implements AfterViewInit, OnInit {
       },
       error: (err) => {
         this._snackBar.open(
-          '❌ Une erreur est survenue lors de la récupération des équipes pédagohiques',
-          'Ok',
-          {
-            duration: 2000,
-          }
-        );
+          '❌ Une erreur est survenue lors de la récupération des équipes pédagohiques', 'Ok', { duration: 2000, });
       },
     });
   }
@@ -119,9 +112,7 @@ export class ConfigurationComponent implements AfterViewInit, OnInit {
         this.getPromotions();
       },
       error: (err) => {
-        this._snackBar.open('❌ Une erreur est survenue lors de la suppression de la promotion', 'Ok', {
-          duration: 2000,
-        });
+        this._snackBar.open('❌ Une erreur est survenue lors de la suppression de la promotion', 'Ok', { duration: 2000, });
       },
     });
   }

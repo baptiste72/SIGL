@@ -13,6 +13,5 @@ export class ApprenticeService {
 
   public getApprentice(): Observable<any> {
     return this.http.get<any>(`${environment.apiUrl}/${this.urlPrefix}/apprentices`);
-
   }
 }

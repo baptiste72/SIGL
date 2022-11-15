@@ -30,10 +30,9 @@ class FormationCenter(models.Model):
     address = models.CharField(max_length=500)
 
 class Tutor(User):
-    
+    # table des tuteurs pédagogiques
     formationCenter = models.ForeignKey(
         FormationCenter, related_name="tutor", on_delete=models.CASCADE, null=True)
-    # table des tuteurs pédagogiques
     def __unicode__(self):
         return self.name
        

@@ -28,6 +28,7 @@ class TutorSerializer(serializers.ModelSerializer):
         model = Tutor
         fields = ('id', 'last_name', 'first_name',
                   'password', 'email', 'formationCenter', 'tutorTeam')
+
 class FormationCenterSerializer(serializers.ModelSerializer):
     
     tutor = TutorSerializer(many=True)

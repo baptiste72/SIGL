@@ -29,8 +29,13 @@ export class AddPromotionPopupComponent implements OnInit {
     };
   }
 
-  closeDialog() {
-    this.dialogRef.close({ event: 'close', data: this.fromDialog });
+  private closeDialog() {
+    this.dialogRef.close(
+      {
+        event: 'close',
+        data: this.fromDialog
+      }
+    );
   }
 
   addPromotion(data: any) {
