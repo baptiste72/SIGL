@@ -29,7 +29,7 @@ export class AddPromotionPopupComponent implements OnInit {
     };
   }
 
-  private closeDialog() {
+  public closeDialog() {
     this.dialogRef.close(
       {
         event: 'close',
@@ -38,7 +38,7 @@ export class AddPromotionPopupComponent implements OnInit {
     );
   }
 
-  addPromotion(data: any) {
+  public addPromotion(data: any) {
     this.yearGroupService.addYearGroup(data).subscribe({
       next: (v) => {
         this._snackBar.open('✔ Promotion ajoutée', 'Ok', { duration: 2000 });
