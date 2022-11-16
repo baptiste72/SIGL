@@ -51,7 +51,7 @@ export class AddUserPopupComponent implements OnInit {
       this.authService.register(data).subscribe({
         next: (v) => {
           this.displaySnackBar("✔ Inscription réussie");
-          // this.closeDialog();
+          this.closeDialog();
         },
         error: (err) => {
           this.displaySnackBar("❌ Une erreur est survenue");
