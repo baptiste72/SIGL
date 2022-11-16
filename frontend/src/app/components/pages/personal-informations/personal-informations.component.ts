@@ -9,7 +9,7 @@ export class PersonalInformationsComponent implements OnInit {
   public user: User;
 
   constructor() {
-    this.user = new User("", "", "", "");
+    this.user = new User(0, "", "", "");
   }
 
   public ngOnInit(): void {

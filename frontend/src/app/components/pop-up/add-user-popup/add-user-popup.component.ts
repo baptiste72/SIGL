@@ -24,7 +24,7 @@ export class AddUserPopupComponent implements OnInit {
   register: any;
 
   promotions: Promotion[] = [{name: 'Noether'},{name: 'Promotion2'},{name: 'Promotion3'}];
-  roles: Role[] = [{name: 'Apprenti'},{name: 'Maître apprentissage'},{name: 'Tuteur pédagogique'}];
+  roles: Role[] = [{name: 'Apprenti'},{name: 'Maître apprentissage'},{name: 'Tuteur pédagogique'}, {name: 'Compte Entreprise'}];
 
   constructor(public dialogRef: MatDialogRef<AddUserPopupComponent>,
     private authService: AuthService, private _snackBar: MatSnackBar,
@@ -57,8 +57,6 @@ export class AddUserPopupComponent implements OnInit {
           this.displaySnackBar("❌ Une erreur est survenue");
         }
       });
-    } else {
-      this.displaySnackBar("❌ Formulaire invalide");
     }
   }
 
