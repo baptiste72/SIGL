@@ -1,8 +1,7 @@
-from django.db import models
-from authentication.models import User
-from base.semester import Semester
 import json
+from django.db import models
 from django.utils import timezone
+from authentication.models import User
 
 class Interview(models.Model):
     # table des entretien
@@ -11,8 +10,8 @@ class Interview(models.Model):
     first_hour = models.CharField(max_length=100)
     last_hour = models.CharField(max_length=100)
     description = models.CharField(max_length=1500,null=True, blank=True)
-    guest= models.CharField(max_length=255)
-    semester=models.CharField(max_length=255)
+    guest = models.CharField(max_length=255)
+    semester = models.CharField(max_length=255)
     #list stand by après les tests
     #semester = models.CharField(max_length=10, choices=[(tag, tag.value) for tag in Semester])
 

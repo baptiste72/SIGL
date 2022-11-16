@@ -9,6 +9,7 @@ interface Promotion {
 
 interface Role {
   name: string;
+  value: string;
 }
 
 @Component({
@@ -18,13 +19,21 @@ interface Role {
 })
 
 export class AddUserPopupComponent implements OnInit {
-  fromPage!: string;
   fromDialog!: string;
-  selectedRole = '';
   register: any;
 
-  promotions: Promotion[] = [{name: 'Noether'},{name: 'Promotion2'},{name: 'Promotion3'}];
-  roles: Role[] = [{name: 'Apprenti'},{name: 'Maître apprentissage'},{name: 'Tuteur pédagogique'}, {name: 'Compte Entreprise'}];
+  promotions: Promotion[] = [
+    {name: 'Noether'},
+    {name: 'Promotion2'},
+    {name: 'Promotion3'}
+  ];
+
+  roles: Role[] = [
+    {name: 'Apprenti', value: 'APPRENTICE'},
+    {name: 'Maître apprentissage', value: 'MENTOR'},
+    {name: 'Tuteur pédagogique', value: 'TUTOR'},
+    {name: 'Compte Entreprise', value: 'COMPANY'}
+  ];
 
   constructor(public dialogRef: MatDialogRef<AddUserPopupComponent>,
     private authService: AuthService, private _snackBar: MatSnackBar,
@@ -38,11 +47,11 @@ export class AddUserPopupComponent implements OnInit {
       last_name : '',
       first_name : '',
       password : '',
-      email :''
+      email: '',
     };
   }
 
-  closeDialog() {
+  public closeDialog() {
     this.dialogRef.close({ event: 'close', data: this.fromDialog });
   }
 
@@ -51,7 +60,8 @@ export class AddUserPopupComponent implements OnInit {
       this.authService.register(data).subscribe({
         next: (v) => {
           this.displaySnackBar("✔ Inscription réussie");
-          this.closeDialog();
+          // FIXME: Penser à réactiver cet appel
+          // this.closeDialog();
         },
         error: (err) => {
           this.displaySnackBar("❌ Une erreur est survenue");
