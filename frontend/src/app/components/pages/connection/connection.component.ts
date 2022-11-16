@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { User } from 'src/app/models/User';
-import { __param } from 'tslib';
 
 @Component({
   templateUrl: './connection.component.html',
@@ -33,7 +32,7 @@ export class ConnectionComponent implements OnInit {
       this.authService.microsoftGetUser(flow).subscribe({
         next: (user) => {
           const displayName = user.displayName.split(' ');
-          let retrievedUser: User = new User(displayName[1], displayName[0], "", user.mail);
+          let retrievedUser: User = new User(user.id, displayName[1], displayName[0], user.mail);
           sessionStorage.setItem('user', JSON.stringify(retrievedUser));
           this.router.navigate(['dashboard-apprentice']);
           this._snackBar.open("✔ Connexion via Microsoft réussie", "Ok", { duration: 2000});
@@ -52,7 +51,7 @@ export class ConnectionComponent implements OnInit {
 
         this.authService.getUser().subscribe({
           next: (user) => {
-            let retrievedUser: User = new User(user.first_name, user.last_name, "", user.email);
+            let retrievedUser: User = new User(user.id, user.first_name, user.last_name, user.email);
             sessionStorage.setItem('user', JSON.stringify(retrievedUser));
             this.router.navigate(['dashboard-apprentice']);
             this._snackBar.open("✔ Connexion réussie", "Ok", { duration: 2000});
