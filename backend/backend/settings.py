@@ -85,20 +85,13 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 [...]
 
 DATABASES = {
-    'docker': {
+    'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.environ.get('POSTGRES_NAME'),
         'USER': os.environ.get('POSTGRES_USER'),
         'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
         'HOST': 'django-db',
-        'PORT': '5433',
-    },
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'db_sigl',
-        'USER': 'postgres',
-        'PASSWORD': 'password',
-        'HOST': 'localhost',
+        'PORT': '5433'
     }
 }
 
@@ -150,7 +143,7 @@ AUTH_USER_MODEL = 'authentication.User'
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = (
-    'http://localhost:4200',
+    'http://localhost',
 )
 
 MICROSOFT_GRAPH = {
@@ -160,6 +153,6 @@ MICROSOFT_GRAPH = {
     'AUTH_TENANT': 'common',
     'GRAPH_USER_SCOPES': 'User.Read Mail.Read Mail.Send',
     'WEB_FORMATTED_GRAPH_USER_SCOPES': 'User.Read+Mail.Read+Mail.Send',
-    'REDIRECT': 'http://localhost:4200/'
+    'REDIRECT': 'http://localhost'
 }
 
