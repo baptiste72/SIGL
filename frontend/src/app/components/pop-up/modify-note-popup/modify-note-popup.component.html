@@ -44,6 +44,7 @@
       <mat-label>Ajouter une description</mat-label>
       <textarea
       [(ngModel)]="js_note.text"
+      [innerHTML]="js_note.text"
       cdkTextareaAutosize
       cdkAutosizeMinRows="15"
       cdkAutosizeMaxRows="20"
@@ -55,7 +56,7 @@
 </div>
 <mat-divider></mat-divider>
 <div mat-dialog-actions align="end">
-  <button mat-button class="green bold"  (click)="addNote(js_note)">AJOUT</button>
+  <button mat-button class="green bold"  (click)="updateNote(js_note)">AJOUT</button>
   <button mat-button class="red bold" (click)="closeDialog()">ANNULER</button>
 </div>
 

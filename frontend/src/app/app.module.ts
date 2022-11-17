@@ -43,6 +43,7 @@ import { DeadlineTableComponent } from './deadline-table/deadline-table.componen
 import { AddDeadlinePopupComponent } from './components/pop-up/add-deadline-popup/add-deadline-popup.component';
 import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
 import { ModifyNotePopupComponent } from './components/pop-up/modify-note-popup/modify-note-popup.component';
+import { DeleteNotePopupComponent } from './components/pop-up/delete-note-popup/delete-note-popup.component';
 
 
 @NgModule({
@@ -69,7 +70,8 @@ import { ModifyNotePopupComponent } from './components/pop-up/modify-note-popup/
     EventsPageComponent,
     AddEventPopupComponent,
     DeadlineTableComponent,
-    AddDeadlinePopupComponent
+    AddDeadlinePopupComponent,
+    DeleteNotePopupComponent
   ],
   imports: [
     BrowserModule,

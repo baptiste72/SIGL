@@ -94,13 +94,32 @@ def addNote(request):
     #print(serializer.errors)
     return Response(serializer.data)
 
-@api_view(['GET'])
-def getNote(request, id):
+@api_view(['GET','DELETE'])
+def apiNote(request, id):
     try: 
         NoteId = Note.objects.get(pk=id) 
     except Note.DoesNotExist: 
-        return JsonResponse({'message': 'The tutorial does not exist'}, status=status.HTTP_404_NOT_FOUND) 
+        return JsonResponse({'message': 'the note does not exist'}, status=status.HTTP_404_NOT_FOUND) 
  
     if request.method == 'GET': 
-        tutorial_serializer = NoteSerializer(NoteId) 
-        return JsonResponse(tutorial_serializer.data) 
+        note_serializer = NoteSerializer(NoteId) 
+        return JsonResponse(note_serializer.data) 
+    elif request.method == 'DELETE': 
+        NoteId.delete() 
+        return JsonResponse({'message': 'the note was deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['POST'])
+def updateNote(request):
+    try: 
+        print(request.data)
+        id=request.data["id"]
+        NoteId = Note.objects.get(pk=id) 
+    except Note.DoesNotExist: 
+        return JsonResponse({'message': 'the note does not exist'}, status=status.HTTP_404_NOT_FOUND) 
+
+    serializer = NoteSerializer(instance=NoteId, data=request.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(status=status.HTTP_200_OK,data=serializer.data)
+    else :
+        return JsonResponse({'message': 'the note is not valid'}, status=status.HTTP_404_NOT_FOUND) 

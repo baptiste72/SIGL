@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
 import { AddNotePopupComponent } from '../../pop-up/add-note-popup/add-note-popup.component';
+import { DeleteNotePopupComponent } from '../../pop-up/delete-note-popup/delete-note-popup.component';
+
 import { NoteService} from 'src/app/services/note/note.service'
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ModifyNotePopupComponent } from '../../pop-up/modify-note-popup/modify-note-popup.component';
 interface Note {
   id: any;
   name: string;
@@ -12,34 +16,7 @@ interface Note {
 }
 
 
-/*
-const treeData: Note[] = [
-  {
-    name: 'Semestre 5',
-    children: [{ name: '13 au 17 mai' }, { name: '27 au 15 juin' }, { name: '20 au 3 juillet' }],
-  },
-  {
-    name: 'Semestre 6',
-    children: [{ name: '13 au 17 mai' }, { name: '27 au 15 juin' }, { name: '20 au 3 juillet' }],
-  },
-  {
-    name: 'Semestre 7',
-    children: [{ name: '13 au 17 mai' }, { name: '27 au 15 juin' }, { name: '20 au 3 juillet' }],
-  },
-  {
-    name: 'Semestre 9',
-    children: [{ name: '13 au 17 mai' }, { name: '27 au 15 juin' }, { name: '20 au 3 juillet' }],
-  },
-  {
-    name: 'Semestre 9',
-    children: [{ name: '13 au 17 mai' }, { name: '27 au 15 juin' }, { name: '20 au 3 juillet' }],
-  },
-  {
-    name: 'Semestre 10',
-    children: [{ name: '13 au 17 mai' }, { name: '27 au 15 juin' }, { name: '20 au 3 juillet' }],
-  }
-];
-*/
+
 /** Flat node with expandable and level information */
 interface ExampleFlatNode {
   expandable: boolean;
@@ -53,6 +30,7 @@ interface ExampleFlatNode {
   styleUrls: ['./notes-page.component.scss'],
 })
 export class NotesPageComponent  implements OnInit {
+  isAvailable = false;
   notes: any;
   note: any;
   request: any;
@@ -90,8 +68,15 @@ constructor(public dialog: MatDialog, private noteService: NoteService ,private 
 
   }
   ngOnInit(): void {
+    console.log(this.isAvailable)
     this.getNotes();
     this.treeNotes();
+    this.note = {
+      title : 'Affichage de la Note Périodique',
+      text : 'Sélectionner une note',
+      id : '',
+      email :''
+    };
   }
   setParent(data, parent) {
     data.parent = parent;
@@ -104,10 +89,12 @@ constructor(public dialog: MatDialog, private noteService: NoteService ,private 
 
 
   public getNote(data: any,) {
+    this.isAvailable = true;
     console.log(data);
     this.noteService.getnote(data).subscribe({
     next: (v) => {
-      this._snackBar.open(data, "Ok", { duration: 1000});
+      this.note = (v);
+      console.log(this.note);
     },
     error: (err) => {
       this._snackBar.open("❌ Une erreur est survenue", "Ok", { duration: 2000})
@@ -140,4 +127,33 @@ constructor(public dialog: MatDialog, private noteService: NoteService ,private 
       this.treeNotes()
     });
   }
+
+  openDeleteDialog() {
+    this.dialog.open(DeleteNotePopupComponent,
+      {
+        width: '550px',
+        data: {
+          dataKey: this.note.id,
+        }
+      }
+    ).afterClosed()
+    .subscribe((shouldReload: boolean) => {
+      this.treeNotes()
+    });
+  }
+
+  openModifyDialog() {
+    this.dialog.open(ModifyNotePopupComponent,
+      {
+        width: '1200px',
+        data: {
+          dataKey: this.note,
+        }
+      }
+    ).afterClosed()
+    .subscribe((shouldReload: boolean) => {
+      this.treeNotes()
+    });
+  }
+
 }

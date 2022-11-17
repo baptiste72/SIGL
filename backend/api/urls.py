@@ -15,7 +15,8 @@ urlpatterns = [
     path('add-deadline', views.addDeadline, name='addDeadline'),
 
     #url(r'^api/v1/note/(?P<pk>[0-9]+)$', views.getNote),
-    path('note/<int:id>', views.getNote, name='getNote'),
+    path('note/<int:id>', views.apiNote, name='apiNote'),
+    path('update-note', views.updateNote, name='updateNote'),
     path('notes', views.getNotes, name='getNotes'),
     path('add-note', views.addNote, name='addNote'),
     path('treeNote', views.treeNote, name='treeNote'),

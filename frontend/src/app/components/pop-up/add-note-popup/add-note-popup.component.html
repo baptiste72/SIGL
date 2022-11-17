@@ -44,6 +44,7 @@
       <mat-label>Ajouter une description</mat-label>
       <textarea
       [(ngModel)]="js_note.text"
+      [innerHTML]="js_note.text"
       cdkTextareaAutosize
       cdkAutosizeMinRows="15"
       cdkAutosizeMaxRows="20"

@@ -16,6 +16,14 @@ public getnote(id:any): Observable<any> {
   return this.http.get<any>(`${environment.apiUrl}/${this.urlPrefix}/note/${id}`);
 }
 
+public deletenote(id:any): Observable<any> {
+  return this.http.delete<any>(`${environment.apiUrl}/${this.urlPrefix}/note/${id}`);
+}
+
+public updatenote(post:any): Observable<any> {
+  return this.http.post<any>(`${environment.apiUrl}/${this.urlPrefix}/update-note`,post);
+}
+
 public getnotes(): Observable<any> {
     return this.http.get<any>(`${environment.apiUrl}/${this.urlPrefix}/notes`);
 }

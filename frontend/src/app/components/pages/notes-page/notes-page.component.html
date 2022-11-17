@@ -48,21 +48,20 @@
         </div>
         <div class="note-card-div">
           <mat-card class="note-card">
-            <mat-card-title>Période du 13 au 17 mai</mat-card-title>
-            <mat-card-content>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque a pulvinar lectus,
-                nec mattis justo.<br><br>Aenean at volutpat magna. Pellentesque malesuada at lorem nec
-                venenatis. Duis varius nec ex non ornare. Praesent augue nunc, volutpat quis facilisis ut,
-                tristique in sapien. Praesent feugiat mi ac placerat rhoncus.<br><br>Class aptent taciti
-                sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Cras commodo massa
-                non tempor finibus. Pellentesque efficitur leo sodales neque mattis malesuada. Quisque non
-                tincidunt augue. Cras faucibus, lacus vel maximus congue, diam eros faucibus sem, sit amet
-                pellentesque mauris dolor et nisi.
-              </p>
+            <mat-card-title>{{note.title}}</mat-card-title>
+            <mat-card-content >
+              <div *ngIf="isAvailable"> Du {{ note.dateStart | date:'shortDate' }} au {{ note.dateEnd | date:'shortDate' }}
+                <br>
+                <br>
+              </div>
+              <span style="white-space: pre-line">{{ note.text }}</span>
+            </mat-card-content>
+            <mat-card-content *ngIf !="isAvailable">
+              <span style="white-space: pre-line">Sélectionner une note</span>
             </mat-card-content>
             <mat-card-actions class="note-card-actions">
-              <button mat-icon-button class="btn-modify-note green"><mat-icon>edit</mat-icon>MODIFIER</button>
-              <button mat-icon-button class="btn-delete-note red"><mat-icon>close</mat-icon>SUPPRIMER</button>
+              <button mat-icon-button *ngIf="isAvailable" class="btn-modify-note green"(click)="openModifyDialog()"><mat-icon>edit</mat-icon>MODIFIER</button>
+              <button mat-icon-button *ngIf="isAvailable" class="btn-delete-note red" (click)="openDeleteDialog()"><mat-icon>close</mat-icon>SUPPRIMER</button>
             </mat-card-actions>
           </mat-card>
         </div>

@@ -1,8 +1,14 @@
 import json
 
 class data_treatement:
+    
+
+    
     # fonction de manipulation de données pour renvoyer l'arborescence des notes
     def treeNotes(data):
+        def get_semestre(data):
+            val=data["name"][-1]
+            return int(val)
         data = json.dumps(data)
         data = json.loads(data)
         treeList=[]
@@ -25,9 +31,11 @@ class data_treatement:
                 nL.append(dchildren)
             d["children"]=nL
             response.append(d)
+        response.sort(key=get_semestre)
         return response
     
     def searchNote(request,data):
         for i in data:
             if i["id"]==request:
                 return i
+

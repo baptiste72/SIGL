@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {NoteService} from 'src/app/services/note/note.service'
 import { MatSnackBar } from '@angular/material/snack-bar';
 
+
 interface Semester {
   name: string;
 }
@@ -22,17 +23,13 @@ export class ModifyNotePopupComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    this.js_note = {
-      title : '',
-      text :'',
-      semester: '',
-      dateStart : '',
-      dateEnd : ''
-    };
+    this.js_note = this.mydata.dataKey
+    console.log(this.js_note)
   }
 
-  public addNote(data: any) {
-    this.noteService.addnote(data).subscribe({
+  public updateNote(data: any) {
+    console.log(data)
+    this.noteService.updatenote(data).subscribe({
      next: (v) => {
        this._snackBar.open("✔ Note créé", "Ok", { duration: 2000});
        this.closeDialog();
