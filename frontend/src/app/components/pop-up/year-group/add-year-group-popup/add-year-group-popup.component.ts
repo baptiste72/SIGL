@@ -5,17 +5,17 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Output, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: 'app-add-promotion-popup',
-  templateUrl: './add-promotion-popup.component.html',
-  styleUrls: ['./add-promotion-popup.component.scss'],
+  selector: 'app-add-year-group-popup',
+  templateUrl: './add-year-group-popup.component.html',
+  styleUrls: ['./add-year-group-popup.component.scss'],
 })
-export class AddPromotionPopupComponent implements OnInit {
+export class AddYearGroupPopupComponent implements OnInit {
   fromPage!: string;
   fromDialog!: string;
   register: any;
 
   constructor(
-    public dialogRef: MatDialogRef<AddPromotionPopupComponent>,
+    public dialogRef: MatDialogRef<AddYearGroupPopupComponent>,
     private yearGroupService: YearGroupService,
     private _snackBar: MatSnackBar,
     @Optional() @Inject(MAT_DIALOG_DATA) public mydata: any

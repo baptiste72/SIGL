@@ -22,4 +22,8 @@ export class YearGroupService {
   public deleteYearGroupById(post: any): Observable<any> {
     return this.http.post<any>(`${environment.apiUrl}/${this.urlPrefix}/delete-year-group-by-id`, post);
   }
+
+  public updateYearGroup(post: any): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/${this.urlPrefix}/update-year-group`, post);
+  }
 }

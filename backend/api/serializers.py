@@ -33,28 +33,6 @@ class TeacherInChargeSerializer(serializers.ModelSerializer):
         fields = ('id', 'last_name', 'first_name',
                   'password', 'email', 'formationCenter')
 
-
-class YearGroupSerializer(serializers.ModelSerializer):
-    beginDate = fields.DateTimeField(input_formats=['%Y-%m-%dT%H:%M:%S.%fZ'])
-    class Meta:
-        model = YearGroup
-        fields = ('id', 'worded', 'beginDate')
-
-class YearGroupSerializerDelete(serializers.ModelSerializer):
-    class Meta:
-        model = YearGroup
-        fields = ('id',)
-
-class TraineeSerializer(serializers.ModelSerializer):
-
-    yearGroup = YearGroupSerializer(many=True)
-
-    class Meta:
-        model = Trainee
-        fields = ('id', 'last_name', 'first_name',
-                  'password', 'email', 'yearGroup')
-
-
 class InterviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Interview
@@ -65,4 +43,36 @@ class DeadlineSerializer(serializers.ModelSerializer):
     class Meta:
         model = Deadline
         fields = ('name', 'date',
-                  'description')
+                  'description')       
+ 
+class SemesterSerializerDelete(serializers.ModelSerializer):
+    class Meta:
+        model = Semester
+        fields = ('id',)          
+ 
+class YearGroupSerializer(serializers.ModelSerializer):
+    beginDate = fields.DateTimeField()
+    class Meta:
+        model = YearGroup
+        fields = ('id', 'worded', 'beginDate')
+
+class YearGroupSerializerDelete(serializers.ModelSerializer):
+    class Meta:
+        model = YearGroup
+        fields = ('id',)  
+
+class SemesterSerializer(serializers.ModelSerializer):
+    beginDate = fields.DateTimeField()
+    endDate = fields.DateTimeField()
+    class Meta:
+        model = Semester
+        fields = ('id', 'name', 'beginDate','endDate','yearGroup')             
+         
+class TraineeSerializer(serializers.ModelSerializer):
+    yearGroup = YearGroupSerializer(many=True)
+
+    class Meta:
+        model = Trainee
+        fields = ('id', 'last_name', 'first_name',
+                  'password', 'email', 'yearGroup')
+              

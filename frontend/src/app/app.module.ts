@@ -18,9 +18,11 @@ import { DocumentsPageComponent } from './components/pages/documents-page/docume
 import { AddNotePopupComponent } from './components/pop-up/add-note-popup/add-note-popup.component';
 import { ConfigurationComponent } from './components/pages/configuration/configuration.component';
 import { AddUserPopupComponent } from './components/pop-up/add-user-popup/add-user-popup.component';
-import { AddPromotionPopupComponent } from './components/pop-up/add-promotion-popup/add-promotion-popup.component';
+import { AddYearGroupPopupComponent } from './components/pop-up/year-group/add-year-group-popup/add-year-group-popup.component';
 import { AddTeamPopupComponent } from './components/pop-up/add-team-popup/add-team-popup.component';
 import { NotesPageComponent } from './components/pages/notes-page/notes-page.component';
+import { UpdateYearGroupPopupComponent } from './components/pop-up/year-group/update-year-group-popup/update-year-group-popup/update-year-group-popup.component';
+import { UpdateSemesterPopupComponent } from './components/pop-up/semester/update-semester-popup/update-semester-popup/update-semester-popup.component';
 
 import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
@@ -44,7 +46,7 @@ import { AddDeadlinePopupComponent } from './components/pop-up/add-deadline-popu
 import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
 import { MatTabsModule } from '@angular/material/tabs';
 import { AddCompanyPopupComponent } from './components/pop-up/add-company-popup/add-company-popup.component';
-import { AddSemesterPopupComponent } from './components/pop-up/add-semester-popup/add-semester-popup.component';
+import { AddSemesterPopupComponent } from './components/pop-up/semester/add-semester-popup/add-semester-popup.component';
 
 @NgModule({
   declarations: [
@@ -64,14 +66,16 @@ import { AddSemesterPopupComponent } from './components/pop-up/add-semester-popu
     AddNotePopupComponent,
     ConfigurationComponent,
     AddUserPopupComponent,
-    AddPromotionPopupComponent,
+    AddYearGroupPopupComponent,
     AddTeamPopupComponent,
     EventsPageComponent,
     AddEventPopupComponent,
     DeadlineTableComponent,
     AddDeadlinePopupComponent,
     AddCompanyPopupComponent,
-    AddSemesterPopupComponent
+    AddSemesterPopupComponent,
+    UpdateYearGroupPopupComponent,
+    UpdateSemesterPopupComponent,
   ],
   imports: [
     BrowserModule,

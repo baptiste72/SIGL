@@ -66,3 +66,17 @@ class YearGroup(models.Model):
     beginDate = models.DateTimeField(default=timezone.now)
     trainee = models.ForeignKey(
         Trainee, related_name="yearGroup", on_delete=models.CASCADE, null=True)
+    
+    def __str__(self):
+        return self.name
+
+class Semester(models.Model):
+    # tables des semestres
+    name = models.CharField(max_length=200)
+    beginDate = models.DateTimeField(default=timezone.now)
+    endDate = models.DateTimeField(default=timezone.now)
+    yearGroup = models.ForeignKey(
+        YearGroup, related_name="semester", on_delete=models.CASCADE, null=True)
+    
+    def __str__(self):
+        return self.name
