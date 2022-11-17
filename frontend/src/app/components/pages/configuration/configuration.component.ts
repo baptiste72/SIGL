@@ -256,3 +256,4 @@ const COMPANIES_DATA: Company[] = [
   opcoName: '123', opcoSiret: '123', opcoAddress: '123', opcoPhoneNumber: '123', opcoMailAddress: '123',
  }
 ];
+
