@@ -1,9 +1,9 @@
-from re import I
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
 from base.models import *
 from .serializers import *
+from .helper.tutor_team_helper import TutorTeamHelper
 
 
 @api_view(['GET'])
@@ -14,16 +14,16 @@ def getMentor(request):
 
 
 @api_view(['GET'])
-def getTeacherInCharge(request):
-    teacherInChargeList = TeacherInCharge.objects.all()
-    serializers = TeacherInChargeSerializer(teacherInChargeList, many=True)
+def getTutor(request):
+    tutorList = Tutor.objects.all()
+    serializers = TutorSerializer(tutorList, many=True)
     return Response(serializers.data)
 
 
 @api_view(['GET'])
-def getTrainee(request):
-    traineeList = Trainee.objects.all()
-    serializers = TraineeSerializer(traineeList, many=True)
+def getApprentice(request):
+    apprenticeList = Apprentice.objects.all()
+    serializers = ApprenticeSerializer(apprenticeList, many=True)
     return Response(serializers.data)
 
 
@@ -73,6 +73,21 @@ def getYearGroup(request):
 @api_view(['POST'])
 def addYearGroup(request):
     serializer = YearGroupSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def getTutorTeams(request):
+    # récupération du contenu de la table TutorTeam
+    TutorTeamList = TutorTeam.objects.all()    
+    serializers = TutorTeamSerializer(TutorTeamList, many=True)
+    response = TutorTeamHelper.getAllTutorTeams(serializers)
+    return Response(response)
+
+@api_view(['POST'])
+def addTutorTeams(request):
+    serializer = TutorTeamSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
     return Response(serializer.data)

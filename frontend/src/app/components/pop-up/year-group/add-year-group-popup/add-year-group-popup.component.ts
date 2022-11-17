@@ -29,11 +29,16 @@ export class AddYearGroupPopupComponent implements OnInit {
     };
   }
 
-  closeDialog() {
-    this.dialogRef.close({ event: 'close', data: this.fromDialog });
+  public closeDialog() {
+    this.dialogRef.close(
+      {
+        event: 'close',
+        data: this.fromDialog
+      }
+    );
   }
 
-  addPromotion(data: any) {
+  public addPromotion(data: any) {
     this.yearGroupService.addYearGroup(data).subscribe({
       next: (v) => {
         this._snackBar.open('✔ Promotion ajoutée', 'Ok', { duration: 2000 });

@@ -1,37 +1,61 @@
 from rest_framework import serializers,fields
 from base.models import * 
 
-
-class CompanySerializer(serializers.ModelSerializer):
+class TutorTeamSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Company
-        fields = '__all__'
-
+        model = TutorTeam
+        fields = ('id', 'mentor', 'tutor', 'apprentice')
 
 class MentorSerializer(serializers.ModelSerializer):
 
-    company = CompanySerializer(many=True)
+    tutorTeam = TutorTeamSerializer(many=True)
 
     class Meta:
         model = Mentor
         fields = ('id', 'last_name', 'first_name',
-                  'password', 'email', 'company')
+                  'password', 'email', 'company', 'tutorTeam')   
+class CompanySerializer(serializers.ModelSerializer):
+    
+    mentor = MentorSerializer(many=True)
+    class Meta:
+        model = Company
+        fields = '__all__'
 
+class TutorSerializer(serializers.ModelSerializer):
+
+    tutorTeam = TutorTeamSerializer(many=True)
+    class Meta:
+        model = Tutor
+        fields = ('id', 'last_name', 'first_name',
+                  'password', 'email', 'formationCenter', 'tutorTeam')
 
 class FormationCenterSerializer(serializers.ModelSerializer):
+    
+    tutor = TutorSerializer(many=True)
     class Meta:
         model = FormationCenter
         fields = '__all__'
 
+class YearGroupSerializer(serializers.ModelSerializer):
+    beginDate = fields.DateTimeField(input_formats=['%Y-%m-%dT%H:%M:%S.%fZ'])
+    class Meta:
+        model = YearGroup
+        fields = ('id', 'worded', 'beginDate')
 
-class TeacherInChargeSerializer(serializers.ModelSerializer):
+class YearGroupSerializerDelete(serializers.ModelSerializer):
+    class Meta:
+        model = YearGroup
+        fields = ('id',)
 
-    formationCenter = FormationCenterSerializer(many=True)
+class ApprenticeSerializer(serializers.ModelSerializer):
+    yearGroup = YearGroupSerializer(many=True)
+    tutorTeam = TutorTeamSerializer(many=True)
 
     class Meta:
-        model = TeacherInCharge
+        model = Apprentice
         fields = ('id', 'last_name', 'first_name',
-                  'password', 'email', 'formationCenter')
+                  'password', 'email', 'yearGroup', 'tutorTeam')
+
 
 class InterviewSerializer(serializers.ModelSerializer):
     class Meta:
@@ -67,12 +91,4 @@ class SemesterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Semester
         fields = ('id', 'name', 'beginDate','endDate','yearGroup')             
-         
-class TraineeSerializer(serializers.ModelSerializer):
-    yearGroup = YearGroupSerializer(many=True)
-
-    class Meta:
-        model = Trainee
-        fields = ('id', 'last_name', 'first_name',
-                  'password', 'email', 'yearGroup')
-              
+      
