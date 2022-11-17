@@ -3,12 +3,17 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { AddUserPopupComponent } from '../../pop-up/add-user-popup/add-user-popup.component';
 import { MatDialog } from '@angular/material/dialog';
-import { AddPromotionPopupComponent } from '../../pop-up/add-promotion-popup/add-promotion-popup.component';
+import { AddYearGroupPopupComponent } from '../../pop-up/year-group/add-year-group-popup/add-year-group-popup.component';
+import { UpdateYearGroupPopupComponent } from '../../pop-up/year-group/update-year-group-popup/update-year-group-popup/update-year-group-popup.component';
 import { AddTeamPopupComponent } from '../../pop-up/add-team-popup/add-team-popup.component';
 import { AddCompanyPopupComponent } from '../../pop-up/add-company-popup/add-company-popup.component';
-import { AddSemesterPopupComponent } from '../../pop-up/add-semester-popup/add-semester-popup.component';
+import { AddSemesterPopupComponent } from '../../pop-up/semester/add-semester-popup/add-semester-popup.component';
 import { YearGroupService } from 'src/app/services/year-group/year-group.service';
+import { SemesterService } from 'src/app/services/semester/semester.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { YearGroup } from 'src/app/models/YearGroup';
+import { Semester } from 'src/app/models/Semester';
+import { UpdateSemesterPopupComponent } from '../../pop-up/semester/update-semester-popup/update-semester-popup/update-semester-popup.component';
 import { TutorTeamService } from 'src/app/services/tutor-team/tutor-team.service';
 import { TutorTeam } from 'src/app/models/TutorTeam';
 
@@ -27,21 +32,22 @@ export class ConfigurationComponent implements AfterViewInit, OnInit {
   displayedColumnsCompanies: string[] = ['name', 'companySiret', 'nbEmployees', 'codeCpne'];
   dataSourceCompanies = new MatTableDataSource<Company>(COMPANIES_DATA);
 
-  displayedColumnsPromotions: string[] = ['name', 'beginDate', 'update'];
-  dataSourcePromotions: any;
+  displayedColumnsYearGroups: string[] = ['name', 'beginDate', 'update'];
+  dataSourceYearGroups: any;
 
-  displayedColumnsSemesters: string[] = ['name', 'beginDate', 'endDate'];
-  dataSourceSemesters = new MatTableDataSource<Semester>(SEMESTERS_DATA);
+  displayedColumnsSemesters: string[] = ['name', 'beginDate', 'endDate', 'update'];
+  dataSourceSemesters: any;
 
 
   @ViewChild(MatPaginator) usersPaginator :any = MatPaginator;
   @ViewChild(MatPaginator) tutorTeamsPaginator :any = MatPaginator;
   @ViewChild(MatPaginator) companiesPaginator :any = MatPaginator;
-  @ViewChild(MatPaginator) promotionsPaginator :any = MatPaginator;
+  @ViewChild(MatPaginator) yearGroupPaginator :any = MatPaginator;
   @ViewChild(MatPaginator) semestersPaginator :any = MatPaginator;
 
   ngOnInit(): void {
-    this.getPromotions();
+    this.getYearGroup();
+    this.getSemester();
     this.getTutorTeam();
     this.register = {
       id: '',
@@ -52,21 +58,24 @@ export class ConfigurationComponent implements AfterViewInit, OnInit {
     this.dataSourceUsers.paginator = this.usersPaginator;
     this.dataSourceTutorTeams.paginator = this.tutorTeamsPaginator;
     this.dataSourceCompanies.paginator = this.companiesPaginator;
-    this.dataSourcePromotions.paginator = this.promotionsPaginator;
-    this.dataSourceSemesters.paginator = this.promotionsPaginator;
+    this.dataSourceYearGroups.paginator = this.yearGroupPaginator;
+    this.dataSourceSemesters.paginator = this.yearGroupPaginator;
   }
 
   constructor(public dialog: MatDialog,
     private yearGroupService: YearGroupService,
+    private semesterService: SemesterService,
     private tutorTeamService: TutorTeamService,
     private _snackBar: MatSnackBar,
     private _detector: ChangeDetectorRef,
     ) {}
 
-  private getPromotions() {
+
+  // PROMOTIONS
+  private getYearGroup() {
     this.yearGroupService.getYearGroup().subscribe({
       next: (promotions) => {
-        this.dataSourcePromotions = new MatTableDataSource<Promotion>(promotions);
+        this.dataSourceYearGroups = new MatTableDataSource<YearGroup>(promotions);
       },
       error: (err) => {
         this._snackBar.open('❌ Une erreur est survenue lors de la récupération des semestres', 'Ok', { duration: 2000, });
@@ -81,11 +90,98 @@ export class ConfigurationComponent implements AfterViewInit, OnInit {
       },
       error: (err) => {
         this._snackBar.open(
-          '❌ Une erreur est survenue lors de la récupération des équipes pédagohiques', 'Ok', { duration: 2000, });
+          '❌ Une erreur est survenue lors de la récupération des équipes pédagogiques', 'Ok', { duration: 2000, });
       },
     });
   }
 
+  openYearGroupPopup() {
+    this.dialog.open(AddYearGroupPopupComponent,
+      {
+        width: '600px'
+      }
+    ).afterClosed()
+    .subscribe((shouldReload: boolean) => {
+      this.getYearGroup()
+    });
+  }
+
+  openUpdateYearGroupPopup(yearGroup: any) {
+    this.dialog.open(UpdateYearGroupPopupComponent,
+      {
+        width: '600px',
+        data: yearGroup
+      }
+    ).afterClosed()
+    .subscribe((shouldReload: boolean) => {
+      this.getYearGroup()
+    });
+  }
+
+  deleteYearGroupById(ID: any) {
+    this.register.id=ID;
+    this.yearGroupService.deleteYearGroupById(this.register).subscribe({
+      next: (v) => {
+        this.getYearGroup();
+      },
+      error: (err) => {
+        this._snackBar.open('❌ Une erreur est survenue lors de la suppression de la promotion', 'Ok', { duration: 2000, });
+      },
+    });
+  }
+
+  // SEMESTRES
+  private getSemester() {
+    this.semesterService.getSemester().subscribe({
+      next: (semesters) => {
+        this.dataSourceSemesters = new MatTableDataSource<Semester>(semesters);
+      },
+      error: (err) => {
+        this._snackBar.open('❌ Une erreur est survenue lors de la récupération des semestres', 'Ok', {
+          duration: 2000,
+        });
+      },
+    });
+  }
+
+  openAddSemesterPopup() {
+    this.dialog.open(AddSemesterPopupComponent,
+      {
+        width: '600px'
+      }
+    ).afterClosed()
+    .subscribe((shouldReload: boolean) => {
+      this.getSemester()
+    });
+  }
+
+  openUpdateSemesterPopup(semester: any) {
+    this.dialog.open(UpdateSemesterPopupComponent,
+      {
+        width: '600px',
+        data: semester
+      }
+    ).afterClosed()
+    .subscribe((shouldReload: boolean) => {
+      this.getSemester()
+    });
+  }
+
+  deleteSemesterById(ID: any) {
+    this.register.id=ID;
+    this.semesterService.deleteSemesterById(this.register).subscribe({
+      next: (v) => {
+        this.getSemester();
+      },
+      error: (err) => {
+        this._snackBar.open('❌ Une erreur est survenue lors de la suppression du semestre', 'Ok', {
+          duration: 2000,
+        });
+      },
+    });
+  }
+
+  // UTILISATEURS
   addUser() {
     this.dialog.open(AddUserPopupComponent,
       {
@@ -94,29 +190,7 @@ export class ConfigurationComponent implements AfterViewInit, OnInit {
     );
   }
 
-  openPromotionPopup() {
-    this.dialog.open(AddPromotionPopupComponent,
-      {
-        width: '600px'
-      }
-    ).afterClosed()
-    .subscribe((shouldReload: boolean) => {
-      this.getPromotions()
-    });
-  }
-
-  deletePromotionById(ID: any) {
-    this.register.id=ID;
-    this.yearGroupService.deleteYearGroupById(this.register).subscribe({
-      next: (v) => {
-        this.getPromotions();
-      },
-      error: (err) => {
-        this._snackBar.open('❌ Une erreur est survenue lors de la suppression de la promotion', 'Ok', { duration: 2000, });
-      },
-    });
-  }
-
+  // EQUIPES PEDAGOGIQUES
   openTutorTeamPopUp() {
     this.dialog.open(AddTeamPopupComponent,
       {
@@ -128,16 +202,9 @@ export class ConfigurationComponent implements AfterViewInit, OnInit {
     });
   }
 
+  // ENTREPRISES
   addCompany() {
     this.dialog.open(AddCompanyPopupComponent,
-      {
-        width: '600px'
-      }
-    );
-  }
-
-  addSemester() {
-    this.dialog.open(AddSemesterPopupComponent,
       {
         width: '600px'
       }
@@ -188,20 +255,4 @@ const COMPANIES_DATA: Company[] = [
   mailAddress: '123', address: '123', trainingSiteName: '123', trainingSiteSiret: '123', trainingSiteAddress: '123',
   opcoName: '123', opcoSiret: '123', opcoAddress: '123', opcoPhoneNumber: '123', opcoMailAddress: '123',
  }
-];
-
-export interface Promotion {
-  id: number;
-  worded: string;
-  beginDate: Date;
-}
-
-export interface Semester {
-  name: string;
-  beginDate: Date;
-  endDate: Date;
-}
-
-const SEMESTERS_DATA: Semester[] = [
-  {name: 'Semestre 1', beginDate: new Date('1/1/16'), endDate: new Date('1/1/16')}
 ];

@@ -1,12 +1,12 @@
-<div class="dialog-header bg-red">
-  <h2 mat-dialog-title>Ajout d'un semestre</h2>
+<div class="dialog-header bg-purple">
+  <h2 mat-dialog-title>Modification d'un semestre</h2>
 </div>
 <div mat-dialog-content class="dialog-content">
   <div class="div-input">
     <h3>Nom</h3>
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Semestre 1</mat-label>
-      <input type="text" matInput />
+      <input [(ngModel)]="data.name" type="text" matInput />
     </mat-form-field>
   </div>
 
@@ -15,8 +15,8 @@
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Entrez une période</mat-label>
       <mat-date-range-input [rangePicker]="picker">
-        <input matStartDate placeholder="Date de début" />
-        <input matEndDate placeholder="Date de fin" />
+        <input [(ngModel)]="data.beginDate" matStartDate placeholder="Date de début" />
+        <input [(ngModel)]="data.endDate" matEndDate placeholder="Date de fin" />
       </mat-date-range-input>
       <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -28,15 +28,15 @@
     <h3>Promotion</h3>
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Choisissez une promotion associée</mat-label>
-      <mat-select required>
-        <mat-option *ngFor="let promotion of promotions" [value]="promotion.name">
-          {{ promotion.name }}
+      <mat-select required [(ngModel)]="data.yearGroup">
+        <mat-option *ngFor="let promotion of promotions" [value]="promotion.id">
+          {{ promotion.worded }}
         </mat-option>
       </mat-select>
     </mat-form-field>
   </div>
 <mat-divider></mat-divider>
 <div mat-dialog-actions align="end">
-  <button mat-button class="green bold" (click)="addSemester()">AJOUTER</button>
+  <button mat-button class="green bold" (click)="updateSemester(data)">MODITIER</button>
   <button mat-button class="red bold" (click)="closeDialog()">ANNULER</button>
 </div>
