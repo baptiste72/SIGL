@@ -78,16 +78,12 @@ import { AddSemesterPopupComponent } from './components/pop-up/semester/add-seme
     AddTeamPopupComponent,
     EventsPageComponent,
     AddEventPopupComponent,
-<<<<<<< HEAD
-    AddDeadlinePopupComponent
-=======
     AddDeadlinePopupComponent,
     DeleteNotePopupComponent,
     AddCompanyPopupComponent,
     AddSemesterPopupComponent,
     UpdateYearGroupPopupComponent,
     UpdateSemesterPopupComponent,
->>>>>>> 7ac16b55fc0771e3060102cc011532bbd09a9b11
   ],
   imports: [
     BrowserModule,
