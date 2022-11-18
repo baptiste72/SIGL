@@ -1,4 +1,11 @@
-import { Component, Inject, OnInit, Optional, ViewChild, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  Inject,
+  OnInit,
+  Optional,
+  ViewChild,
+  AfterViewInit,
+} from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
 import { ApprenticeService } from 'src/app/services/apprentice/apprentice.service';
@@ -13,7 +20,7 @@ import { TutorTeamService } from 'src/app/services/tutor-team/tutor-team.service
 @Component({
   selector: 'app-add-team-popup',
   templateUrl: './add-team-popup.component.html',
-  styleUrls: ['./add-team-popup.component.scss']
+  styleUrls: ['./add-team-popup.component.scss'],
 })
 export class AddTeamPopupComponent implements OnInit {
   fromPage!: string;
@@ -24,14 +31,15 @@ export class AddTeamPopupComponent implements OnInit {
   tutors: Tutor[] = [];
   mentors: Mentor[] = [];
 
-  constructor(public dialogRef: MatDialogRef<AddTeamPopupComponent>,
+  constructor(
+    public dialogRef: MatDialogRef<AddTeamPopupComponent>,
     private mentorService: MentorService,
     private tutorService: TutorService,
     private apprenticeService: ApprenticeService,
     private tutorTeamService: TutorTeamService,
     private _snackBar: MatSnackBar,
     @Optional() @Inject(MAT_DIALOG_DATA) public mydata: any
-    ) { }
+  ) {}
 
   ngOnInit(): void {
     this.getApprentice();
@@ -41,10 +49,12 @@ export class AddTeamPopupComponent implements OnInit {
       mentor: '',
       tutor: '',
       apprentice: '',
-    }
+    };
   }
 
-  closeDialog() { this.dialogRef.close({ event: 'close', data: this.fromDialog }); }
+  closeDialog() {
+    this.dialogRef.close({ event: 'close', data: this.fromDialog });
+  }
 
   private getApprentice() {
     this.apprenticeService.getApprentice().subscribe({
@@ -100,8 +110,10 @@ export class AddTeamPopupComponent implements OnInit {
   addTutorTeam(data: any) {
     this.tutorTeamService.addTutorTeams(data).subscribe({
       next: (v) => {
-        this._snackBar.open('Equipe pédagohique ajoutée', 'Ok', { duration: 2000 } );
-        this.closeDialog()
+        this._snackBar.open('Equipe pédagohique ajoutée', 'Ok', {
+          duration: 2000,
+        });
+        this.closeDialog();
       },
       error: (err) => {
         this._snackBar.open(

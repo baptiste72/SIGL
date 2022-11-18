@@ -14,11 +14,11 @@
     <mat-list>
       <mat-list-item *ngFor="let note of notes" class="note-item">
         <a class="note-link" (click)="goToNote(note.id)">
-        <mat-icon mat-list-icon class="note-icon">note</mat-icon>
-        <div mat-line class="note-name">
-            {{note.title}}
-        </div>
-      </a>
+          <mat-icon mat-list-icon class="note-icon">note</mat-icon>
+          <div mat-line class="note-name">
+            {{ note.title }}
+          </div>
+        </a>
       </mat-list-item>
     </mat-list>
   </mat-card-content>

@@ -20,7 +20,7 @@ class TutorTeamHelper:
             mentor = Mentor.objects.filter(pk=mentorID).values('id','first_name', 'last_name', 'email').first()
             tutor = Tutor.objects.filter(pk=tutorID).values('id', 'first_name', 'last_name', 'email').first()
             
-            # fabriaction d'un json object equipe tutorale contenant réellement les infos
+            # fabrication d'un json object equipe tutorale contenant réellement les infos
             context = {
                 'apprentice': apprentice,       
                 'mentor': mentor,

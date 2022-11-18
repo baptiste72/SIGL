@@ -13,7 +13,8 @@ class MentorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Mentor
         fields = ('id', 'last_name', 'first_name',
-                  'password', 'email', 'company', 'tutorTeam')   
+                  'password', 'email', 'company', 'tutorTeam')
+           
 class CompanySerializer(serializers.ModelSerializer):
     
     mentor = MentorSerializer(many=True)
@@ -56,7 +57,6 @@ class ApprenticeSerializer(serializers.ModelSerializer):
         fields = ('id', 'last_name', 'first_name',
                   'password', 'email', 'yearGroup', 'tutorTeam')
 
-
 class InterviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Interview
@@ -69,7 +69,13 @@ class DeadlineSerializer(serializers.ModelSerializer):
         fields = ('name', 'date',
                   'description')       
 
- 
+class SemesterSerializer(serializers.ModelSerializer):
+    beginDate = fields.DateTimeField()
+    endDate = fields.DateTimeField()
+    class Meta:
+        model = Semester
+        fields = ('id', 'name', 'beginDate','endDate','yearGroup')
+
 class SemesterSerializerDelete(serializers.ModelSerializer):
     class Meta:
         model = Semester
@@ -93,8 +99,6 @@ class SemesterSerializer(serializers.ModelSerializer):
         model = Semester
         fields = ('id', 'name', 'beginDate','endDate','yearGroup')             
       
-
-
 class NoteSerializer(serializers.ModelSerializer):
     dateStart = fields.DateTimeField()
     dateEnd = fields.DateTimeField()

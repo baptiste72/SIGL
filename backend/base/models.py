@@ -1,7 +1,6 @@
 from django.db import models
 from authentication.models import User
 from django.utils import timezone
-from base.models import Semester
 
 class Interview(models.Model):
     # table des entretien
@@ -59,9 +58,7 @@ class Apprentice(User):
 class YearGroup(models.Model):
     # tables des promotions
     worded = models.CharField(max_length=200)
-    semester = models.CharField(max_length=10, choices=[
-                                (tag, tag.value) for tag in Semester])
-
+    beginDate = models.DateTimeField(default=timezone.now)
     
 class Note(models.Model):
     title = models.CharField(max_length=400)
@@ -70,7 +67,6 @@ class Note(models.Model):
     dateStart = models.DateTimeField()
     dateEnd = models.DateTimeField()
     timestamp = models.DateTimeField(auto_now_add=True)
-
     beginDate = models.DateTimeField(default=timezone.now)
     
     def __str__(self):
@@ -83,12 +79,12 @@ class Semester(models.Model):
     endDate = models.DateTimeField(default=timezone.now)
     yearGroup = models.ForeignKey(
         YearGroup, related_name="semester", on_delete=models.CASCADE, null=True)
-    
-    def __str__(self):
+
+    def str(self):
         return self.name
     apprentice = models.ForeignKey(
         Apprentice, related_name="yearGroup", on_delete=models.CASCADE, null=True)
-
+    
 class TutorTeam(models.Model):
     # table équipes tutorales
     mentor = models.ForeignKey(

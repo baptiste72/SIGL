@@ -41,9 +41,12 @@ import { EventsPageComponent } from './components/pages/events-page/events-page.
 import { AddEventPopupComponent } from './components/pop-up/add-event-popup/add-event-popup.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
-import { DeadlineTableComponent } from './deadline-table/deadline-table.component';
 import { AddDeadlinePopupComponent } from './components/pop-up/add-deadline-popup/add-deadline-popup.component';
-import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
+import {
+  NgxMatDatetimePickerModule,
+  NgxMatTimepickerModule,
+  NgxMatNativeDateModule,
+} from '@angular-material-components/datetime-picker';
 import { ModifyNotePopupComponent } from './components/pop-up/modify-note-popup/modify-note-popup.component';
 import { DeleteNotePopupComponent } from './components/pop-up/delete-note-popup/delete-note-popup.component';
 
@@ -75,7 +78,6 @@ import { AddSemesterPopupComponent } from './components/pop-up/semester/add-seme
     AddTeamPopupComponent,
     EventsPageComponent,
     AddEventPopupComponent,
-    DeadlineTableComponent,
     AddDeadlinePopupComponent,
     DeleteNotePopupComponent,
     AddCompanyPopupComponent,
@@ -106,14 +108,12 @@ import { AddSemesterPopupComponent } from './components/pop-up/semester/add-seme
     NgxMatDatetimePickerModule,
     NgxMatTimepickerModule,
     NgxMatNativeDateModule,
-    MatTabsModule
+    MatTabsModule,
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
-  exports: [
-
-  ]
+  exports: [],
 })
-export class AppModule { }
+export class AppModule {}

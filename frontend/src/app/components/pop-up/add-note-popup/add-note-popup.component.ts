@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import {NoteService} from 'src/app/services/note/note.service'
+import { NoteService } from 'src/app/services/note/note.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 interface Semester {
@@ -10,39 +10,57 @@ interface Semester {
 @Component({
   selector: 'app-add-note-popup',
   templateUrl: './add-note-popup.component.html',
-  styleUrls: ['./add-note-popup.component.scss']
+  styleUrls: ['./add-note-popup.component.scss'],
 })
 export class AddNotePopupComponent implements OnInit {
-  js_note: any;
+  jsonNote: any;
 
   fromPage!: string;
   fromDialog!: string;
-  constructor( private noteService: NoteService,   public dialogRef: MatDialogRef<AddNotePopupComponent>,
-    @Optional() @Inject(MAT_DIALOG_DATA) public mydata: any,private _snackBar: MatSnackBar,
-    ) { }
+  constructor(
+    private noteService: NoteService,
+    public dialogRef: MatDialogRef<AddNotePopupComponent>,
+    @Optional() @Inject(MAT_DIALOG_DATA) public mydata: any,
+    private _snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
-    this.js_note = {
-      title : '',
-      text :'',
+    this.jsonNote = {
+      title: '',
+      text: '',
       semester: '',
-      dateStart : '',
-      dateEnd : ''
+      dateStart: '',
+      dateEnd: '',
     };
   }
 
   public addNote(data: any) {
-    this.noteService.addnote(data).subscribe({
-     next: (v) => {
-       this._snackBar.open("✔ Note créé", "Ok", { duration: 2000});
-       this.closeDialog();
-     },
-     error: (err) => {
-       this._snackBar.open("❌ Une erreur est survenue", "Ok", { duration: 2000})
-     }
-   });
-}
-  closeDialog() { this.dialogRef.close({ event: 'close', data: this.fromDialog }); }
+    this.noteService.addNote(data).subscribe({
+      next: (v) => {
+        this._snackBar.open('✔ Note créé', 'Ok', { duration: 2000 });
+        this.closeDialogAdd(v);
+      },
+      error: (err) => {
+        this._snackBar.open('❌ Une erreur est survenue', 'Ok', {
+          duration: 2000,
+        });
+      },
+    });
+  }
 
-  semesters: Semester[] = [{name: 'Semestre S5'},{name: 'Semestre S6'},{name: 'Semestre S7'},{name: 'Semestre S8'},{name: 'Semestre S9'}];
+  closeDialog() {
+    this.dialogRef.close({ event: 'close', data: this.jsonNote });
+  }
+
+  closeDialogAdd(data: any) {
+    this.dialogRef.close({ event: 'ajout', data: data });
+  }
+
+  semesters: Semester[] = [
+    { name: 'Semestre S5' },
+    { name: 'Semestre S6' },
+    { name: 'Semestre S7' },
+    { name: 'Semestre S8' },
+    { name: 'Semestre S9' },
+  ];
 }

@@ -8,9 +8,8 @@ describe('DeleteNotePopupComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DeleteNotePopupComponent ]
-    })
-    .compileComponents();
+      declarations: [DeleteNotePopupComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(DeleteNotePopupComponent);
     component = fixture.componentInstance;

@@ -2,12 +2,14 @@
   <h2 mat-dialog-title>Ajout d'une entreprise</h2>
 </div>
 <div mat-dialog-content class="dialog-content">
-
   <div class="div-input">
     <h3>Raison sociale de l’entreprise</h3>
     <mat-form-field class="full-width" appearance="fill">
       <input [(ngModel)]="register.last_name" type="text" matInput />
-      <mat-hint>Il s’agit de la dénomination juridique de la société et non sa dénomination commerciale.</mat-hint>
+      <mat-hint
+        >Il s’agit de la dénomination juridique de la société et non sa
+        dénomination commerciale.</mat-hint
+      >
     </mat-form-field>
   </div>
 
@@ -31,8 +33,11 @@
     <h3>Code et Libellé CPNE - Commission paritaire nationale de l’emploi</h3>
     <mat-form-field class="full-width" appearance="fill">
       <input [(ngModel)]="register.email" type="email" matInput />
-      <mat-hint>Sollicités dans le cadre de la prise en charge par l'OPCO (barème France Compétences).
-        Pour les entreprises du secteur public, noter "Secteur public</mat-hint>
+      <mat-hint
+        >Sollicités dans le cadre de la prise en charge par l'OPCO (barème
+        France Compétences). Pour les entreprises du secteur public, noter
+        "Secteur public</mat-hint
+      >
     </mat-form-field>
   </div>
 
@@ -40,8 +45,11 @@
     <h3>Cide IDCC</h3>
     <mat-form-field class="full-width" appearance="fill">
       <input [(ngModel)]="register.email" type="email" matInput />
-      <mat-hint>Sollicité dans le cadre de la prise en charge par l'OPCO (barème France Compétences).
-        Pour les entreprises du secteur public, noter le nom et la localité du CNFPT de rattachement</mat-hint>
+      <mat-hint
+        >Sollicité dans le cadre de la prise en charge par l'OPCO (barème France
+        Compétences). Pour les entreprises du secteur public, noter le nom et la
+        localité du CNFPT de rattachement</mat-hint
+      >
     </mat-form-field>
   </div>
 
@@ -49,8 +57,10 @@
     <h3>Convention Collective</h3>
     <mat-form-field class="full-width" appearance="fill">
       <input [(ngModel)]="register.email" type="email" matInput />
-      <mat-hint>ex : CC des industries métallurgiques, mécaniques, électriques, électroniques connexes et
-        similaires du Maine-et-Loire</mat-hint>
+      <mat-hint
+        >ex : CC des industries métallurgiques, mécaniques, électriques,
+        électroniques connexes et similaires du Maine-et-Loire</mat-hint
+      >
     </mat-form-field>
   </div>
 
@@ -58,16 +68,17 @@
     <h3>Code NAF/APE</h3>
     <mat-form-field class="full-width" appearance="fill">
       <input [(ngModel)]="register.email" type="email" matInput />
-      <mat-hint>ex : CC des industries métallurgiques, mécaniques, électriques, électroniques connexes et
-        similaires du Maine-et-Loire</mat-hint>
+      <mat-hint
+        >ex : CC des industries métallurgiques, mécaniques, électriques,
+        électroniques connexes et similaires du Maine-et-Loire</mat-hint
+      >
     </mat-form-field>
   </div>
 
   <div class="div-input">
     <h3>Secteur activité principale</h3>
     <mat-form-field class="full-width" appearance="fill">
-      <mat-label>ex : Fabrication d'équipements de communication
-      </mat-label>
+      <mat-label>ex : Fabrication d'équipements de communication </mat-label>
       <input [(ngModel)]="register.email" type="email" matInput />
     </mat-form-field>
   </div>
@@ -92,7 +103,10 @@
     <h3>Adresse (Adresse - CP - Ville)</h3>
     <mat-form-field class="full-width" appearance="fill">
       <input [(ngModel)]="register.email" type="email" matInput />
-      <mat-hint>Merci de renseigner ici l'adresse de l'entreprise signataire de la convention.</mat-hint>
+      <mat-hint
+        >Merci de renseigner ici l'adresse de l'entreprise signataire de la
+        convention.</mat-hint
+      >
     </mat-form-field>
   </div>
 
@@ -100,8 +114,11 @@
     <h3>Lieu de formation (Raison sociale)</h3>
     <mat-form-field class="full-width" appearance="fill">
       <input [(ngModel)]="register.email" type="email" matInput />
-      <mat-hint>Merci de renseigner, si elle est différente de celle renseignée ci-dessus, la raison sociale du lieu
-        d'exécution du contrat d'apprentissage.</mat-hint>
+      <mat-hint
+        >Merci de renseigner, si elle est différente de celle renseignée
+        ci-dessus, la raison sociale du lieu d'exécution du contrat
+        d'apprentissage.</mat-hint
+      >
     </mat-form-field>
   </div>
 
@@ -109,17 +126,22 @@
     <h3>Lieu de formation (SIRET)</h3>
     <mat-form-field class="full-width" appearance="fill">
       <input [(ngModel)]="register.email" type="email" matInput />
-      <mat-hint>Merci de renseigner, s'il est différent de celui renseigné ci-dessus, le n° de SIRET du lieu
-        d'exécution du contrat d'apprentissage.</mat-hint>
+      <mat-hint
+        >Merci de renseigner, s'il est différent de celui renseigné ci-dessus,
+        le n° de SIRET du lieu d'exécution du contrat d'apprentissage.</mat-hint
+      >
     </mat-form-field>
   </div>
 
   <div class="div-input">
-    <h3> Lieu de formation (Adresse - CP- Ville)</h3>
+    <h3>Lieu de formation (Adresse - CP- Ville)</h3>
     <mat-form-field class="full-width" appearance="fill">
       <input [(ngModel)]="register.email" type="email" matInput />
-      <mat-hint>Merci de renseigner, si elle est différente de celle renseignée ci-dessus, l'adresse COMPLÈTE du
-        lieu d'exécution du contrat d'apprentissage.</mat-hint>
+      <mat-hint
+        >Merci de renseigner, si elle est différente de celle renseignée
+        ci-dessus, l'adresse COMPLÈTE du lieu d'exécution du contrat
+        d'apprentissage.</mat-hint
+      >
     </mat-form-field>
   </div>
 
@@ -127,9 +149,12 @@
     <h3>OPCO (Nom - Raison sociale)</h3>
     <mat-form-field class="full-width" appearance="fill">
       <input [(ngModel)]="register.email" type="email" matInput />
-      <mat-hint>Il s’agit de votre opérateur de compétences. Merci de bien vouloir indiquer ses coordonnées
-        complètes, ici le NOM - RAISON SOCIALE.
-        Pour les entreprises du secteur public : CNFPT (NOM - RAISON SOCIALE)</mat-hint>
+      <mat-hint
+        >Il s’agit de votre opérateur de compétences. Merci de bien vouloir
+        indiquer ses coordonnées complètes, ici le NOM - RAISON SOCIALE. Pour
+        les entreprises du secteur public : CNFPT (NOM - RAISON
+        SOCIALE)</mat-hint
+      >
     </mat-form-field>
   </div>
 
@@ -137,9 +162,11 @@
     <h3>OPCO (SIRET)</h3>
     <mat-form-field class="full-width" appearance="fill">
       <input [(ngModel)]="register.email" type="email" matInput />
-      <mat-hint>Il s’agit de votre opérateur de compétences. Merci de bien vouloir indiquer ses coordonnées
-        complètes, ici le SIRET.
-        Pour les entreprises du secteur public : CNFPT (SIRET) :</mat-hint>
+      <mat-hint
+        >Il s’agit de votre opérateur de compétences. Merci de bien vouloir
+        indiquer ses coordonnées complètes, ici le SIRET. Pour les entreprises
+        du secteur public : CNFPT (SIRET) :</mat-hint
+      >
     </mat-form-field>
   </div>
 
@@ -147,9 +174,11 @@
     <h3>OPCO (Adresse - CP- Ville)</h3>
     <mat-form-field class="full-width" appearance="fill">
       <input [(ngModel)]="register.email" type="email" matInput />
-      <mat-hint>Il s’agit de votre opérateur de compétences. Merci de bien vouloir indiquer ses coordonnées
-        complètes, ici l'ADRESSE - CP- VILLE.
-        Pour les entreprises du secteur public : CNFPT (ADRESSE - CP - VILLE)</mat-hint>
+      <mat-hint
+        >Il s’agit de votre opérateur de compétences. Merci de bien vouloir
+        indiquer ses coordonnées complètes, ici l'ADRESSE - CP- VILLE. Pour les
+        entreprises du secteur public : CNFPT (ADRESSE - CP - VILLE)</mat-hint
+      >
     </mat-form-field>
   </div>
 
@@ -157,9 +186,11 @@
     <h3>OPCO (Téléphone)</h3>
     <mat-form-field class="full-width" appearance="fill">
       <input [(ngModel)]="register.email" type="email" matInput />
-      <mat-hint>Il s’agit de votre opérateur de compétences. Merci de bien vouloir indiquer ses coordonnées
-        complètes, ici le TÉLÉPHONE.
-        Pour les entreprises du secteur public : CNFPT (TÉLÉPHONE) :</mat-hint>
+      <mat-hint
+        >Il s’agit de votre opérateur de compétences. Merci de bien vouloir
+        indiquer ses coordonnées complètes, ici le TÉLÉPHONE. Pour les
+        entreprises du secteur public : CNFPT (TÉLÉPHONE) :</mat-hint
+      >
     </mat-form-field>
   </div>
 
@@ -167,14 +198,18 @@
     <h3>OPCO (E-Mail)</h3>
     <mat-form-field class="full-width" appearance="fill">
       <input [(ngModel)]="register.email" type="email" matInput />
-      <mat-hint>Il s’agit de votre opérateur de compétences. Merci de bien vouloir indiquer ses coordonnées
-        complètes, ici l'E-MAIL.
-        Pour les entreprises du secteur public : CNFPT (E-MAIL) :</mat-hint>
+      <mat-hint
+        >Il s’agit de votre opérateur de compétences. Merci de bien vouloir
+        indiquer ses coordonnées complètes, ici l'E-MAIL. Pour les entreprises
+        du secteur public : CNFPT (E-MAIL) :</mat-hint
+      >
     </mat-form-field>
   </div>
 </div>
 <mat-divider></mat-divider>
 <div mat-dialog-actions align="end">
-  <button mat-button class="green bold" (click)="addCompany(register)">AJOUTER</button>
+  <button mat-button class="green bold" (click)="addCompany(register)">
+    AJOUTER
+  </button>
   <button mat-button class="red bold" (click)="closeDialog()">ANNULER</button>
 </div>

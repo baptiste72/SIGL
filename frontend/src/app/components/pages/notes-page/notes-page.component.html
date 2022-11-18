@@ -14,37 +14,58 @@
 
       <mat-card-content class="note-page-content">
         <div class="tree-div">
-          <button class="btn_primary bg-green" mat-button (click)="openDialog()">AJOUTER UNE NOTE</button>
+          <button
+            class="btn_primary bg-green"
+            mat-button
+            (click)="openDialog(note)"
+          >
+            AJOUTER UNE NOTE
+          </button>
           <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
             <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
-              <button mat-icon-button ></button>
-              {{node.name}}
+              <button mat-icon-button></button>
+              {{ node.name }}
             </mat-tree-node>
-            <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
-              <button mat-icon-button matTreeNodeToggle
-                      [attr.aria-label]="'Toggle ' + node.id">
+            <mat-tree-node
+              *matTreeNodeDef="let node; when: hasChild"
+              matTreeNodePadding
+            >
+              <button
+                mat-icon-button
+                matTreeNodeToggle
+                [attr.aria-label]="'Toggle ' + node.id"
+              >
                 <mat-icon class="mat-icon-rtl-mirror">
-                  {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                  {{
+                    treeControl.isExpanded(node)
+                      ? "expand_more"
+                      : "chevron_right"
+                  }}
                 </mat-icon>
                 <button>
-                  {{node.name}}
+                  {{ node.name }}
                 </button>
               </button>
             </mat-tree-node>
-            <mat-tree-node *matTreeNodeDef="let node;when: hasNoContent" matTreeNodePadding>
+            <mat-tree-node
+              *matTreeNodeDef="let node; when: hasNoContent"
+              matTreeNodePadding
+            >
               <button mat-button (click)="getNote(node.id)">
-                {{node.name}}
+                {{ node.name }}
               </button>
             </mat-tree-node>
           </mat-tree>
         </div>
         <div class="note-card-div">
           <mat-card class="note-card">
-            <mat-card-title>{{note.title}}</mat-card-title>
-            <mat-card-content >
-              <div *ngIf="isAvailable"> Du {{ note.dateStart | date:'shortDate' }} au {{ note.dateEnd | date:'shortDate' }}
-                <br>
-                <br>
+            <mat-card-title>{{ note.title }}</mat-card-title>
+            <mat-card-content>
+              <div *ngIf="isAvailable">
+                Du {{ note.dateStart | date: "shortDate" }} au
+                {{ note.dateEnd | date: "shortDate" }}
+                <br />
+                <br />
               </div>
               <span style="white-space: pre-line">{{ note.text }}</span>
             </mat-card-content>
@@ -52,8 +73,22 @@
               <span style="white-space: pre-line">Sélectionner une note</span>
             </mat-card-content>
             <mat-card-actions class="note-card-actions">
-              <button mat-icon-button *ngIf="isAvailable" class="btn-modify-note green"(click)="openModifyDialog()"><mat-icon>edit</mat-icon>MODIFIER</button>
-              <button mat-icon-button *ngIf="isAvailable" class="btn-delete-note red" (click)="openDeleteDialog()"><mat-icon>close</mat-icon>SUPPRIMER</button>
+              <button
+                mat-icon-button
+                *ngIf="isAvailable"
+                class="btn-modify-note green"
+                (click)="openModifyDialog()"
+              >
+                <mat-icon>edit</mat-icon>MODIFIER
+              </button>
+              <button
+                mat-icon-button
+                *ngIf="isAvailable"
+                class="btn-delete-note red"
+                (click)="openDeleteDialog()"
+              >
+                <mat-icon>close</mat-icon>SUPPRIMER
+              </button>
             </mat-card-actions>
           </mat-card>
         </div>
@@ -61,4 +96,3 @@
     </mat-card>
   </div>
 </app-navigation>
-

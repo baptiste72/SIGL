@@ -8,9 +8,8 @@ describe('AddCompanyPopupComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AddCompanyPopupComponent ]
-    })
-    .compileComponents();
+      declarations: [AddCompanyPopupComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(AddCompanyPopupComponent);
     component = fixture.componentInstance;
