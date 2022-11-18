@@ -8,7 +8,6 @@ import { User } from '../../models/User';
   providedIn: 'root'
 })
 export class AuthService {
-
   private urlPrefix = "auth";
 
   constructor(private http: HttpClient) { }

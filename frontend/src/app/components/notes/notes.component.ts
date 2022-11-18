@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 export interface Section {
   name: string;
@@ -10,12 +10,9 @@ export interface Section {
   templateUrl: './notes.component.html',
   styleUrls: ['./notes.component.scss']
 })
-export class NotesComponent implements OnInit {
+export class NotesComponent {
 
   constructor() { }
-
-  ngOnInit(): void {
-  }
 
   notes: Section[] = [
     { name: 'Période 15 au 27 mai', link:"./notes" },

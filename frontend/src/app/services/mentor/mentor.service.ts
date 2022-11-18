@@ -13,6 +13,5 @@ export class MentorService {
 
   public getMentor(): Observable<any> {
     return this.http.get<any>(`${environment.apiUrl}/${this.urlPrefix}/mentors`);
-
   }
 }

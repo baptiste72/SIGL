@@ -1,12 +1,12 @@
 import { AfterViewInit, Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { AddUserPopupComponent } from '../../pop-up/add-user-popup/add-user-popup.component';
+import { AddUserPopupComponent } from '../../pop-up/user/add-user-popup/add-user-popup.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AddYearGroupPopupComponent } from '../../pop-up/year-group/add-year-group-popup/add-year-group-popup.component';
 import { UpdateYearGroupPopupComponent } from '../../pop-up/year-group/update-year-group-popup/update-year-group-popup/update-year-group-popup.component';
-import { AddTeamPopupComponent } from '../../pop-up/add-team-popup/add-team-popup.component';
-import { AddCompanyPopupComponent } from '../../pop-up/add-company-popup/add-company-popup.component';
+import { AddTeamPopupComponent } from '../../pop-up/tutor-team/add-team-popup/add-team-popup.component';
+import { AddCompanyPopupComponent } from '../../pop-up/company/add-company-popup/add-company-popup.component';
 import { AddSemesterPopupComponent } from '../../pop-up/semester/add-semester-popup/add-semester-popup.component';
 import { YearGroupService } from 'src/app/services/year-group/year-group.service';
 import { SemesterService } from 'src/app/services/semester/semester.service';
@@ -23,27 +23,26 @@ import { TutorTeam } from 'src/app/models/TutorTeam';
 })
 export class ConfigurationComponent implements AfterViewInit, OnInit {
   register: any;
+
   displayedColumnsUsers: string[] = ['name', 'surname', 'role', 'update'];
   dataSourceUsers = new MatTableDataSource<User>(USERS_DATA);
+  @ViewChild('userPaginator') usersPaginator :any = MatPaginator;
 
   displayedColumnsTeams: string[] = ['apprentice', 'tutor', 'mentor', 'update'];
   dataSourceTutorTeams: any;
+  @ViewChild('tutorTeamPaginator') tutorTeamsPaginator :any = MatPaginator;
 
   displayedColumnsCompanies: string[] = ['name', 'companySiret', 'nbEmployees', 'codeCpne'];
   dataSourceCompanies = new MatTableDataSource<Company>(COMPANIES_DATA);
+  @ViewChild('companiesPaginator') companiesPaginator :any = MatPaginator;
 
   displayedColumnsYearGroups: string[] = ['name', 'beginDate', 'update'];
   dataSourceYearGroups: any;
+  @ViewChild('yearGroupPaginator') yearGroupPaginator :any = MatPaginator;
 
   displayedColumnsSemesters: string[] = ['name', 'beginDate', 'endDate', 'update'];
   dataSourceSemesters: any;
-
-
-  @ViewChild(MatPaginator) usersPaginator :any = MatPaginator;
-  @ViewChild(MatPaginator) tutorTeamsPaginator :any = MatPaginator;
-  @ViewChild(MatPaginator) companiesPaginator :any = MatPaginator;
-  @ViewChild(MatPaginator) yearGroupPaginator :any = MatPaginator;
-  @ViewChild(MatPaginator) semestersPaginator :any = MatPaginator;
+  @ViewChild('semestersPaginator') semestersPaginator :any = MatPaginator;
 
   ngOnInit(): void {
     this.getYearGroup();
@@ -59,7 +58,7 @@ export class ConfigurationComponent implements AfterViewInit, OnInit {
     this.dataSourceTutorTeams.paginator = this.tutorTeamsPaginator;
     this.dataSourceCompanies.paginator = this.companiesPaginator;
     this.dataSourceYearGroups.paginator = this.yearGroupPaginator;
-    this.dataSourceSemesters.paginator = this.yearGroupPaginator;
+    this.dataSourceSemesters.paginator = this.semestersPaginator;
   }
 
   constructor(public dialog: MatDialog,
@@ -74,23 +73,11 @@ export class ConfigurationComponent implements AfterViewInit, OnInit {
   // PROMOTIONS
   private getYearGroup() {
     this.yearGroupService.getYearGroup().subscribe({
-      next: (promotions) => {
-        this.dataSourceYearGroups = new MatTableDataSource<YearGroup>(promotions);
+      next: (yearGroups) => {
+        this.dataSourceYearGroups = new MatTableDataSource<YearGroup>(yearGroups);
       },
       error: (err) => {
         this._snackBar.open('❌ Une erreur est survenue lors de la récupération des semestres', 'Ok', { duration: 2000, });
-      },
-    });
-  }
-
-  private getTutorTeam() {
-    this.tutorTeamService.getTutorsTeam().subscribe({
-      next: (tutorTeamData) => {
-        this.dataSourceTutorTeams = new MatTableDataSource<TutorTeam>(tutorTeamData);
-      },
-      error: (err) => {
-        this._snackBar.open(
-          '❌ Une erreur est survenue lors de la récupération des équipes pédagogiques', 'Ok', { duration: 2000, });
       },
     });
   }
@@ -191,6 +178,18 @@ export class ConfigurationComponent implements AfterViewInit, OnInit {
   }
 
   // EQUIPES PEDAGOGIQUES
+  private getTutorTeam() {
+    this.tutorTeamService.getTutorsTeam().subscribe({
+      next: (tutorTeamData) => {
+        this.dataSourceTutorTeams = new MatTableDataSource<TutorTeam>(tutorTeamData);
+      },
+      error: (err) => {
+        this._snackBar.open(
+          '❌ Une erreur est survenue lors de la récupération des équipes pédagogiques', 'Ok', { duration: 2000, });
+      },
+    });
+  }
+
   openTutorTeamPopUp() {
     this.dialog.open(AddTeamPopupComponent,
       {

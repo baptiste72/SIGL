@@ -3,11 +3,7 @@
     <mat-card class="documents-page-card">
       <mat-card-header class="documents-page-card-header">
         <mat-card-title class="documents-page-card-title">
-          <mat-icon
-            aria-hidden="false"
-            aria-label="documents icon"
-            fontIcon="description"
-          ></mat-icon>
+          <mat-icon aria-hidden="false" aria-label="documents icon" fontIcon="description"></mat-icon>
           DOCUMENTS PÉDAGOGIQUES
         </mat-card-title>
       </mat-card-header>
@@ -24,8 +20,7 @@
             <!-- Modify time Column -->
             <ng-container matColumnDef="modify-time">
               <th mat-header-cell *matHeaderCellDef>Modifié</th>
-              <td mat-cell *matCellDef="let element">
-                {{ element.modifyTime | date }}
+              <td mat-cell *matCellDef="let element">{{ element.modifyTime | date }}
               </td>
             </ng-container>
 
