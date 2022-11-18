@@ -1,7 +1,7 @@
 from django.db import models
 from authentication.models import User
-from base.semester import Semester
-
+from django.utils import timezone
+from base.models import Semester
 
 class Interview(models.Model):
     # table des entretien
@@ -23,50 +23,45 @@ class Deadline(models.Model):
     #list stand by après les tests
     #semester = models.CharField(max_length=10, choices=[(tag, tag.value) for tag in Semester])
 
-class TeacherInCharge(User):
-    # table des tuteurs pédagogiques
-    def __unicode__(self):
-        return self.name
-
-
 class FormationCenter(models.Model):
     # table des centres de formation
     worded = models.CharField(max_length=200)
     address = models.CharField(max_length=500)
-    teacherInCharge = models.ForeignKey(
-        TeacherInCharge, related_name="formationCenter", on_delete=models.CASCADE, null=True)
 
-
-class Mentor(User):
- # table des maîtres d'apprentissage
+class Tutor(User):
+    # table des tuteurs pédagogiques
+    formationCenter = models.ForeignKey(
+        FormationCenter, related_name="tutor", on_delete=models.CASCADE, null=True)
     def __unicode__(self):
         return self.name
-
-
+       
 class Company(models.Model):
     # table des entreprises
     worded = models.CharField(max_length=200)
     address = models.CharField(max_length=500)
-    mentor = models.ForeignKey(
-        Mentor, related_name="company", on_delete=models.CASCADE, null=True)
 
     def __unicode__(self):
         return self.name
 
+class Mentor(User):
+ # table des maîtres d'apprentissage
+    company = models.ForeignKey(
+        Company, related_name="mentor", on_delete=models.CASCADE, null=True)
+    
+    def __unicode__(self):
+        return self.name
 
-class Trainee(User):
+class Apprentice(User):
     # table des apprentis
     def __unicode__(self):
         return self.name
-
 
 class YearGroup(models.Model):
     # tables des promotions
     worded = models.CharField(max_length=200)
     semester = models.CharField(max_length=10, choices=[
                                 (tag, tag.value) for tag in Semester])
-    trainee = models.ForeignKey(
-        Trainee, related_name="yearGroup", on_delete=models.CASCADE, null=True)
+
     
 class Note(models.Model):
     title = models.CharField(max_length=400)
@@ -76,3 +71,32 @@ class Note(models.Model):
     dateEnd = models.DateTimeField()
     timestamp = models.DateTimeField(auto_now_add=True)
 
+    beginDate = models.DateTimeField(default=timezone.now)
+    
+    def __str__(self):
+        return self.name
+
+class Semester(models.Model):
+    # tables des semestres
+    name = models.CharField(max_length=200)
+    beginDate = models.DateTimeField(default=timezone.now)
+    endDate = models.DateTimeField(default=timezone.now)
+    yearGroup = models.ForeignKey(
+        YearGroup, related_name="semester", on_delete=models.CASCADE, null=True)
+    
+    def __str__(self):
+        return self.name
+    apprentice = models.ForeignKey(
+        Apprentice, related_name="yearGroup", on_delete=models.CASCADE, null=True)
+
+class TutorTeam(models.Model):
+    # table équipes tutorales
+    mentor = models.ForeignKey(
+        Mentor, related_name="tutorTeam", on_delete=models.CASCADE, null=True)
+    tutor = models.ForeignKey(
+        Tutor, related_name="tutorTeam", on_delete=models.CASCADE, null=True)
+    apprentice = models.ForeignKey(
+        Apprentice, related_name="tutorTeam", on_delete=models.CASCADE, null=True)
+    
+    def __unicode__(self):
+        return self.name

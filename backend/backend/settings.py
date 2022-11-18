@@ -54,7 +54,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware'
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -97,7 +97,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'db_sigl',
         'USER': 'postgres',
-        'PASSWORD': 'secret123456',
+        'PASSWORD': 'password',
         'HOST': 'localhost',
     }
 }
@@ -147,16 +147,19 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'authentication.User'
 
-CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:4200',
 )
-CORS_ALLOW_METHODS = (
-        'GET',
-        'POST',
-        'PUT',
-        'PATCH',
-        'DELETE',
-        'OPTIONS'
-    )
+
+MICROSOFT_GRAPH = {
+    'CLIENT_ID': '854f7701-37b3-4832-95cb-3cafbb2daa8b',
+    'CLIENT_SECRET': '_tb8Q~a4QvopZs_EwbFITPftfTKMzIorRvUaYcFE',
+    'TENANT_ID': '4d7ad159-1265-437a-b9f6-2946247d5bf9',
+    'AUTH_TENANT': 'common',
+    'GRAPH_USER_SCOPES': 'User.Read Mail.Read Mail.Send',
+    'WEB_FORMATTED_GRAPH_USER_SCOPES': 'User.Read+Mail.Read+Mail.Send',
+    'REDIRECT': 'http://localhost:4200/'
+}
+
