@@ -3,7 +3,7 @@
 ## Environnement Docker
 
 ### Structure
-
+```
 docker
 ├── dev
 │   ├── back-dev
@@ -25,7 +25,7 @@ docker
 │   └── nginx
 │       └── projet-sigl.conf
 └── pull_images.sh
-
+```
 Le répertoire Docker est composé d'un environnement de développement et d'un environnement de production.
 L'environnement de développement fonctionne sur vos postes alors que celui de production fonctionne sur le serveur [projet-sigl.fr](https://projet-sigl.fr).<br>
 
@@ -47,8 +47,7 @@ Le script `pull_images.sh` permet de récupérer les images Docker présentes da
 
 ### Mise en place
 
-Afin de pouvoir déployer l'application dans un environnement Docker en local, il est nécessaire de récupérer les images présentes dans notre [registry](https://gitlab.com/baptiste72/sigl/container_registry).<br>
-Pour cela :
+Afin de déployer l'application dans un environnement Docker en local, il est nécessaire de récupérer les images présentes dans notre [registry](https://gitlab.com/baptiste72/sigl/container_registry). Pour cela :
 - [x] Avoir Git Bash d'installer sur sa machine
 - [x] Se placer dans le terminal de Visual Studio en mode Bash
 - [x] Lancer le script `pull_images.sh` :
@@ -63,32 +62,32 @@ Il ne reste plus qu'à déclarer un fichier `.env` contenant les identifiants de
 Vous pouvez maintenant utiliser les différentes commandes docker et docker compose pour interagir avec l'environnement.
 
 Pour démarrer tous les conteneurs :
-```
+```docker
 docker compose -f docker/dev/docker-compose.yml up -d
 ```
 
 Pour observer l'état des conteneurs :
-```
+```docker
 docker ps -a
 ```
 
 Pour se connecter à un conteneur :
-```
+```docker
 docker exec -it container_name sh
 ```
 
 Pour exécuter une commande dans un conteneur :
-```
+```docker
 docker exec container_name command
 ```
 
 Pour afficher les logs des conteneurs :
-```
+```docker
 docker compose logs
 ```
 
 Pour arrêter et supprimer les conteneurs :
-```
+```docker
 docker compose -f docker/dev/docker-compose.yml down
 ```
 
@@ -104,16 +103,16 @@ Une fois que vous avez démarré tous les conteneurs, vous pouvez vous rendre su
 Connectez-vous avec `admin` en tant qu'idendtifiant et mot de passe.
 
 Il faut maintenant déclarer un projet dans Sonarqube :
-* Entrez le nom du projet : sigl
-* Choisissez other pour le langage du projet
-* Sélectionnez Linux pour l'OS
-* Entrez la clé du projet : sigl
+* Entrez le nom du projet : `sigl`
+* Choisissez `other` pour le langage du projet
+* Sélectionnez `Linux` pour l'OS
+* Entrez la clé du projet : `sigl`
 
 Sonarqube est configuré, il n'y a plus qu'à lancer SonarScanner pour effectuer une analyse statique du code.
 Les résultats du scan seront visibles depuis Sonarqube.
 
 Pour scanner le code coté front :
-```
+```docker
 docker run --rm \
   -v frontend:/usr/src/frontend \
   dev-sonarscanner \
@@ -126,7 +125,7 @@ docker run --rm \
 ```
 
 Pour scanner le code coté back :
-```
+```docker
 docker run --rm \
   -v backend:/usr/src/backend \
   dev-sonarscanner \
@@ -137,3 +136,7 @@ docker run --rm \
   -X
 ```
 > Remplacer les variables ${ip} et ${token} par l'adresse IP de votre machine et le token généré lors de la création du projet Sonarqube.
+
+## Intégration continue
+
+L'intégration continue ou CI est un processus d'automatisation exécuté pour chaque **push** et à la création de **merge request** grâce au fichier `.gitlab-ci.yml`. Son rôle est de déployer l'application dans un environnement Docker similaire à notre environnement de développement pour y effectuer un ensemble de traitements. L'objectif est de s'assurer que l'application est fonctionnelle. Afin de valider une merge request, l'intégration continue doit pouvoir valider chacun des stages qui lui sont assignés : `lint`, `build`, `test`, `deploy`.

@@ -20,7 +20,6 @@ lint-angular:
   <<: *install-node-modules
   script:
     - npm run lint
-  allow_failure: true
 
 lint-django:
   stage: lint
@@ -31,7 +30,6 @@ lint-django:
     - cd backend
   script:
     - pylint *
-  allow_failure: true
 
 build-angular:
   stage: build
