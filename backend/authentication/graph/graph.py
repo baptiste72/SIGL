@@ -20,7 +20,7 @@ class Graph:
         # Choses à faire : 
         # 1. Demander un code d'autorisation
         #   Redirige vers une page web : 
-        web_url = "https://login.microsoftonline.com/organizations/oauth2/v2.0/authorize?client_id=" + self.settings['CLIENT_ID'] + "&response_type=code&redirect_uri=http%3A%2F%2Flocalhost:4200/&response_mode=query&scope=" + self.settings['WEB_FORMATTED_GRAPH_USER_SCOPES'] + "&state=12345"
+        web_url = "https://login.microsoftonline.com/organizations/oauth2/v2.0/authorize?client_id=" + self.settings['CLIENT_ID'] + "&response_type=code&redirect_uri=http%3A%2F%2Flocalhost/&response_mode=query&scope=" + self.settings['WEB_FORMATTED_GRAPH_USER_SCOPES'] + "&state=12345"
 
         print(web_url)
 
