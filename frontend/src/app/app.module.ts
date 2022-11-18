@@ -21,7 +21,6 @@ import { UpdateYearGroupPopupComponent } from './components/pop-up/year-group/up
 import { UpdateSemesterPopupComponent } from './components/pop-up/semester/update-semester-popup/update-semester-popup/update-semester-popup.component';
 import { EventsPageComponent } from './components/pages/events-page/events-page.component';
 import { AddEventPopupComponent } from './components/pop-up/add-event-popup/add-event-popup.component';
-import { DeadlineTableComponent } from './components/deadline-table/deadline-table.component';
 import { AddDeadlinePopupComponent } from './components/pop-up/add-deadline-popup/add-deadline-popup.component';
 import { AddCompanyPopupComponent } from './components/pop-up/company/add-company-popup/add-company-popup.component';
 import { AddSemesterPopupComponent } from './components/pop-up/semester/add-semester-popup/add-semester-popup.component';
@@ -75,7 +74,6 @@ import { AuthInterceptor } from './helpers/auth-interceptor';
     AddTeamPopupComponent,
     EventsPageComponent,
     AddEventPopupComponent,
-    DeadlineTableComponent,
     AddDeadlinePopupComponent,
     AddCompanyPopupComponent,
     AddSemesterPopupComponent,

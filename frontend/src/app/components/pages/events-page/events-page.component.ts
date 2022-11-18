@@ -6,7 +6,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { AddDeadlinePopupComponent } from '../../pop-up/add-deadline-popup/add-deadline-popup.component';
 import { DeadlineService } from 'src/app/services/deadline/deadline.service'
 
-
 @Component({
   templateUrl: './events-page.component.html',
   styleUrls: ['./events-page.component.scss']
@@ -14,8 +13,11 @@ import { DeadlineService } from 'src/app/services/deadline/deadline.service'
 export class EventsPageComponent implements OnInit {
   interviews: any;
   dialogRef: any;
+
   constructor(public dialog: MatDialog,
-    private interviewService: InterviewService, private deadlineService: DeadlineService,private _snackBar: MatSnackBar,
+    private interviewService: InterviewService,
+    private deadlineService: DeadlineService,
+    private _snackBar: MatSnackBar,
     ) { }
 
   ngOnInit(): void {

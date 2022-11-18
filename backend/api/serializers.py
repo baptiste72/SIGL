@@ -13,7 +13,8 @@ class MentorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Mentor
         fields = ('id', 'last_name', 'first_name',
-                  'password', 'email', 'company', 'tutorTeam')   
+                  'password', 'email', 'company', 'tutorTeam')
+           
 class CompanySerializer(serializers.ModelSerializer):
     
     mentor = MentorSerializer(many=True)
@@ -55,7 +56,6 @@ class ApprenticeSerializer(serializers.ModelSerializer):
         model = Apprentice
         fields = ('id', 'last_name', 'first_name',
                   'password', 'email', 'yearGroup', 'tutorTeam')
-
 
 class InterviewSerializer(serializers.ModelSerializer):
     class Meta:
