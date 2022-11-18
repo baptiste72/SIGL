@@ -16,9 +16,9 @@ const routes: Routes = [
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'new-password', component: NewPasswordComponent },
   { path: 'dashboard-apprentice', component: DashboardApprenticeComponent },
-  { path: 'profil', component: PersonalInformationsComponent },
+  { path: 'profile', component: PersonalInformationsComponent },
   { path: 'documents', component: DocumentsPageComponent },
-  { path: 'notes', component: NotesPageComponent },
+  { path: 'marks', component: NotesPageComponent },
   { path: 'configuration', component: ConfigurationComponent },
   { path: 'events', component: EventsPageComponent },
 ];

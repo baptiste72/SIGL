@@ -4,21 +4,23 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class InterviewService {
-private urlPrefix = "api/v1";
+  private urlPrefix = 'api/v1';
 
-constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
+  public getInterviews(): Observable<any> {
+    return this.http.get<any>(
+      `${environment.apiUrl}/${this.urlPrefix}/interviews`
+    );
+  }
 
-public getInterviews(): Observable<any> {
-    return this.http.get<any>(`${environment.apiUrl}/${this.urlPrefix}/interviews`);
-}
-   
-public addinterview(post: any): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/${this.urlPrefix}/add-interview`, post);
-
-}
-
+  public addinterview(post: any): Observable<any> {
+    return this.http.post<any>(
+      `${environment.apiUrl}/${this.urlPrefix}/add-interview`,
+      post
+    );
+  }
 }

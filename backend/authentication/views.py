@@ -1,11 +1,14 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed
+
+from .graph.auth_helper import get_sign_in_flow, get_token_from_code
+from .graph.graph_helper import *
+
 from .serializers import UserSerializer
 from .models import User
 import jwt
 import datetime
-
 
 class RegisterView(APIView):
     def post(self, request):
@@ -47,7 +50,7 @@ class LoginView(APIView):
 
 class UserView(APIView):
     def get(self, request):
-        token = request.COOKIES.get('jwt')
+        token = request.headers.get('Authorization')
 
         if not token:
             raise AuthenticationFailed('Unauthenticated!')
@@ -64,9 +67,22 @@ class UserView(APIView):
 
 class LogoutView(APIView):
     def post(self, request):
+        # FIXME: Code mort, voir s'il est pertinent de conserver une méthode logout côté Backend
         response = Response()
         response.delete_cookie('jwt')
         response.data = {
             'message': 'success'
         }
         return response
+
+class MicrosoftLogin(APIView):
+    def get(self, request):
+        flow = get_sign_in_flow()
+        return Response(flow)
+
+class MicrosoftGetUser(APIView):
+    def post(self, request):
+        result = get_token_from_code(request)
+        # Get the user's profile from graph_helper.py script
+        user = get_user(result['access_token']) 
+        return Response(user)

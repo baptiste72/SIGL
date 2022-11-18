@@ -6,7 +6,7 @@
     <h3>Rôle</h3>
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Choisissez un rôle</mat-label>
-      <mat-select required [(value)]="selectedRole">
+      <mat-select required [(ngModel)]="register.role">
         <mat-option *ngFor="let role of roles" [value]="role.name">
           {{ role.name }}
         </mat-option>
@@ -14,11 +14,11 @@
     </mat-form-field>
   </div>
 
-    <div class="div-input" *ngIf="selectedRole === 'Apprenti'">
+  <div class="div-input" *ngIf="register.role === 'Apprenti'">
     <h3>Promotion</h3>
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Choisissez une promotion</mat-label>
-      <mat-select required>
+      <mat-select required [(ngModel)]="register.promotion">
         <mat-option *ngFor="let promotion of promotions" [value]="promotion">
           {{ promotion.name }}
         </mat-option>
@@ -30,7 +30,8 @@
     <h3>Nom</h3>
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>RENAUD</mat-label>
-      <input [(ngModel)]="register.last_name" type="text" matInput />
+      <input type="text" required [(ngModel)]="register.last_name" matInput />
+      <mat-error> Nom requis</mat-error>
     </mat-form-field>
   </div>
 
@@ -38,7 +39,8 @@
     <h3>Prénom</h3>
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Mathilde</mat-label>
-      <input [(ngModel)]="register.first_name" type="text" matInput />
+      <input type="text" required [(ngModel)]="register.first_name" matInput />
+      <mat-error> Prénom requis</mat-error>
     </mat-form-field>
   </div>
 
@@ -46,7 +48,16 @@
     <h3>Mot de passe</h3>
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Mot de passe</mat-label>
-      <input [(ngModel)]="register.password" type="password" matInput />
+      <input
+        type="password"
+        required
+        [(ngModel)]="register.password"
+        matInput
+      />
+      <mat-error>
+        Minimum 8 caractères, 1 minuscule, 1 majuscule, 1 chiffre et 1 caractère
+        spécial</mat-error
+      >
     </mat-form-field>
   </div>
 
@@ -54,12 +65,16 @@
     <h3>Adresse email</h3>
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>mathilde.renaud@reseau.eseo.fr</mat-label>
-      <input [(ngModel)]="register.email" type="email" matInput />
+      <input type="email" required [(ngModel)]="register.email" matInput />
+      <mat-error> Adresse email requis</mat-error>
     </mat-form-field>
   </div>
 </div>
 <mat-divider></mat-divider>
+
 <div mat-dialog-actions align="end">
-  <button mat-button class="green bold" (click)="addUser(register)">AJOUTER</button>
+  <button mat-button class="green bold" (click)="addUser(register)">
+    AJOUTER
+  </button>
   <button mat-button class="red bold" (click)="closeDialog()">ANNULER</button>
 </div>

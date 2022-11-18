@@ -13,10 +13,10 @@
       </mat-card-header>
 
       <mat-card-content>
-       <button class="btn_primary bg-green" (click)="addEvent()">AJOUT</button>
-       <div class="container">
-        <table class="table table-striped">
-          <thead>
+        <button class="btn_primary bg-green" (click)="addEvent()">AJOUT</button>
+        <div class="container">
+          <table class="table table-striped">
+            <thead>
               <tr>
                 <th>Id</th>
                 <th>Name</th>
@@ -27,21 +27,21 @@
                 <th>guest</th>
                 <th>semester</th>
               </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let interviews of interviews">
-              <td>{{ interviews.id }}</td>
-              <td>{{ interviews.name }}</td>
-              <td>{{ interviews.date }}</td>
-              <td>{{ interviews.first_hour }}</td>
-              <td>{{ interviews.last_hour }}</td>
-              <td>{{ interviews.description }}</td>
-              <td>{{ interviews.guest }}</td>
-              <td>{{ interviews.semester }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              <tr *ngFor="let interviews of interviews">
+                <td>{{ interviews.id }}</td>
+                <td>{{ interviews.name }}</td>
+                <td>{{ interviews.date }}</td>
+                <td>{{ interviews.first_hour }}</td>
+                <td>{{ interviews.last_hour }}</td>
+                <td>{{ interviews.description }}</td>
+                <td>{{ interviews.guest }}</td>
+                <td>{{ interviews.semester }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </mat-card-content>
     </mat-card>
     <mat-card class="events-page-card">
@@ -52,11 +52,16 @@
             aria-label="events icon"
             fontIcon="calendar_month"
           ></mat-icon>
+<<<<<<< HEAD
           Echéance
+=======
+          Echéances
+>>>>>>> 7ac16b55fc0771e3060102cc011532bbd09a9b11
         </mat-card-title>
       </mat-card-header>
 
       <mat-card-content>
+<<<<<<< HEAD
        <button class="btn_primary bg-green" (click)="addDeadline()">AJOUT</button>
        <div class="container">
         <table class="table table-striped">
@@ -76,6 +81,12 @@
           </tbody>
         </table>
       </div>
+=======
+        <button class="btn_primary bg-green" (click)="addDeadline()">
+          AJOUT
+        </button>
+        <div class="container"></div>
+>>>>>>> 7ac16b55fc0771e3060102cc011532bbd09a9b11
       </mat-card-content>
     </mat-card>
   </div>

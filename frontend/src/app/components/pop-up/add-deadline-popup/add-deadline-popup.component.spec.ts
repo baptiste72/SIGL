@@ -8,9 +8,8 @@ describe('AddDeadlinePopupComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AddDeadlinePopupComponent ]
-    })
-    .compileComponents();
+      declarations: [AddDeadlinePopupComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(AddDeadlinePopupComponent);
     component = fixture.componentInstance;

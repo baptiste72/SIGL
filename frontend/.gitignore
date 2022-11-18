@@ -7,10 +7,11 @@
 /bazel-out
 
 # Node
-#/node_modules
+/node_modules
 npm-debug.log
 yarn-error.log
 package-lock.json
+frontend/node_modules/__ngcc_entry_points__.json
 
 # IDEs and editors
 .idea/
@@ -37,6 +38,7 @@ package-lock.json
 /libpeerconnection.log
 testem.log
 /typings
+package-lock.json
 
 # System files
 .DS_Store

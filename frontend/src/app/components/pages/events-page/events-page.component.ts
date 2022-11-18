@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogState } from '@angular/material/dialog';
 import { AddEventPopupComponent } from '../../pop-up/add-event-popup/add-event-popup.component';
-import {InterviewService} from 'src/app/services/interview/interview.service'
+import { InterviewService } from 'src/app/services/interview/interview.service'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AddDeadlinePopupComponent } from '../../pop-up/add-deadline-popup/add-deadline-popup.component';
 import {DeadlineService} from 'src/app/services/deadline/deadline.service'

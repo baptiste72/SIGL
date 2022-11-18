@@ -20,11 +20,12 @@
 }
 
 .notes-icons {
- color: $blue;
+  color: $blue;
 }
 
 .note-page-content {
   display: flex;
+  flex-wrap: wrap;
   padding: 10px 80px;
 }
 
@@ -33,11 +34,17 @@
 }
 
 .tree-div {
-  width: 30%;
+  width: 100%;
+  @include respond-to("medium") {
+    width: 30%;
+  }
 }
 
 .note-card-div {
-  width: 70%;
+  width: 100%;
+  @include respond-to("medium") {
+    width: 70%;
+  }
 }
 
 .btn-modify-note {

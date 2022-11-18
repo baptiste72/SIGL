@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { NoteService } from 'src/app/services/note/note.service';
 
 export interface Section {
   name: string;
@@ -8,21 +10,23 @@ export interface Section {
 @Component({
   selector: 'app-notes',
   templateUrl: './notes.component.html',
-  styleUrls: ['./notes.component.scss']
+  styleUrls: ['./notes.component.scss'],
 })
 export class NotesComponent implements OnInit {
-
-  constructor() { }
+  notes: any;
+  constructor(private router: Router, private noteService: NoteService) {}
 
   ngOnInit(): void {
+    this.getNotes();
   }
 
-  notes: Section[] = [
-    { name: 'Période 15 au 27 mai', link:"./notes" },
-    { name: 'Période 28 au 05 juin', link:"./notes" },
-    { name: 'Période 06 au 30 juin', link:"./notes" },
-    { name: 'Période 03 au 15 août', link:"./notes" },
-    { name: 'Période 16 au 27 août', link:"./notes" },
-    { name: 'Période 01 au 12 septembre', link:"./notes" },
-  ];
+  public getNotes() {
+    this.noteService.getNotes().subscribe((response) => {
+      this.notes = response;
+    });
+  }
+
+  public goToNote(noteId: number) {
+    this.router.navigate(['notes'], { state: { id: noteId } });
+  }
 }

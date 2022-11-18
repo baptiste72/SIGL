@@ -11,7 +11,13 @@
 
       "parser": "@typescript-eslint/parser",
       "parserOptions": {
+<<<<<<< HEAD
         "project": "frontend/tsconfig.json",
+=======
+        "project": [
+          "frontend/tsconfig.json"
+        ],
+>>>>>>> 7ac16b55fc0771e3060102cc011532bbd09a9b11
         "createDefaultProgram": true
       },
       "extends": [

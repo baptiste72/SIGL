@@ -1,10 +1,53 @@
 version: "3.9"
 services:
-  angular:
+  nginx:
     build:
       context: ./../..
-      dockerfile: ./docker/prod/front/Dockerfile
+      dockerfile: ./docker/prod/front-dev/Dockerfile
+    container_name: nginx
     ports:
       - "80:80"
-    container_name: angular
+      - "443:443"
+    volumes:
+      - ./certbot/www:/var/www/certbot/:ro
+      - ./certbot/conf/:/etc/nginx/ssl/:ro
     restart: always
+
+  django:
+    build:
+      context: ./../..
+      dockerfile: ./docker/dev/back-dev/Dockerfile
+    container_name: django
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./../../backend:/sigl
+    environment:
+      POSTGRES_NAME: ${DJANGO_DB}
+      POSTGRES_USER: ${DJANGO_USER}
+      POSTGRES_PASSWORD: ${DJANGO_PASSWORD}
+    depends_on:
+      - django-db
+    restart: always
+
+  django-db:
+    image: postgres:alpine
+    container_name: django-db
+    command: -p 5433
+    volumes:
+      - django_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: ${DJANGO_DB:?err}
+      POSTGRES_USER: ${DJANGO_USER:?err}
+      POSTGRES_PASSWORD: ${DJANGO_PASSWORD:?err}
+    restart: always
+
+  certbot:
+    image: certbot/certbot:latest
+    container_name: certbot
+    volumes:
+      - ./certbot/www/:/var/www/certbot/:rw
+      - ./certbot/conf/:/etc/letsencrypt/:rw
+
+volumes:
+  django_data:
