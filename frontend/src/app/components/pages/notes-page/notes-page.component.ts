@@ -9,6 +9,7 @@ import { DeleteNotePopupComponent } from '../../pop-up/delete-note-popup/delete-
 import { NoteService} from 'src/app/services/note/note.service'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ModifyNotePopupComponent } from '../../pop-up/modify-note-popup/modify-note-popup.component';
+import { ActivatedRoute, Router } from '@angular/router';
 interface Note {
   id: any;
   name: string;
@@ -61,15 +62,17 @@ export class NotesPageComponent  implements OnInit {
   hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
   hasNoContent = (_: number, node: ExampleFlatNode) => node.level === 1;
 
-constructor(public dialog: MatDialog, private noteService: NoteService ,private _snackBar: MatSnackBar) {
-  Object.keys(this.dataSource.data).forEach(x => {
+constructor(
+  private route: ActivatedRoute,
+  public dialog: MatDialog,
+  private noteService: NoteService,
+  private _snackBar: MatSnackBar) {
+    Object.keys(this.dataSource.data).forEach(x => {
     this.setParent(this.dataSource.data[x], null);
   });
 
   }
   ngOnInit(): void {
-    console.log(this.isAvailable)
-    this.getNotes();
     this.treeNotes();
     this.note = {
       title : 'Affichage de la Note Périodique',
@@ -77,7 +80,12 @@ constructor(public dialog: MatDialog, private noteService: NoteService ,private 
       id : '',
       email :''
     };
+    console.log(history.state);
+    this.route.data.subscribe(data => {
+      this.getNote(history.state["id"]);
+    });
   }
+
   setParent(data, parent) {
     data.parent = parent;
     if (data.children) {
