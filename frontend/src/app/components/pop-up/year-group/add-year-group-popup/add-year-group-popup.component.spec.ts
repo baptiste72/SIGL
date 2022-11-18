@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddPromotionPopupComponent } from './add-promotion-popup.component';
+import { AddYearGroupPopupComponent } from './add-year-group-popup.component';
 
 describe('AddPromotionPopupComponent', () => {
-  let component: AddPromotionPopupComponent;
-  let fixture: ComponentFixture<AddPromotionPopupComponent>;
+  let component: AddYearGroupPopupComponent;
+  let fixture: ComponentFixture<AddYearGroupPopupComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AddPromotionPopupComponent ]
+      declarations: [ AddYearGroupPopupComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AddPromotionPopupComponent);
+    fixture = TestBed.createComponent(AddYearGroupPopupComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

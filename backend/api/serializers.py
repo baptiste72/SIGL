@@ -48,7 +48,6 @@ class YearGroupSerializerDelete(serializers.ModelSerializer):
         fields = ('id',)
 
 class ApprenticeSerializer(serializers.ModelSerializer):
-
     yearGroup = YearGroupSerializer(many=True)
     tutorTeam = TutorTeamSerializer(many=True)
 
@@ -68,6 +67,28 @@ class DeadlineSerializer(serializers.ModelSerializer):
     class Meta:
         model = Deadline
         fields = ('name', 'date',
-                  'description')
-        
+                  'description')       
+ 
+class SemesterSerializerDelete(serializers.ModelSerializer):
+    class Meta:
+        model = Semester
+        fields = ('id',)          
+ 
+class YearGroupSerializer(serializers.ModelSerializer):
+    beginDate = fields.DateTimeField()
+    class Meta:
+        model = YearGroup
+        fields = ('id', 'worded', 'beginDate')
 
+class YearGroupSerializerDelete(serializers.ModelSerializer):
+    class Meta:
+        model = YearGroup
+        fields = ('id',)  
+
+class SemesterSerializer(serializers.ModelSerializer):
+    beginDate = fields.DateTimeField()
+    endDate = fields.DateTimeField()
+    class Meta:
+        model = Semester
+        fields = ('id', 'name', 'beginDate','endDate','yearGroup')             
+      

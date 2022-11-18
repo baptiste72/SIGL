@@ -1,4 +1,3 @@
-from re import I
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
@@ -99,4 +98,50 @@ def deleteYearGroupById(request):
     serializer = YearGroupSerializerDelete(data=request.data)
     if serializer.is_valid():
         deleteYearGroup.delete()
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def updateYearGroup(request):
+    updateYearGroup = YearGroup.objects.get(pk=request.data.get('id'))
+    updateYearGroup.worded = request.data.get('worded')
+    updateYearGroup.beginDate = request.data.get('beginDate')
+    serializer = YearGroupSerializer(data=request.data)
+    if serializer.is_valid():
+        updateYearGroup.save()
+    print(serializer.errors)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def getSemester(request):
+    SemesterList = Semester.objects.all()
+    serializers = SemesterSerializer(SemesterList, many=True)
+    return Response(serializers.data)
+
+@api_view(['POST'])
+def addSemester(request):
+    serializer = SemesterSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def deleteSemesterById(request):
+    deleteSemester = Semester.objects.filter(id=request.data.get('id'))
+    serializer = SemesterSerializerDelete(data=request.data)
+    if serializer.is_valid():
+        deleteSemester.delete()
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def updateSemester(request):
+    updateSemester = Semester.objects.get(pk=request.data.get('id'))
+    updateSemester.name = request.data.get('name')
+    updateSemester.beginDate = request.data.get('beginDate')
+    updateSemester.endDate = request.data.get('endDate')
+    yearGroup = YearGroup.objects.get(pk=request.data.get('yearGroup'))
+    updateSemester.yearGroup = yearGroup
+    serializer = SemesterSerializer(data=request.data)
+    if serializer.is_valid():
+        updateSemester.save()
+    print(serializer.errors)
     return Response(serializer.data)
