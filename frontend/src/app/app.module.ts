@@ -54,6 +54,7 @@ import { AuthInterceptor } from './helpers/auth-interceptor';
 import { MatTabsModule } from '@angular/material/tabs';
 import { AddCompanyPopupComponent } from './components/pop-up/add-company-popup/add-company-popup.component';
 import { AddSemesterPopupComponent } from './components/pop-up/semester/add-semester-popup/add-semester-popup.component';
+import { ModifyEventPopupComponent } from './components/pop-up/modify-event-popup/modify-event-popup.component';
 
 @NgModule({
   declarations: [
@@ -84,6 +85,7 @@ import { AddSemesterPopupComponent } from './components/pop-up/semester/add-seme
     AddSemesterPopupComponent,
     UpdateYearGroupPopupComponent,
     UpdateSemesterPopupComponent,
+    ModifyEventPopupComponent,
   ],
   imports: [
     BrowserModule,

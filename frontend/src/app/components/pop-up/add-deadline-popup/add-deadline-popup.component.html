@@ -1,6 +1,7 @@
 <div class="dialog-header bg-red">
   <h2 mat-dialog-title>Ajout d'une échéance</h2>
 </div>
+
 <div mat-dialog-content class="dialog-content">
   <div class="div-input">
     <h3>Livrable</h3>
@@ -16,70 +17,54 @@
       </mat-select>
     </mat-form-field>
   </div>
-  <div mat-dialog-content class="dialog-content">
-    <div class="div-input">
-      <h3>Livrable</h3>
-      <mat-form-field class="full-width" appearance="fill">
-        <mat-label>Choisissez un livrable</mat-label>
-        <mat-select required [(ngModel)]="js_deadline.name">
-          <mat-option
-            *ngFor="let deadline of type_deadlines"
-            [value]="deadline.name"
-          >
-            {{ deadline.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
 
-    <div class="div-input">
-      <h3>Date et heure de l'échéance</h3>
-      <mat-form-field class="full-width" appearance="fill">
-        <input
-          required
-          matInput
-          [(ngModel)]="js_deadline.date"
-          [ngxMatDatetimePicker]="picker"
-          placeholder="Choisisez une date et une heure"
-          [disabled]="false"
-        />
-        <mat-datepicker-toggle
-          matSuffix
-          [for]="$any(picker)"
-        ></mat-datepicker-toggle>
-        <ngx-mat-datetime-picker
-          #picker
-          [showSpinners]="true"
-          [showSeconds]="false"
-          [stepHour]="1"
-          [stepMinute]="1"
-          [touchUi]="false"
-          [enableMeridian]="false"
-          [disableMinute]="false"
-          [hideTime]="false"
-        >
-        </ngx-mat-datetime-picker>
-      </mat-form-field>
-    </div>
-
-    <div class="div-input">
-      <h3>Description</h3>
-      <mat-form-field class="full-width" appearance="fill">
-        <mat-label>Ajouter une description</mat-label>
-        <textarea
-          matInput
-          [(ngModel)]="js_deadline.description"
-          placeholder="Ex. J'ai réalisé..."
-        ></textarea>
-      </mat-form-field>
-    </div>
+  <div class="div-input">
+    <h3>Date et heure de l'échéance</h3>
+    <mat-form-field class="full-width" appearance="fill">
+      <input
+        required
+        matInput
+        [(ngModel)]="js_deadline.date"
+        [ngxMatDatetimePicker]="picker"
+        placeholder="Choisisez une date et une heure"
+        [disabled]="false"
+      />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="$any(picker)"
+      ></mat-datepicker-toggle>
+      <ngx-mat-datetime-picker
+        #picker
+        [showSpinners]="true"
+        [showSeconds]="false"
+        [stepHour]="1"
+        [stepMinute]="1"
+        [touchUi]="false"
+        [enableMeridian]="false"
+        [disableMinute]="false"
+        [hideTime]="false"
+      >
+      </ngx-mat-datetime-picker>
+    </mat-form-field>
   </div>
 
-  <mat-divider></mat-divider>
-  <div mat-dialog-actions align="end">
-    <button mat-button class="green bold" (click)="addDeadline(js_deadline)">
-      CREER
-    </button>
-    <button mat-button class="red bold" (click)="closeDialog()">ANNULER</button>
+  <div class="div-input">
+    <h3>Description</h3>
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>Ajouter une description</mat-label>
+      <textarea
+        matInput
+        [(ngModel)]="js_deadline.description"
+        placeholder="Ex. J'ai réalisé..."
+      ></textarea>
+    </mat-form-field>
   </div>
+</div>
+
+<mat-divider></mat-divider>
+<div mat-dialog-actions align="end">
+  <button mat-button class="green bold" (click)="addDeadline(js_deadline)">
+    CREER
+  </button>
+  <button mat-button class="red bold" (click)="closeDialog()">ANNULER</button>
 </div>

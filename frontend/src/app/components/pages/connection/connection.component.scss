@@ -23,10 +23,10 @@ h3 {
   height: 80%;
   border-radius: 20px 20px 0px 0px;
   justify-content: space-evenly;
-  @include respond-to('small') {
+  @include respond-to("small") {
     width: 50%;
   }
-  @include respond-to('medium') {
+  @include respond-to("medium") {
     width: 40%;
   }
 }
