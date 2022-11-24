@@ -28,6 +28,10 @@ export class AuthGuard implements CanActivate {
         this._snackBar.open("🔒 Vous n'avez pas accès à cette zone.", 'Ok', {
           duration: 2000,
         });
+
+        if (this.router.url == '/' || this.router.url == '/login') {
+          this.router.navigate(['/']);
+        }
         return false;
       }
 

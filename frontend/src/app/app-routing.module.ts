@@ -37,8 +37,8 @@ const routes: Routes = [
     path: 'configuration',
     component: ConfigurationComponent,
     // FIXME: Retiré provisoirement pour pouvoir créer un compte en période de dév
-    // canActivate: [AuthGuard],
-    // data: { roles: [Role.CA] },
+    canActivate: [AuthGuard],
+    data: { roles: [Role.CA] },
   },
   { path: 'events', component: EventsPageComponent, canActivate: [AuthGuard] },
 ];

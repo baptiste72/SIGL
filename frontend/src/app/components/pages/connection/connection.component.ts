@@ -28,7 +28,7 @@ export class ConnectionComponent implements OnInit {
 
     // redirect to home if already logged in
     if (this.authService.userValue) {
-      this.router.navigate(['/']);
+      this.router.navigate(['/dashboard']);
     }
   }
 
