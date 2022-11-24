@@ -71,9 +71,7 @@ class UserView(APIView):
             response = Response({'message': 'Mauvaise correspondance dans les ids.'}, status=status.HTTP_400_BAD_REQUEST)
         return response
        
-       
 # TODO: Ajouter une vue pour consulter tous les utilisateurs
-# TODO: Ajouter une vue pour récupérer le rôle des utilisateurs
 
 class MicrosoftLogin(APIView):
     def get(self, request):

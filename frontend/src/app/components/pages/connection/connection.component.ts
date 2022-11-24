@@ -14,8 +14,6 @@ export class ConnectionComponent implements OnInit {
   hide = true;
   public loginForm: FormGroup;
 
-  // TODO: Faire les contrôles sur le formulaire
-
   constructor(
     private authService: AuthService,
     private router: Router,
@@ -25,12 +23,12 @@ export class ConnectionComponent implements OnInit {
   ) {
     this.loginForm = this.formBuilder.group({
       email: ['', Validators.required],
-      password: ['', Validators.required]
+      password: ['', Validators.required],
     });
 
     // redirect to home if already logged in
     if (this.authService.userValue) {
-        this.router.navigate(['/']);
+      this.router.navigate(['/']);
     }
   }
 
@@ -53,6 +51,8 @@ export class ConnectionComponent implements OnInit {
         next: (user) => {
           const displayName = user.displayName.split(' ');
           // TODO: Récupérer le rôle pour les utilisateurs connectés avec Microsoft
+          // Faire l'association avec un utilisateur déjà stocké en base
+          // Reprendre ce système d'authentification
           let retrievedUser: User = new User(
             user.id,
             displayName[1],

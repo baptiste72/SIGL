@@ -25,14 +25,12 @@ export class AuthGuard implements CanActivate {
         route.data['roles'] &&
         route.data['roles'].indexOf(user.role) === -1
       ) {
-        // le rôle n'est pas autorisé
         this._snackBar.open("🔒 Vous n'avez pas accès à cette zone.", 'Ok', {
           duration: 2000,
         });
         return false;
       }
 
-      // rôle autorisé
       return true;
     }
 
