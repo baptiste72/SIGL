@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { Role } from '@app/helpers';
 import { BehaviorSubject, map } from 'rxjs';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -10,19 +11,14 @@ import { User } from '../../models/User';
   providedIn: 'root',
 })
 export class AuthService {
-  private userSubject!: BehaviorSubject<User>;
-  public user!: Observable<User>;
+  private userSubject: BehaviorSubject<User>;
+  public user: Observable<User>;
 
   private urlPrefix = 'auth';
 
   constructor(private router: Router, private http: HttpClient) {
-    const userFromLocalStorage = localStorage.getItem('user');
-    if (userFromLocalStorage != null) {
-      this.userSubject = new BehaviorSubject<User>(
-        JSON.parse(userFromLocalStorage)
-      );
-      this.user = this.userSubject.asObservable();
-    }
+    this.userSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('user') ?? '{}'));
+    this.user = this.userSubject.asObservable();
   }
 
   public get userValue(): User {
@@ -60,8 +56,7 @@ export class AuthService {
     localStorage.removeItem('microsoftFlow');
     localStorage.removeItem('user');
 
-    // FIXME: Corrgier ce truc
-    // this.userSubject.next(null);
+    this.userSubject.next(null as any);
     this.router.navigate(['/login']);
   }
 

@@ -4,7 +4,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { User } from 'src/app/models/User';
 import { Role } from '@app/helpers';
-import { UserService } from '@app/services/user/user.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   templateUrl: './connection.component.html',
@@ -12,14 +12,27 @@ import { UserService } from '@app/services/user/user.service';
 })
 export class ConnectionComponent implements OnInit {
   hide = true;
+  public loginForm: FormGroup;
+
+  // TODO: Faire les contrôles sur le formulaire
 
   constructor(
     private authService: AuthService,
-    private userService: UserService,
     private router: Router,
     private route: ActivatedRoute,
-    private _snackBar: MatSnackBar
-  ) {}
+    private _snackBar: MatSnackBar,
+    private formBuilder: FormBuilder
+  ) {
+    this.loginForm = this.formBuilder.group({
+      email: ['', Validators.required],
+      password: ['', Validators.required]
+    });
+
+    // redirect to home if already logged in
+    if (this.authService.userValue) {
+        this.router.navigate(['/']);
+    }
+  }
 
   public ngOnInit(): void {
     let sessionJson = sessionStorage.getItem('microsoftFlow');
@@ -64,8 +77,8 @@ export class ConnectionComponent implements OnInit {
     }
   }
 
-  public login(data: any) {
-    this.authService.login(data).subscribe({
+  public login() {
+    this.authService.login(this.loginForm.value).subscribe({
       next: () => {
         this.router.navigate(['dashboard']);
         this._snackBar.open('✔ Connexion réussie', 'Ok', {

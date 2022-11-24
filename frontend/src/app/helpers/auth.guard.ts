@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   Router,
   CanActivate,
@@ -9,26 +10,33 @@ import { AuthService } from '@app/services';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private _snackBar: MatSnackBar
+  ) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     const user = this.authService.userValue;
+
     if (user) {
-      // check if route is restricted by role
+      // Vérifie si la route est restreinte par un rôle
       if (
         route.data['roles'] &&
         route.data['roles'].indexOf(user.role) === -1
       ) {
-        // role not authorised so redirect to home page
-        this.router.navigate(['/']);
+        // le rôle n'est pas autorisé
+        this._snackBar.open("🔒 Vous n'avez pas accès à cette zone.", 'Ok', {
+          duration: 2000,
+        });
         return false;
       }
 
-      // authorised so return true
+      // rôle autorisé
       return true;
     }
 
-    // not logged in so redirect to login page with the return url
+    // pas connecté, donc redirection vers la page de connexion avec l'url de retour.
     this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
     return false;
   }

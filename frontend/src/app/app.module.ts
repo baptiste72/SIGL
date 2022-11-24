@@ -36,7 +36,7 @@ import { MatTreeModule } from '@angular/material/tree';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EventsPageComponent } from './components/pages/events-page/events-page.component';
 import { AddEventPopupComponent } from './components/pop-up/add-event-popup/add-event-popup.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -48,6 +48,7 @@ import { AuthInterceptor } from './helpers/auth-interceptor';
 import { MatTabsModule } from '@angular/material/tabs';
 import { AddCompanyPopupComponent } from './components/pop-up/add-company-popup/add-company-popup.component';
 import { AddSemesterPopupComponent } from './components/pop-up/semester/add-semester-popup/add-semester-popup.component';
+import { ErrorInterceptor, JwtInterceptor } from './helpers';
 
 @NgModule({
   declarations: [
@@ -101,10 +102,12 @@ import { AddSemesterPopupComponent } from './components/pop-up/semester/add-seme
     NgxMatDatetimePickerModule,
     NgxMatTimepickerModule,
     NgxMatNativeDateModule,
-    MatTabsModule
+    MatTabsModule,
+    ReactiveFormsModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}
   ],
   bootstrap: [AppComponent],
   exports: [
