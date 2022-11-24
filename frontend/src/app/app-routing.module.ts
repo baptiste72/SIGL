@@ -15,16 +15,16 @@ const routes: Routes = [
   { path: 'login', component: ConnectionComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'new-password', component: NewPasswordComponent },
-  { path: 'dashboard-apprentice', component: DashboardApprenticeComponent },
+  { path: 'dashboard', component: DashboardApprenticeComponent },
   { path: 'profile', component: PersonalInformationsComponent },
   { path: 'documents', component: DocumentsPageComponent },
-  { path: 'marks', component: NotesPageComponent },
+  { path: 'notes', component: NotesPageComponent },
   { path: 'configuration', component: ConfigurationComponent },
   { path: 'events', component: EventsPageComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
