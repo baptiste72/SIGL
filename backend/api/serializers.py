@@ -1,5 +1,5 @@
 from rest_framework import serializers,fields
-from base.models import * 
+from base.models import *
 
 class TutorTeamSerializer(serializers.ModelSerializer):
     class Meta:
@@ -13,9 +13,9 @@ class MentorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Mentor
         fields = ('id', 'last_name', 'first_name',
-                  'password', 'email', 'company', 'tutorTeam')   
+                  'password', 'email', 'company', 'tutorTeam')
 class CompanySerializer(serializers.ModelSerializer):
-    
+
     mentor = MentorSerializer(many=True)
     class Meta:
         model = Company
@@ -30,7 +30,7 @@ class TutorSerializer(serializers.ModelSerializer):
                   'password', 'email', 'formationCenter', 'tutorTeam')
 
 class FormationCenterSerializer(serializers.ModelSerializer):
-    
+
     tutor = TutorSerializer(many=True)
     class Meta:
         model = FormationCenter
@@ -56,24 +56,23 @@ class ApprenticeSerializer(serializers.ModelSerializer):
         fields = ('id', 'last_name', 'first_name',
                   'password', 'email', 'yearGroup', 'tutorTeam')
 
-
 class InterviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Interview
         fields = '__all__'
-        
+
 class DeadlineSerializer(serializers.ModelSerializer):
     date = fields.DateField(input_formats=['%Y-%m-%dT%H:%M:%S.%fZ'])
     class Meta:
         model = Deadline
         fields = ('name', 'date',
-                  'description')       
- 
+                  'description')
+
 class SemesterSerializerDelete(serializers.ModelSerializer):
     class Meta:
         model = Semester
-        fields = ('id',)          
- 
+        fields = ('id',)
+
 class YearGroupSerializer(serializers.ModelSerializer):
     beginDate = fields.DateTimeField()
     class Meta:
@@ -83,12 +82,12 @@ class YearGroupSerializer(serializers.ModelSerializer):
 class YearGroupSerializerDelete(serializers.ModelSerializer):
     class Meta:
         model = YearGroup
-        fields = ('id',)  
+        fields = ('id',)
 
 class SemesterSerializer(serializers.ModelSerializer):
     beginDate = fields.DateTimeField()
     endDate = fields.DateTimeField()
     class Meta:
         model = Semester
-        fields = ('id', 'name', 'beginDate','endDate','yearGroup')             
-      
+        fields = ('id', 'name', 'beginDate','endDate','yearGroup')
+

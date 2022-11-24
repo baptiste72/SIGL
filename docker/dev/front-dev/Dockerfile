@@ -1,5 +1,5 @@
-# Pull Node.js LTS alpine image
-FROM node:16-alpine
+# Pull Node LTS alpine image
+FROM node:lts-alpine
 
 # Add metadata
 LABEL description="Set up Angular for development" \
