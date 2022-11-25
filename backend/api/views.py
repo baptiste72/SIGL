@@ -96,6 +96,7 @@ def addTutorTeams(request):
 def deleteYearGroupById(request):
     deleteYearGroup = YearGroup.objects.filter(id=request.data.get('id'))
     serializer = YearGroupSerializerDelete(data=request.data)
+    print(request.data)
     if serializer.is_valid():
         deleteYearGroup.delete()
     return Response(serializer.data)

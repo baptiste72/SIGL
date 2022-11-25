@@ -21,3 +21,29 @@ class UserSerializer(serializers.ModelSerializer):
             instance.set_password(password)
         instance.save()
         return instance
+    
+# class ApprentiRoleSerializer(serializers.ModelSerializer):
+    
+#     class Meta:
+#         model = Apprentice
+#         fields = ('id',)
+        
+        
+class ApprenticeRoleSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Apprentice
+        fields = ('id', 'last_name', 'first_name',
+                  'password', 'email', 'role',)
+class TutorRoleSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Tutor
+        fields = ('id', 'last_name', 'first_name',
+                  'password', 'email', 'role',)
+
+class MentorRoleSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Mentor
+        fields = ('id', 'company', 'role',)

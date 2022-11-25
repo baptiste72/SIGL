@@ -5,16 +5,27 @@ from rest_framework.exceptions import AuthenticationFailed
 from .graph.auth_helper import get_sign_in_flow, get_token_from_code
 from .graph.graph_helper import *
 
-from .serializers import UserSerializer
+from .serializers import ApprenticeRoleSerializer, MentorRoleSerializer, TutorRoleSerializer, UserSerializer
 from .models import User
+from base.utilities import Role
 import jwt
 import datetime
 
 class RegisterView(APIView):
     def post(self, request):
-        serializer = UserSerializer(data=request.data)
+        
+        if request.data["role"] == Role.APPRENTICE:
+            serializer = ApprenticeRoleSerializer(data=request.data)
+        elif request.data["role"] == Role.TUTOR:
+            serializer = TutorRoleSerializer(data=request.data)
+        elif request.data["role"] == Role.MENTOR:
+            serializer = MentorRoleSerializer(data=request.data)
+        else :
+            serializer = UserSerializer(data=request.data)
+            
         serializer.is_valid(raise_exception=True)
         serializer.save()
+            
         return Response(serializer.data)
 
 
