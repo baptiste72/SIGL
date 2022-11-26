@@ -123,20 +123,6 @@ class SemesterSerializerDelete(serializers.ModelSerializer):
         fields = ("id",)
 
 
-class YearGroupSerializer(serializers.ModelSerializer):
-    beginDate = fields.DateTimeField()
-
-    class Meta:
-        model = YearGroup
-        fields = ("id", "worded", "beginDate")
-
-
-class YearGroupSerializerDelete(serializers.ModelSerializer):
-    class Meta:
-        model = YearGroup
-        fields = ("id",)
-
-
 class SemesterSerializer(serializers.ModelSerializer):
     beginDate = fields.DateTimeField()
     endDate = fields.DateTimeField()
