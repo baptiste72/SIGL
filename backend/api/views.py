@@ -146,3 +146,15 @@ def updateSemester(request):
         updateSemester.save()
     print(serializer.errors)
     return Response(serializer.data)
+
+@api_view(['GET'])
+def getCompany(request):
+    CompanyList = Company.objects.all()
+    serializers = CompanySerializer(CompanyList, many=True)
+    return Response(serializers.data)
+
+@api_view(['GET'])
+def getFormationCenter(request):
+    FormationCenterList = FormationCenter.objects.all()
+    serializers = FormationCenterSerializer(FormationCenterList, many=True)
+    return Response(serializers.data)

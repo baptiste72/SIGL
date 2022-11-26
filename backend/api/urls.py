@@ -26,4 +26,7 @@ urlpatterns = [
     path('add-semester', views.addSemester, name='addSemester'),
     path('delete-semester-by-id', views.deleteSemesterById, name='deleteSemesterById'),
     path('update-semester', views.updateSemester, name='updateSemester'),
+    
+    path('company', views.getCompany, name='getCompany'),
+    path('formationCenter', views.getFormationCenter, name='getformationCenter'),
 ]

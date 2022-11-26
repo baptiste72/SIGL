@@ -15,11 +15,10 @@ class MentorSerializer(serializers.ModelSerializer):
         fields = ('id', 'last_name', 'first_name',
                   'password', 'email', 'company', 'tutorTeam')   
 class CompanySerializer(serializers.ModelSerializer):
-    
-    mentor = MentorSerializer(many=True)
+
     class Meta:
         model = Company
-        fields = '__all__'
+        fields = ('id', 'worded', 'address',)
 
 class TutorSerializer(serializers.ModelSerializer):
 
@@ -30,11 +29,10 @@ class TutorSerializer(serializers.ModelSerializer):
                   'password', 'email', 'formationCenter', 'tutorTeam')
 
 class FormationCenterSerializer(serializers.ModelSerializer):
-    
-    tutor = TutorSerializer(many=True)
+
     class Meta:
         model = FormationCenter
-        fields = '__all__'
+        fields = ('id', 'worded', 'address',)
 
 class YearGroupSerializer(serializers.ModelSerializer):
     beginDate = fields.DateTimeField(input_formats=['%Y-%m-%dT%H:%M:%S.%fZ'])

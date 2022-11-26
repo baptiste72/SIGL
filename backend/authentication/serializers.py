@@ -40,10 +40,11 @@ class TutorRoleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tutor
         fields = ('id', 'last_name', 'first_name',
-                  'password', 'email', 'role',)
+                  'password', 'email', 'role', 'formationCenter',)
 
 class MentorRoleSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Mentor
-        fields = ('id', 'company', 'role',)
+        fields = ('id', 'last_name', 'first_name',
+                  'password', 'email', 'role', 'company',)
