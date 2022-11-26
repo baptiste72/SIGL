@@ -34,7 +34,7 @@ class ApprenticeRoleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Apprentice
         fields = ('id', 'last_name', 'first_name',
-                  'password', 'email', 'role',)
+                  'password', 'email', 'role', 'yearGroup',)
 class TutorRoleSerializer(serializers.ModelSerializer):
     
     class Meta:

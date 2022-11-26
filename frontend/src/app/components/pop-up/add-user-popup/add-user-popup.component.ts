@@ -7,10 +7,12 @@ import { CompanyService } from 'src/app/services/company/company.service';
 import { Company } from 'src/app/models/Company';
 import { FormationCenterService } from 'src/app/services/formationCenter/formationCenter.service';
 import { FormationCenter } from 'src/app/models/FormationCenter';
+import { YearGroupService } from 'src/app/services/year-group/year-group.service';
+import { YearGroup } from 'src/app/models/YearGroup';
 
-interface Promotion {
-  name: string;
-}
+// interface Promotion {
+//   name: string;
+// }
 
 interface Role {
   name: string;
@@ -28,12 +30,7 @@ export class AddUserPopupComponent implements OnInit {
   register: any;
   companys: Company[] = [];
   formationCenters: FormationCenter[] = [];
-
-  promotions: Promotion[] = [
-    {name: 'Noether'},
-    {name: 'Promotion2'},
-    {name: 'Promotion3'}
-  ];
+  yearGroups: YearGroup[] = [];
 
   roles: Role[] = [
     {name: 'Apprenti', value: 'APPRENTICE'},
@@ -45,6 +42,7 @@ export class AddUserPopupComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<AddUserPopupComponent>,
     private authService: AuthService,
     private _snackBar: MatSnackBar,
+    private yearGroupService: YearGroupService,
     private companyService: CompanyService,
     private formationCenterService: FormationCenterService,
     @Optional() @Inject(MAT_DIALOG_DATA) public mydata: any
@@ -60,10 +58,22 @@ export class AddUserPopupComponent implements OnInit {
       email: '',
       company: '',
     };
+    this.getYearGroup();
     this.getCompany();
     this.getFormationCenter();
   }
 
+  private getYearGroup() {
+    this.yearGroupService.getYearGroup().subscribe({
+      next: (yearGroupsData) => {
+        this.yearGroups = yearGroupsData
+      },
+      error: (err) => {
+        this._snackBar.open(
+          '❌ Une erreur est survenue lors de la récupération des équipes pédagogiques', 'Ok', { duration: 2000, });
+      },
+    });
+  }
 
   private getCompany() {
     this.companyService.getCompany().subscribe({

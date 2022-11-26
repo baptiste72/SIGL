@@ -16,6 +16,7 @@ import { Semester } from 'src/app/models/Semester';
 import { UpdateSemesterPopupComponent } from '../../pop-up/semester/update-semester-popup/update-semester-popup/update-semester-popup.component';
 import { TutorTeamService } from 'src/app/services/tutor-team/tutor-team.service';
 import { TutorTeam } from 'src/app/models/TutorTeam';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   templateUrl: './configuration.component.html',
@@ -24,7 +25,7 @@ import { TutorTeam } from 'src/app/models/TutorTeam';
 export class ConfigurationComponent implements AfterViewInit, OnInit {
   register: any;
   displayedColumnsUsers: string[] = ['name', 'surname', 'role', 'update'];
-  dataSourceUsers = new MatTableDataSource<User>(USERS_DATA);
+  dataSourceUsers: any;
 
   displayedColumnsTeams: string[] = ['apprentice', 'tutor', 'mentor', 'update'];
   dataSourceTutorTeams: any;
@@ -49,6 +50,7 @@ export class ConfigurationComponent implements AfterViewInit, OnInit {
     this.getYearGroup();
     this.getSemester();
     this.getTutorTeam();
+    this.getUser();
     this.register = {
       id: '',
     };
@@ -63,6 +65,7 @@ export class ConfigurationComponent implements AfterViewInit, OnInit {
   }
 
   constructor(public dialog: MatDialog,
+    private userService: UserService,
     private yearGroupService: YearGroupService,
     private semesterService: SemesterService,
     private tutorTeamService: TutorTeamService,
@@ -87,6 +90,18 @@ export class ConfigurationComponent implements AfterViewInit, OnInit {
     this.tutorTeamService.getTutorsTeam().subscribe({
       next: (tutorTeamData) => {
         this.dataSourceTutorTeams = new MatTableDataSource<TutorTeam>(tutorTeamData);
+      },
+      error: (err) => {
+        this._snackBar.open(
+          '❌ Une erreur est survenue lors de la récupération des équipes pédagogiques', 'Ok', { duration: 2000, });
+      },
+    });
+  }
+
+  private getUser() {
+    this.userService.getUser().subscribe({
+      next: (userData) => {
+        this.dataSourceUsers = new MatTableDataSource<User>(userData);
       },
       error: (err) => {
         this._snackBar.open(
@@ -181,15 +196,17 @@ export class ConfigurationComponent implements AfterViewInit, OnInit {
     });
   }
 
-  // UTILISATEURS
-  addUser() {
+
+  openUserPopup() {
     this.dialog.open(AddUserPopupComponent,
       {
-        width: '600px'
+        width: '600px',
       }
-    );
+    ).afterClosed()
+    .subscribe((shouldReload: boolean) => {
+      this.getUser()
+    });
   }
-
   // EQUIPES PEDAGOGIQUES
   openTutorTeamPopUp() {
     this.dialog.open(AddTeamPopupComponent,

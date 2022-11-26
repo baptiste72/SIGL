@@ -11,6 +11,6 @@ export class FormationCenterService {
   constructor(private http: HttpClient) { }
 
   public getFormationCenter(): Observable<any> {
-    return this.http.get<any>(`${environment.apiUrl}/${this.urlPrefix}/formationCenter`);
+    return this.http.get<any>(`${environment.apiUrl}/${this.urlPrefix}/formationCenters`);
 }
 }

@@ -11,6 +11,6 @@ export class CompanyService {
   constructor(private http: HttpClient) { }
 
   public getCompany(): Observable<any> {
-    return this.http.get<any>(`${environment.apiUrl}/${this.urlPrefix}/company`);
+    return this.http.get<any>(`${environment.apiUrl}/${this.urlPrefix}/companys`);
 }
 }

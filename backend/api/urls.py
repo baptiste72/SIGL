@@ -27,6 +27,7 @@ urlpatterns = [
     path('delete-semester-by-id', views.deleteSemesterById, name='deleteSemesterById'),
     path('update-semester', views.updateSemester, name='updateSemester'),
     
-    path('company', views.getCompany, name='getCompany'),
-    path('formationCenter', views.getFormationCenter, name='getformationCenter'),
+    path('companys', views.getCompany, name='getCompany'),
+    path('formationCenters', views.getFormationCenter, name='getformationCenter'),
+    path('users', views.getUser, name='getUser'),
 ]

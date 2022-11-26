@@ -18,9 +18,9 @@
     <h3>Promotion</h3>
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Choisissez une promotion</mat-label>
-      <mat-select required [(ngModel)]="register.promotion">
-        <mat-option *ngFor="let promotion of promotions" [value]="promotion">
-          {{ promotion.name }}
+      <mat-select required [(ngModel)]="register.yearGroup">
+        <mat-option *ngFor="let yearGroup of yearGroups" [value]="yearGroup.id">
+          {{ yearGroup.worded }}
         </mat-option>
       </mat-select>
     </mat-form-field>

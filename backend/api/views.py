@@ -158,3 +158,9 @@ def getFormationCenter(request):
     FormationCenterList = FormationCenter.objects.all()
     serializers = FormationCenterSerializer(FormationCenterList, many=True)
     return Response(serializers.data)
+
+@api_view(['GET'])
+def getUser(request):
+    UserList = User.objects.all()
+    serializers = UserSerializer(UserList, many=True)
+    return Response(serializers.data)
