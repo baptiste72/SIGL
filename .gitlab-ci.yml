@@ -29,7 +29,7 @@ lint-django:
   before_script:
     - cd backend
   script:
-    - pylint *
+    - pylint --load-plugins pylint_django *
 
 build-angular:
   stage: build
