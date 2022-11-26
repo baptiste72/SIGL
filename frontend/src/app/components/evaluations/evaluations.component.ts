@@ -10,8 +10,7 @@ import {MatTableDataSource} from '@angular/material/table';
 export class EvaluationsComponent implements AfterViewInit {
   displayedColumns: string[] = ['name', 'modify-time', 'modify-by', 'status', 'evaluation-name', 'note'];
   dataSource = new MatTableDataSource<Evaluation>(ELEMENT_DATA);
-
-  @ViewChild(MatPaginator) paginator :any = MatPaginator;
+  @ViewChild('evaluationsPaginator') paginator :any = MatPaginator;
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;

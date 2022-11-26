@@ -1,5 +1,5 @@
-import { Component, Inject, OnInit, Optional } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 
 interface Semester {
   name: string;
@@ -8,21 +8,19 @@ interface Semester {
 @Component({
   selector: 'app-add-note-popup',
   templateUrl: './add-note-popup.component.html',
-  styleUrls: ['./add-note-popup.component.scss']
+  styleUrls: ['./add-note-popup.component.scss'],
 })
-export class AddNotePopupComponent implements OnInit {
-  fromPage!: string;
-  fromDialog!: string;
+export class AddNotePopupComponent {
+  semesters: Semester[] = [
+    { name: 'Semestre S7' },
+    { name: 'Semestre S8' },
+    { name: 'Semestre S9' },
+  ];
 
-  constructor(    public dialogRef: MatDialogRef<AddNotePopupComponent>,
-    @Optional() @Inject(MAT_DIALOG_DATA) public mydata: any
-    ) { }
+  constructor(public dialogRef: MatDialogRef<AddNotePopupComponent>
+  ) {}
 
-  ngOnInit(): void {
-    this.fromDialog = "I am from dialog land...";
+  closeDialog() {
+    this.dialogRef.close({ event: 'close' });
   }
-
-  closeDialog() { this.dialogRef.close({ event: 'close', data: this.fromDialog }); }
-
-  semesters: Semester[] = [{name: 'Semestre S7'},{name: 'Semestre S8'},{name: 'Semestre S9'}];
 }

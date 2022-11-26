@@ -1,6 +1,5 @@
-import { Component, OnInit, Inject, Optional } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSelect } from '@angular/material/select';
+import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { YearGroupService } from 'src/app/services/year-group/year-group.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { YearGroup } from 'src/app/models/YearGroup';
@@ -12,17 +11,14 @@ import { SemesterService } from 'src/app/services/semester/semester.service';
   styleUrls: ['./add-semester-popup.component.scss'],
 })
 export class AddSemesterPopupComponent implements OnInit {
-  fromPage!: string;
-  fromDialog!: string;
-  promotions: YearGroup[]=[];
+  yearGroups: YearGroup[]=[];
   register: any;
 
   constructor(
     public dialogRef: MatDialogRef<AddSemesterPopupComponent>,
     private yearGroupService: YearGroupService,
     private semesterService: SemesterService,
-    private _snackBar: MatSnackBar,
-    @Optional() @Inject(MAT_DIALOG_DATA) public mydata: any
+    private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -36,13 +32,13 @@ export class AddSemesterPopupComponent implements OnInit {
   }
 
   closeDialog() {
-    this.dialogRef.close({ event: 'close', data: this.fromDialog });
+    this.dialogRef.close({ event: 'close' });
   }
 
   private getYearGroup() {
     this.yearGroupService.getYearGroup().subscribe({
-      next: (promotionsData) => {
-        this.promotions = promotionsData;
+      next: (yearGroupsData) => {
+        this.yearGroups = yearGroupsData;
       },
       error: (err) => {
         this._snackBar.open(
