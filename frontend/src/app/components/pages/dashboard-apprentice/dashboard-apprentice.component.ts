@@ -1,22 +1,15 @@
-import { Component, OnInit} from '@angular/core';
+import { Component } from '@angular/core';
+import { AuthService } from '@app/services';
 import { User } from 'src/app/models/User';
-import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   templateUrl: './dashboard-apprentice.component.html',
-  styleUrls: ['./dashboard-apprentice.component.scss']
+  styleUrls: ['./dashboard-apprentice.component.scss'],
 })
-export class DashboardApprenticeComponent implements OnInit {
+export class DashboardApprenticeComponent {
   public user: User;
 
   constructor(private authService: AuthService) {
-    this.user = new User(0, "John", "Doe", "")
+    this.user = this.authService.userValue;
   }
-
-  ngOnInit(): void {
-    this.authService.getUser().subscribe((user) => {
-      this.user = user;
-    });
-  }
-
 }
