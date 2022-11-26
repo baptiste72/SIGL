@@ -1,5 +1,5 @@
-import jwt
 import datetime
+import jwt
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -57,8 +57,8 @@ class UserView(APIView):
 
         try:
             payload = jwt.decode(token, "secret", algorithms=["HS256"])
-        except jwt.ExpiredSignatureError:
-            raise AuthenticationFailed("Unauthenticated!")
+        except Exception as exc:
+            raise AuthenticationFailed("Unauthenticated!") from exc
 
         if request.data["id"] == payload["id"]:
             user: User = User.objects.get(id=payload["id"])

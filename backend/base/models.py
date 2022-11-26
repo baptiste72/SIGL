@@ -37,17 +37,11 @@ class Tutor(User):
         FormationCenter, related_name="tutor", on_delete=models.CASCADE, null=True
     )
 
-    def __unicode__(self):
-        return self.name
-
 
 class Company(models.Model):
     # table des entreprises
     worded = models.CharField(max_length=200)
     address = models.CharField(max_length=500)
-
-    def __unicode__(self):
-        return self.name
 
 
 class Mentor(User):
@@ -56,14 +50,9 @@ class Mentor(User):
         Company, related_name="mentor", on_delete=models.CASCADE, null=True
     )
 
-    def __unicode__(self):
-        return self.name
-
 
 class Apprentice(User):
-    # table des apprentis
-    def __unicode__(self):
-        return self.name
+    pass
 
 
 class YearGroup(models.Model):
@@ -81,9 +70,6 @@ class Semester(models.Model):
         YearGroup, related_name="semester", on_delete=models.CASCADE, null=True
     )
 
-    def __str__(self):
-        return self.name
-
     apprentice = models.ForeignKey(
         Apprentice, related_name="yearGroup", on_delete=models.CASCADE, null=True
     )
@@ -100,6 +86,3 @@ class TutorTeam(models.Model):
     apprentice = models.ForeignKey(
         Apprentice, related_name="tutorTeam", on_delete=models.CASCADE, null=True
     )
-
-    def __unicode__(self):
-        return self.name

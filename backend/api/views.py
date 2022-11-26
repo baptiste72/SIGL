@@ -87,14 +87,14 @@ def add_deadline(request):
 
 
 @api_view(["GET"])
-def get_yeargroup():
+def get_year_group():
     yeargroup_list = YearGroup.objects.all()
     serializers = YearGroupSerializer(yeargroup_list, many=True)
     return Response(serializers.data)
 
 
 @api_view(["POST"])
-def add_yeargroup(request):
+def add_year_group(request):
     serializer = YearGroupSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
@@ -119,22 +119,22 @@ def add_tutor_teams(request):
 
 
 @api_view(["POST"])
-def delete_yeargroup_by_id(request):
-    delete_yeargroup = YearGroup.objects.filter(id=request.data.get("id"))
+def delete_year_group_by_id(request):
+    year_group = YearGroup.objects.filter(id=request.data.get("id"))
     serializer = YearGroupSerializerDelete(data=request.data)
     if serializer.is_valid():
-        delete_yeargroup.delete()
+        year_group.delete()
     return Response(serializer.data)
 
 
 @api_view(["POST"])
-def update_yeargroup(request):
-    update_yeargroup = YearGroup.objects.get(pk=request.data.get("id"))
-    update_yeargroup.worded = request.data.get("worded")
-    update_yeargroup.begin_date = request.data.get("beginDate")
+def update_year_group(request):
+    year_group = YearGroup.objects.get(pk=request.data.get("id"))
+    year_group.worded = request.data.get("worded")
+    year_group.begin_date = request.data.get("beginDate")
     serializer = YearGroupSerializer(data=request.data)
     if serializer.is_valid():
-        update_yeargroup.save()
+        year_group.save()
     print(serializer.errors)
     return Response(serializer.data)
 
@@ -165,14 +165,14 @@ def delete_semester_by_id(request):
 
 @api_view(["POST"])
 def update_semester(request):
-    update_semester = Semester.objects.get(pk=request.data.get("id"))
-    update_semester.name = request.data.get("name")
-    update_semester.begin_date = request.data.get("beginDate")
-    update_semester.end_date = request.data.get("endDate")
-    yearGroup = YearGroup.objects.get(pk=request.data.get("yearGroup"))
-    update_semester.yeargroup = yearGroup
+    semester = Semester.objects.get(pk=request.data.get("id"))
+    semester.name = request.data.get("name")
+    semester.begin_date = request.data.get("beginDate")
+    semester.end_date = request.data.get("endDate")
+    year_group = YearGroup.objects.get(pk=request.data.get("yearGroup"))
+    semester.yeargroup = year_group
     serializer = SemesterSerializer(data=request.data)
     if serializer.is_valid():
-        update_semester.save()
+        semester.save()
     print(serializer.errors)
     return Response(serializer.data)

@@ -12,14 +12,14 @@ urlpatterns = [
     path("add-deadline", views.add_deadline, name="addDeadline"),
     path("tutor-teams", views.get_tutor_teams, name="getTutorTeams"),
     path("add-tutor-teams", views.add_tutor_teams, name="addTutorTeams"),
-    path("year-group", views.get_yeargroup, name="getYearGroup"),
-    path("add-year-group", views.add_yeargroup, name="addYearGroup"),
+    path("year-group", views.get_year_group, name="getYearGroup"),
+    path("add-year-group", views.add_year_group, name="addYearGroup"),
     path(
         "delete-year-group-by-id",
-        views.delete_yeargroup_by_id,
+        views.delete_year_group_by_id,
         name="deleteYearGroupById",
     ),
-    path("update-year-group", views.update_yeargroup, name="updateYearGroup"),
+    path("update-year-group", views.update_year_group, name="updateYearGroup"),
     path("semester", views.get_semester, name="getSemester"),
     path("add-semester", views.add_semester, name="addSemester"),
     path(
