@@ -1,26 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
 import { User } from 'src/app/models/User';
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { Role } from '@app/helpers';
 
 @Component({
   selector: 'app-navigation',
   templateUrl: './navigation.component.html',
   styleUrls: ['./navigation.component.scss'],
 })
-export class NavigationComponent implements OnInit {
+export class NavigationComponent {
   showFiller = true;
   opened: boolean = true;
-  public user!: User;
+  public user: User;
 
-  constructor(private authService: AuthService, private router: Router) {}
-
-  public ngOnInit(): void {
-    const userJson = localStorage.getItem('user');
-    if (userJson !== null) {
-      this.user = JSON.parse(userJson);
-    }
+  constructor(private authService: AuthService) {
+    this.user = this.authService.userValue;
   }
 
   public logout() {

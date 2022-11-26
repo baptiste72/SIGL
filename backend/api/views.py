@@ -28,21 +28,21 @@ from .helper.tutor_team_helper import TutorTeamHelper
 
 
 @api_view(["GET"])
-def get_mentor():
+def get_mentor(request):
     mentor_list = Mentor.objects.all()
     serializers = MentorSerializer(mentor_list, many=True)
     return Response(serializers.data)
 
 
 @api_view(["GET"])
-def get_tutor():
+def get_tutor(request):
     tutor_list = Tutor.objects.all()
     serializers = TutorSerializer(tutor_list, many=True)
     return Response(serializers.data)
 
 
 @api_view(["GET"])
-def get_apprentice():
+def get_apprentice(request):
     apprentice_list = Apprentice.objects.all()
     serializers = ApprenticeSerializer(apprentice_list, many=True)
     return Response(serializers.data)
@@ -57,7 +57,7 @@ def add_mentor(request):
 
 
 @api_view(["GET"])
-def get_interview():
+def get_interview(request):
     interview_list = Interview.objects.all()
     serializers = InterviewSerializer(interview_list, many=True)
     return Response(serializers.data)
@@ -72,7 +72,7 @@ def add_interview(request):
 
 
 @api_view(["GET"])
-def get_deadline():
+def get_deadline(request):
     dealine_list = Deadline.objects.all()
     serializers = DeadlineSerializer(dealine_list, many=True)
     return Response(serializers.data)
@@ -87,7 +87,7 @@ def add_deadline(request):
 
 
 @api_view(["GET"])
-def get_year_group():
+def get_year_group(request):
     yeargroup_list = YearGroup.objects.all()
     serializers = YearGroupSerializer(yeargroup_list, many=True)
     return Response(serializers.data)
@@ -102,7 +102,7 @@ def add_year_group(request):
 
 
 @api_view(["GET"])
-def get_tutor_teams():
+def get_tutor_teams(request):
     # récupération du contenu de la table TutorTeam
     tutor_team_list = TutorTeam.objects.all()
     serializers = TutorTeamSerializer(tutor_team_list, many=True)
@@ -140,7 +140,7 @@ def update_year_group(request):
 
 
 @api_view(["GET"])
-def get_semester():
+def get_semester(request):
     semester_list = Semester.objects.all()
     serializers = SemesterSerializer(semester_list, many=True)
     return Response(serializers.data)

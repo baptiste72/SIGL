@@ -73,7 +73,7 @@ class UserView(APIView):
 
 
 class MicrosoftLogin(APIView):
-    def get(self):
+    def get(self, request):
         flow = get_sign_in_flow()
         return Response(flow)
 
