@@ -1,9 +1,7 @@
 version: "3.9"
 services:
   angular:
-    build:
-      context: ./../..
-      dockerfile: ./docker/dev/front-dev/Dockerfile
+    image: dev-angular
     container_name: angular
     ports:
       - "80:4200"
@@ -13,9 +11,7 @@ services:
     restart: always
 
   django:
-    build:
-      context: ./../..
-      dockerfile: ./docker/dev/back-dev/Dockerfile
+    image: dev-django
     container_name: django
     ports:
       - "8000:8000"
@@ -42,39 +38,32 @@ services:
     restart: always
 
   sonarqube:
-    image: sonarqube:community
-    hostname: sonarqube
+    image: sonarqube:alpine
     container_name: sonarqube
-    depends_on:
-      - dbsonar
-    environment:
-      - SONAR_JBDC_URL=jdbc:postgresql://dbsonar:5432/sonar
-      - SONAR_JBDC_USERNAME=sonar
-      - SONAR_JBDC_PASSWORD=sonar
-    volumes:
-      - sonarqube_data:/opt/sonarqube/data
-      - sonarqube_extensions:/opt/sonarqube/extensions
-      - sonarqube_logs:/opt/sonarqube/logs
     ports:
       - "9000:9000"
-  dbsonar:
-    image: postgres:12
-    hostname: postgresql
-    container_name: postgresql
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_logs:/opt/sonarqube/logs
+      - sonarqube_extensions:/opt/sonarqube/extensions
     environment:
-      - POSTGRES_USER=sonar
-      - POSTGRES_PASSWORD=sonar
-      - POSTGRES_DB=sonar
+      - SONAR_JBDC_URL=jdbc:postgresql://dbsonar:5432/sonar
+      - SONAR_JBDC_USERNAME=${SONAR_USER}
+      - SONAR_JBDC_PASSWORD=${SONAR_PASSWORD}
+    depends_on:
+      - sonarqube-db
+    restart: always
+
+  sonarqube-db:
+    image: postgres:alpine
+    container_name: sonarqube-db
     volumes:
       - postgresql:/var/lib/postgresql
       - postgresql_data:/var/lib/postgresql/data
-
-
-  sonarscanner:
-    build:
-      context: ./../..
-      dockerfile: ./docker/dev/sonarscanner/Dockerfile
-    container_name: sonarscanner
+    environment:
+      - POSTGRES_DB=${SONAR_DB:?err}
+      - POSTGRES_USER=${SONAR_USER:?err}
+      - POSTGRES_PASSWORD=${SONAR_PASSWORD:?err}
     restart: always
 
 volumes:
