@@ -2,6 +2,11 @@ import { Component, Inject, OnInit, Optional, ViewChild, AfterViewInit } from '@
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { MatPaginator } from '@angular/material/paginator';
+import { CompanyService } from 'src/app/services/company/company.service';
+import { Company } from 'src/app/models/Company';
+import { FormationCenterService } from 'src/app/services/formationCenter/formationCenter.service';
+import { FormationCenter } from 'src/app/models/FormationCenter';
 
 interface Promotion {
   name: string;
@@ -21,6 +26,8 @@ interface Role {
 export class AddUserPopupComponent implements OnInit {
   fromDialog!: string;
   register: any;
+  companys: Company[] = [];
+  formationCenters: FormationCenter[] = [];
 
   promotions: Promotion[] = [
     {name: 'Noether'},
@@ -36,7 +43,10 @@ export class AddUserPopupComponent implements OnInit {
   ];
 
   constructor(public dialogRef: MatDialogRef<AddUserPopupComponent>,
-    private authService: AuthService, private _snackBar: MatSnackBar,
+    private authService: AuthService,
+    private _snackBar: MatSnackBar,
+    private companyService: CompanyService,
+    private formationCenterService: FormationCenterService,
     @Optional() @Inject(MAT_DIALOG_DATA) public mydata: any
     ) { }
 
@@ -48,7 +58,35 @@ export class AddUserPopupComponent implements OnInit {
       first_name : '',
       password : '',
       email: '',
+      company: '',
     };
+    this.getCompany();
+    this.getFormationCenter();
+  }
+
+
+  private getCompany() {
+    this.companyService.getCompany().subscribe({
+      next: (companysData) => {
+        this.companys = companysData
+      },
+      error: (err) => {
+        this._snackBar.open(
+          '❌ Une erreur est survenue lors de la récupération des équipes pédagogiques', 'Ok', { duration: 2000, });
+      },
+    });
+  }
+
+  private getFormationCenter() {
+    this.formationCenterService.getFormationCenter().subscribe({
+      next: (formationCentersData) => {
+        this.formationCenters = formationCentersData
+      },
+      error: (err) => {
+        this._snackBar.open(
+          '❌ Une erreur est survenue lors de la récupération des équipes pédagogiques', 'Ok', { duration: 2000, });
+      },
+    });
   }
 
   public closeDialog() {
