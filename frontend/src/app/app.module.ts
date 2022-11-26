@@ -44,19 +44,14 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { EventsPageComponent } from './components/pages/events-page/events-page.component';
-import { AddEventPopupComponent } from './components/pop-up/add-event-popup/add-event-popup.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
-import { AddDeadlinePopupComponent } from './components/pop-up/add-deadline-popup/add-deadline-popup.component';
 import {
   NgxMatDatetimePickerModule,
   NgxMatTimepickerModule,
   NgxMatNativeDateModule,
 } from '@angular-material-components/datetime-picker';
 import { MatTabsModule } from '@angular/material/tabs';
-import { AddCompanyPopupComponent } from './components/pop-up/add-company-popup/add-company-popup.component';
-import { AddSemesterPopupComponent } from './components/pop-up/semester/add-semester-popup/add-semester-popup.component';
 import { ErrorInterceptor, JwtInterceptor } from './helpers';
 
 @NgModule({

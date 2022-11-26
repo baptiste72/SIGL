@@ -9,6 +9,7 @@ interface Promotion {
 
 interface Role {
   name: string;
+  value: string;
 }
 
 @Component({
@@ -25,10 +26,10 @@ export class AddUserPopupComponent implements OnInit {
     { name: 'Promotion3' },
   ];
   roles: Role[] = [
-    { name: 'Apprenti' },
-    { name: 'Maître apprentissage' },
-    { name: 'Tuteur pédagogique' },
-    { name: 'Compte Entreprise' },
+    {name: 'Apprenti', value: 'APPRENTICE'},
+    {name: 'Maître apprentissage', value: 'MENTOR'},
+    {name: 'Tuteur pédagogique', value: 'TUTOR'},
+    {name: 'Compte Entreprise', value: 'COMPANY'}
   ];
 
   constructor(
