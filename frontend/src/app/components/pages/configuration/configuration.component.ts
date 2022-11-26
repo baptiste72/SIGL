@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnInit,
+  ViewChild,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { AddUserPopupComponent } from '../../pop-up/user/add-user-popup/add-user-popup.component';
@@ -19,30 +25,40 @@ import { TutorTeam } from 'src/app/models/TutorTeam';
 
 @Component({
   templateUrl: './configuration.component.html',
-  styleUrls: ['./configuration.component.scss']
+  styleUrls: ['./configuration.component.scss'],
 })
 export class ConfigurationComponent implements AfterViewInit, OnInit {
   register: any;
 
   displayedColumnsUsers: string[] = ['name', 'surname', 'role', 'update'];
   dataSourceUsers = new MatTableDataSource<User>(USERS_DATA);
-  @ViewChild('userPaginator') usersPaginator :any = MatPaginator;
+  @ViewChild('userPaginator') usersPaginator: any = MatPaginator;
 
   displayedColumnsTeams: string[] = ['apprentice', 'tutor', 'mentor', 'update'];
   dataSourceTutorTeams: any;
-  @ViewChild('tutorTeamPaginator') tutorTeamsPaginator :any = MatPaginator;
+  @ViewChild('tutorTeamPaginator') tutorTeamsPaginator: any = MatPaginator;
 
-  displayedColumnsCompanies: string[] = ['name', 'companySiret', 'nbEmployees', 'codeCpne'];
+  displayedColumnsCompanies: string[] = [
+    'name',
+    'companySiret',
+    'nbEmployees',
+    'codeCpne',
+  ];
   dataSourceCompanies = new MatTableDataSource<Company>(COMPANIES_DATA);
-  @ViewChild('companiesPaginator') companiesPaginator :any = MatPaginator;
+  @ViewChild('companiesPaginator') companiesPaginator: any = MatPaginator;
 
   displayedColumnsYearGroups: string[] = ['name', 'beginDate', 'update'];
   dataSourceYearGroups: any;
-  @ViewChild('yearGroupPaginator') yearGroupPaginator :any = MatPaginator;
+  @ViewChild('yearGroupPaginator') yearGroupPaginator: any = MatPaginator;
 
-  displayedColumnsSemesters: string[] = ['name', 'beginDate', 'endDate', 'update'];
+  displayedColumnsSemesters: string[] = [
+    'name',
+    'beginDate',
+    'endDate',
+    'update',
+  ];
   dataSourceSemesters: any;
-  @ViewChild('semestersPaginator') semestersPaginator :any = MatPaginator;
+  @ViewChild('semestersPaginator') semestersPaginator: any = MatPaginator;
 
   ngOnInit(): void {
     this.getYearGroup();
@@ -61,58 +77,67 @@ export class ConfigurationComponent implements AfterViewInit, OnInit {
     this.dataSourceSemesters.paginator = this.semestersPaginator;
   }
 
-  constructor(public dialog: MatDialog,
+  constructor(
+    public dialog: MatDialog,
     private yearGroupService: YearGroupService,
     private semesterService: SemesterService,
     private tutorTeamService: TutorTeamService,
-    private _snackBar: MatSnackBar,
-    private _detector: ChangeDetectorRef,
-    ) {}
-
+    private _snackBar: MatSnackBar
+  ) {}
 
   // PROMOTIONS
   private getYearGroup() {
     this.yearGroupService.getYearGroup().subscribe({
       next: (yearGroups) => {
-        this.dataSourceYearGroups = new MatTableDataSource<YearGroup>(yearGroups);
+        this.dataSourceYearGroups = new MatTableDataSource<YearGroup>(
+          yearGroups
+        );
       },
       error: (err) => {
-        this._snackBar.open('❌ Une erreur est survenue lors de la récupération des semestres', 'Ok', { duration: 2000, });
+        this._snackBar.open(
+          '❌ Une erreur est survenue lors de la récupération des semestres',
+          'Ok',
+          { duration: 2000 }
+        );
       },
     });
   }
 
   openYearGroupPopup() {
-    this.dialog.open(AddYearGroupPopupComponent,
-      {
-        width: '600px'
-      }
-    ).afterClosed()
-    .subscribe((shouldReload: boolean) => {
-      this.getYearGroup()
-    });
+    this.dialog
+      .open(AddYearGroupPopupComponent, {
+        width: '600px',
+      })
+      .afterClosed()
+      .subscribe((shouldReload: boolean) => {
+        this.getYearGroup();
+      });
   }
 
   openUpdateYearGroupPopup(yearGroup: any) {
-    this.dialog.open(UpdateYearGroupPopupComponent,
-      {
+    this.dialog
+      .open(UpdateYearGroupPopupComponent, {
         width: '600px',
-        data: yearGroup
-      }
-    ).afterClosed()
-    .subscribe((shouldReload: boolean) => {
-      this.getYearGroup()
-    });
+        data: yearGroup,
+      })
+      .afterClosed()
+      .subscribe((shouldReload: boolean) => {
+        this.getYearGroup();
+      });
   }
 
   deleteYearGroupById(ID: any) {
-    this.register.id=ID;
+    this.register.id = ID;
     this.yearGroupService.deleteYearGroupById(this.register).subscribe({
       next: (v) => {
         this.getYearGroup();
       },
       error: (err) => {
-        this._snackBar.open('❌ Une erreur est survenue lors de la suppression de la promotion', 'Ok', { duration: 2000, });
+        this._snackBar.open(
+          '❌ Une erreur est survenue lors de la suppression de la promotion',
+          'Ok',
+          { duration: 2000 }
+        );
       },
     });
   }
@@ -124,90 +149,99 @@ export class ConfigurationComponent implements AfterViewInit, OnInit {
         this.dataSourceSemesters = new MatTableDataSource<Semester>(semesters);
       },
       error: (err) => {
-        this._snackBar.open('❌ Une erreur est survenue lors de la récupération des semestres', 'Ok', {
-          duration: 2000,
-        });
+        this._snackBar.open(
+          '❌ Une erreur est survenue lors de la récupération des semestres',
+          'Ok',
+          {
+            duration: 2000,
+          }
+        );
       },
     });
   }
 
   openAddSemesterPopup() {
-    this.dialog.open(AddSemesterPopupComponent,
-      {
-        width: '600px'
-      }
-    ).afterClosed()
-    .subscribe((shouldReload: boolean) => {
-      this.getSemester()
-    });
+    this.dialog
+      .open(AddSemesterPopupComponent, {
+        width: '600px',
+      })
+      .afterClosed()
+      .subscribe((shouldReload: boolean) => {
+        this.getSemester();
+      });
   }
 
   openUpdateSemesterPopup(semester: any) {
-    this.dialog.open(UpdateSemesterPopupComponent,
-      {
+    this.dialog
+      .open(UpdateSemesterPopupComponent, {
         width: '600px',
-        data: semester
-      }
-    ).afterClosed()
-    .subscribe((shouldReload: boolean) => {
-      this.getSemester()
-    });
+        data: semester,
+      })
+      .afterClosed()
+      .subscribe((shouldReload: boolean) => {
+        this.getSemester();
+      });
   }
 
   deleteSemesterById(ID: any) {
-    this.register.id=ID;
+    this.register.id = ID;
     this.semesterService.deleteSemesterById(this.register).subscribe({
       next: (v) => {
         this.getSemester();
       },
       error: (err) => {
-        this._snackBar.open('❌ Une erreur est survenue lors de la suppression du semestre', 'Ok', {
-          duration: 2000,
-        });
+        this._snackBar.open(
+          '❌ Une erreur est survenue lors de la suppression du semestre',
+          'Ok',
+          {
+            duration: 2000,
+          }
+        );
       },
     });
   }
 
   // UTILISATEURS
   addUser() {
-    this.dialog.open(AddUserPopupComponent,
-      {
-        width: '600px'
-      }
-    );
+    this.dialog.open(AddUserPopupComponent, {
+      width: '600px',
+    });
   }
 
   // EQUIPES PEDAGOGIQUES
   private getTutorTeam() {
     this.tutorTeamService.getTutorsTeam().subscribe({
       next: (tutorTeamData) => {
-        this.dataSourceTutorTeams = new MatTableDataSource<TutorTeam>(tutorTeamData);
+        this.dataSourceTutorTeams = new MatTableDataSource<TutorTeam>(
+          tutorTeamData
+        );
       },
       error: (err) => {
         this._snackBar.open(
-          '❌ Une erreur est survenue lors de la récupération des équipes pédagogiques', 'Ok', { duration: 2000, });
+          '❌ Une erreur est survenue lors de la récupération des équipes pédagogiques',
+          'Ok',
+          { duration: 2000 }
+        );
       },
     });
   }
 
   openTutorTeamPopUp() {
-    this.dialog.open(AddTeamPopupComponent,
-      {
-        width: '600px'
-      }
-    ).afterClosed()
-    .subscribe((shouldReload: boolean) => {
-      this.getTutorTeam()
-    });
+    this.dialog
+      .open(AddTeamPopupComponent, {
+        width: '600px',
+      })
+      .afterClosed()
+      .subscribe((shouldReload: boolean) => {
+        this.getTutorTeam();
+      });
   }
 
   // ENTREPRISES
   addCompany() {
-    this.dialog.open(AddCompanyPopupComponent,
-      {
-        width: '600px'
-      }
-    );
+    this.dialog.open(AddCompanyPopupComponent, {
+      width: '600px',
+    });
   }
 }
 
@@ -219,11 +253,11 @@ export interface User {
 }
 
 const USERS_DATA: User[] = [
-  {name: 'Mathilde', surname: 'RENAUD', role: 'Apprenti', update: './'},
-  {name: 'Hugo', surname: 'TANNIOU', role: 'Apprenti', update: './'},
-  {name: 'Joël', surname: 'HECKMANN', role: 'Apprenti', update: './'},
-  {name: 'Tristan', surname: 'BAHUAUD', role: 'Apprenti', update: './'},
-  {name: 'Thomas', surname: 'DHUICQ', role: 'Apprenti', update: './'}
+  { name: 'Mathilde', surname: 'RENAUD', role: 'Apprenti', update: './' },
+  { name: 'Hugo', surname: 'TANNIOU', role: 'Apprenti', update: './' },
+  { name: 'Joël', surname: 'HECKMANN', role: 'Apprenti', update: './' },
+  { name: 'Tristan', surname: 'BAHUAUD', role: 'Apprenti', update: './' },
+  { name: 'Thomas', surname: 'DHUICQ', role: 'Apprenti', update: './' },
 ];
 
 export interface Company {
@@ -249,10 +283,25 @@ export interface Company {
 }
 
 const COMPANIES_DATA: Company[] = [
-  {name: 'Itanica', companySiret: '399 826 981 00017', nbEmployees: 250, codeCpne: '123',
-  cideIdcc: '123', collectiveConvention: '123', codeNafApe: '123', activityArea: '123', phoneNumber: '123',
-  mailAddress: '123', address: '123', trainingSiteName: '123', trainingSiteSiret: '123', trainingSiteAddress: '123',
-  opcoName: '123', opcoSiret: '123', opcoAddress: '123', opcoPhoneNumber: '123', opcoMailAddress: '123',
- }
+  {
+    name: 'Itanica',
+    companySiret: '399 826 981 00017',
+    nbEmployees: 250,
+    codeCpne: '123',
+    cideIdcc: '123',
+    collectiveConvention: '123',
+    codeNafApe: '123',
+    activityArea: '123',
+    phoneNumber: '123',
+    mailAddress: '123',
+    address: '123',
+    trainingSiteName: '123',
+    trainingSiteSiret: '123',
+    trainingSiteAddress: '123',
+    opcoName: '123',
+    opcoSiret: '123',
+    opcoAddress: '123',
+    opcoPhoneNumber: '123',
+    opcoMailAddress: '123',
+  },
 ];
-

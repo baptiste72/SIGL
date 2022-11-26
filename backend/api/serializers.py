@@ -102,6 +102,7 @@ class ApprenticeSerializer(serializers.ModelSerializer):
             "tutorTeam",
         )
 
+
 class InterviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Interview
