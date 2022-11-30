@@ -7,13 +7,17 @@ urlpatterns = [
 
     path('tutors', views.getTutor, name='getTutor'),
     path('apprentices', views.getApprentice, name='getApprentice'),
-    
+ 
+    path('interview/<int:id>', views.apiInterview, name='apiInterview'),   
     path('interviews', views.getInterview, name='getInterview'),
     path('add-interview', views.addInterview, name='addInterview'),
-    
+    path('update-interview', views.updateInterview, name='updateInterview'),
+
+    path('deadline/<int:id>', views.apiDeadline, name='apiDeadline'),       
     path('deadlines', views.getDeadline, name='getDeadline'),
     path('add-deadline', views.addDeadline, name='addDeadline'),
-
+    path('update-deadline', views.updateDeadline, name='updateDeadline'),
+    
     path('note/<int:id>', views.apiNote, name='apiNote'),
     path('update-note', views.updateNote, name='updateNote'),
     path('notes', views.getNotes, name='getNotes'),

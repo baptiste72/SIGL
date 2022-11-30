@@ -11,11 +11,11 @@ interface Guest {
 }
 
 @Component({
-  selector: 'app-add-event-popup',
-  templateUrl: './add-event-popup.component.html',
-  styleUrls: ['./add-event-popup.component.scss'],
+  selector: 'app-modify-event-popup',
+  templateUrl: './modify-event-popup.component.html',
+  styleUrls: ['./modify-event-popup.component.scss'],
 })
-export class AddEventPopupComponent implements OnInit {
+export class ModifyEventPopupComponent implements OnInit {
   interview: any;
   semesters: Semester[] = [
     { name: 'Semestre S5' },
@@ -31,7 +31,7 @@ export class AddEventPopupComponent implements OnInit {
   ];
 
   constructor(
-    public dialogRef: MatDialogRef<AddEventPopupComponent>,
+    public dialogRef: MatDialogRef<ModifyEventPopupComponent>,
     private interviewService: InterviewService,
     private _snackBar: MatSnackBar,
     @Optional() @Inject(MAT_DIALOG_DATA) public mydata: any
@@ -40,15 +40,7 @@ export class AddEventPopupComponent implements OnInit {
   fromDialog!: string;
 
   ngOnInit(): void {
-    this.fromDialog = 'I am from dialog land...';
-    this.interview = {
-      name: '',
-      date: '',
-      first_hour: '',
-      last_hour: '',
-      description: '',
-      semester: ' ',
-    };
+    this.interview = this.mydata.dataKey;
   }
   public addinterview(data: any) {
     this.interviewService.addInterview(data).subscribe({

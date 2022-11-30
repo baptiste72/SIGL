@@ -23,4 +23,23 @@ export class DeadlineService {
       post
     );
   }
+
+  public getDeadline(id: any): Observable<any> {
+    return this.http.get<any>(
+      `${environment.apiUrl}/${this.urlPrefix}/deadline/${id}`
+    );
+  }
+
+  public deleteDeadline(id: any): Observable<any> {
+    return this.http.delete<any>(
+      `${environment.apiUrl}/${this.urlPrefix}/deadline/${id}`
+    );
+  }
+
+  public updateDeadline(post: any): Observable<any> {
+    return this.http.post<any>(
+      `${environment.apiUrl}/${this.urlPrefix}/update-deadline`,
+      post
+    );
+  }
 }

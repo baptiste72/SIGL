@@ -56,7 +56,37 @@ def addInterview(request):
         serializer.save()
     return Response(serializer.data)
 
+@api_view(['GET','DELETE'])
+def apiInterview(request, id):
+    try: 
+        InterviewId = Interview.objects.get(pk=id) 
+    except Interview.DoesNotExist: 
+        return JsonResponse({'message': 'the Interview does not exist'}, status=status.HTTP_404_NOT_FOUND) 
+ 
+    if request.method == 'GET': 
+        interview_serializer = NoteSerializer(InterviewId) 
+        return JsonResponse(interview_serializer.data) 
+    elif request.method == 'DELETE': 
+        InterviewId.delete() 
+        return JsonResponse({'message': 'the Interview was deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)
 
+
+@api_view(['POST'])
+def updateInterview(request):
+    try: 
+        print(request.data)
+        id=request.data["id"]
+        InterviewId = Interview.objects.get(pk=id) 
+    except Note.DoesNotExist: 
+        return JsonResponse({'message': 'the Interview does not exist'}, status=status.HTTP_404_NOT_FOUND) 
+
+    serializer = NoteSerializer(instance=InterviewId, data=request.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(status=status.HTTP_200_OK,data=serializer.data)
+    else :
+        return JsonResponse({'message': 'the Interview is not valid'}, status=status.HTTP_404_NOT_FOUND) 
+    
 @api_view(['GET'])
 def getDeadline(request):
     DeadlineList = Deadline.objects.all()
@@ -71,6 +101,35 @@ def addDeadline(request):
         serializer.save()
     return Response(serializer.data)
 
+@api_view(['GET','DELETE'])
+def apiDeadline(request, id):
+    try: 
+        DeadlineId = Deadline.objects.get(pk=id) 
+    except Deadline.DoesNotExist: 
+        return JsonResponse({'message': 'the Deadline does not exist'}, status=status.HTTP_404_NOT_FOUND) 
+ 
+    if request.method == 'GET': 
+        deadline_serializer = NoteSerializer(DeadlineId) 
+        return JsonResponse(deadline_serializer.data) 
+    elif request.method == 'DELETE': 
+        DeadlineId.delete() 
+        return JsonResponse({'message': 'the Deadline was deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['POST'])
+def updateDeadline(request):
+    try: 
+        print(request.data)
+        id=request.data["id"]
+        DeadlineId = Deadline.objects.get(pk=id) 
+    except Note.DoesNotExist: 
+        return JsonResponse({'message': 'the Deadline does not exist'}, status=status.HTTP_404_NOT_FOUND) 
+
+    serializer = NoteSerializer(instance=DeadlineId, data=request.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(status=status.HTTP_200_OK,data=serializer.data)
+    else :
+        return JsonResponse({'message': 'the Deadline is not valid'}, status=status.HTTP_404_NOT_FOUND) 
 
 @api_view(['GET'])
 def getNotes(request):
