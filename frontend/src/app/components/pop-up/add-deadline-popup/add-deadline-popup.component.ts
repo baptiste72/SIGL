@@ -42,6 +42,7 @@ export class AddDeadlinePopupComponent implements OnInit {
       description: '',
     };
   }
+
   public addDeadline(data: any) {
     this.deadlineService.addDeadline(data).subscribe({
       next: (v) => {

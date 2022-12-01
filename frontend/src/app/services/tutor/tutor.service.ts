@@ -13,6 +13,5 @@ export class TutorService {
 
   public getTutor(): Observable<any> {
     return this.http.get<any>(`${environment.apiUrl}/${this.urlPrefix}/tutors`);
-
   }
 }

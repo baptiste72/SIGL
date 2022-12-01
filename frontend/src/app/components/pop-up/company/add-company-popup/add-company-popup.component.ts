@@ -1,12 +1,5 @@
-import {
-  Component,
-  Inject,
-  OnInit,
-  Optional,
-  ViewChild,
-  AfterViewInit,
-} from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/services/auth/auth.service';
 
@@ -16,20 +9,16 @@ import { AuthService } from 'src/app/services/auth/auth.service';
   styleUrls: ['./add-company-popup.component.scss'],
 })
 export class AddCompanyPopupComponent implements OnInit {
-  fromPage!: string;
-  fromDialog!: string;
   selectedRole = '';
   register: any;
 
   constructor(
     public dialogRef: MatDialogRef<AddCompanyPopupComponent>,
     private authService: AuthService,
-    private _snackBar: MatSnackBar,
-    @Optional() @Inject(MAT_DIALOG_DATA) public mydata: any
+    private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
-    this.fromDialog = 'I am from dialog land...';
     this.register = {
       last_name: '',
       first_name: '',
@@ -39,7 +28,7 @@ export class AddCompanyPopupComponent implements OnInit {
   }
 
   closeDialog() {
-    this.dialogRef.close({ event: 'close', data: this.fromDialog });
+    this.dialogRef.close({ event: 'close' });
   }
 
   public addCompany(data: any) {}

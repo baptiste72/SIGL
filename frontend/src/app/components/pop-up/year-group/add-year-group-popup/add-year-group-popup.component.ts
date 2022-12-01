@@ -1,8 +1,7 @@
-import { Component, OnInit, Inject, Optional } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { YearGroupService } from 'src/app/services/year-group/year-group.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-add-year-group-popup',
@@ -10,32 +9,23 @@ import { Output, EventEmitter } from '@angular/core';
   styleUrls: ['./add-year-group-popup.component.scss'],
 })
 export class AddYearGroupPopupComponent implements OnInit {
-  fromPage!: string;
-  fromDialog!: string;
   register: any;
 
   constructor(
     public dialogRef: MatDialogRef<AddYearGroupPopupComponent>,
     private yearGroupService: YearGroupService,
-    private _snackBar: MatSnackBar,
-    @Optional() @Inject(MAT_DIALOG_DATA) public mydata: any
+    private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
-    this.fromDialog = 'I am from dialog land...';
     this.register = {
       worded: '',
       beginDate: '',
     };
   }
 
-  public closeDialog() {
-    this.dialogRef.close(
-      {
-        event: 'close',
-        data: this.fromDialog
-      }
-    );
+  closeDialog() {
+    this.dialogRef.close({ event: 'close' });
   }
 
   public addPromotion(data: any) {

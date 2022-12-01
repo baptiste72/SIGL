@@ -1,13 +1,5 @@
-import {
-  Component,
-  Inject,
-  OnInit,
-  Optional,
-  ViewChild,
-  AfterViewInit,
-} from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSelect } from '@angular/material/select';
+import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { ApprenticeService } from 'src/app/services/apprentice/apprentice.service';
 import { MentorService } from 'src/app/services/mentor/mentor.service';
 import { TutorService } from 'src/app/services/tutor/tutor.service';
@@ -23,8 +15,6 @@ import { TutorTeamService } from 'src/app/services/tutor-team/tutor-team.service
   styleUrls: ['./add-team-popup.component.scss'],
 })
 export class AddTeamPopupComponent implements OnInit {
-  fromPage!: string;
-  fromDialog!: string;
   register: any;
 
   apprentices: Apprentice[] = [];
@@ -37,8 +27,7 @@ export class AddTeamPopupComponent implements OnInit {
     private tutorService: TutorService,
     private apprenticeService: ApprenticeService,
     private tutorTeamService: TutorTeamService,
-    private _snackBar: MatSnackBar,
-    @Optional() @Inject(MAT_DIALOG_DATA) public mydata: any
+    private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -53,7 +42,7 @@ export class AddTeamPopupComponent implements OnInit {
   }
 
   closeDialog() {
-    this.dialogRef.close({ event: 'close', data: this.fromDialog });
+    this.dialogRef.close({ event: 'close' });
   }
 
   private getApprentice() {

@@ -2,14 +2,32 @@
   <mat-drawer #drawer class="sidenav" mode="side" [(opened)]="opened">
     <img class="logo-eseo" src="assets/images/logo-eseo.png" alt="logo ESEO" />
     <div class="ul-navigation">
-      <a (click)="redirectTo('dashboard-apprentice')"><div><mat-icon matPrefix>home</mat-icon>Journal de formation</div></a>
-      <a (click)="redirectTo('documents')"><div><mat-icon matPrefix>description</mat-icon>Docs Pédagogiques</div></a>
-      <a (click)="redirectTo('marks')"><div><mat-icon matPrefix>edit_note</mat-icon>Notes</div></a>
-      <a (click)="redirectTo('documents')"><div><mat-icon matPrefix>co_present</mat-icon>Livrables</div></a>
-      <a (click)="redirectTo('events')"><div><mat-icon matPrefix>calendar_month</mat-icon>Évènements</div></a>
-      <a (click)="redirectTo('profile')"><div><mat-icon matPrefix>account_circle</mat-icon>Mon compte</div></a>
-      <a (click)="redirectTo('configuration')"><div><mat-icon matPrefix>settings</mat-icon>Configuration</div></a>
-      <a (click)="logout()"><div><mat-icon matPrefix>cancel</mat-icon>Déconnexion</div></a>
+      <a routerLink="/dashboard"
+        ><div><mat-icon matPrefix>home</mat-icon>Journal de formation</div></a
+      >
+      <a routerLink="/documents"
+        ><div>
+          <mat-icon matPrefix>description</mat-icon>Docs Pédagogiques
+        </div></a
+      >
+      <a routerLink="/notes"
+        ><div><mat-icon matPrefix>edit_note</mat-icon>Notes</div></a
+      >
+      <a routerLink="/documents"
+        ><div><mat-icon matPrefix>co_present</mat-icon>Livrables</div></a
+      >
+      <a routerLink="/events"
+        ><div><mat-icon matPrefix>calendar_month</mat-icon>Évènements</div></a
+      >
+      <a routerLink="/profile"
+        ><div><mat-icon matPrefix>account_circle</mat-icon>Mon compte</div></a
+      >
+      <a routerLink="/configuration"
+        ><div><mat-icon matPrefix>settings</mat-icon>Configuration</div></a
+      >
+      <a (click)="logout()"
+        ><div><mat-icon matPrefix>cancel</mat-icon>Déconnexion</div></a
+      >
     </div>
   </mat-drawer>
 
@@ -22,7 +40,8 @@
 
         <div class="topbar-right">
           <div class="divider">
-            <mat-icon matPrefix>person</mat-icon>{{ user.first_name }} {{ user.last_name }}
+            <mat-icon matPrefix>person</mat-icon>{{ user.first_name }}
+            {{ user.last_name }}
           </div>
           <mat-icon matPrefix>settings</mat-icon>
           <mat-icon matPrefix>notifications</mat-icon>

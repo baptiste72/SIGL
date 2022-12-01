@@ -1,12 +1,5 @@
-import {
-  Component,
-  Inject,
-  OnInit,
-  Optional,
-  ViewChild,
-  AfterViewInit,
-} from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/services/auth/auth.service';
 
@@ -16,6 +9,7 @@ interface Promotion {
 
 interface Role {
   name: string;
+  value: string;
 }
 
 @Component({
@@ -24,28 +18,24 @@ interface Role {
   styleUrls: ['./add-user-popup.component.scss'],
 })
 export class AddUserPopupComponent implements OnInit {
-  fromPage!: string;
-  fromDialog!: string;
   selectedRole = '';
   register: any;
-
   promotions: Promotion[] = [
     { name: 'Noether' },
     { name: 'Promotion2' },
     { name: 'Promotion3' },
   ];
   roles: Role[] = [
-    { name: 'Apprenti' },
-    { name: 'Maître apprentissage' },
-    { name: 'Tuteur pédagogique' },
-    { name: 'Compte Entreprise' },
+    {name: 'Apprenti', value: 'APPRENTICE'},
+    {name: 'Maître apprentissage', value: 'MENTOR'},
+    {name: 'Tuteur pédagogique', value: 'TUTOR'},
+    {name: 'Compte Entreprise', value: 'COMPANY'}
   ];
 
   constructor(
     public dialogRef: MatDialogRef<AddUserPopupComponent>,
     private authService: AuthService,
-    private _snackBar: MatSnackBar,
-    @Optional() @Inject(MAT_DIALOG_DATA) public mydata: any
+    private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -60,7 +50,7 @@ export class AddUserPopupComponent implements OnInit {
   }
 
   closeDialog() {
-    this.dialogRef.close({ event: 'close', data: this.fromDialog });
+    this.dialogRef.close({ event: 'close' });
   }
 
   public addUser(data: any) {
@@ -81,10 +71,9 @@ export class AddUserPopupComponent implements OnInit {
     var passwordCondition = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/g;
     var emailCondition = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
     var lastNameCondition = data.last_name != '' && data.last_name.length >= 2;
-    var firstNameCondition =
-      data.first_name != '' && data.first_name.length >= 2;
+    var firstNameCondition = data.first_name != '' && data.first_name.length >= 2;
 
-    //Check each field and print corresponding error message
+    // Vérifie chaque champs et affiche le message d'erreur correspondant
     if (!data.role) {
       this.displaySnackBar('❌ Rôle est requis');
       return false;

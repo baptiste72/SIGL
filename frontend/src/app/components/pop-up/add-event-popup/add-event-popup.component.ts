@@ -37,10 +37,7 @@ export class AddEventPopupComponent implements OnInit {
     @Optional() @Inject(MAT_DIALOG_DATA) public mydata: any
   ) {}
 
-  fromDialog!: string;
-
   ngOnInit(): void {
-    this.fromDialog = 'I am from dialog land...';
     this.interview = {
       name: '',
       date: '',
@@ -50,6 +47,7 @@ export class AddEventPopupComponent implements OnInit {
       semester: ' ',
     };
   }
+
   public addinterview(data: any) {
     this.interviewService.addInterview(data).subscribe({
       next: (v) => {
@@ -63,7 +61,8 @@ export class AddEventPopupComponent implements OnInit {
       },
     });
   }
+
   closeDialog() {
-    this.dialogRef.close({ event: 'close', data: this.fromDialog });
+    this.dialogRef.close({ event: 'close' });
   }
 }

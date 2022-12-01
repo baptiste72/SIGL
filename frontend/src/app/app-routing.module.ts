@@ -9,22 +9,42 @@ import { ForgotPasswordComponent } from './components/pages/forgot-password/forg
 import { NewPasswordComponent } from './components/pages/new-password/new-password.component';
 import { NotesPageComponent } from './components/pages/notes-page/notes-page.component';
 import { PersonalInformationsComponent } from './components/pages/personal-informations/personal-informations.component';
+import { AuthGuard, Role } from './helpers';
 
 const routes: Routes = [
   { path: '', component: ConnectionComponent },
   { path: 'login', component: ConnectionComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'new-password', component: NewPasswordComponent },
-  { path: 'dashboard-apprentice', component: DashboardApprenticeComponent },
-  { path: 'profile', component: PersonalInformationsComponent },
-  { path: 'documents', component: DocumentsPageComponent },
-  { path: 'marks', component: NotesPageComponent },
-  { path: 'configuration', component: ConfigurationComponent },
-  { path: 'events', component: EventsPageComponent },
+  {
+    path: 'dashboard',
+    component: DashboardApprenticeComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Role.APPRENTICE, Role.UNKNOWN] },
+  },
+  {
+    path: 'profile',
+    component: PersonalInformationsComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'documents',
+    component: DocumentsPageComponent,
+    canActivate: [AuthGuard],
+  },
+  { path: 'notes', component: NotesPageComponent, canActivate: [AuthGuard] },
+  {
+    path: 'configuration',
+    component: ConfigurationComponent,
+    // FIXME: Retiré provisoirement pour pouvoir créer un compte en période de dév
+    // canActivate: [AuthGuard],
+    // data: { roles: [Role.CA] },
+  },
+  { path: 'events', component: EventsPageComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
