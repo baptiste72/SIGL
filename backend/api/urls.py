@@ -29,6 +29,8 @@ urlpatterns = [
     
     path('companys', views.getCompany, name='getCompany'),
     path('formationCenters', views.getFormationCenter, name='getformationCenter'),
+
     path('users', views.getUser, name='getUser'),
     path('delete-user', views.deleteUserById, name='deleteUserById'),
+    path('update-user', views.updateUser, name='updateUser'),
 ]

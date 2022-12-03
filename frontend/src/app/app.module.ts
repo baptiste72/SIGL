@@ -17,7 +17,7 @@ import { EventsComponent } from './components/events/events.component';
 import { DocumentsPageComponent } from './components/pages/documents-page/documents-page.component';
 import { AddNotePopupComponent } from './components/pop-up/add-note-popup/add-note-popup.component';
 import { ConfigurationComponent } from './components/pages/configuration/configuration.component';
-import { AddUserPopupComponent } from './components/pop-up/add-user-popup/add-user-popup.component';
+import { AddUserPopupComponent } from './components/pop-up/user/add-user-popup/add-user-popup.component';
 import { AddYearGroupPopupComponent } from './components/pop-up/year-group/add-year-group-popup/add-year-group-popup.component';
 import { AddTeamPopupComponent } from './components/pop-up/add-team-popup/add-team-popup.component';
 import { NotesPageComponent } from './components/pages/notes-page/notes-page.component';
@@ -43,11 +43,16 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
 import { DeadlineTableComponent } from './deadline-table/deadline-table.component';
 import { AddDeadlinePopupComponent } from './components/pop-up/add-deadline-popup/add-deadline-popup.component';
-import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
+import {
+  NgxMatDatetimePickerModule,
+  NgxMatTimepickerModule,
+  NgxMatNativeDateModule,
+} from '@angular-material-components/datetime-picker';
 import { AuthInterceptor } from './helpers/auth-interceptor';
 import { MatTabsModule } from '@angular/material/tabs';
 import { AddCompanyPopupComponent } from './components/pop-up/add-company-popup/add-company-popup.component';
 import { AddSemesterPopupComponent } from './components/pop-up/semester/add-semester-popup/add-semester-popup.component';
+import { UpdateUserPopupComponent } from './components/pop-up/user/update-user-popup/update-user-popup/update-user-popup.component';
 
 @NgModule({
   declarations: [
@@ -77,6 +82,7 @@ import { AddSemesterPopupComponent } from './components/pop-up/semester/add-seme
     AddSemesterPopupComponent,
     UpdateYearGroupPopupComponent,
     UpdateSemesterPopupComponent,
+    UpdateUserPopupComponent,
   ],
   imports: [
     BrowserModule,
@@ -101,14 +107,12 @@ import { AddSemesterPopupComponent } from './components/pop-up/semester/add-seme
     NgxMatDatetimePickerModule,
     NgxMatTimepickerModule,
     NgxMatNativeDateModule,
-    MatTabsModule
+    MatTabsModule,
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
-  exports: [
-
-  ]
+  exports: [],
 })
-export class AppModule { }
+export class AppModule {}

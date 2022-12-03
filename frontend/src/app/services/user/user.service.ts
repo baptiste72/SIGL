@@ -17,4 +17,8 @@ export class UserService {
   public deleteUserById(post: any): Observable<any> {
     return this.http.post<any>(`${environment.apiUrl}/${this.urlPrefix}/delete-user`, post);
   }
+
+  public updateUser(post: any): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/${this.urlPrefix}/update-user`, post);
+  }
 }

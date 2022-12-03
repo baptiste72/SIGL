@@ -174,3 +174,21 @@ def deleteUserById(request):
     if serializer.is_valid():
         deleteUser.delete()
     return Response(serializer.data)
+
+@api_view(['POST'])
+def updateUser(request):
+    updateUserWillModify = User.objects.get(pk=request.data.get('id'))
+    if updateUserWillModify.role == "MENTOR":
+        updateUser = Mentor.objects.get(pk=request.data.get('id'))
+    elif updateUserWillModify.role == "TUTOR":
+        updateUser = Tutor.objects.get(pk=request.data.get('id'))
+    elif updateUserWillModify.role == "APPRENTICE":
+        updateUser = Apprentice.objects.get(pk=request.data.get('id'))
+    updateUser.first_name = request.data.get('first_name')
+    updateUser.last_name = request.data.get('last_name')
+    updateUser.email = request.data.get('email')
+    serializer = UpdateUserSerializer(data=request.data)
+    if serializer.is_valid():
+        updateUser.save()
+    print(serializer.errors)
+    return Response(serializer.data)
