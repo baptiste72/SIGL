@@ -164,3 +164,13 @@ def getUser(request):
     UserList = User.objects.all()
     serializers = UserSerializer(UserList, many=True)
     return Response(serializers.data)
+
+
+@api_view(['POST'])
+def deleteUserById(request):
+    deleteUser = User.objects.filter(id=request.data.get('id'))
+    serializer = UserSerializerDelete(data=request.data)
+    print(request.data)
+    if serializer.is_valid():
+        deleteUser.delete()
+    return Response(serializer.data)

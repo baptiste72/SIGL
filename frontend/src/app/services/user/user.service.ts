@@ -12,5 +12,9 @@ export class UserService {
 
   public getUser(): Observable<any> {
     return this.http.get<any>(`${environment.apiUrl}/${this.urlPrefix}/users`);
-}
+  }
+
+  public deleteUserById(post: any): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/${this.urlPrefix}/delete-user`, post);
+  }
 }

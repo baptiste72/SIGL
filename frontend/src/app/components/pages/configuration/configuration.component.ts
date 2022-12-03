@@ -189,9 +189,7 @@ export class ConfigurationComponent implements AfterViewInit, OnInit {
         this.getSemester();
       },
       error: (err) => {
-        this._snackBar.open('❌ Une erreur est survenue lors de la suppression du semestre', 'Ok', {
-          duration: 2000,
-        });
+        this._snackBar.open('❌ Une erreur est survenue lors de la suppression du semestre', 'Ok', {duration: 2000,});
       },
     });
   }
@@ -207,6 +205,19 @@ export class ConfigurationComponent implements AfterViewInit, OnInit {
       this.getUser()
     });
   }
+
+  deleteUserById(ID: any) {
+    this.register.id=ID;
+    this.userService.deleteUserById(this.register).subscribe({
+      next: (v) => {
+        this.getUser();
+      },
+      error: (err) => {
+        this._snackBar.open('❌ Une erreur est survenue lors de la suppression du semestre', 'Ok', {duration: 2000,});
+      },
+    });
+  }
+
   // EQUIPES PEDAGOGIQUES
   openTutorTeamPopUp() {
     this.dialog.open(AddTeamPopupComponent,
