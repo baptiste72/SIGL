@@ -11,7 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { CompanyService } from 'src/app/services/company/company.service';
 import { Company } from 'src/app/models/Company';
-import { FormationCenterService } from 'src/app/services/formationCenter/formationCenter.service';
+import { FormationCenterService } from '@app/services/formation-center/formation-center.service';
 import { FormationCenter } from 'src/app/models/FormationCenter';
 import { YearGroupService } from 'src/app/services/year-group/year-group.service';
 import { YearGroup } from 'src/app/models/YearGroup';

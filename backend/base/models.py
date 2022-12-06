@@ -62,13 +62,10 @@ class YearGroup(models.Model):
 
 
 class Apprentice(User):
-
+    # table des apprentis
     yearGroup = models.ForeignKey(
         YearGroup, related_name="Apprentice", on_delete=models.CASCADE, null=True
     )
-    # table des apprentis
-    def __unicode__(self):
-        return self.name
 
 
 class Semester(models.Model):
@@ -81,7 +78,7 @@ class Semester(models.Model):
     )
 
     apprentice = models.ForeignKey(
-        Apprentice, related_name="yearGroup", on_delete=models.CASCADE, null=True
+        Apprentice, related_name="semester", on_delete=models.CASCADE, null=True
     )
 
 

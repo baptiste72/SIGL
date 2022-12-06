@@ -294,17 +294,6 @@ export class ConfigurationComponent implements AfterViewInit, OnInit {
       });
   }
 
-  openTutorTeamPopUp() {
-    this.dialog
-      .open(AddTeamPopupComponent, {
-        width: '600px',
-      })
-      .afterClosed()
-      .subscribe((shouldReload: boolean) => {
-        this.getTutorTeam();
-      });
-  }
-
   // ENTREPRISES
   addCompany() {
     this.dialog.open(AddCompanyPopupComponent, {
