@@ -6,16 +6,17 @@
 
     <form
       class="connection-form"
-      #loginForm="ngForm"
-      (ngSubmit)="login(loginForm.value)"
+      [formGroup]="loginForm"
+      (ngSubmit)="login()"
     >
       <div class="div-input user-name">
         <h3>Adresse email</h3>
         <mat-form-field class="full-width" appearance="fill">
           <mat-label>Entrez votre adresse email</mat-label>
           <mat-icon matPrefix>account_circle</mat-icon>
-          <input type="email" matInput name="email" ngModel />
+          <input type="email" matInput name="email" formControlName="email" ngModel />
         </mat-form-field>
+
       </div>
 
       <div class="div-input">
@@ -27,6 +28,7 @@
             matInput
             [type]="hide ? 'password' : 'text'"
             name="password"
+            formControlName="password"
             ngModel
           />
           <button

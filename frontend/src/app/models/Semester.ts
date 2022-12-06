@@ -1,5 +1,3 @@
-import { YearGroup } from "./YearGroup";
-
 export class Semester {
   id: number;
   name: string;

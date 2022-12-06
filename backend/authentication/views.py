@@ -1,7 +1,12 @@
+import datetime
+import jwt
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed
+from rest_framework import status
 
+from authentication.graph.graph_helper import get_user
 from .graph.auth_helper import get_sign_in_flow, get_token_from_code
 from .graph.graph_helper import *
 
@@ -55,36 +60,35 @@ class LoginView(APIView):
         }
 
         token = jwt.encode(payload, "secret", algorithm="HS256")
-        response = Response()
 
-        response.set_cookie(key="jwt", value=token, httponly=True)
-        response.data = {"jwt": token}
-        return response
+        user.token = token
+        serializer = UserSerializer(user)
+
+        return Response(serializer.data)
 
 
 class UserView(APIView):
     def get(self, request):
         token = request.headers.get("Authorization")
+        response: Response
 
         if not token:
             raise AuthenticationFailed("Unauthenticated!")
 
         try:
             payload = jwt.decode(token, "secret", algorithms=["HS256"])
-        except jwt.ExpiredSignatureError:
-            raise AuthenticationFailed("Unauthenticated!")
+        except Exception as exc:
+            raise AuthenticationFailed("Unauthenticated!") from exc
 
-        user: User = User.objects.filter(id=payload["id"]).first()
-        serializer = UserSerializer(user)
-        return Response(serializer.data)
-
-
-class LogoutView(APIView):
-    def post(self, request):
-        # FIXME: Code mort, voir s'il est pertinent de conserver une méthode logout côté Backend
-        response = Response()
-        response.delete_cookie("jwt")
-        response.data = {"message": "success"}
+        if request.data["id"] == payload["id"]:
+            user: User = User.objects.get(id=payload["id"])
+            serializer = UserSerializer(user)
+            response = Response(serializer.data)
+        else:
+            response = Response(
+                {"message": "Mauvaise correspondance dans les ids."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
         return response
 
 

@@ -1,35 +1,63 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-
-from base.models import *
+from authentication.models import User
 from base.utilities import Role
-from .serializers import *
+
+from api.serializers import (
+    ApprenticeSerializer,
+    CompanySerializer,
+    DeadlineSerializer,
+    FormationCenterSerializer,
+    InterviewSerializer,
+    MentorSerializer,
+    SemesterSerializer,
+    SemesterSerializerDelete,
+    TutorSerializer,
+    TutorTeamSerializer,
+    UserSerializer,
+    UserSerializerDelete,
+    YearGroupSerializer,
+    YearGroupSerializerDelete,
+)
+from base.models import (
+    Apprentice,
+    Company,
+    Deadline,
+    FormationCenter,
+    Interview,
+    Mentor,
+    Semester,
+    Tutor,
+    TutorTeam,
+    YearGroup,
+)
+
 from .helper.tutor_team_helper import TutorTeamHelper
 
 
 @api_view(["GET"])
-def getMentor(request):
-    mentorList = Mentor.objects.all()
-    serializers = MentorSerializer(mentorList, many=True)
+def get_mentor(request):
+    mentor_list = Mentor.objects.all()
+    serializers = MentorSerializer(mentor_list, many=True)
     return Response(serializers.data)
 
 
 @api_view(["GET"])
-def getTutor(request):
-    tutorList = Tutor.objects.all()
-    serializers = TutorSerializer(tutorList, many=True)
+def get_tutor(request):
+    tutor_list = Tutor.objects.all()
+    serializers = TutorSerializer(tutor_list, many=True)
     return Response(serializers.data)
 
 
 @api_view(["GET"])
-def getApprentice(request):
-    apprenticeList = Apprentice.objects.all()
-    serializers = ApprenticeSerializer(apprenticeList, many=True)
+def get_apprentice(request):
+    apprentice_list = Apprentice.objects.all()
+    serializers = ApprenticeSerializer(apprentice_list, many=True)
     return Response(serializers.data)
 
 
 @api_view(["POST"])
-def addMentor(request):
+def add_mentor(request):
     serializer = MentorSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
@@ -37,14 +65,14 @@ def addMentor(request):
 
 
 @api_view(["GET"])
-def getInterview(request):
-    InterviewList = Interview.objects.all()
-    serializers = InterviewSerializer(InterviewList, many=True)
+def get_interview(request):
+    interview_list = Interview.objects.all()
+    serializers = InterviewSerializer(interview_list, many=True)
     return Response(serializers.data)
 
 
 @api_view(["POST"])
-def addInterview(request):
+def add_interview(request):
     serializer = InterviewSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
@@ -52,14 +80,14 @@ def addInterview(request):
 
 
 @api_view(["GET"])
-def getDeadline(request):
-    DeadlineList = Deadline.objects.all()
-    serializers = DeadlineSerializer(DeadlineList, many=True)
+def get_deadline(request):
+    dealine_list = Deadline.objects.all()
+    serializers = DeadlineSerializer(dealine_list, many=True)
     return Response(serializers.data)
 
 
 @api_view(["POST"])
-def addDeadline(request):
+def add_deadline(request):
     serializer = DeadlineSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
@@ -67,14 +95,14 @@ def addDeadline(request):
 
 
 @api_view(["GET"])
-def getYearGroup(request):
-    YearGroupList = YearGroup.objects.all()
-    serializers = YearGroupSerializer(YearGroupList, many=True)
+def get_year_group(request):
+    yeargroup_list = YearGroup.objects.all()
+    serializers = YearGroupSerializer(yeargroup_list, many=True)
     return Response(serializers.data)
 
 
 @api_view(["POST"])
-def addYearGroup(request):
+def add_year_group(request):
     serializer = YearGroupSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
@@ -82,16 +110,16 @@ def addYearGroup(request):
 
 
 @api_view(["GET"])
-def getTutorTeams(request):
+def get_tutor_teams(request):
     # récupération du contenu de la table TutorTeam
-    TutorTeamList = TutorTeam.objects.all()
-    serializers = TutorTeamSerializer(TutorTeamList, many=True)
+    tutor_team_list = TutorTeam.objects.all()
+    serializers = TutorTeamSerializer(tutor_team_list, many=True)
     response = TutorTeamHelper.getAllTutorTeams(serializers)
     return Response(response)
 
 
 @api_view(["POST"])
-def addTutorTeams(request):
+def add_tutor_teams(request):
     serializer = TutorTeamSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
@@ -99,36 +127,36 @@ def addTutorTeams(request):
 
 
 @api_view(["POST"])
-def deleteYearGroupById(request):
-    deleteYearGroup = YearGroup.objects.filter(id=request.data.get("id"))
+def delete_year_group_by_id(request):
+    year_group = YearGroup.objects.filter(id=request.data.get("id"))
     serializer = YearGroupSerializerDelete(data=request.data)
     print(request.data)
     if serializer.is_valid():
-        deleteYearGroup.delete()
+        year_group.delete()
     return Response(serializer.data)
 
 
 @api_view(["POST"])
-def updateYearGroup(request):
-    updateYearGroup = YearGroup.objects.get(pk=request.data.get("id"))
-    updateYearGroup.worded = request.data.get("worded")
-    updateYearGroup.beginDate = request.data.get("beginDate")
+def update_year_group(request):
+    year_group = YearGroup.objects.get(pk=request.data.get("id"))
+    year_group.worded = request.data.get("worded")
+    year_group.begin_date = request.data.get("beginDate")
     serializer = YearGroupSerializer(data=request.data)
     if serializer.is_valid():
-        updateYearGroup.save()
+        year_group.save()
     print(serializer.errors)
     return Response(serializer.data)
 
 
 @api_view(["GET"])
-def getSemester(request):
-    SemesterList = Semester.objects.all()
-    serializers = SemesterSerializer(SemesterList, many=True)
+def get_semester(request):
+    semester_list = Semester.objects.all()
+    serializers = SemesterSerializer(semester_list, many=True)
     return Response(serializers.data)
 
 
 @api_view(["POST"])
-def addSemester(request):
+def add_semester(request):
     serializer = SemesterSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
@@ -136,75 +164,75 @@ def addSemester(request):
 
 
 @api_view(["POST"])
-def deleteSemesterById(request):
-    deleteSemester = Semester.objects.filter(id=request.data.get("id"))
+def delete_semester_by_id(request):
+    delete_semester = Semester.objects.filter(id=request.data.get("id"))
     serializer = SemesterSerializerDelete(data=request.data)
     if serializer.is_valid():
-        deleteSemester.delete()
+        delete_semester.delete()
     return Response(serializer.data)
 
 
 @api_view(["POST"])
-def updateSemester(request):
-    updateSemester = Semester.objects.get(pk=request.data.get("id"))
-    updateSemester.name = request.data.get("name")
-    updateSemester.beginDate = request.data.get("beginDate")
-    updateSemester.endDate = request.data.get("endDate")
-    yearGroup = YearGroup.objects.get(pk=request.data.get("yearGroup"))
-    updateSemester.yearGroup = yearGroup
-    serializer = SemesterSerializer(updateSemester, data=request.data)
+def update_semester(request):
+    semester = Semester.objects.get(pk=request.data.get("id"))
+    semester.name = request.data.get("name")
+    semester.begin_date = request.data.get("beginDate")
+    semester.end_date = request.data.get("endDate")
+    year_group = YearGroup.objects.get(pk=request.data.get("yearGroup"))
+    semester.yeargroup = year_group
+    serializer = SemesterSerializer(data=request.data)
     if serializer.is_valid():
-        updateSemester.save()
+        semester.save()
     print(serializer.errors)
     return Response(serializer.data)
 
 
 @api_view(["GET"])
-def getCompany(request):
-    CompanyList = Company.objects.all()
-    serializers = CompanySerializer(CompanyList, many=True)
+def get_company(request):
+    company_list = Company.objects.all()
+    serializers = CompanySerializer(company_list, many=True)
     return Response(serializers.data)
 
 
 @api_view(["GET"])
-def getFormationCenter(request):
-    FormationCenterList = FormationCenter.objects.all()
-    serializers = FormationCenterSerializer(FormationCenterList, many=True)
+def get_formation_center(request):
+    formation_center_list = FormationCenter.objects.all()
+    serializers = FormationCenterSerializer(formation_center_list, many=True)
     return Response(serializers.data)
 
 
 @api_view(["GET"])
-def getUser(request):
-    UserList = User.objects.all()
-    serializers = UserSerializer(UserList, many=True)
+def get_user(request):
+    user_list = User.objects.all()
+    serializers = UserSerializer(user_list, many=True)
     return Response(serializers.data)
 
 
 @api_view(["POST"])
-def deleteUserById(request):
-    deleteUser = User.objects.filter(id=request.data.get("id"))
+def delete_user_by_id(request):
+    delete_user = User.objects.filter(id=request.data.get("id"))
     serializer = UserSerializerDelete(data=request.data)
     print(request.data)
     if serializer.is_valid():
-        deleteUser.delete()
+        delete_user.delete()
     return Response(serializer.data)
 
 
 @api_view(["POST"])
-def updateUser(request):
-    updateUserWillModify = User.objects.get(pk=request.data.get("id"))
-    if updateUserWillModify.role == Role.MENTOR:
-        updateUser = Mentor.objects.get(pk=request.data.get("id"))
-    elif updateUserWillModify.role == Role.TUTOR:
-        updateUser = Tutor.objects.get(pk=request.data.get("id"))
-    elif updateUserWillModify.role == Role.APPRENTICE:
-        updateUser = Apprentice.objects.get(pk=request.data.get("id"))
-    updateUser.first_name = request.data.get("first_name")
-    updateUser.last_name = request.data.get("last_name")
-    updateUser.email = request.data.get("email")
-    serializer = UserSerializer(updateUser, data=request.data)
+def update_user(request):
+    update_user_wWill_modify = User.objects.get(pk=request.data.get("id"))
+    if update_user_wWill_modify.role == Role.MENTOR:
+        update_user = Mentor.objects.get(pk=request.data.get("id"))
+    elif update_user_wWill_modify.role == Role.TUTOR:
+        update_user = Tutor.objects.get(pk=request.data.get("id"))
+    elif update_user_wWill_modify.role == Role.APPRENTICE:
+        update_user = Apprentice.objects.get(pk=request.data.get("id"))
+    update_user.first_name = request.data.get("first_name")
+    update_user.last_name = request.data.get("last_name")
+    update_user.email = request.data.get("email")
+    serializer = UserSerializer(update_user, data=request.data)
     print(request.data)
     if serializer.is_valid():
-        updateUser.save()
+        update_user.save()
     print(serializer.errors)
     return Response(serializer.data)

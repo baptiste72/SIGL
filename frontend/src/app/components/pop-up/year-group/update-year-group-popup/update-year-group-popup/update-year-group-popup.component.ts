@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { YearGroupService } from 'src/app/services/year-group/year-group.service';
 import { YearGroup } from 'src/app/models/YearGroup';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -10,9 +10,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./update-year-group-popup.component.scss'],
 })
 export class UpdateYearGroupPopupComponent {
-  fromPage!: string;
-  fromDialog!: string;
-
   constructor(
     public dialogRef: MatDialogRef<UpdateYearGroupPopupComponent>,
     private yearGroupService: YearGroupService,
@@ -21,7 +18,7 @@ export class UpdateYearGroupPopupComponent {
   ) {}
 
   closeDialog() {
-    this.dialogRef.close({ event: 'close', data: this.fromDialog });
+    this.dialogRef.close({ event: 'close' });
   }
 
   updatePromotion(data: any) {
@@ -31,9 +28,13 @@ export class UpdateYearGroupPopupComponent {
         this.closeDialog();
       },
       error: (err) => {
-        this._snackBar.open('❌ Une erreur est survenue lors de la modificaiton de la promotion', 'Ok', {
-          duration: 2000,
-        });
+        this._snackBar.open(
+          '❌ Une erreur est survenue lors de la modificaiton de la promotion',
+          'Ok',
+          {
+            duration: 2000,
+          }
+        );
       },
     });
   }

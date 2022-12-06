@@ -1,5 +1,18 @@
 from rest_framework import serializers, fields
-from base.models import *
+
+from base.models import (
+    Apprentice,
+    Company,
+    Deadline,
+    FormationCenter,
+    Interview,
+    Mentor,
+    Semester,
+    Tutor,
+    TutorTeam,
+    User,
+    YearGroup,
+)
 
 
 class TutorTeamSerializer(serializers.ModelSerializer):

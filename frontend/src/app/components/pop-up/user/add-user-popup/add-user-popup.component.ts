@@ -9,7 +9,6 @@ import {
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { MatPaginator } from '@angular/material/paginator';
 import { CompanyService } from 'src/app/services/company/company.service';
 import { Company } from 'src/app/models/Company';
 import { FormationCenterService } from 'src/app/services/formationCenter/formationCenter.service';
@@ -17,9 +16,9 @@ import { FormationCenter } from 'src/app/models/FormationCenter';
 import { YearGroupService } from 'src/app/services/year-group/year-group.service';
 import { YearGroup } from 'src/app/models/YearGroup';
 
-// interface Promotion {
-//   name: string;
-// }
+interface Promotion {
+  name: string;
+}
 
 interface Role {
   name: string;
@@ -32,6 +31,7 @@ interface Role {
   styleUrls: ['./add-user-popup.component.scss'],
 })
 export class AddUserPopupComponent implements OnInit {
+  selectedRole = '';
   fromDialog!: string;
   register: any;
   companys: Company[] = [];
@@ -140,7 +140,7 @@ export class AddUserPopupComponent implements OnInit {
     var firstNameCondition =
       data.first_name != '' && data.first_name.length >= 2;
 
-    //Check each field and print corresponding error message
+    // Vérifie chaque champs et affiche le message d'erreur correspondant
     if (!data.role) {
       this.displaySnackBar('❌ Rôle est requis');
       return false;

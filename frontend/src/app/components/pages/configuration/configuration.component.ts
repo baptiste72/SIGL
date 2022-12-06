@@ -11,8 +11,8 @@ import { AddUserPopupComponent } from '../../pop-up/user/add-user-popup/add-user
 import { MatDialog } from '@angular/material/dialog';
 import { AddYearGroupPopupComponent } from '../../pop-up/year-group/add-year-group-popup/add-year-group-popup.component';
 import { UpdateYearGroupPopupComponent } from '../../pop-up/year-group/update-year-group-popup/update-year-group-popup/update-year-group-popup.component';
-import { AddTeamPopupComponent } from '../../pop-up/add-team-popup/add-team-popup.component';
-import { AddCompanyPopupComponent } from '../../pop-up/add-company-popup/add-company-popup.component';
+import { AddTeamPopupComponent } from '../../pop-up/tutor-team/add-team-popup/add-team-popup.component';
+import { AddCompanyPopupComponent } from '../../pop-up/company/add-company-popup/add-company-popup.component';
 import { AddSemesterPopupComponent } from '../../pop-up/semester/add-semester-popup/add-semester-popup.component';
 import { YearGroupService } from 'src/app/services/year-group/year-group.service';
 import { SemesterService } from 'src/app/services/semester/semester.service';
@@ -31,6 +31,7 @@ import { UpdateUserPopupComponent } from '../../pop-up/user/update-user-popup/up
 })
 export class ConfigurationComponent implements AfterViewInit, OnInit {
   register: any;
+
   displayedColumnsUsers: string[] = [
     'name',
     'surname',
@@ -38,10 +39,12 @@ export class ConfigurationComponent implements AfterViewInit, OnInit {
     'role',
     'update',
   ];
-  dataSourceUsers: any;
+  dataSourceUsers = new MatTableDataSource<User>(USERS_DATA);
+  @ViewChild('userPaginator') usersPaginator: any = MatPaginator;
 
   displayedColumnsTeams: string[] = ['apprentice', 'tutor', 'mentor', 'update'];
   dataSourceTutorTeams: any;
+  @ViewChild('tutorTeamPaginator') tutorTeamsPaginator: any = MatPaginator;
 
   displayedColumnsCompanies: string[] = [
     'name',
@@ -50,9 +53,11 @@ export class ConfigurationComponent implements AfterViewInit, OnInit {
     'codeCpne',
   ];
   dataSourceCompanies = new MatTableDataSource<Company>(COMPANIES_DATA);
+  @ViewChild('companiesPaginator') companiesPaginator: any = MatPaginator;
 
   displayedColumnsYearGroups: string[] = ['name', 'beginDate', 'update'];
   dataSourceYearGroups: any;
+  @ViewChild('yearGroupPaginator') yearGroupPaginator: any = MatPaginator;
 
   displayedColumnsSemesters: string[] = [
     'name',
@@ -62,10 +67,6 @@ export class ConfigurationComponent implements AfterViewInit, OnInit {
   ];
   dataSourceSemesters: any;
 
-  @ViewChild(MatPaginator) usersPaginator: any = MatPaginator;
-  @ViewChild(MatPaginator) tutorTeamsPaginator: any = MatPaginator;
-  @ViewChild(MatPaginator) companiesPaginator: any = MatPaginator;
-  @ViewChild(MatPaginator) yearGroupPaginator: any = MatPaginator;
   @ViewChild(MatPaginator) semestersPaginator: any = MatPaginator;
 
   ngOnInit(): void {
@@ -83,7 +84,7 @@ export class ConfigurationComponent implements AfterViewInit, OnInit {
     this.dataSourceTutorTeams.paginator = this.tutorTeamsPaginator;
     this.dataSourceCompanies.paginator = this.companiesPaginator;
     this.dataSourceYearGroups.paginator = this.yearGroupPaginator;
-    this.dataSourceSemesters.paginator = this.yearGroupPaginator;
+    this.dataSourceSemesters.paginator = this.semestersPaginator;
   }
 
   constructor(
@@ -282,6 +283,17 @@ export class ConfigurationComponent implements AfterViewInit, OnInit {
   }
 
   // EQUIPES PEDAGOGIQUES
+  openTutorTeamPopUp() {
+    this.dialog
+      .open(AddTeamPopupComponent, {
+        width: '600px',
+      })
+      .afterClosed()
+      .subscribe((shouldReload: boolean) => {
+        this.getTutorTeam();
+      });
+  }
+
   openTutorTeamPopUp() {
     this.dialog
       .open(AddTeamPopupComponent, {

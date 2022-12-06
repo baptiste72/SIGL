@@ -1,22 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { AuthService } from '@app/services';
 import { User } from 'src/app/models/User';
 
 @Component({
   templateUrl: './personal-informations.component.html',
-  styleUrls: ['./personal-informations.component.scss']
+  styleUrls: ['./personal-informations.component.scss'],
 })
-export class PersonalInformationsComponent implements OnInit {
+export class PersonalInformationsComponent {
   public user: User;
 
-  constructor() {
-    this.user = new User(0, "", "", "");
+  constructor(private authService: AuthService) {
+    this.user = this.authService.userValue;
   }
-
-  public ngOnInit(): void {
-    const userJson = sessionStorage.getItem("user");
-    if (userJson !== null) {
-      this.user = JSON.parse(userJson);
-    }
-  }
-
 }

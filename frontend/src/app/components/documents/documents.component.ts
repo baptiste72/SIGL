@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 export interface Section {
   name: string;
@@ -8,21 +8,17 @@ export interface Section {
 @Component({
   selector: 'app-documents',
   templateUrl: './documents.component.html',
-  styleUrls: ['./documents.component.scss']
+  styleUrls: ['./documents.component.scss'],
 })
-export class DocumentsComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
+export class DocumentsComponent {
+  constructor() {}
 
   documents: Section[] = [
-    { name: 'Dates clés', link:"./documents" },
-    { name: 'Calendrier 2022-2023', link:"./documents" },
-    { name: 'Acquisition compétences', link:"./documents" },
-    { name: 'Grille évaluation S6', link:"./documents" },
-    { name: 'Grille évaluation S7', link:"./documents" },
-    { name: 'Grille évaluation S8', link:"./documents" },
+    { name: 'Dates clés', link: './documents' },
+    { name: 'Calendrier 2022-2023', link: './documents' },
+    { name: 'Acquisition compétences', link: './documents' },
+    { name: 'Grille évaluation S6', link: './documents' },
+    { name: 'Grille évaluation S7', link: './documents' },
+    { name: 'Grille évaluation S8', link: './documents' },
   ];
 }

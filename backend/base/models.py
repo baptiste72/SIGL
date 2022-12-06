@@ -1,4 +1,3 @@
-import json
 from django.db import models
 from django.utils import timezone
 from authentication.models import User
@@ -38,17 +37,11 @@ class Tutor(User):
         FormationCenter, related_name="tutor", on_delete=models.CASCADE, null=True
     )
 
-    def __unicode__(self):
-        return self.name
-
 
 class Company(models.Model):
     # table des entreprises
     worded = models.CharField(max_length=200)
     address = models.CharField(max_length=500)
-
-    def __unicode__(self):
-        return self.name
 
 
 class Mentor(User):
@@ -57,17 +50,15 @@ class Mentor(User):
         Company, related_name="mentor", on_delete=models.CASCADE, null=True
     )
 
-    def __unicode__(self):
-        return self.name
+
+class Apprentice(User):
+    pass
 
 
 class YearGroup(models.Model):
     # tables des promotions
     worded = models.CharField(max_length=200)
-    beginDate = models.DateTimeField(default=timezone.now)
-
-    def __str__(self):
-        return self.name
+    begin_date = models.DateTimeField(default=timezone.now)
 
 
 class Apprentice(User):
@@ -83,14 +74,15 @@ class Apprentice(User):
 class Semester(models.Model):
     # tables des semestres
     name = models.CharField(max_length=200)
-    beginDate = models.DateTimeField(default=timezone.now)
-    endDate = models.DateTimeField(default=timezone.now)
-    yearGroup = models.ForeignKey(
+    begin_date = models.DateTimeField(default=timezone.now)
+    end_date = models.DateTimeField(default=timezone.now)
+    yeargroup = models.ForeignKey(
         YearGroup, related_name="semester", on_delete=models.CASCADE, null=True
     )
 
-    def __str__(self):
-        return self.name
+    apprentice = models.ForeignKey(
+        Apprentice, related_name="yearGroup", on_delete=models.CASCADE, null=True
+    )
 
 
 class TutorTeam(models.Model):
@@ -104,6 +96,3 @@ class TutorTeam(models.Model):
     apprentice = models.ForeignKey(
         Apprentice, related_name="tutorTeam", on_delete=models.CASCADE, null=True
     )
-
-    def __unicode__(self):
-        return self.name

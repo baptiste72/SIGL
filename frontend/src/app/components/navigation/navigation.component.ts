@@ -1,44 +1,22 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
 import { User } from 'src/app/models/User';
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-navigation',
   templateUrl: './navigation.component.html',
-  styleUrls: ['./navigation.component.scss']
+  styleUrls: ['./navigation.component.scss'],
 })
-export class NavigationComponent implements OnInit {
+export class NavigationComponent {
   showFiller = true;
   opened: boolean = true;
   public user: User;
 
-  constructor(private authService: AuthService, private router: Router, private _snackBar: MatSnackBar) {
-    this.user = new User(0, "", "", "");
-  }
-
-  public ngOnInit(): void {
-    const userJson = sessionStorage.getItem("user");
-    if (userJson !== null) {
-      this.user = JSON.parse(userJson);
-    }
-  }
-
-  public redirectTo(page: string) {
-    this.router.navigate([page]);
+  constructor(private authService: AuthService) {
+    this.user = this.authService.userValue;
   }
 
   public logout() {
-    this.authService.logout().subscribe({
-      next: () => {
-        this._snackBar.open("Vous êtes déconnecté", "Ok", { duration: 2000});
-        this.redirectTo('login');
-      },
-      error: (err) => {
-        this._snackBar.open("❌ Identifiant ou mot de passe invalide", "Ok", { duration: 2000})
-      }
-    });
+    this.authService.logout();
   }
-
 }
