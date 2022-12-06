@@ -17,14 +17,17 @@
   </div>
 
   <div class="div-input">
-    <h3>email</h3>
+    <h3>Email</h3>
     <mat-form-field class="full-width" appearance="fill">
       <input [(ngModel)]="data.email" type="text" matInput />
     </mat-form-field>
   </div>
 
-<mat-divider></mat-divider>
-<div mat-dialog-actions align="end">
-  <button mat-button class="green bold" (click)="updateUser(data)">MODIFIER</button>
-  <button mat-button class="red bold" (click)="closeDialog()">ANNULER</button>
+  <mat-divider></mat-divider>
+  <div mat-dialog-actions align="end">
+    <button mat-button class="green bold" (click)="updateUser(data)">
+      MODIFIER
+    </button>
+    <button mat-button class="red bold" (click)="closeDialog()">ANNULER</button>
+  </div>
 </div>

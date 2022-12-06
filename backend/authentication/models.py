@@ -8,5 +8,5 @@ class User(AbstractUser):
     username = None
     role = models.CharField(max_length=255, default="UNKNOWN")
 
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []

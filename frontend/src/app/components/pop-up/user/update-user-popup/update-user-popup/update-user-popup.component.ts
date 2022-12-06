@@ -7,7 +7,7 @@ import { Component, Inject, Input, OnInit } from '@angular/core';
 @Component({
   selector: 'app-update-user-popup',
   templateUrl: './update-user-popup.component.html',
-  styleUrls: ['./update-user-popup.component.scss']
+  styleUrls: ['./update-user-popup.component.scss'],
 })
 export class UpdateUserPopupComponent {
   fromPage!: string;
@@ -27,11 +27,15 @@ export class UpdateUserPopupComponent {
   updateUser(data: any) {
     this.userService.updateUser(data).subscribe({
       next: (v) => {
-        this._snackBar.open('✔ User modifiée', 'Ok', { duration: 2000 });
+        this._snackBar.open('✔ Utilisateur modifié', 'Ok', { duration: 2000 });
         this.closeDialog();
       },
       error: (err) => {
-        this._snackBar.open('❌ Une erreur est survenue lors de la modificaiton du user', 'Ok', {duration: 2000,});
+        this._snackBar.open(
+          "❌ Une erreur est survenue lors de la modificaiton de l'utilisateur",
+          'Ok',
+          { duration: 2000 }
+        );
       },
     });
   }

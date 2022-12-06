@@ -4,21 +4,27 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
-  private urlPrefix = "api/v1";
-  constructor(private http: HttpClient) { }
+  private urlPrefix = 'api/v1';
+  constructor(private http: HttpClient) {}
 
   public getUser(): Observable<any> {
     return this.http.get<any>(`${environment.apiUrl}/${this.urlPrefix}/users`);
   }
 
   public deleteUserById(post: any): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/${this.urlPrefix}/delete-user`, post);
+    return this.http.post<any>(
+      `${environment.apiUrl}/${this.urlPrefix}/delete-user`,
+      post
+    );
   }
 
   public updateUser(post: any): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/${this.urlPrefix}/update-user`, post);
+    return this.http.post<any>(
+      `${environment.apiUrl}/${this.urlPrefix}/update-user`,
+      post
+    );
   }
 }

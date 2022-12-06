@@ -31,7 +31,13 @@ import { UpdateUserPopupComponent } from '../../pop-up/user/update-user-popup/up
 })
 export class ConfigurationComponent implements AfterViewInit, OnInit {
   register: any;
-  displayedColumnsUsers: string[] = ['name', 'surname', 'email', 'role', 'update'];
+  displayedColumnsUsers: string[] = [
+    'name',
+    'surname',
+    'email',
+    'role',
+    'update',
+  ];
   dataSourceUsers: any;
 
   displayedColumnsTeams: string[] = ['apprentice', 'tutor', 'mentor', 'update'];
