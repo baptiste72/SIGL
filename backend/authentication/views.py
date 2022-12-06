@@ -14,11 +14,11 @@ import datetime
 class RegisterView(APIView):
     def post(self, request):
         
-        if request.data["role"] == "APPRENTICE":
+        if request.data["role"] == Role.APPRENTICE:
             serializer = ApprenticeRoleSerializer(data=request.data)
-        elif request.data["role"] == "TUTOR":
+        elif request.data["role"] == Role.TUTOR:
             serializer = TutorRoleSerializer(data=request.data)
-        elif request.data["role"] == "MENTOR":
+        elif request.data["role"] == Role.MENTOR:
             serializer = MentorRoleSerializer(data=request.data)
         else :
             serializer = UserSerializer(data=request.data)

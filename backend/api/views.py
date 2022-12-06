@@ -2,6 +2,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
 from base.models import *
+from base.utilities import Role
 from .serializers import *
 from .helper.tutor_team_helper import TutorTeamHelper
 
@@ -141,7 +142,7 @@ def updateSemester(request):
     updateSemester.endDate = request.data.get('endDate')
     yearGroup = YearGroup.objects.get(pk=request.data.get('yearGroup'))
     updateSemester.yearGroup = yearGroup
-    serializer = SemesterSerializer(data=request.data)
+    serializer = SemesterSerializer(updateSemester, data=request.data)
     if serializer.is_valid():
         updateSemester.save()
     print(serializer.errors)
@@ -178,16 +179,17 @@ def deleteUserById(request):
 @api_view(['POST'])
 def updateUser(request):
     updateUserWillModify = User.objects.get(pk=request.data.get('id'))
-    if updateUserWillModify.role == "MENTOR":
+    if updateUserWillModify.role == Role.MENTOR:
         updateUser = Mentor.objects.get(pk=request.data.get('id'))
-    elif updateUserWillModify.role == "TUTOR":
+    elif updateUserWillModify.role == Role.TUTOR:
         updateUser = Tutor.objects.get(pk=request.data.get('id'))
-    elif updateUserWillModify.role == "APPRENTICE":
+    elif updateUserWillModify.role == Role.APPRENTICE:
         updateUser = Apprentice.objects.get(pk=request.data.get('id'))
     updateUser.first_name = request.data.get('first_name')
     updateUser.last_name = request.data.get('last_name')
     updateUser.email = request.data.get('email')
-    serializer = UpdateUserSerializer(data=request.data)
+    serializer = UserSerializer(updateUser, data=request.data)
+    print(request.data)
     if serializer.is_valid():
         updateUser.save()
     print(serializer.errors)
