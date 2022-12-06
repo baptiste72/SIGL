@@ -80,7 +80,7 @@ def add_interview(request):
 
 
 @api_view(["GET", "DELETE"])
-def apiInterview(request, id):
+def api_interview(request, id):
     try:
         InterviewId = Interview.objects.get(pk=id)
     except Interview.DoesNotExist:
@@ -101,7 +101,7 @@ def apiInterview(request, id):
 
 
 @api_view(["POST"])
-def updateInterview(request):
+def update_interview(request):
     try:
         print(request.data)
         id = request.data["id"]
@@ -123,7 +123,7 @@ def updateInterview(request):
 
 
 @api_view(["GET"])
-def getDeadline(request):
+def get_deadline(request):
     DeadlineList = Deadline.objects.all()
     serializers = DeadlineSerializer(DeadlineList, many=True)
     return Response(serializers.data)
@@ -138,7 +138,7 @@ def add_deadline(request):
 
 
 @api_view(["GET", "DELETE"])
-def apiDeadline(request, id):
+def api_deadline(request, id):
     try:
         DeadlineId = Deadline.objects.get(pk=id)
     except Deadline.DoesNotExist:
@@ -158,7 +158,7 @@ def apiDeadline(request, id):
 
 
 @api_view(["POST"])
-def updateDeadline(request):
+def update_deadline(request):
     try:
         print(request.data)
         id = request.data["id"]
@@ -179,7 +179,7 @@ def updateDeadline(request):
 
 
 @api_view(["GET"])
-def getNotes(request):
+def get_notes(request):
     NoteList = Note.objects.all()
     serializers = NoteSerializer(NoteList, many=True)
     return Response(serializers.data)
@@ -187,7 +187,7 @@ def getNotes(request):
 
 # renvois les données en Tree afin d'afficher l'aborescence des notes
 @api_view(["GET"])
-def treeNote(request):
+def tree_note(request):
     NoteList = Note.objects.all()
     serializers = NoteSerializer(NoteList, many=True)
     data = data_treatement.data_treatement.treeNotes(serializers.data)
@@ -196,7 +196,7 @@ def treeNote(request):
 
 
 @api_view(["POST"])
-def addNote(request):
+def add_note(request):
     serializer = NoteSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
@@ -205,7 +205,7 @@ def addNote(request):
 
 
 @api_view(["GET", "DELETE"])
-def apiNote(request, id):
+def api_note(request, id):
     try:
         NoteId = Note.objects.get(pk=id)
     except Note.DoesNotExist:
@@ -225,7 +225,7 @@ def apiNote(request, id):
 
 
 @api_view(["POST"])
-def updateNote(request):
+def update_note(request):
     try:
         print(request.data)
         id = request.data["id"]
@@ -243,12 +243,6 @@ def updateNote(request):
         return JsonResponse(
             {"message": "the note is not valid"}, status=status.HTTP_404_NOT_FOUND
         )
-
-
-@api_view(["GET"])
-def getYearGroup(request):
-    YearGroupList = YearGroup.objects.all()
-    serializers = YearGroupSerializer(YearGroupList, many=True)
 
 
 @api_view(["GET"])

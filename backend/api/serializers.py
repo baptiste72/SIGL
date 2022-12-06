@@ -124,22 +124,13 @@ class SemesterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Semester
-        fields = ("id", "name", "beginDate", "endDate", "yearGroup")
+        fields = ("id", "name", "begin_Date", "end_Date", "yearGroup")
 
 
 class SemesterSerializerDelete(serializers.ModelSerializer):
     class Meta:
         model = Semester
         fields = ("id",)
-
-
-class SemesterSerializer(serializers.ModelSerializer):
-    beginDate = fields.DateTimeField()
-    endDate = fields.DateTimeField()
-
-    class Meta:
-        model = Semester
-        fields = ("id", "name", "beginDate", "endDate", "yearGroup")
 
 
 class NoteSerializer(serializers.ModelSerializer):

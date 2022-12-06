@@ -65,10 +65,10 @@ class Note(models.Model):
     title = models.CharField(max_length=400)
     text = models.CharField(max_length=35000, blank=True)
     semester = models.CharField(max_length=255)
-    dateStart = models.DateTimeField()
-    dateEnd = models.DateTimeField()
+    date_start = models.DateTimeField()
+    date_end = models.DateTimeField()
     timestamp = models.DateTimeField(auto_now_add=True)
-    beginDate = models.DateTimeField(default=timezone.now)
+    begin_date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return self.name
