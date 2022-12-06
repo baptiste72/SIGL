@@ -22,8 +22,7 @@ class TutorTeamSerializer(serializers.ModelSerializer):
 
 
 class MentorSerializer(serializers.ModelSerializer):
-
-    tutorTeam = TutorTeamSerializer(many=True)
+    tutor_team = TutorTeamSerializer(many=True)
 
     class Meta:
         model = Mentor
@@ -49,8 +48,7 @@ class CompanySerializer(serializers.ModelSerializer):
 
 
 class TutorSerializer(serializers.ModelSerializer):
-
-    tutorTeam = TutorTeamSerializer(many=True)
+    tutor_team = TutorTeamSerializer(many=True)
 
     class Meta:
         model = Tutor
@@ -76,11 +74,14 @@ class FormationCenterSerializer(serializers.ModelSerializer):
 
 
 class YearGroupSerializer(serializers.ModelSerializer):
-    beginDate = fields.DateTimeField(input_formats=["%Y-%m-%dT%H:%M:%S.%fZ"])
+    # FIXME: Reprendre cela, le champ begin_date est perdu
+    begin_date = fields.DateTimeField(
+        input_formats=["%Y-%m-%dT%H:%M:%S.%fZ"], source="beginDate"
+    )
 
     class Meta:
         model = YearGroup
-        fields = ("id", "worded", "beginDate")
+        fields = ("id", "worded", "begin_date")
 
 
 class YearGroupSerializerDelete(serializers.ModelSerializer):
@@ -90,8 +91,8 @@ class YearGroupSerializerDelete(serializers.ModelSerializer):
 
 
 class ApprenticeSerializer(serializers.ModelSerializer):
-    yearGroup = YearGroupSerializer(many=True)
-    tutorTeam = TutorTeamSerializer(many=True)
+    year_group = YearGroupSerializer(many=True)
+    tutor_team = TutorTeamSerializer(many=True)
 
     class Meta:
         model = Apprentice
@@ -126,23 +127,9 @@ class SemesterSerializerDelete(serializers.ModelSerializer):
         fields = ("id",)
 
 
-class YearGroupSerializer(serializers.ModelSerializer):
-    beginDate = fields.DateTimeField()
-
-    class Meta:
-        model = YearGroup
-        fields = ("id", "worded", "beginDate")
-
-
-class YearGroupSerializerDelete(serializers.ModelSerializer):
-    class Meta:
-        model = YearGroup
-        fields = ("id",)
-
-
 class SemesterSerializer(serializers.ModelSerializer):
-    beginDate = fields.DateTimeField()
-    endDate = fields.DateTimeField()
+    begin_date = serializers.DateTimeField(source="beginDate")
+    end_date = serializers.DateTimeField(source="endDate")
 
     class Meta:
         model = Semester

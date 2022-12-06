@@ -1,7 +1,10 @@
 <app-navigation>
-  <mat-tab-group animationDuration="0ms">
+  <mat-tab-group
+    animationDuration="0ms"
+    (selectedTabChange)="onTabChange($event)"
+  >
     <!-- UTILISATEURS -->
-    <mat-tab>
+    <mat-tab label="users">
       <ng-template mat-tab-label>
         <mat-icon>groups</mat-icon>
         Utilisateurs
@@ -20,7 +23,7 @@
           </mat-card-header>
 
           <mat-card-content>
-            <div class="configuration-actions-btns2">
+            <div class="conf-actions-btns">
               <button
                 mat-raised-button
                 class="btn_primary bg-green"
@@ -32,23 +35,20 @@
 
             <div>
               <table mat-table [dataSource]="dataSourceUsers">
-                <!-- Name Column -->
-                <ng-container matColumnDef="name">
+                <ng-container matColumnDef="first_name">
                   <th mat-header-cell *matHeaderCellDef>Prénom</th>
                   <td mat-cell *matCellDef="let element">
                     {{ element.first_name }}
                   </td>
                 </ng-container>
 
-                <!-- Surname time Column -->
-                <ng-container matColumnDef="surname">
+                <ng-container matColumnDef="last_name">
                   <th mat-header-cell *matHeaderCellDef>Nom</th>
                   <td mat-cell *matCellDef="let element">
                     {{ element.last_name }}
                   </td>
                 </ng-container>
 
-                <!-- email By Column -->
                 <ng-container matColumnDef="email">
                   <th mat-header-cell *matHeaderCellDef>Email</th>
                   <td mat-cell *matCellDef="let element">
@@ -56,13 +56,11 @@
                   </td>
                 </ng-container>
 
-                <!-- Role By Column -->
                 <ng-container matColumnDef="role">
                   <th mat-header-cell *matHeaderCellDef>Rôle</th>
                   <td mat-cell *matCellDef="let element">{{ element.role }}</td>
                 </ng-container>
 
-                <!-- Update Link Column -->
                 <ng-container matColumnDef="update">
                   <th mat-header-cell *matHeaderCellDef>Modifications</th>
                   <td mat-cell *matCellDef="let element">
@@ -98,7 +96,7 @@
               <mat-paginator
                 [pageSizeOptions]="[5, 10, 20]"
                 showFirstLastButtons
-                #userPaginator="matPaginator"
+                #userPaginator
               >
               </mat-paginator>
             </div>
@@ -108,7 +106,7 @@
     </mat-tab>
 
     <!-- ENTREPRISES -->
-    <mat-tab>
+    <mat-tab label="companies">
       <ng-template mat-tab-label>
         <mat-icon>apartment</mat-icon>
         Entreprises
@@ -205,7 +203,7 @@
               <mat-paginator
                 [pageSizeOptions]="[5, 10, 20]"
                 showFirstLastButtons
-                #companiesPaginator="matPaginator"
+                #companiesPaginator
               >
               </mat-paginator>
             </div>
@@ -215,7 +213,7 @@
     </mat-tab>
 
     <!-- EQUIPES PEDAGOGIQUES -->
-    <mat-tab>
+    <mat-tab label="tutor-teams">
       <ng-template mat-tab-label>
         <mat-icon>diversity_3</mat-icon>
         Équipes pédagogiques
@@ -304,8 +302,7 @@
               <mat-paginator
                 [pageSizeOptions]="[5, 10, 20]"
                 showFirstLastButtons
-                #tutorTeamPaginator="matPaginator"
-                [length]="this.dataSourceTutorTeams.length"
+                #tutorTeamPaginator
               >
               </mat-paginator>
             </div>
@@ -315,7 +312,7 @@
     </mat-tab>
 
     <!-- PROMOTIONS -->
-    <mat-tab>
+    <mat-tab label="year-groups">
       <ng-template mat-tab-label>
         <mat-icon>person_pin_circle</mat-icon>
         Promotions
@@ -398,8 +395,7 @@
               <mat-paginator
                 [pageSizeOptions]="[5, 10, 20]"
                 showFirstLastButtons
-                #yearGroupPaginator="matPaginator"
-                [length]="this.dataSourceYearGroups.length"
+                #yearGroupPaginator
               >
               </mat-paginator>
             </div>
@@ -409,7 +405,7 @@
     </mat-tab>
 
     <!-- SEMESTRES -->
-    <mat-tab>
+    <mat-tab label="semesters">
       <ng-template mat-tab-label>
         <mat-icon>today</mat-icon>
         Semestres
@@ -498,8 +494,7 @@
               <mat-paginator
                 [pageSizeOptions]="[5, 10, 20]"
                 showFirstLastButtons
-                #semestersPaginator="matPaginator"
-                [length]="this.dataSourceSemesters.length"
+                #semestersPaginator
               >
               </mat-paginator>
             </div>

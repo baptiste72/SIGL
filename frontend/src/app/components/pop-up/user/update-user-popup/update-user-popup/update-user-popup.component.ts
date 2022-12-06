@@ -25,7 +25,7 @@ export class UpdateUserPopupComponent {
   }
 
   updateUser(data: any) {
-    this.userService.updateUser(data).subscribe({
+    this.userService.update(data).subscribe({
       next: (v) => {
         this._snackBar.open('✔ Utilisateur modifié', 'Ok', { duration: 2000 });
         this.closeDialog();

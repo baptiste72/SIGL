@@ -48,7 +48,7 @@ export class AddEventPopupComponent implements OnInit {
   }
 
   public addinterview(data: any) {
-    this.interviewService.addinterview(data).subscribe({
+    this.interviewService.add(data).subscribe({
       next: (v) => {
         this._snackBar.open('✔ Evénement créé', 'Ok', { duration: 2000 });
         this.closeDialog();

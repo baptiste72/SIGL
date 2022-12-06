@@ -46,7 +46,7 @@ export class AddTeamPopupComponent implements OnInit {
   }
 
   private getApprentice() {
-    this.apprenticeService.getApprentice().subscribe({
+    this.apprenticeService.getAll().subscribe({
       next: (apprenticesData) => {
         this.apprentices = apprenticesData;
       },
@@ -63,7 +63,7 @@ export class AddTeamPopupComponent implements OnInit {
   }
 
   private getTutor() {
-    this.tutorService.getTutor().subscribe({
+    this.tutorService.getAll().subscribe({
       next: (tutorData) => {
         this.tutors = tutorData;
       },
@@ -80,7 +80,7 @@ export class AddTeamPopupComponent implements OnInit {
   }
 
   private getMentor() {
-    this.mentorService.getMentor().subscribe({
+    this.mentorService.getAll().subscribe({
       next: (mentorData) => {
         this.mentors = mentorData;
       },
@@ -97,7 +97,7 @@ export class AddTeamPopupComponent implements OnInit {
   }
 
   addTutorTeam(data: any) {
-    this.tutorTeamService.addTutorTeams(data).subscribe({
+    this.tutorTeamService.addTutorTeam(data).subscribe({
       next: (v) => {
         this._snackBar.open('Equipe pédagohique ajoutée', 'Ok', {
           duration: 2000,

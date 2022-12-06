@@ -14,7 +14,7 @@
     </mat-form-field>
   </div>
 
-  <div class="div-input" *ngIf="register.role === 'APPRENTICE'">
+  <div class="div-input" *ngIf="register.role === roleEnum.APPRENTICE">
     <h3>Promotion</h3>
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Choisissez une promotion</mat-label>
@@ -26,7 +26,7 @@
     </mat-form-field>
   </div>
 
-  <div class="div-input" *ngIf="register.role === 'MENTOR'">
+  <div class="div-input" *ngIf="register.role === roleEnum.MENTOR">
     <h3>Entreprise</h3>
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Choisissez une entreprise</mat-label>
@@ -38,7 +38,7 @@
     </mat-form-field>
   </div>
 
-  <div class="div-input" *ngIf="register.role === 'TUTOR'">
+  <div class="div-input" *ngIf="register.role === roleEnum.TUTOR">
     <h3>Centre de Formation</h3>
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Choisissez un centre de formation</mat-label>

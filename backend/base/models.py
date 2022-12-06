@@ -51,10 +51,6 @@ class Mentor(User):
     )
 
 
-class Apprentice(User):
-    pass
-
-
 class YearGroup(models.Model):
     # tables des promotions
     worded = models.CharField(max_length=200)
@@ -63,7 +59,7 @@ class YearGroup(models.Model):
 
 class Apprentice(User):
     # table des apprentis
-    yearGroup = models.ForeignKey(
+    year_group = models.ForeignKey(
         YearGroup, related_name="Apprentice", on_delete=models.CASCADE, null=True
     )
 
@@ -73,12 +69,8 @@ class Semester(models.Model):
     name = models.CharField(max_length=200)
     begin_date = models.DateTimeField(default=timezone.now)
     end_date = models.DateTimeField(default=timezone.now)
-    yeargroup = models.ForeignKey(
+    year_group = models.ForeignKey(
         YearGroup, related_name="semester", on_delete=models.CASCADE, null=True
-    )
-
-    apprentice = models.ForeignKey(
-        Apprentice, related_name="semester", on_delete=models.CASCADE, null=True
     )
 
 

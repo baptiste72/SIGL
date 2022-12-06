@@ -1,11 +1,4 @@
-import {
-  Component,
-  Inject,
-  OnInit,
-  Optional,
-  ViewChild,
-  AfterViewInit,
-} from '@angular/core';
+import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/services/auth/auth.service';
@@ -15,14 +8,10 @@ import { FormationCenterService } from '@app/services/formation-center/formation
 import { FormationCenter } from 'src/app/models/FormationCenter';
 import { YearGroupService } from 'src/app/services/year-group/year-group.service';
 import { YearGroup } from 'src/app/models/YearGroup';
+import { Role } from '@app/helpers';
 
 interface Promotion {
   name: string;
-}
-
-interface Role {
-  name: string;
-  value: string;
 }
 
 @Component({
@@ -37,12 +26,13 @@ export class AddUserPopupComponent implements OnInit {
   companys: Company[] = [];
   formationCenters: FormationCenter[] = [];
   yearGroups: YearGroup[] = [];
+  readonly roleEnum = Role;
 
-  roles: Role[] = [
-    { name: 'Apprenti', value: 'APPRENTICE' },
-    { name: 'Maître apprentissage', value: 'MENTOR' },
-    { name: 'Tuteur pédagogique', value: 'TUTOR' },
-    { name: 'Compte Entreprise', value: 'COMPANY' },
+  roles: any[] = [
+    { name: 'Apprenti', value: Role.APPRENTICE },
+    { name: 'Maître apprentissage', value: Role.MENTOR },
+    { name: 'Tuteur pédagogique', value: Role.TUTOR },
+    { name: 'Compte Entreprise', value: Role.COMPANY },
   ];
 
   constructor(
@@ -71,7 +61,7 @@ export class AddUserPopupComponent implements OnInit {
   }
 
   private getYearGroup() {
-    this.yearGroupService.getYearGroup().subscribe({
+    this.yearGroupService.getAll().subscribe({
       next: (yearGroupsData) => {
         this.yearGroups = yearGroupsData;
       },
@@ -86,7 +76,7 @@ export class AddUserPopupComponent implements OnInit {
   }
 
   private getCompany() {
-    this.companyService.getCompany().subscribe({
+    this.companyService.getAll().subscribe({
       next: (companysData) => {
         this.companys = companysData;
       },
@@ -101,7 +91,7 @@ export class AddUserPopupComponent implements OnInit {
   }
 
   private getFormationCenter() {
-    this.formationCenterService.getFormationCenter().subscribe({
+    this.formationCenterService.getAll().subscribe({
       next: (formationCentersData) => {
         this.formationCenters = formationCentersData;
       },

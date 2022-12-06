@@ -4,13 +4,13 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CompanyService {
-  private urlPrefix = "api/v1";
-  constructor(private http: HttpClient) { }
+  private urlPrefix = 'api/v1/companies';
+  constructor(private http: HttpClient) {}
 
-  public getCompany(): Observable<any> {
-    return this.http.get<any>(`${environment.apiUrl}/${this.urlPrefix}/companys`);
-}
+  public getAll(): Observable<any> {
+    return this.http.get<any>(`${environment.apiUrl}/${this.urlPrefix}`);
+  }
 }

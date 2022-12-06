@@ -8,20 +8,20 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class TutorTeamService {
-  private urlPrefix = 'api/v1';
+  private urlPrefix = 'api/v1/tutor-teams';
 
   constructor(private http: HttpClient) {}
 
-  public getTutorsTeam(): Observable<TutorTeam[]> {
+  public getAll(): Observable<TutorTeam[]> {
     return this.http.get<TutorTeam[]>(
-      `${environment.apiUrl}/${this.urlPrefix}/tutor-teams`
+      `${environment.apiUrl}/${this.urlPrefix}`
     );
   }
 
-  public addTutorTeams(post: any): Observable<any> {
-    return this.http.post<any>(
-      `${environment.apiUrl}/${this.urlPrefix}/add-tutor-teams`,
-      post
+  public addTutorTeam(tutorTeam: TutorTeam): Observable<TutorTeam> {
+    return this.http.post<TutorTeam>(
+      `${environment.apiUrl}/${this.urlPrefix}/add`,
+      tutorTeam
     );
   }
 }

@@ -2,33 +2,42 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path("mentors", views.get_mentor, name="getMentor"),
-    path("add-mentors", views.add_mentor, name="addMentor"),
-    path("tutors", views.get_tutor, name="getTutor"),
-    path("apprentices", views.get_apprentice, name="getApprentice"),
-    path("interviews", views.get_interview, name="getInterview"),
-    path("add-interview", views.add_interview, name="addInterview"),
-    path("deadlines", views.get_deadline, name="getDeadline"),
+    # apprentices
+    path("apprentices", views.get_apprentices, name="getApprentices"),
+    # companies
+    path("companies", views.get_company, name="getCompanies"),
+    # deadlines
+    path("deadlines", views.get_deadlines, name="getDeadlines"),
     path("add-deadline", views.add_deadline, name="addDeadline"),
+    # formation-centers
+    path("formation-centers", views.get_formation_centers, name="getformationCenters"),
+    # interviews
+    path("interviews", views.get_interviews, name="getInterviews"),
+    path("interviews/add", views.add_interview, name="addInterview"),
+    # mentors
+    path("mentors", views.get_mentors, name="getMentors"),
+    path("mentors/add", views.add_mentor, name="addMentor"),
+    # semesters
+    path("semesters", views.get_semesters, name="getSemesters"),
+    path("semesters/add", views.add_semester, name="addSemester"),
+    path("semesters/delete/<int:id>", views.delete_semester, name="deleteSemesterById"),
+    path("semesters/update", views.update_semester, name="updateSemester"),
+    # tutor-teams
     path("tutor-teams", views.get_tutor_teams, name="getTutorTeams"),
-    path("add-tutor-teams", views.add_tutor_teams, name="addTutorTeams"),
-    path("year-group", views.get_year_group, name="getYearGroup"),
-    path("add-year-group", views.add_year_group, name="addYearGroup"),
+    path("tutor-teams/add", views.add_tutor_team, name="addTutorTeam"),
+    # tutors
+    path("tutors", views.get_tutors, name="getTutor"),
+    # users
+    path("users", views.get_user, name="getUsers"),
+    path("users/delete/<int:id>", views.delete_user, name="deleteUserById"),
+    path("users/update", views.update_user, name="updateUser"),
+    # year-groups
+    path("year-group", views.get_year_groups, name="getYearGroups"),
+    path("year-group/add", views.add_year_group, name="addYearGroup"),
+    path("year-group/update", views.update_year_group, name="updateYearGroup"),
     path(
-        "delete-year-group-by-id",
-        views.delete_year_group_by_id,
+        "year-group/delete/<int:id>",
+        views.delete_year_group,
         name="deleteYearGroupById",
     ),
-    path("update-year-group", views.update_year_group, name="updateYearGroup"),
-    path("semester", views.get_semester, name="getSemester"),
-    path("add-semester", views.add_semester, name="addSemester"),
-    path(
-        "delete-semester-by-id", views.delete_semester_by_id, name="deleteSemesterById"
-    ),
-    path("update-semester", views.update_semester, name="updateSemester"),
-    path("companys", views.get_company, name="getCompany"),
-    path("formation-centers", views.get_formation_center, name="getformationCenter"),
-    path("users", views.get_user, name="getUser"),
-    path("delete-user", views.delete_user_by_id, name="deleteUserById"),
-    path("update-user", views.update_user, name="updateUser"),
 ]

@@ -8,7 +8,7 @@ from rest_framework import status
 
 from authentication.graph.graph_helper import get_user
 from .graph.auth_helper import get_sign_in_flow, get_token_from_code
-from .graph.graph_helper import *
+from .graph.graph_helper import get_user
 
 from .serializers import (
     ApprenticeRoleSerializer,
@@ -18,13 +18,10 @@ from .serializers import (
 )
 from .models import User
 from base.utilities import Role
-import jwt
-import datetime
 
 
 class RegisterView(APIView):
     def post(self, request):
-
         if request.data["role"] == Role.APPRENTICE:
             serializer = ApprenticeRoleSerializer(data=request.data)
         elif request.data["role"] == Role.TUTOR:

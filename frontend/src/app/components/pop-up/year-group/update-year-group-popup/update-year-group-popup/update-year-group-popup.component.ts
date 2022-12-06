@@ -22,7 +22,7 @@ export class UpdateYearGroupPopupComponent {
   }
 
   updatePromotion(data: any) {
-    this.yearGroupService.updateYearGroup(data).subscribe({
+    this.yearGroupService.update(data).subscribe({
       next: (v) => {
         this._snackBar.open('✔ Promotion modifiée', 'Ok', { duration: 2000 });
         this.closeDialog();

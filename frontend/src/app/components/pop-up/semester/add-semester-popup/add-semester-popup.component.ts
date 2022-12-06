@@ -11,7 +11,7 @@ import { SemesterService } from 'src/app/services/semester/semester.service';
   styleUrls: ['./add-semester-popup.component.scss'],
 })
 export class AddSemesterPopupComponent implements OnInit {
-  yearGroups: YearGroup[]=[];
+  yearGroups: YearGroup[] = [];
   register: any;
 
   constructor(
@@ -36,7 +36,7 @@ export class AddSemesterPopupComponent implements OnInit {
   }
 
   private getYearGroup() {
-    this.yearGroupService.getYearGroup().subscribe({
+    this.yearGroupService.getAll().subscribe({
       next: (yearGroupsData) => {
         this.yearGroups = yearGroupsData;
       },
@@ -53,15 +53,19 @@ export class AddSemesterPopupComponent implements OnInit {
   }
 
   addSemester(data: any) {
-    this.semesterService.addSemester(data).subscribe({
+    this.semesterService.add(data).subscribe({
       next: (v) => {
         this._snackBar.open('✔ Semestre ajoutée', 'Ok', { duration: 2000 });
         this.closeDialog();
       },
       error: (err) => {
-        this._snackBar.open('❌ Une erreur est survenue lors de l ajout du semestre', 'Ok', {
-          duration: 2000,
-        });
+        this._snackBar.open(
+          '❌ Une erreur est survenue lors de l ajout du semestre',
+          'Ok',
+          {
+            duration: 2000,
+          }
+        );
       },
     });
   }

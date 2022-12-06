@@ -4,26 +4,34 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class YearGroupService {
-  private urlPrefix = "api/v1";
+  private urlPrefix = 'api/v1/year-group';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  public getYearGroup(): Observable<any> {
-    return this.http.get<any>(`${environment.apiUrl}/${this.urlPrefix}/year-group`);
+  public getAll(): Observable<any> {
+    return this.http.get<any>(`${environment.apiUrl}/${this.urlPrefix}`);
   }
 
-  public addYearGroup(post: any): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/${this.urlPrefix}/add-year-group`, post);
+  public add(post: any): Observable<any> {
+    return this.http.post<any>(
+      `${environment.apiUrl}/${this.urlPrefix}/add`,
+      post
+    );
   }
 
-  public deleteYearGroupById(post: any): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/${this.urlPrefix}/delete-year-group-by-id`, post);
+  public delete(id: number): Observable<any> {
+    return this.http.delete(
+      `${environment.apiUrl}/${this.urlPrefix}/delete/${id}`
+    );
   }
 
-  public updateYearGroup(post: any): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/${this.urlPrefix}/update-year-group`, post);
+  public update(post: any): Observable<any> {
+    return this.http.post<any>(
+      `${environment.apiUrl}/${this.urlPrefix}/update`,
+      post
+    );
   }
 }

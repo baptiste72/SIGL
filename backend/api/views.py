@@ -36,21 +36,21 @@ from .helper.tutor_team_helper import TutorTeamHelper
 
 
 @api_view(["GET"])
-def get_mentor(request):
+def get_mentors(request):
     mentor_list = Mentor.objects.all()
     serializers = MentorSerializer(mentor_list, many=True)
     return Response(serializers.data)
 
 
 @api_view(["GET"])
-def get_tutor(request):
+def get_tutors(request):
     tutor_list = Tutor.objects.all()
     serializers = TutorSerializer(tutor_list, many=True)
     return Response(serializers.data)
 
 
 @api_view(["GET"])
-def get_apprentice(request):
+def get_apprentices(request):
     apprentice_list = Apprentice.objects.all()
     serializers = ApprenticeSerializer(apprentice_list, many=True)
     return Response(serializers.data)
@@ -65,7 +65,7 @@ def add_mentor(request):
 
 
 @api_view(["GET"])
-def get_interview(request):
+def get_interviews(request):
     interview_list = Interview.objects.all()
     serializers = InterviewSerializer(interview_list, many=True)
     return Response(serializers.data)
@@ -80,7 +80,7 @@ def add_interview(request):
 
 
 @api_view(["GET"])
-def get_deadline(request):
+def get_deadlines(request):
     dealine_list = Deadline.objects.all()
     serializers = DeadlineSerializer(dealine_list, many=True)
     return Response(serializers.data)
@@ -95,7 +95,7 @@ def add_deadline(request):
 
 
 @api_view(["GET"])
-def get_year_group(request):
+def get_year_groups(request):
     yeargroup_list = YearGroup.objects.all()
     serializers = YearGroupSerializer(yeargroup_list, many=True)
     return Response(serializers.data)
@@ -106,6 +106,7 @@ def add_year_group(request):
     serializer = YearGroupSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
+    print(serializer.errors)
     return Response(serializer.data)
 
 
@@ -119,20 +120,23 @@ def get_tutor_teams(request):
 
 
 @api_view(["POST"])
-def add_tutor_teams(request):
+def add_tutor_team(request):
     serializer = TutorTeamSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
     return Response(serializer.data)
 
 
+# FIXME: Corriger ce point
 @api_view(["POST"])
-def delete_year_group_by_id(request):
-    year_group = YearGroup.objects.filter(id=request.data.get("id"))
+def delete_year_group(request, id):
+    year_group = YearGroup.objects.filter(id=id)
+    # FIXME: Revoir la suppression, on a pas besoin de serializer
     serializer = YearGroupSerializerDelete(data=request.data)
     print(request.data)
     if serializer.is_valid():
         year_group.delete()
+    # FIXME: Ne retourner qu'un statut OK ou Bug
     return Response(serializer.data)
 
 
@@ -141,15 +145,14 @@ def update_year_group(request):
     year_group = YearGroup.objects.get(pk=request.data.get("id"))
     year_group.worded = request.data.get("worded")
     year_group.begin_date = request.data.get("beginDate")
-    serializer = YearGroupSerializer(data=request.data)
+    serializer = YearGroupSerializer(year_group, data=request.data)
     if serializer.is_valid():
         year_group.save()
-    print(serializer.errors)
     return Response(serializer.data)
 
 
 @api_view(["GET"])
-def get_semester(request):
+def get_semesters(request):
     semester_list = Semester.objects.all()
     serializers = SemesterSerializer(semester_list, many=True)
     return Response(serializers.data)
@@ -164,8 +167,9 @@ def add_semester(request):
 
 
 @api_view(["POST"])
-def delete_semester_by_id(request):
-    delete_semester = Semester.objects.filter(id=request.data.get("id"))
+def delete_semester(request, id):
+    # FIXME: Revoir la suppression
+    delete_semester = Semester.objects.filter(id=id)
     serializer = SemesterSerializerDelete(data=request.data)
     if serializer.is_valid():
         delete_semester.delete()
@@ -179,8 +183,8 @@ def update_semester(request):
     semester.begin_date = request.data.get("beginDate")
     semester.end_date = request.data.get("endDate")
     year_group = YearGroup.objects.get(pk=request.data.get("yearGroup"))
-    semester.yeargroup = year_group
-    serializer = SemesterSerializer(data=request.data)
+    semester.year_group = year_group
+    serializer = SemesterSerializer(semester, data=request.data)
     if serializer.is_valid():
         semester.save()
     print(serializer.errors)
@@ -195,7 +199,7 @@ def get_company(request):
 
 
 @api_view(["GET"])
-def get_formation_center(request):
+def get_formation_centers(request):
     formation_center_list = FormationCenter.objects.all()
     serializers = FormationCenterSerializer(formation_center_list, many=True)
     return Response(serializers.data)
@@ -209,8 +213,9 @@ def get_user(request):
 
 
 @api_view(["POST"])
-def delete_user_by_id(request):
-    delete_user = User.objects.filter(id=request.data.get("id"))
+def delete_user(request, id):
+    # FIXME: Revoir la suppression
+    delete_user = User.objects.filter(id=id)
     serializer = UserSerializerDelete(data=request.data)
     print(request.data)
     if serializer.is_valid():
