@@ -8,7 +8,7 @@ urlpatterns = [
     path("companies", views.get_company, name="getCompanies"),
     # deadlines
     path("deadlines", views.get_deadlines, name="getDeadlines"),
-    path("add-deadline", views.add_deadline, name="addDeadline"),
+    path("deadlines/add", views.add_deadline, name="addDeadline"),
     # formation-centers
     path("formation-centers", views.get_formation_centers, name="getformationCenters"),
     # interviews

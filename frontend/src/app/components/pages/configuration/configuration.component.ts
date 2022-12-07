@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { AddUserPopupComponent } from '../../pop-up/user/add-user-popup/add-user-popup.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AddYearGroupPopupComponent } from '../../pop-up/year-group/add-year-group-popup/add-year-group-popup.component';
 import { UpdateYearGroupPopupComponent } from '../../pop-up/year-group/update-year-group-popup/update-year-group-popup/update-year-group-popup.component';
 import { AddTeamPopupComponent } from '../../pop-up/tutor-team/add-team-popup/add-team-popup.component';
@@ -19,6 +19,8 @@ import { TutorTeam } from 'src/app/models/TutorTeam';
 import { UserService } from 'src/app/services/user/user.service';
 import { UpdateUserPopupComponent } from '../../pop-up/user/update-user-popup/update-user-popup/update-user-popup.component';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { ConfirmDeleteComponent } from '@app/components/pop-up/confirm-delete/confirm-delete.component';
+import { lastValueFrom, Observable } from 'rxjs';
 
 @Component({
   templateUrl: './configuration.component.html',
@@ -88,6 +90,7 @@ export class ConfigurationComponent implements OnInit, AfterViewInit {
 
   constructor(
     public dialog: MatDialog,
+    private confirmDeleteDialogRef: MatDialogRef<ConfirmDeleteComponent>,
     private userService: UserService,
     private yearGroupService: YearGroupService,
     private semesterService: SemesterService,
@@ -297,49 +300,75 @@ export class ConfigurationComponent implements OnInit, AfterViewInit {
   //#endregion Popups
 
   // Suppresions
-  public deleteYearGroupById(id: any) {
-    this.yearGroupService.delete(id).subscribe({
-      next: (v) => {
-        this.loadYearGroups();
-      },
-      error: (err) => {
-        this._snackBar.open(
-          '❌ Une erreur est survenue lors de la suppression de la promotion',
-          'Ok',
-          { duration: 2000 }
-        );
-      },
+  public async openConfirmDeletePopup(content: string): Promise<boolean> {
+    // FIXME: Faire en sorte d'attendre le clic de l'utilisateur avant de return
+    this.confirmDeleteDialogRef = this.dialog.open(ConfirmDeleteComponent, {
+      width: '600px',
     });
+
+    this.confirmDeleteDialogRef.componentInstance.content = content;
+
+    return await lastValueFrom(this.confirmDeleteDialogRef.afterClosed());
   }
 
-  public deleteSemesterById(id: any) {
-    this.semesterService.delete(id).subscribe({
-      next: (v) => {
-        this.loadSemesters();
-      },
-      error: (err) => {
-        this._snackBar.open(
-          '❌ Une erreur est survenue lors de la suppression du semestre',
-          'Ok',
-          { duration: 2000 }
-        );
-      },
-    });
+  public async deleteYearGroupById(id: any) {
+    const shouldDelete = await this.openConfirmDeletePopup(
+      'Souhaitez-vous vraiment supprimer cette promotion ?'
+    );
+    if (shouldDelete) {
+      this.yearGroupService.delete(id).subscribe({
+        next: (v) => {
+          this.loadYearGroups();
+        },
+        error: (err) => {
+          this._snackBar.open(
+            '❌ Une erreur est survenue lors de la suppression de la promotion',
+            'Ok',
+            { duration: 2000 }
+          );
+        },
+      });
+    }
   }
 
-  public deleteUserById(id: any) {
-    this.userService.delete(id).subscribe({
-      next: (v) => {
-        this.loadUsers();
-      },
-      error: (err) => {
-        this._snackBar.open(
-          "❌ Une erreur est survenue lors de la suppression d'un utilisateur",
-          'Ok',
-          { duration: 2000 }
-        );
-      },
-    });
+  public async deleteSemesterById(id: any) {
+    const shouldDelete = await this.openConfirmDeletePopup(
+      'Souhaitez-vous vraiment supprimer ce semestre ?'
+    );
+    if (shouldDelete) {
+      this.semesterService.delete(id).subscribe({
+        next: (v) => {
+          this.loadSemesters();
+        },
+        error: (err) => {
+          this._snackBar.open(
+            '❌ Une erreur est survenue lors de la suppression du semestre',
+            'Ok',
+            { duration: 2000 }
+          );
+        },
+      });
+    }
+  }
+
+  public async deleteUserById(id: any) {
+    const shouldDelete = await this.openConfirmDeletePopup(
+      'Souhaitez-vous vraiment supprimer cet utilisateur ?'
+    );
+    if (shouldDelete) {
+      this.userService.delete(id).subscribe({
+        next: (v) => {
+          this.loadUsers();
+        },
+        error: (err) => {
+          this._snackBar.open(
+            "❌ Une erreur est survenue lors de la suppression d'un utilisateur",
+            'Ok',
+            { duration: 2000 }
+          );
+        },
+      });
+    }
   }
 }
 

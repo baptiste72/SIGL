@@ -60,7 +60,7 @@ export class AddSemesterPopupComponent implements OnInit {
       },
       error: (err) => {
         this._snackBar.open(
-          '❌ Une erreur est survenue lors de l ajout du semestre',
+          "❌ Une erreur est survenue lors de l'ajout du semestre",
           'Ok',
           {
             duration: 2000,

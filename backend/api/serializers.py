@@ -74,14 +74,11 @@ class FormationCenterSerializer(serializers.ModelSerializer):
 
 
 class YearGroupSerializer(serializers.ModelSerializer):
-    # FIXME: Reprendre cela, le champ begin_date est perdu
-    begin_date = fields.DateTimeField(
-        input_formats=["%Y-%m-%dT%H:%M:%S.%fZ"], source="beginDate"
-    )
+    beginDate = fields.DateTimeField(input_formats=["%Y-%m-%dT%H:%M:%S.%fZ"])
 
     class Meta:
         model = YearGroup
-        fields = ("id", "worded", "begin_date")
+        fields = ("id", "worded", "beginDate")
 
 
 class YearGroupSerializerDelete(serializers.ModelSerializer):
@@ -128,8 +125,8 @@ class SemesterSerializerDelete(serializers.ModelSerializer):
 
 
 class SemesterSerializer(serializers.ModelSerializer):
-    begin_date = serializers.DateTimeField(source="beginDate")
-    end_date = serializers.DateTimeField(source="endDate")
+    beginDate = fields.DateTimeField()
+    endDate = fields.DateTimeField()
 
     class Meta:
         model = Semester

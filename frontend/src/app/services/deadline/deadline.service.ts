@@ -15,7 +15,7 @@ export class DeadlineService {
     return this.http.get<any>(`${environment.apiUrl}/${this.urlPrefix}`);
   }
 
-  public addDeadline(deadline: any): Observable<any> {
+  public add(deadline: any): Observable<any> {
     return this.http.post<any>(
       `${environment.apiUrl}/${this.urlPrefix}/add`,
       deadline

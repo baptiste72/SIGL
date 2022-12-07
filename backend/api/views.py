@@ -1,5 +1,6 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from rest_framework import status
 from authentication.models import User
 from base.utilities import Role
 
@@ -61,7 +62,8 @@ def add_mentor(request):
     serializer = MentorSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
-    return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(["GET"])
@@ -76,7 +78,8 @@ def add_interview(request):
     serializer = InterviewSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
-    return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(["GET"])
@@ -91,7 +94,8 @@ def add_deadline(request):
     serializer = DeadlineSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
-    return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(["GET"])
@@ -106,8 +110,8 @@ def add_year_group(request):
     serializer = YearGroupSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
-    print(serializer.errors)
-    return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(["GET"])
@@ -124,31 +128,27 @@ def add_tutor_team(request):
     serializer = TutorTeamSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
-    return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-# FIXME: Corriger ce point
-@api_view(["POST"])
+@api_view(["DELETE"])
 def delete_year_group(request, id):
     year_group = YearGroup.objects.filter(id=id)
-    # FIXME: Revoir la suppression, on a pas besoin de serializer
-    serializer = YearGroupSerializerDelete(data=request.data)
-    print(request.data)
-    if serializer.is_valid():
-        year_group.delete()
-    # FIXME: Ne retourner qu'un statut OK ou Bug
-    return Response(serializer.data)
+    year_group.delete()
+    return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 @api_view(["POST"])
 def update_year_group(request):
     year_group = YearGroup.objects.get(pk=request.data.get("id"))
     year_group.worded = request.data.get("worded")
-    year_group.begin_date = request.data.get("beginDate")
+    year_group.beginDate = request.data.get("beginDate")
     serializer = YearGroupSerializer(year_group, data=request.data)
     if serializer.is_valid():
         year_group.save()
-    return Response(serializer.data)
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(["GET"])
@@ -163,32 +163,30 @@ def add_semester(request):
     serializer = SemesterSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
-    return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(["POST"])
+@api_view(["DELETE"])
 def delete_semester(request, id):
-    # FIXME: Revoir la suppression
     delete_semester = Semester.objects.filter(id=id)
-    serializer = SemesterSerializerDelete(data=request.data)
-    if serializer.is_valid():
-        delete_semester.delete()
-    return Response(serializer.data)
+    delete_semester.delete()
+    return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 @api_view(["POST"])
 def update_semester(request):
     semester = Semester.objects.get(pk=request.data.get("id"))
     semester.name = request.data.get("name")
-    semester.begin_date = request.data.get("beginDate")
-    semester.end_date = request.data.get("endDate")
+    semester.beginDate = request.data.get("beginDate")
+    semester.endDate = request.data.get("endDate")
     year_group = YearGroup.objects.get(pk=request.data.get("yearGroup"))
     semester.year_group = year_group
     serializer = SemesterSerializer(semester, data=request.data)
     if serializer.is_valid():
         semester.save()
-    print(serializer.errors)
-    return Response(serializer.data)
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(["GET"])
@@ -212,15 +210,11 @@ def get_user(request):
     return Response(serializers.data)
 
 
-@api_view(["POST"])
+@api_view(["DELETE"])
 def delete_user(request, id):
-    # FIXME: Revoir la suppression
-    delete_user = User.objects.filter(id=id)
-    serializer = UserSerializerDelete(data=request.data)
-    print(request.data)
-    if serializer.is_valid():
-        delete_user.delete()
-    return Response(serializer.data)
+    user = User.objects.filter(id=id)
+    user.delete()
+    return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 @api_view(["POST"])
@@ -239,5 +233,5 @@ def update_user(request):
     print(request.data)
     if serializer.is_valid():
         update_user.save()
-    print(serializer.errors)
-    return Response(serializer.data)
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

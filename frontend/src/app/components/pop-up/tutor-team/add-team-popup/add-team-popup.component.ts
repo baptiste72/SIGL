@@ -97,7 +97,7 @@ export class AddTeamPopupComponent implements OnInit {
   }
 
   addTutorTeam(data: any) {
-    this.tutorTeamService.addTutorTeam(data).subscribe({
+    this.tutorTeamService.add(data).subscribe({
       next: (v) => {
         this._snackBar.open('Equipe pédagohique ajoutée', 'Ok', {
           duration: 2000,

@@ -18,7 +18,7 @@ export class TutorTeamService {
     );
   }
 
-  public addTutorTeam(tutorTeam: TutorTeam): Observable<TutorTeam> {
+  public add(tutorTeam: TutorTeam): Observable<TutorTeam> {
     return this.http.post<TutorTeam>(
       `${environment.apiUrl}/${this.urlPrefix}/add`,
       tutorTeam
