@@ -6,7 +6,6 @@ import { BehaviorSubject, map } from 'rxjs';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { User } from '../../models/User';
-import { HttpClientModule } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
