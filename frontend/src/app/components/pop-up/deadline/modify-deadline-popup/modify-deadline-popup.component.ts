@@ -3,17 +3,32 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DeadlineService } from 'src/app/services/deadline/deadline.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
+interface Semester {
+  name: string;
+}
+interface Guest {
+  name: string;
+}
 interface deadlines {
   name: string;
 }
 
 @Component({
-  selector: 'app-add-deadline-popup',
-  templateUrl: './add-deadline-popup.component.html',
-  styleUrls: ['./add-deadline-popup.component.scss'],
+  selector: 'app-modify-deadline-popup',
+  templateUrl: './modify-deadline-popup.component.html',
+  styleUrls: ['./modify-deadline-popup.component.scss'],
 })
-export class AddDeadlinePopupComponent implements OnInit {
+export class ModifyDeadlinePopupComponent implements OnInit {
   js_deadline: any;
+
+  constructor(
+    public dialogRef: MatDialogRef<ModifyDeadlinePopupComponent>,
+    private deadlineService: DeadlineService,
+    private _snackBar: MatSnackBar,
+    @Optional() @Inject(MAT_DIALOG_DATA) public mydata: any
+  ) {}
+
+  fromDialog!: string;
   type_deadlines: deadlines[] = [
     { name: 'Rapport de synthèse S5' },
     { name: 'Rapport de synthèse S6' },
@@ -22,27 +37,13 @@ export class AddDeadlinePopupComponent implements OnInit {
     { name: 'Rapport de synthèse S9' },
     { name: 'Rapport Ping' },
   ];
-
-  constructor(
-    public dialogRef: MatDialogRef<AddDeadlinePopupComponent>,
-    private deadlineService: DeadlineService,
-    private _snackBar: MatSnackBar,
-    @Optional() @Inject(MAT_DIALOG_DATA) public mydata: any
-  ) {}
-
-  fromDialog!: string;
-
   ngOnInit(): void {
     this.fromDialog = '';
-    this.js_deadline = {
-      name: '',
-      date: '',
-      description: '',
-    };
+    this.js_deadline = this.mydata.dataKey;
   }
 
-  public addDeadline(data: any) {
-    this.deadlineService.addDeadline(data).subscribe({
+  public updateDeadline(data: any) {
+    this.deadlineService.updateDeadline(data).subscribe({
       next: (v) => {
         this._snackBar.open('✔ Evénement créé', 'Ok', { duration: 2000 });
         this.closeDialog();
@@ -55,6 +56,6 @@ export class AddDeadlinePopupComponent implements OnInit {
     });
   }
   closeDialog() {
-    this.dialogRef.close({ event: 'close', data: this.fromDialog });
+    this.dialogRef.close({ deadline: 'close', data: this.fromDialog });
   }
 }

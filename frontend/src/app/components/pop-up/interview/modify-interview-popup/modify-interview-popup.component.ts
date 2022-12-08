@@ -42,10 +42,10 @@ export class ModifyInterviewPopupComponent implements OnInit {
   ngOnInit(): void {
     this.interview = this.mydata.dataKey;
   }
-  public addinterview(data: any) {
-    this.interviewService.addInterview(data).subscribe({
+  public updateInterview(data: any) {
+    this.interviewService.updateInterview(data).subscribe({
       next: (v) => {
-        this._snackBar.open('✔ Evénement créé', 'Ok', { duration: 2000 });
+        this._snackBar.open('✔ Note créé', 'Ok', { duration: 2000 });
         this.closeDialog();
       },
       error: (err) => {
@@ -56,6 +56,6 @@ export class ModifyInterviewPopupComponent implements OnInit {
     });
   }
   closeDialog() {
-    this.dialogRef.close({ interview: 'close', data: this.fromDialog });
+    this.dialogRef.close({ event: 'close', data: this.fromDialog });
   }
 }

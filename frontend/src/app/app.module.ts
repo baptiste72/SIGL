@@ -52,9 +52,13 @@ import {
 import { ModifyNotePopupComponent } from './components/pop-up/note/modify-note-popup/modify-note-popup.component';
 import { DeleteNotePopupComponent } from './components/pop-up/note/delete-note-popup/delete-note-popup.component';
 import { DeleteInterviewPopupComponent } from './components/pop-up/interview/delete-interview-popup/delete-interview-popup.component';
+import { DeleteDeadlinePopupComponent } from './components/pop-up/deadline/delete-deadline-popup/delete-deadline-popup.component';
+
 import { AddCompanyPopupComponent } from './components/pop-up/company/add-company-popup/add-company-popup.component';
 import { AddSemesterPopupComponent } from './components/pop-up/semester/add-semester-popup/add-semester-popup.component';
 import { ModifyInterviewPopupComponent } from './components/pop-up/interview/modify-interview-popup/modify-interview-popup.component';
+import { ModifyDeadlinePopupComponent } from './components/pop-up/deadline/modify-deadline-popup/modify-deadline-popup.component';
+
 import { MatTabsModule } from '@angular/material/tabs';
 import { ErrorInterceptor, JwtInterceptor } from './helpers';
 
@@ -89,6 +93,8 @@ import { ErrorInterceptor, JwtInterceptor } from './helpers';
     UpdateSemesterPopupComponent,
     ModifyInterviewPopupComponent,
     DeleteInterviewPopupComponent,
+    DeleteDeadlinePopupComponent,
+    ModifyDeadlinePopupComponent,
   ],
   imports: [
     BrowserModule,
