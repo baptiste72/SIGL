@@ -3,11 +3,14 @@ FROM python:alpine
 
 # Add metadata
 LABEL description="Set up Django for production" \
-      version="1.0"
+      version="2.0"
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
+
+# Copy entrypoint script to container
+COPY docker/dev/back-dev/django-entrypoint.sh .
 
 # Set working directory
 WORKDIR /sigl
@@ -23,5 +26,5 @@ RUN apk add --no-cache curl libpq-dev \
 # Change user to python
 USER python
 
-# Launch the server
-ENTRYPOINT ["python", "manage.py", "runserver", "projet-sigl.fr:8000"]
+# Run migrations and launch the server
+ENTRYPOINT ["sh", "../django-entrypoint.sh"]

@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { NewPasswordComponent } from './new-password.component';
 
 describe('NewPasswordComponent', () => {
@@ -8,7 +8,8 @@ describe('NewPasswordComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ NewPasswordComponent ]
+      declarations: [ NewPasswordComponent ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
     .compileComponents();
 

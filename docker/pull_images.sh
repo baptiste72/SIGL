@@ -25,6 +25,17 @@ pull_images() {
   done
 }
 
+main() {
+  if [[ "${OSTYPE}" == "msys" ]]; then
+    winpty docker login "${REGISTRY}"
+  else
+    docker login "${REGISTRY}"
+  fi
+
+  pull_images
+  docker logout "${REGISTRY}"
+}
+
 while getopts ':h' opt; do
   case "${opt}" in
     h) usage ;;
@@ -35,6 +46,4 @@ done
 # Check number of arguments
 [[ "$#" -eq 0 ]] || die "[FAIL] You must invoke the script without any argument : $# provided !"
 
-docker login "${REGISTRY}"
-pull_images
-docker logout "${REGISTRY}"
+main

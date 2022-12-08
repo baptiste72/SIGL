@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { DocumentsComponent } from './documents.component';
 
 describe('DocumentsComponent', () => {
@@ -8,7 +9,8 @@ describe('DocumentsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DocumentsComponent ]
+      declarations: [ DocumentsComponent ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
     .compileComponents();
 
