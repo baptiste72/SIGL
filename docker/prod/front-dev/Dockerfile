@@ -25,7 +25,7 @@ RUN apk add --no-cache curl \
 COPY docker/prod/nginx/projet-sigl.conf /etc/nginx/conf.d
 
 # Copy static assets from builder stage
-COPY --from=build /app/dist/sigl /usr/share/nginx/html
+COPY --from=build /app/dist/frontend /usr/share/nginx/html
 
 # Check server is running
 HEALTHCHECK --interval=1m --timeout=10s \

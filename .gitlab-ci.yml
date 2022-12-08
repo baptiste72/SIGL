@@ -14,6 +14,12 @@ variables:
   before_script:
     - cd frontend
     - npm install
+  cache:
+    key: node_modules
+    paths:
+      - frontend/node_modules/
+  tags:
+    - angular
 
 lint-angular:
   stage: lint
@@ -37,3 +43,35 @@ build-angular:
   <<: *install-node-modules
   script:
     - npm run build
+
+deploy-to-prod:
+  stage: deploy
+  image: debian:bullseye-slim
+  before_script:
+    - 'command -v ssh-agent > /dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
+    - eval "$(ssh-agent -s)"
+    - echo "${SSH_PRIVATE_KEY}" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - echo "${SSH_SERVER_HOST}" >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+  script:
+    - ssh -p 2222 sigl@projet-sigl.fr 'source .zshrc
+        && rm -rf sigl
+        && git clone git@gitlab.com:baptiste72/sigl.git
+        && cd sigl/docker/prod
+        && echo -e "DJANGO_DB=${DJANGO_DB}\n
+                    DJANGO_USER=${DJANGO_USER}\n
+                    DJANGO_PASSWORD=${DJANGO_PASSWORD}\n
+                    SONAR_DB=${SONAR_DB}\n
+                    SONAR_USER=${SONAR_USER}\n
+                    SONAR_PASSWORD=${SONAR_PASSWORD}" > .env
+        && docker compose down
+        && docker system prune -af
+        && docker volume prune -f
+        && docker compose up -d
+        && docker exec django python manage.py makemigrations
+        && docker exec django python manage.py migrate'
+  environment: production
+  only:
+    - master
