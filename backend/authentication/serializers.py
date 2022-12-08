@@ -6,6 +6,7 @@ from .models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
+    # pylint: disable=duplicate-code
     class Meta:
         model = User
         fields = ["id", "first_name", "last_name", "email", "password", "role", "token"]

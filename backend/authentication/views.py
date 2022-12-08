@@ -7,6 +7,7 @@ from rest_framework.exceptions import AuthenticationFailed
 from rest_framework import status
 
 from authentication.graph.graph_helper import get_user
+from base.utilities import Role
 from .graph.auth_helper import get_sign_in_flow, get_token_from_code
 from .graph.graph_helper import get_user
 
@@ -17,7 +18,6 @@ from .serializers import (
     UserSerializer,
 )
 from .models import User
-from base.utilities import Role
 
 
 class RegisterView(APIView):

@@ -1,9 +1,22 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from rest_framework.views import APIView
 from rest_framework import status
+from django.http import Http404
 from authentication.models import User
 from base.utilities import Role
-
+from base.models import (
+    Apprentice,
+    Company,
+    Deadline,
+    FormationCenter,
+    Interview,
+    Mentor,
+    Semester,
+    Tutor,
+    TutorTeam,
+    YearGroup,
+)
 from api.serializers import (
     ApprenticeSerializer,
     CompanySerializer,
@@ -17,19 +30,6 @@ from api.serializers import (
     UserSerializer,
     YearGroupSerializer,
 )
-from base.models import (
-    Apprentice,
-    Company,
-    Deadline,
-    FormationCenter,
-    Interview,
-    Mentor,
-    Semester,
-    Tutor,
-    TutorTeam,
-    YearGroup,
-)
-
 from .helper.tutor_team_helper import TutorTeamHelper
 
 
@@ -112,27 +112,9 @@ def add_year_group(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(["GET"])
-def get_tutor_teams(request):
-    # récupération du contenu de la table TutorTeam
-    tutor_team_list = TutorTeam.objects.all()
-    serializers = TutorTeamSerializer(tutor_team_list, many=True)
-    response = TutorTeamHelper.getAllTutorTeams(serializers)
-    return Response(response)
-
-
-@api_view(["POST"])
-def add_tutor_team(request):
-    serializer = TutorTeamSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
 @api_view(["DELETE"])
-def delete_year_group(request, id):
-    year_group = YearGroup.objects.filter(id=id)
+def delete_year_group(request, pk):
+    year_group = YearGroup.objects.get(id=pk)
     year_group.delete()
     return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -166,9 +148,9 @@ def add_semester(request):
 
 
 @api_view(["DELETE"])
-def delete_semester(request, id):
-    delete_semester = Semester.objects.filter(id=id)
-    delete_semester.delete()
+def delete_semester(request, pk):
+    semester = Semester.objects.get(id=pk)
+    semester.delete()
     return Response(status=status.HTTP_204_NO_CONTENT)
 
 
@@ -202,34 +184,75 @@ def get_formation_centers(request):
 
 
 @api_view(["GET"])
-def get_user(request):
+def get_users(request):
     user_list = User.objects.all()
     serializers = UserSerializer(user_list, many=True)
     return Response(serializers.data)
 
 
 @api_view(["DELETE"])
-def delete_user(request, id):
-    user = User.objects.filter(id=id)
+def delete_user(request, pk):
+    user = User.objects.get(id=pk)
     user.delete()
     return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 @api_view(["POST"])
 def update_user(request):
-    update_user_wWill_modify = User.objects.get(pk=request.data.get("id"))
-    if update_user_wWill_modify.role == Role.MENTOR:
-        update_user = Mentor.objects.get(pk=request.data.get("id"))
-    elif update_user_wWill_modify.role == Role.TUTOR:
-        update_user = Tutor.objects.get(pk=request.data.get("id"))
-    elif update_user_wWill_modify.role == Role.APPRENTICE:
-        update_user = Apprentice.objects.get(pk=request.data.get("id"))
-    update_user.first_name = request.data.get("first_name")
-    update_user.last_name = request.data.get("last_name")
-    update_user.email = request.data.get("email")
-    serializer = UserSerializer(update_user, data=request.data)
+    user_to_modify = User.objects.get(pk=request.data.get("id"))
+    if user_to_modify.role == Role.MENTOR:
+        user = Mentor.objects.get(pk=request.data.get("id"))
+    elif user_to_modify.role == Role.TUTOR:
+        user = Tutor.objects.get(pk=request.data.get("id"))
+    elif user_to_modify.role == Role.APPRENTICE:
+        user = Apprentice.objects.get(pk=request.data.get("id"))
+    user.first_name = request.data.get("first_name")
+    user.last_name = request.data.get("last_name")
+    user.email = request.data.get("email")
+    serializer = UserSerializer(user, data=request.data)
     print(request.data)
     if serializer.is_valid():
-        update_user.save()
+        user.save()
         return Response(serializer.data)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class TutorTeamDetail(APIView):
+    def get_object(self, pk):
+        try:
+            return TutorTeam.objects.get(pk=pk)
+        except TutorTeam.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk):
+        tutor_team = self.get_object(pk)
+        serializer = TutorTeamSerializer(tutor_team)
+        return Response(serializer.data)
+
+    def put(self, request, pk):
+        tutor_team = self.get_object(pk)
+        serializer = TutorTeamSerializer(tutor_team, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        tutor_team = self.get_object(pk)
+        tutor_team.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class TutorTeamList(APIView):
+    def get(self, request):
+        tutor_team_list = TutorTeam.objects.all()
+        serializers = TutorTeamSerializer(tutor_team_list, many=True)
+        response = TutorTeamHelper.getAllTutorTeams(serializers)
+        return Response(response)
+
+    def post(self, request):
+        serializer = TutorTeamSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

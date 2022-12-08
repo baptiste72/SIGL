@@ -100,6 +100,7 @@ class SemesterSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
+    # pylint: disable=duplicate-code
     class Meta:
         model = User
         fields = (
@@ -109,9 +110,3 @@ class UserSerializer(serializers.ModelSerializer):
             "email",
             "role",
         )
-
-
-class UserSerializerDelete(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ("id",)

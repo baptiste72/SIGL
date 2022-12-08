@@ -54,7 +54,7 @@ export class UpdateTeamPopupComponent implements OnInit {
     this.getTutor();
   }
 
-  closeDialog() {
+  public closeDialog() {
     this.dialogRef.close({ event: 'close' });
   }
 
@@ -110,23 +110,22 @@ export class UpdateTeamPopupComponent implements OnInit {
   }
 
   submitTutorTeam() {
-    // TODO: Update
-    // this.tutorTeamService.add(this.teamForm.value).subscribe({
-    //   next: (v) => {
-    //     this._snackBar.open('Equipe pédagohique ajoutée', 'Ok', {
-    //       duration: 2000,
-    //     });
-    //     this.closeDialog();
-    //   },
-    //   error: (err) => {
-    //     this._snackBar.open(
-    //       '❌ Une erreur est survenue lors de la récupération des maitres d apprentissage',
-    //       'Ok',
-    //       {
-    //         duration: 2000,
-    //       }
-    //     );
-    //   },
-    // });
+    this.tutorTeamService.update(this.teamForm.value, this.data.id).subscribe({
+      next: (v) => {
+        this._snackBar.open('Equipe pédagohique modifiée', 'Ok', {
+          duration: 2000,
+        });
+        this.closeDialog();
+      },
+      error: (err) => {
+        this._snackBar.open(
+          '❌ Une erreur est survenue lors de la mise à jour',
+          'Ok',
+          {
+            duration: 2000,
+          }
+        );
+      },
+    });
   }
 }

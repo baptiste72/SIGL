@@ -58,8 +58,15 @@
       type="submit"
       [disabled]="teamForm.invalid"
     >
-      AJOUTER
+      MODIFIER
     </button>
-    <button mat-button class="red bold" (click)="closeDialog()">ANNULER</button>
+    <button
+      mat-button
+      mat-dialog-close
+      class="red bold"
+      (click)="closeDialog()"
+    >
+      ANNULER
+    </button>
   </div>
 </form>
