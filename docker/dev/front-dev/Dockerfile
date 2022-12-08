@@ -17,8 +17,7 @@ RUN apk add --no-cache curl \
  && npm install
 
 # Install Chromium for Angular testing
-RUN apk add chromium \
-  && export CHROME_BIN=/usr/bin/chromium-browser
+RUN apk add chromium
 
 # Check server is running
 HEALTHCHECK --interval=1m --timeout=10s \
@@ -26,6 +25,9 @@ HEALTHCHECK --interval=1m --timeout=10s \
 
 # Change user to node
 USER node
+
+# Set location variable for chromium
+ENV CHROME_BIN=/usr/bin/chromium-browser
 
 # Launch the server
 ENTRYPOINT ["ng", "serve", "--host", "0.0.0.0"]
