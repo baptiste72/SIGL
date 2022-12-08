@@ -1,6 +1,7 @@
 import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   templateUrl: './documents-page.component.html',

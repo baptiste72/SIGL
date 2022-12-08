@@ -16,6 +16,10 @@ RUN apk add --no-cache curl \
  && npm install --global @angular/cli \
  && npm install
 
+# Install Chromium for Angular testing
+RUN apk add chromium \
+  && export CHROME_BIN=/usr/bin/chromium-browser
+
 # Check server is running
 HEALTHCHECK --interval=1m --timeout=10s \
  CMD curl --fail http://localhost:4200/ || exit 1

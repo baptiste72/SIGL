@@ -4,7 +4,13 @@ import { AddEventPopupComponent } from '../../pop-up/add-event-popup/add-event-p
 import { InterviewService } from 'src/app/services/Interview/interview.service'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AddDeadlinePopupComponent } from '../../pop-up/add-deadline-popup/add-deadline-popup.component';
+<<<<<<< HEAD
 import { DeadlineService } from 'src/app/services/deadline/deadline.service'
+=======
+import {DeadlineService} from 'src/app/services/deadline/deadline.service';
+import { HttpClientModule } from '@angular/common/http';
+
+>>>>>>> 59d7161c (Param Jasmins Karma Istanbul)
 
 @Component({
   templateUrl: './events-page.component.html',
