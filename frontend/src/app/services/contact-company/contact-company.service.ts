@@ -6,8 +6,8 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root',
 })
-export class CompanyService {
-  private urlPrefix = 'api/v1/companies';
+export class ContactCompanyService {
+  private urlPrefix = 'api/v1/contact-company';
   private  httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
   }
@@ -21,5 +21,5 @@ export class CompanyService {
 
     return this.http.post<any>(`${environment.apiUrl}/${this.urlPrefix}/add`, post, this.httpOptions);
 
-}
+  }
 }

@@ -87,7 +87,7 @@ DATABASES = {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "db_sigl",
         "USER": "postgres",
-        "PASSWORD": "password",
+        "PASSWORD": "root",
         "HOST": "localhost",
     },
     "docker": {

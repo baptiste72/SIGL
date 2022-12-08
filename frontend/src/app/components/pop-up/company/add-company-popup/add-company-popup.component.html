@@ -3,179 +3,642 @@
 </div>
 <div mat-dialog-content class="dialog-content">
 
-  <div class="div-input">
-    <h3>Raison sociale de l’entreprise</h3>
-    <mat-form-field class="full-width" appearance="fill">
-      <input [(ngModel)]="register.last_name" type="text" matInput />
-      <mat-hint>Il s’agit de la dénomination juridique de la société
-        et non sa dénomination commerciale.</mat-hint>
-    </mat-form-field>
-  </div>
+  <mat-stepper linear #stepper>
+    <mat-step [stepControl]="enterpriseForm">
+      <form [formGroup]="enterpriseForm">
+        <ng-template matStepLabel>Entreprise</ng-template>
 
-  <div class="div-input">
-    <h3>N° Siret de l’entreprise</h3>
-    <mat-form-field class="full-width" appearance="fill">
-      <mat-label>ex : 38347093700061</mat-label>
-      <input [(ngModel)]="register.first_name" type="text" matInput />
-    </mat-form-field>
-  </div>
+        <mat-card class="card">
+          <mat-card-header>
+            <mat-card-title>Organisme d'accueil</mat-card-title>
+          </mat-card-header>
+          <div class="div-input">
+            <h3>Raison sociale de l’entreprise</h3>
+            <mat-form-field class="full-width" appearance="fill">
+              <input type="text" matInput formControlName="cmp_name"/>
+                <mat-hint>Il s’agit de la dénomination juridique de la société et non sa dénomination commerciale.</mat-hint>
+                <mat-error *ngIf="enterpriseForm.get('cmp_name')?.invalid && (enterpriseForm.get('cmp_name')?.dirty || enterpriseForm.get('cmp_name')?.touched)">
+                  Nom de l'entreprise est requis</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="div-input">
+            <h3>N° Siret de l’entreprise</h3>
+            <mat-form-field class="full-width" appearance="fill">
+              <mat-label>ex : 38347093700061</mat-label>
+              <input type="text" matInput formControlName="cmp_siret"/>
+                <mat-error *ngIf="enterpriseForm.get('cmp_siret')?.invalid && (enterpriseForm.get('cmp_siret')?.dirty || enterpriseForm.get('cmp_siret')?.touched)">
+                  Numéro de SIRET requis</mat-error>
+            </mat-form-field>
+          </div>
 
-  <div class="div-input">
-    <h3>Nombre de salaries en France</h3>
-    <mat-form-field class="full-width" appearance="fill">
-      <mat-label>ex : 1500</mat-label>
-      <input [(ngModel)]="register.password" type="password" matInput />
-    </mat-form-field>
-  </div>
+          <div class="div-input">
+            <h3>Nombre de salaries en France</h3>
+            <mat-form-field class="full-width" appearance="fill">
+              <mat-label>ex : 1500</mat-label>
+              <input type="text" matInput formControlName="cmp_employees" />
+                <mat-error *ngIf="enterpriseForm.get('cmp_employees')?.invalid && (enterpriseForm.get('cmp_employees')?.dirty || enterpriseForm.get('cmp_employees')?.touched)">
+                  Nombre de salariés requis</mat-error>
+            </mat-form-field>
+          </div>
 
-  <div class="div-input">
-    <h3>Code et Libellé CPNE - Commission paritaire nationale de l’emploi</h3>
-    <mat-form-field class="full-width" appearance="fill">
-      <input [(ngModel)]="register.email" type="email" matInput />
-      <mat-hint>Sollicités dans le cadre de la prise en charge par l'OPCO (barème France Compétences).
-        Pour les entreprises du secteur public, noter "Secteur public</mat-hint>
-    </mat-form-field>
-  </div>
+          <div class="div-input">
+            <h3>Code et Libellé CPNE - Commission paritaire nationale de l’emploi</h3>
+            <mat-form-field class="full-width" appearance="fill">
+              <input type="text" matInput formControlName="cmp_cpne" />
+                <mat-hint>Sollicités dans le cadre de la prise en charge par l'OPCO (barème France Compétences).
+                  Pour les entreprises du secteur public, noter "Secteur public</mat-hint>
+                <mat-error *ngIf="enterpriseForm.get('cmp_cpne')?.invalid && (enterpriseForm.get('cmp_cpne')?.dirty || enterpriseForm.get('cmp_cpne')?.touched)">
+                    Code CPNE requis</mat-error>
+            </mat-form-field>
+          </div>
 
-  <div class="div-input">
-    <h3>Cide IDCC</h3>
-    <mat-form-field class="full-width" appearance="fill">
-      <input [(ngModel)]="register.email" type="email" matInput />
-      <mat-hint>Sollicité dans le cadre de la prise en charge par l'OPCO (barème France Compétences).
-        Pour les entreprises du secteur public, noter le nom et la localité du CNFPT de rattachement</mat-hint>
-    </mat-form-field>
-  </div>
+          <div class="div-input">
+            <h3>Code IDCC</h3>
+            <mat-form-field class="full-width" appearance="fill">
+              <input type="text" matInput formControlName="cmp_idcc" />
+                <mat-hint>Sollicité dans le cadre de la prise en charge par l'OPCO (barème France Compétences).
+                  Pour les entreprises du secteur public, noter le nom et la localité du CNFPT de rattachement</mat-hint>
+                <mat-error *ngIf="enterpriseForm.get('cmp_idcc')?.invalid && (enterpriseForm.get('cmp_idcc')?.dirty || enterpriseForm.get('cmp_idcc')?.touched)">
+                  Code IDCC requis</mat-error>
+                </mat-form-field>
+          </div>
 
-  <div class="div-input">
-    <h3>Convention Collective</h3>
-    <mat-form-field class="full-width" appearance="fill">
-      <input [(ngModel)]="register.email" type="email" matInput />
-      <mat-hint>ex : CC des industries métallurgiques, mécaniques, électriques, électroniques connexes et
-        similaires du Maine-et-Loire</mat-hint>
-    </mat-form-field>
-  </div>
+          <div class="div-input">
+            <h3>Convention Collective</h3>
+            <mat-form-field class="full-width" appearance="fill">
+              <input type="text" matInput formControlName="cmp_convention" />
+              <mat-hint>ex : CC des industries métallurgiques, mécaniques, électriques, électroniques connexes et
+                similaires du Maine-et-Loire</mat-hint>
+                <mat-error *ngIf="enterpriseForm.get('cmp_convention')?.invalid && (enterpriseForm.get('cmp_convention')?.dirty || enterpriseForm.get('cmp_convention')?.touched)">
+                  Convention collective requise</mat-error>
+            </mat-form-field>
+          </div>
 
-  <div class="div-input">
-    <h3>Code NAF/APE</h3>
-    <mat-form-field class="full-width" appearance="fill">
-      <input [(ngModel)]="register.email" type="email" matInput />
-      <mat-hint>ex : CC des industries métallurgiques, mécaniques, électriques, électroniques connexes et
-        similaires du Maine-et-Loire</mat-hint>
-    </mat-form-field>
-  </div>
+          <div class="div-input">
+            <h3>Code NAF/APE</h3>
+            <mat-form-field class="full-width" appearance="fill">
+              <input type="text" matInput formControlName="cmp_naf_ape" />
+              <mat-hint>ex : CC des industries métallurgiques, mécaniques, électriques, électroniques connexes et
+                similaires du Maine-et-Loire</mat-hint>
+                <mat-error *ngIf="enterpriseForm.get('cmp_naf_ape')?.invalid && (enterpriseForm.get('cmp_naf_ape')?.dirty || enterpriseForm.get('cmp_naf_ape')?.touched)">
+                  Code NAF/APE requis</mat-error>
+            </mat-form-field>
+          </div>
 
-  <div class="div-input">
-    <h3>Secteur activité principale</h3>
-    <mat-form-field class="full-width" appearance="fill">
-      <mat-label>ex : Fabrication d'équipements de communication
-      </mat-label>
-      <input [(ngModel)]="register.email" type="email" matInput />
-    </mat-form-field>
-  </div>
+          <div class="div-input">
+            <h3>Secteur d'activité principale</h3>
+            <mat-form-field class="full-width" appearance="fill">
+              <mat-label>ex : Fabrication d'équipements de communication
+              </mat-label>
+              <input type="text" matInput formControlName="cmp_work_field" />
+              <mat-error *ngIf="enterpriseForm.get('cmp_work_field')?.invalid && (enterpriseForm.get('cmp_work_field')?.dirty || enterpriseForm.get('cmp_work_field')?.touched)">
+                Secteur d'activité requis</mat-error>
+            </mat-form-field>
+          </div>
 
-  <div class="div-input">
-    <h3>Téléphone principal</h3>
-    <mat-form-field class="full-width" appearance="fill">
-      <mat-label>ex : 02 41 64 57 00</mat-label>
-      <input [(ngModel)]="register.email" type="email" matInput />
-    </mat-form-field>
-  </div>
+          <div class="div-input">
+            <h3>Téléphone principal</h3>
+            <mat-form-field class="full-width" appearance="fill">
+              <mat-label>ex : 02 41 64 57 00</mat-label>
+              <input type="text" matInput formControlName="cmp_phone" />
+              <mat-error *ngIf="enterpriseForm.get('cmp_phone')?.invalid && (enterpriseForm.get('cmp_phone')?.dirty || enterpriseForm.get('cmp_phone')?.touched)">
+                Numéro de téléphone requis</mat-error>
+            </mat-form-field>
+          </div>
 
-  <div class="div-input">
-    <h3>E-Mail principal</h3>
-    <mat-form-field class="full-width" appearance="fill">
-      <mat-label>ex : magali.remond@thalesgroup.com</mat-label>
-      <input [(ngModel)]="register.email" type="email" matInput />
-    </mat-form-field>
-  </div>
+          <div class="div-input">
+            <h3>E-Mail principal</h3>
+            <mat-form-field class="full-width" appearance="fill">
+              <mat-label>ex : magali.remond@thalesgroup.com</mat-label>
+              <input type="email" matInput formControlName="cmp_email" />
+              <mat-error *ngIf="enterpriseForm.get('cmp_email')?.invalid && (enterpriseForm.get('cmp_email')?.dirty || enterpriseForm.get('cmp_email')?.touched)">
+                Adresse email requise</mat-error>
+            </mat-form-field>
+          </div>
 
-  <div class="div-input">
-    <h3>Adresse (Adresse - CP - Ville)</h3>
-    <mat-form-field class="full-width" appearance="fill">
-      <input [(ngModel)]="register.email" type="email" matInput />
-      <mat-hint>Merci de renseigner ici l'adresse de l'entreprise signataire de la convention.</mat-hint>
-    </mat-form-field>
-  </div>
+          <div class="div-input">
+            <h3>Adresse (Adresse - CP - Ville)</h3>
+            <mat-form-field class="full-width" appearance="fill">
+              <input type="text" matInput formControlName="cmp_address" />
+              <mat-hint>Merci de renseigner ici l'adresse de l'entreprise signataire de la convention.</mat-hint>
+              <mat-error *ngIf="enterpriseForm.get('cmp_address')?.invalid && (enterpriseForm.get('cmp_address')?.dirty || enterpriseForm.get('cmp_address')?.touched)">
+                Adresse postale requise</mat-error>
+            </mat-form-field>
+          </div>
 
-  <div class="div-input">
-    <h3>Lieu de formation (Raison sociale)</h3>
-    <mat-form-field class="full-width" appearance="fill">
-      <input [(ngModel)]="register.email" type="email" matInput />
-      <mat-hint>Merci de renseigner, si elle est différente de celle renseignée ci-dessus, la raison sociale du lieu
-        d'exécution du contrat d'apprentissage.</mat-hint>
-    </mat-form-field>
-  </div>
+        </mat-card>
 
-  <div class="div-input">
-    <h3>Lieu de formation (SIRET)</h3>
-    <mat-form-field class="full-width" appearance="fill">
-      <input [(ngModel)]="register.email" type="email" matInput />
-      <mat-hint>Merci de renseigner, s'il est différent de celui renseigné ci-dessus, le n° de SIRET du lieu
-        d'exécution du contrat d'apprentissage.</mat-hint>
-    </mat-form-field>
-  </div>
+        <mat-card class="card-international">
+          <mat-card-header>
+            <mat-card-title>International</mat-card-title>
+          </mat-card-header>
+          <div>
+            <h3>Rappel concernant l'Expérience Internationale exigée par la CTI</h3>
+            <h5>La Commission des Titres d’Ingénieurs (CTI) a rendu obligatoire une expérience internationale
+              pour pouvoir valider le diplôme d’ingénieur.
+              49. Rappel concernant l'Expérience Internationale exigée par la CTI *
+              Pour satisfaire les exigences pédagogiques d’une expérience professionnelle internationale (EPI),
+              l’apprenti(e) devra impérativement, au cours de sa formation, réaliser un stage de 12 semaines
+              consécutives à l’étranger. Il s’exécutera sur une période estivale (de préférence la première année
+              de formation), le calendrier d’alternance étant aménagé pour que cela soit possible.
+              A cette fin, l’apprenti(e) devra compléter une déclaration d'EPI à l’ESEO pour validation avant
+              départ. L’ESEO éditera une convention quadripartite spécifique à cette période de mobilité. Celleci sera signée par l’employeur, l’entreprise d’accueil, le CFA et l’apprenti(e). Cette convention
+              définira les modalités de cette mobilité telles que les missions confiées à l’apprenti(e), les moyens
+              à mettre en œuvre (prises en charge des frais éventuels, etc.).
+              L’OPCO peut prendre en charge tout ou partie des frais générés par la mobilité à l’étranger. (cf.
+              modalités de prise en charge de l’OPCO de l’entreprise).
+              Pour les entreprises du secteur public, les frais liés à la mobilité doivent être intégrés dans le plan
+              de financement de la formation</h5>
+            <mat-radio-group aria-labelledby="" class="stage-radiogroup" formControlName="cmp_internat" >
+              <mat-radio-button class="radio-btn" *ngFor="let internat of stageInternat" [value]="internat">
+              {{internat}}
+              </mat-radio-button>
+              <mat-error *ngIf="enterpriseForm.get('cmp_internat')?.invalid">
+                Prise de connaissance de l'EPI requise</mat-error>
+            </mat-radio-group>
+          </div>
+        </mat-card>
 
-  <div class="div-input">
-    <h3> Lieu de formation (Adresse - CP- Ville)</h3>
-    <mat-form-field class="full-width" appearance="fill">
-      <input [(ngModel)]="register.email" type="email" matInput />
-      <mat-hint>Merci de renseigner, si elle est différente de celle renseignée ci-dessus, l'adresse COMPLÈTE du
-        lieu d'exécution du contrat d'apprentissage.</mat-hint>
-    </mat-form-field>
-  </div>
+        <div mat-dialog-actions align="end">
+          <button mat-button class="black bold" matStepperNext>NEXT</button>
+          <button mat-button type="submit" class="green bold" (click)="addCompany(enterpriseForm)" [disabled]="enterpriseForm.invalid">SUBMIT</button>
+          <button mat-button type="submit" class="red bold" (click)="printFormValidity(enterpriseForm)">TEST</button>
+        </div>
+      </form>
+    </mat-step>
 
-  <div class="div-input">
-    <h3>OPCO (Nom - Raison sociale)</h3>
-    <mat-form-field class="full-width" appearance="fill">
-      <input [(ngModel)]="register.email" type="email" matInput />
-      <mat-hint>Il s’agit de votre opérateur de compétences. Merci de bien vouloir indiquer ses coordonnées
-        complètes, ici le NOM - RAISON SOCIALE.
-        Pour les entreprises du secteur public : CNFPT (NOM - RAISON SOCIALE)</mat-hint>
-    </mat-form-field>
-  </div>
+    <mat-step [stepControl]="opcoForm" [optional]="isOptional">
+      <form [formGroup]="opcoForm">
+        <ng-template matStepLabel>OPCO</ng-template>
 
-  <div class="div-input">
-    <h3>OPCO (SIRET)</h3>
-    <mat-form-field class="full-width" appearance="fill">
-      <input [(ngModel)]="register.email" type="email" matInput />
-      <mat-hint>Il s’agit de votre opérateur de compétences. Merci de bien vouloir indiquer ses coordonnées
-        complètes, ici le SIRET.
-        Pour les entreprises du secteur public : CNFPT (SIRET) :</mat-hint>
-    </mat-form-field>
-  </div>
+        <div class="div-input">
+          <h3>OPCO (Nom - Raison sociale)</h3>
+          <mat-form-field class="full-width" appearance="fill">
+            <input type="text" matInput formControlName="opco_name"/>
+              <mat-hint>Il s’agit de votre opérateur de compétences. Merci de bien vouloir indiquer ses coordonnées
+                complètes, ici le NOM - RAISON SOCIALE.
+                Pour les entreprises du secteur public : CNFPT (NOM - RAISON SOCIALE)</mat-hint>
+              <mat-error *ngIf="opcoForm.get('opco_name')?.invalid && (opcoForm.get('opco_name')?.dirty || opcoForm.get('opco_name')?.touched)">
+                Nom de l'OPCO requis</mat-error>
+          </mat-form-field>
+        </div>
 
-  <div class="div-input">
-    <h3>OPCO (Adresse - CP- Ville)</h3>
-    <mat-form-field class="full-width" appearance="fill">
-      <input [(ngModel)]="register.email" type="email" matInput />
-      <mat-hint>Il s’agit de votre opérateur de compétences. Merci de bien vouloir indiquer ses coordonnées
-        complètes, ici l'ADRESSE - CP- VILLE.
-        Pour les entreprises du secteur public : CNFPT (ADRESSE - CP - VILLE)</mat-hint>
-    </mat-form-field>
-  </div>
+        <div class="div-input">
+          <h3>OPCO (SIRET)</h3>
+          <mat-form-field class="full-width" appearance="fill">
+            <input type="text" matInput formControlName="opco_siret"/>
+              <mat-hint>Il s’agit de votre opérateur de compétences. Merci de bien vouloir indiquer ses coordonnées
+                complètes, ici le SIRET.
+                Pour les entreprises du secteur public : CNFPT (SIRET) :</mat-hint>
+              <mat-error *ngIf="opcoForm.get('opco_siret')?.invalid && (opcoForm.get('opco_siret')?.dirty || opcoForm.get('opco_siret')?.touched)">
+                Numéro de SIRET de l'OPCO requis</mat-error>
+          </mat-form-field>
+        </div>
 
-  <div class="div-input">
-    <h3>OPCO (Téléphone)</h3>
-    <mat-form-field class="full-width" appearance="fill">
-      <input [(ngModel)]="register.email" type="email" matInput />
-      <mat-hint>Il s’agit de votre opérateur de compétences. Merci de bien vouloir indiquer ses coordonnées
-        complètes, ici le TÉLÉPHONE.
-        Pour les entreprises du secteur public : CNFPT (TÉLÉPHONE) :</mat-hint>
-    </mat-form-field>
-  </div>
+        <div class="div-input">
+          <h3>OPCO (Adresse - CP- Ville)</h3>
+          <mat-form-field class="full-width" appearance="fill">
+            <input type="text" matInput formControlName="opco_address"/>
+              <mat-hint>Il s’agit de votre opérateur de compétences. Merci de bien vouloir indiquer ses coordonnées
+                complètes, ici l'ADRESSE - CP- VILLE.
+                Pour les entreprises du secteur public : CNFPT (ADRESSE - CP - VILLE)</mat-hint>
+              <mat-error *ngIf="opcoForm.get('opco_address')?.invalid && (opcoForm.get('opco_address')?.dirty || opcoForm.get('opco_address')?.touched)">
+                Adresse de l'OPCO requise</mat-error>
+          </mat-form-field>
+        </div>
 
-  <div class="div-input">
-    <h3>OPCO (E-Mail)</h3>
-    <mat-form-field class="full-width" appearance="fill">
-      <input [(ngModel)]="register.email" type="email" matInput />
-      <mat-hint>Il s’agit de votre opérateur de compétences. Merci de bien vouloir indiquer ses coordonnées
-        complètes, ici l'E-MAIL.
-        Pour les entreprises du secteur public : CNFPT (E-MAIL) :</mat-hint>
-    </mat-form-field>
-  </div>
-</div>
-<mat-divider></mat-divider>
-<div mat-dialog-actions align="end">
-  <button mat-button class="green bold" (click)="addCompany(register)">AJOUTER</button>
-  <button mat-button class="red bold" (click)="closeDialog()">ANNULER</button>
-</div>
+        <div class="div-input">
+          <h3>OPCO (Téléphone)</h3>
+          <mat-form-field class="full-width" appearance="fill">
+            <input type="text" matInput formControlName="opco_phone"/>
+              <mat-hint>Il s’agit de votre opérateur de compétences. Merci de bien vouloir indiquer ses coordonnées
+                complètes, ici le TÉLÉPHONE.
+                Pour les entreprises du secteur public : CNFPT (TÉLÉPHONE) :</mat-hint>
+              <mat-error *ngIf="opcoForm.get('opco_phone')?.invalid && (opcoForm.get('opco_phone')?.dirty || opcoForm.get('opco_phone')?.touched)">
+                Numéro de téléphone de l'OPCO requis</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="div-input">
+          <h3>OPCO (E-Mail)</h3>
+          <mat-form-field class="full-width" appearance="fill">
+            <input type="email" matInput formControlName="opco_email"/>
+              <mat-hint>Il s’agit de votre opérateur de compétences. Merci de bien vouloir indiquer ses coordonnées
+                complètes, ici l'E-MAIL.
+                Pour les entreprises du secteur public : CNFPT (E-MAIL) :</mat-hint>
+              <mat-error *ngIf="opcoForm.get('opco_email')?.invalid && (opcoForm.get('opco_email')?.dirty || opcoForm.get('opco_email')?.touched)">
+                Adresse email de l'OPCO requise</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div mat-dialog-actions align="end">
+          <button mat-button class="black bold" matStepperPrevious>BACK</button>
+          <button mat-button class="black bold" matStepperNext>NEXT</button>
+          <button mat-button type="submit" class="green bold" (click)="addOpco(opcoForm)" [disabled]="opcoForm.invalid">SUBMIT</button>
+          <button mat-button type="submit" class="red bold" (click)="printFormValidity(opcoForm)">TEST</button>
+        </div>
+      </form>
+    </mat-step>
+
+    <mat-step [stepControl]="contactForm" [optional]="isOptional">
+      <form [formGroup]="contactForm">
+        <ng-template matStepLabel>Contacts Entreprise</ng-template>
+
+        <mat-card class="card">
+          <mat-card-header>
+            <mat-card-title>Responsable Entreprise</mat-card-title>
+          </mat-card-header>
+
+          <div class="div-input">
+            <h3>NOM</h3>
+            <mat-form-field class="full-width" appearance="fill">
+              <input type="text" matInput formControlName="ct_last_name" required />
+                <mat-hint>Il s’agit du NOM de la personne qui signera la Convention de partenariat envoyée par l’ESEO</mat-hint>
+                <mat-error *ngIf="contactForm.get('ct_last_name')?.invalid && (contactForm.get('ct_last_name')?.dirty || contactForm.get('ct_last_name')?.touched)">
+                  Nom du responsable entreprise requis</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="div-input">
+            <h3>Prénom</h3>
+            <mat-form-field class="full-width" appearance="fill">
+              <input type="text" matInput formControlName="ct_first_name" required />
+                <mat-hint>Il s’agit du PRÉNOM de la personne qui signera la Convention de partenariat envoyée par l’ESEO.</mat-hint>
+                <mat-error *ngIf="contactForm.get('ct_first_name')?.invalid && (contactForm.get('ct_first_name')?.dirty || contactForm.get('ct_first_name')?.touched)">
+                  Prénom du responsable entreprise requis</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="div-input">
+            <h3>Téléphone</h3>
+            <mat-form-field class="full-width" appearance="fill">
+              <input type="text" matInput formControlName="ct_phone" required />
+                <mat-hint></mat-hint>
+                <mat-error *ngIf="contactForm.get('ct_phone')?.invalid && (contactForm.get('ct_phone')?.dirty || contactForm.get('ct_last_name')?.touched)">
+                  Numéro de téléphone du responsable entreprise requis</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="div-input">
+            <h3>Addresse Email</h3>
+            <mat-form-field class="full-width" appearance="fill">
+              <input type="email" matInput formControlName="ct_email" required />
+                <mat-hint></mat-hint>
+                <mat-error *ngIf="contactForm.get('ct_email')?.invalid && (contactForm.get('ct_email')?.dirty || contactForm.get('ct_last_name')?.touched)">
+                  Adresse email du responsable entreprise requise</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="div-input">
+            <h3>Fonction dans l'entreprise</h3>
+            <mat-form-field class="full-width" appearance="fill">
+              <input type="text" matInput formControlName="ct_job_title" required />
+                <mat-hint>Il s’agit de la FONCTION de la personne qui signera la Convention de partenariat envoyée par l’ESEO</mat-hint>
+                <mat-error *ngIf="contactForm.get('ct_job_title')?.invalid && (contactForm.get('ct_job_title')?.dirty || contactForm.get('ct_job_title')?.touched)">
+                  Titre (Fonction) du responsable entreprise requis</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="div-input">
+            <h3> Ancien élève ESEO ?</h3>
+            <mat-radio-group aria-labelledby="" class="stage-radiogroup" formControlName="ct_former_eseo" >
+              <mat-radio-button class="radio-btn" *ngFor="let response of isFormerESEO" [value]="response">
+                {{response}}
+              </mat-radio-button>
+              <mat-error *ngIf="contactForm.get('ct_former_eseo')?.invalid">
+                Champ requis</mat-error>
+            </mat-radio-group>
+          </div>
+
+        </mat-card>
+
+        <mat-card class="card">
+          <mat-card-header>
+            <mat-card-title>Responsable Finance/Comptabilité</mat-card-title>
+          </mat-card-header>
+
+          <div class="div-input">
+            <h3>NOM</h3>
+            <mat-form-field class="full-width" appearance="fill">
+              <input type="text" matInput formControlName="fi_last_name" required />
+                <mat-hint>Il s’agit du NOM de la personne qui signera la Convention de partenariat envoyée par l’ESEO</mat-hint>
+                <mat-error *ngIf="contactForm.get('fi_last_name')?.invalid && (contactForm.get('fi_last_name')?.dirty || contactForm.get('fi_last_name')?.touched)">
+                  Nom du responsable finance/comptabilité requis</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="div-input">
+            <h3>Prénom</h3>
+            <mat-form-field class="full-width" appearance="fill">
+              <input type="text" matInput formControlName="fi_first_name" required />
+              <mat-hint>Il s’agit du PRÉNOM de la personne qui signera la Convention de partenariat envoyée par l’ESEO.</mat-hint>
+              <mat-error *ngIf="contactForm.get('fi_first_name')?.invalid && (contactForm.get('fi_first_name')?.dirty || contactForm.get('fi_first_name')?.touched)">
+                Préom du responsable finance/comptabilité requis</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="div-input">
+            <h3>Téléphone</h3>
+            <mat-form-field class="full-width" appearance="fill">
+              <input type="text" matInput formControlName="fi_phone" required />
+                <mat-hint></mat-hint>
+                <mat-error *ngIf="contactForm.get('fi_phone')?.invalid && (contactForm.get('fi_phone')?.dirty || contactForm.get('fi_phone')?.touched)">
+                  Numéro de téléphone du responsable finance/comptabilité requis</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="div-input">
+            <h3>Addresse Email</h3>
+            <mat-form-field class="full-width" appearance="fill">
+              <input type="email" matInput formControlName="fi_email" required />
+                <mat-hint></mat-hint>
+                <mat-error *ngIf="contactForm.get('fi_email')?.invalid && (contactForm.get('fi_email')?.dirty || contactForm.get('fi_email')?.touched)">
+                  Adresse email du responsable finance/comptabilité requis</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="div-input">
+            <h3> Ancien élève ESEO ?</h3>
+            <mat-radio-group aria-labelledby="" class="stage-radiogroup" formControlName="fi_former_eseo" >
+              <mat-radio-button class="radio-btn" *ngFor="let response of isFormerESEO" [value]="response">
+                {{response}}
+              </mat-radio-button>
+              <mat-error *ngIf="contactForm.get('fi_former_eseo')?.invalid">
+                Champ requis</mat-error>
+            </mat-radio-group>
+          </div>
+
+
+        </mat-card>
+
+        <mat-card class="card">
+          <mat-card-header>
+            <mat-card-title>Administrateur du dossier</mat-card-title>
+          </mat-card-header>
+
+          <div class="div-input">
+            <h3>NOM</h3>
+            <mat-form-field class="full-width" appearance="fill">
+              <input type="text" matInput formControlName="sa_last_name" required />
+                <mat-hint>Il s’agit du NOM de la personne qui signera la Convention de partenariat envoyée par l’ESEO</mat-hint>
+                <mat-error *ngIf="contactForm.get('ct_last_name')?.invalid && (contactForm.get('ct_last_name')?.dirty || contactForm.get('ct_last_name')?.touched)">
+                  Nom de l'administrateur du dossier requis</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="div-input">
+            <h3>Prénom</h3>
+            <mat-form-field class="full-width" appearance="fill">
+              <input type="text" matInput formControlName="sa_first_name" required />
+                <mat-hint>Il s’agit du PRÉNOM de la personne qui signera la Convention de partenariat envoyée par l’ESEO.</mat-hint>
+                <mat-error *ngIf="contactForm.get('ct_last_name')?.invalid && (contactForm.get('ct_last_name')?.dirty || contactForm.get('ct_last_name')?.touched)">
+                  Prénom de l'administrateur du dossier requis</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="div-input">
+            <h3>Téléphone</h3>
+            <mat-form-field class="full-width" appearance="fill">
+              <input type="text" matInput formControlName="sa_phone" required />
+                <mat-hint></mat-hint>
+                <mat-error *ngIf="contactForm.get('ct_last_name')?.invalid && (contactForm.get('ct_last_name')?.dirty || contactForm.get('ct_last_name')?.touched)">
+                  Numéro de téléphone de l'administrateur du dossier requis</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="div-input">
+            <h3>Addresse Email</h3>
+            <mat-form-field class="full-width" appearance="fill">
+              <input type="email" matInput formControlName="sa_email" required />
+                <mat-hint></mat-hint>
+                <mat-error *ngIf="contactForm.get('ct_last_name')?.invalid && (contactForm.get('ct_last_name')?.dirty || contactForm.get('ct_last_name')?.touched)">
+                  Adresse email de l'administrateur du dossier requis</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="div-input">
+            <h3> Ancien élève ESEO ?</h3>
+            <mat-radio-group aria-labelledby="" class="stage-radiogroup" formControlName="sa_former_eseo" >
+              <mat-radio-button class="radio-btn" *ngFor="let response of isFormerESEO" [value]="response">
+                {{response}}
+              </mat-radio-button>
+              <mat-error *ngIf="contactForm.get('sa_former_eseo')?.invalid">
+                Champ requis</mat-error>
+            </mat-radio-group>
+          </div>
+        </mat-card>
+
+        <div mat-dialog-actions align="end">
+          <button mat-button class="black bold" matStepperPrevious>BACK</button>
+          <button mat-button class="black bold" matStepperNext>NEXT</button>
+          <button mat-button type="submit" class="green bold" (click)="addContact(contactForm)" [disabled]="contactForm.invalid">SUBMIT</button>
+          <button mat-button type="submit" class="red bold" (click)="printFormValidity(contactForm)">TEST</button>
+        </div>
+      </form>
+    </mat-step>
+
+    <mat-step [stepControl]="mentorForm" [optional]="isOptional">
+      <form [formGroup]="mentorForm">
+        <ng-template matStepLabel>Maître d'apprentissage</ng-template>
+
+        <div class="div-input">
+          <h3>NOM</h3>
+          <mat-form-field class="full-width" appearance="fill">
+            <input type="text" matInput formControlName="mt_last_name"/>
+              <mat-hint>Il s'agit du NOM de la personne qui va assurer l'encadrement opérationnel de l'apprenti(e) en entreprise.</mat-hint>
+              <mat-error *ngIf="mentorForm.get('mt_last_name')?.invalid && (mentorForm.get('mt_last_name')?.dirty || mentorForm.get('mt_last_name')?.touched)">
+                Nom du MA requis</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="div-input">
+          <h3>Prénom</h3>
+          <mat-form-field class="full-width" appearance="fill">
+            <input type="text" matInput formControlName="mt_first_name"/>
+              <mat-hint>Il s'agit du PRÉNOM de la personne qui va assurer l'encadrement opérationnel de l'apprenti(e) en entreprise.</mat-hint>
+              <mat-error *ngIf="mentorForm.get('mt_first_name')?.invalid && (mentorForm.get('mt_first_name')?.dirty || mentorForm.get('mt_first_name')?.touched)">
+                Prénom du MA requis</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="div-input">
+          <h3>Numéro de téléphone</h3>
+          <mat-form-field class="full-width" appearance="fill">
+            <input type="text" matInput formControlName="mt_phone"/>
+              <mat-hint>Il s'agit du NUMÉRO DE LIGNE DIRECTE de la personne qui va assurer l'encadrement opérationnel
+                de l'apprenti(e) en entreprise</mat-hint>
+              <mat-error *ngIf="mentorForm.get('mt_phone')?.invalid && (mentorForm.get('mt_phone')?.dirty || mentorForm.get('mt_phone')?.touched)">
+                Numéro de téléphone du MA requis</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="div-input">
+          <h3>Addresse Email</h3>
+          <mat-form-field class="full-width" appearance="fill">
+            <input type="text" matInput formControlName="mt_email"/>
+              <mat-hint>Il s'agit de l'E-MAIL de la personne qui va assurer l'encadrement opérationnel de l'apprenti(e) en
+                entreprise.</mat-hint>
+              <mat-error *ngIf="mentorForm.get('mt_email')?.invalid && (mentorForm.get('mt_email')?.dirty || mentorForm.get('mt_email')?.touched)">
+                Adresse email du MA requis</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="div-input">
+          <h3>Fonction dans l'entreprise</h3>
+          <mat-form-field class="full-width" appearance="fill">
+            <input type="text" matInput formControlName="mt_job_title"/>
+              <mat-hint>Il s'agit de la FONCTION occupée par la personne qui va assurer l'encadrement opérationnel de
+                l'apprenti(e) en entreprise</mat-hint>
+              <mat-error *ngIf="mentorForm.get('mt_job_title')?.invalid && (mentorForm.get('mt_job_title')?.dirty || mentorForm.get('mt_job_title')?.touched)">
+                Titre (Fonction) du MA requis</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="div-input">
+          <h3>Dernier diplôme obtenu</h3>
+          <mat-form-field class="full-width" appearance="fill">
+            <input type="text" matInput formControlName="mt_last_diploma"/>
+              <mat-hint>Il s'agit du DERNIER DIPLÔME OBTENU par la personne qui va assurer l'encadrement
+                opérationnel de l'apprenti(e) en entreprise.</mat-hint>
+              <mat-error *ngIf="mentorForm.get('mt_last_diploma')?.invalid && (mentorForm.get('mt_last_diploma')?.dirty || mentorForm.get('mt_last_diploma')?.touched)">
+               Dernier diplôme du MA requis</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="div-input">
+          <h3> Ancien élève ESEO ?</h3>
+          <mat-radio-group aria-labelledby="" class="stage-radiogroup" formControlName="mt_former_eseo" >
+            <mat-radio-button class="radio-btn" *ngFor="let response of isFormerESEO" [value]="response">
+              {{response}}
+            </mat-radio-button>
+            <mat-error *ngIf="contactForm.get('mt_former_eseo')?.invalid">
+              Champ requis</mat-error>
+          </mat-radio-group>
+        </div>
+
+
+
+
+        <div mat-dialog-actions align="end">
+          <button mat-button class="black bold" matStepperPrevious>BACK</button>
+          <button mat-button class="black bold" matStepperNext>NEXT</button>
+          <button mat-button type="submit" class="green bold" (click)="addMentor(mentorForm)" [disabled]="mentorForm.invalid">SUBMIT</button>
+          <button mat-button type="submit" class="red bold" (click)="printFormValidity(mentorForm)">TEST</button>
+        </div>
+      </form>
+    </mat-step>
+
+    <mat-step [stepControl]="apprenticeForm" [optional]="isOptional">
+      <form [formGroup]="apprenticeForm">
+        <ng-template matStepLabel>Apprenti</ng-template>
+
+        <div class="div-input">
+          <h3>NOM</h3>
+          <mat-form-field class="full-width" appearance="fill">
+            <input type="text" matInput formControlName="app_last_name"/>
+              <mat-hint>NOM de l'apprenti(e) ESEO recruté(e) dans le cadre du contrat d'apprentissage</mat-hint>
+              <mat-error *ngIf="apprenticeForm.get('app_last_name')?.invalid && (apprenticeForm.get('app_last_name')?.dirty || apprenticeForm.get('app_last_name')?.touched)">
+                Nom de l'apprenti requis</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="div-input">
+          <h3>Prénom</h3>
+          <mat-form-field class="full-width" appearance="fill">
+            <input type="text" matInput formControlName="app_first_name"/>
+              <mat-hint>PRÉNOM de l'apprenti(e) ESEO recruté(e) dans le cadre du contrat d'apprentissage</mat-hint>
+              <mat-error *ngIf="apprenticeForm.get('app_first_name')?.invalid && (apprenticeForm.get('app_first_name')?.dirty || apprenticeForm.get('app_first_name')?.touched)">
+                Prénom de l'apprenti requis</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="div-input">
+          <h3>Numéro de téléphone</h3>
+          <mat-form-field class="full-width" appearance="fill">
+            <input type="text" matInput formControlName="app_phone"/>
+              <mat-hint></mat-hint>
+              <mat-error *ngIf="apprenticeForm.get('app_phone')?.invalid && (apprenticeForm.get('app_phone')?.dirty || apprenticeForm.get('app_phone')?.touched)">
+                Numéro de téléphone de l'apprenti requis</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="div-input">
+          <h3>Intitulé du poste</h3>
+          <mat-form-field class="full-width" appearance="fill">
+            <input type="text" matInput formControlName="app_job_title"/>
+              <mat-error *ngIf="apprenticeForm.get('app_job_title')?.invalid && (apprenticeForm.get('app_job_title')?.dirty || apprenticeForm.get('app_job_title')?.touched)">
+                Titre (Fonction) de l'apprenti requis</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="div-input">
+          <h3>Descriptif du poste fiche de poste détaillée des missions confiées dans le
+            cadre du contrat d'apprentissage</h3>
+          <mat-form-field class="full-width" appearance="fill">
+            <input type="text" matInput formControlName="app_description"/>
+              <mat-hint>L'ESEO vérifiera l'adéquation des missions afférentes avec les objectifs du diplôme préparé.</mat-hint>
+              <mat-error *ngIf="apprenticeForm.get('app_description')?.invalid && (apprenticeForm.get('app_description')?.dirty || apprenticeForm.get('app_description')?.touched)">
+                Descriptif du poste de l'apprenti requis</mat-error>
+          </mat-form-field>
+        </div>
+
+
+        <div class="div-input">
+          <h3>Classification dans la convention collective</h3>
+          <mat-form-field class="full-width" appearance="fill">
+            <input type="text" matInput formControlName="app_collective_convention"/>
+              <mat-hint>Il s’agit des niveaux et coefficients d’entrée et de sortie de l'apprenti(e) (en début, puis en fin de contrat)</mat-hint>
+              <mat-error *ngIf="apprenticeForm.get('app_collective_convention')?.invalid && (apprenticeForm.get('app_collective_convention')?.dirty || apprenticeForm.get('app_collective_convention')?.touched)">
+                Classification dans la convention collective requise</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="div-input">
+          <h3>Durée hebdomadaire de travail</h3>
+          <mat-form-field class="full-width" appearance="fill">
+            <input type="text" matInput formControlName="app_working_hours"/>
+              <mat-error *ngIf="apprenticeForm.get('app_working_hours')?.invalid && (apprenticeForm.get('app_working_hours')?.dirty || apprenticeForm.get('app_working_hours')?.touched)">
+                Durée de travail hebdomadaire de l'apprenti requise</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="div-input">
+          <h3>Lieu de formation (Raison sociale)</h3>
+          <mat-form-field class="full-width" appearance="fill">
+            <input type="email" matInput formControlName="app_comp_name"/>
+              <mat-hint>Merci de renseigner, si elle est différente de celle renseignée ci-dessus, la raison sociale du lieu d'exécution du contrat d'apprentissage.</mat-hint>
+          </mat-form-field>
+        </div>
+
+        <div class="div-input">
+          <h3>Lieu de formation (SIRET)</h3>
+          <mat-form-field class="full-width" appearance="fill">
+            <input type="email" matInput formControlName="app_siret"/>
+            <mat-hint>Merci de renseigner, s'il est différent de celui renseigné ci-dessus, le n° de SIRET du lieu
+              d'exécution du contrat d'apprentissage.</mat-hint>
+          </mat-form-field>
+        </div>
+
+        <div class="div-input">
+          <h3> Lieu de formation (Adresse - CP- Ville)</h3>
+          <mat-form-field class="full-width" appearance="fill">
+            <input type="email" matInput formControlName="app_location"/>
+            <mat-hint>Merci de renseigner, si elle est différente de celle renseignée ci-dessus, l'adresse COMPLÈTE du
+              lieu d'exécution du contrat d'apprentissage.</mat-hint>
+          </mat-form-field>
+        </div>
+
+
+        <div mat-dialog-actions align="end">
+          <button mat-button class="black bold" matStepperPrevious>BACK</button>
+          <button mat-button type="submit" class="green bold" (click)="sendJSON(apprenticeForm)" [disabled]="apprenticeForm.invalid">SUBMIT</button>
+          <button mat-button type="submit" class="red bold" (click)="printFormValidity(apprenticeForm)">TEST</button>
+        </div>
+      </form>
+    </mat-step>
+
+  </mat-stepper>
+
+
+
+

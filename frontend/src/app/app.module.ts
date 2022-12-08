@@ -45,6 +45,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
+import {MatRadioButton, MatRadioModule} from '@angular/material/radio';
 import {
   NgxMatDatetimePickerModule,
   NgxMatTimepickerModule,
@@ -55,6 +56,7 @@ import { UpdateUserPopupComponent } from './components/pop-up/user/update-user-p
 import { ErrorInterceptor, JwtInterceptor } from './helpers';
 import { ConfirmDeleteComponent } from './components/pop-up/confirm-delete/confirm-delete.component';
 import { UpdateTeamPopupComponent } from './components/pop-up/tutor-team/update-team-popup/update-team-popup.component';
+import { MatStepperModule } from '@angular/material/stepper';
 
 @NgModule({
   declarations: [
@@ -111,6 +113,8 @@ import { UpdateTeamPopupComponent } from './components/pop-up/tutor-team/update-
     NgxMatTimepickerModule,
     NgxMatNativeDateModule,
     MatTabsModule,
+    MatStepperModule,
+    MatRadioModule,
     ReactiveFormsModule,
   ],
   providers: [

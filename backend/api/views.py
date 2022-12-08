@@ -7,6 +7,8 @@ from base.utilities import Role
 from api.serializers import (
     ApprenticeSerializer,
     CompanySerializer,
+    ContactCompanySerializer,
+    OpcoSerializer,
     DeadlineSerializer,
     FormationCenterSerializer,
     InterviewSerializer,
@@ -20,6 +22,8 @@ from api.serializers import (
 from base.models import (
     Apprentice,
     Company,
+    ContactCompany,
+    Opco,
     Deadline,
     FormationCenter,
     Interview,
@@ -39,6 +43,14 @@ def get_mentors(request):
     serializers = MentorSerializer(mentor_list, many=True)
     return Response(serializers.data)
 
+@api_view(["POST"])
+def add_mentor(request):
+    serializer = MentorSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(["GET"])
 def get_tutors(request):
@@ -53,15 +65,6 @@ def get_apprentices(request):
     apprentice_list = Apprentice.objects.all()
     serializers = ApprenticeSerializer(apprentice_list, many=True)
     return Response(serializers.data)
-
-
-@api_view(["POST"])
-def add_mentor(request):
-    serializer = MentorSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(["GET"])
@@ -192,6 +195,44 @@ def get_company(request):
     company_list = Company.objects.all()
     serializers = CompanySerializer(company_list, many=True)
     return Response(serializers.data)
+
+@api_view(['POST'])
+def add_company(request):
+    serializer = CompanySerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def get_opco(request):
+    CompanyList = Opco.objects.all()
+    serializers = OpcoSerializer(OpcoList, many=True)
+    return Response(serializers.data)
+
+
+@api_view(['POST'])
+def add_opco(request):
+    serializer = OpcoSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+    return Response(serializer.data)
+
+
+@api_view(["GET"])
+def get_contact_companys(request):
+    yeargroup_list = ContactCompany.objects.all()
+    serializers = ContactCompanySerializer(yeargroup_list, many=True)
+    return Response(serializers.data)
+
+
+@api_view(["POST"])
+def add_contact_company(request):
+    serializer = ContactCompanySerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(["GET"])
