@@ -5,12 +5,12 @@ import {
   MatTreeFlatDataSource,
   MatTreeFlattener,
 } from '@angular/material/tree';
-import { AddNotePopupComponent } from '../../pop-up/add-note-popup/add-note-popup.component';
-import { DeleteNotePopupComponent } from '../../pop-up/delete-note-popup/delete-note-popup.component';
+import { AddNotePopupComponent } from '../../pop-up/note/add-note-popup/add-note-popup.component';
+import { DeleteNotePopupComponent } from '../../pop-up/note/delete-note-popup/delete-note-popup.component';
 
 import { NoteService } from 'src/app/services/note/note.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ModifyNotePopupComponent } from '../../pop-up/modify-note-popup/modify-note-popup.component';
+import { ModifyNotePopupComponent } from '../../pop-up/note/modify-note-popup/modify-note-popup.component';
 import { ActivatedRoute } from '@angular/router';
 interface Note {
   id: any;

@@ -12,10 +12,10 @@ interface Guest {
 
 @Component({
   selector: 'app-add-event-popup',
-  templateUrl: './add-event-popup.component.html',
-  styleUrls: ['./add-event-popup.component.scss'],
+  templateUrl: './add-interview-popup.component.html',
+  styleUrls: ['./add-interview-popup.component.scss'],
 })
-export class AddEventPopupComponent implements OnInit {
+export class AddInterviewPopupComponent implements OnInit {
   interview: any;
   semesters: Semester[] = [
     { name: 'Semestre S5' },
@@ -31,7 +31,7 @@ export class AddEventPopupComponent implements OnInit {
   ];
 
   constructor(
-    public dialogRef: MatDialogRef<AddEventPopupComponent>,
+    public dialogRef: MatDialogRef<AddInterviewPopupComponent>,
     private interviewService: InterviewService,
     private _snackBar: MatSnackBar,
     @Optional() @Inject(MAT_DIALOG_DATA) public mydata: any

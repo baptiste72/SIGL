@@ -6,12 +6,6 @@
     <h3>Informations sur la note</h3>
 
     <mat-form-field class="Add-Note" appearance="fill">
-      <mat-label>Ajout d'id pour test </mat-label>
-      <mat-icon matPrefix>ID</mat-icon>
-      <input type="text" matInput />
-    </mat-form-field>
-
-    <mat-form-field class="Add-Note" appearance="fill">
       <mat-label>Nom de la note </mat-label>
       <mat-icon matPrefix>note</mat-icon>
       <input type="tel" [(ngModel)]="jsonNote.title" matInput />
@@ -31,12 +25,12 @@
       <mat-date-range-input [rangePicker]="picker">
         <input
           matStartDate
-          [(ngModel)]="jsonNote.dateStart"
+          [(ngModel)]="jsonNote.date_start"
           placeholder="Date de début"
         />
         <input
           matEndDate
-          [(ngModel)]="jsonNote.dateEnd"
+          [(ngModel)]="jsonNote.date_end"
           placeholder="Date de fin"
         />
       </mat-date-range-input>
@@ -65,7 +59,7 @@
 </div>
 <mat-divider></mat-divider>
 <div mat-dialog-actions align="end">
-  <button mat-button class="green bold" (click)="addNote(jsonNote)">
+  <button mat-button class="green bold" (click)="updateNote(jsonNote)">
     AJOUT
   </button>
   <button mat-button class="red bold" (click)="closeDialog()">ANNULER</button>

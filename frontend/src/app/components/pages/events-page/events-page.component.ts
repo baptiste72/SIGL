@@ -1,15 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogState } from '@angular/material/dialog';
-import { AddEventPopupComponent } from '../../pop-up/add-event-popup/add-event-popup.component';
+import { AddInterviewPopupComponent } from '../../pop-up/interview/add-interview-popup/add-interview-popup.component';
 import { InterviewService } from 'src/app/services/interview/interview.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AddDeadlinePopupComponent } from '../../pop-up/add-deadline-popup/add-deadline-popup.component';
+import { AddDeadlinePopupComponent } from '../../pop-up/deadline/add-deadline-popup/add-deadline-popup.component';
 import { DeadlineService } from 'src/app/services/deadline/deadline.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { Deadlines } from 'src/app/models/Deadlines';
 import { MatPaginator } from '@angular/material/paginator';
 import { Interviews } from 'src/app/models/Interviews';
-import { ModifyEventPopupComponent } from '../../pop-up/modify-event-popup/modify-event-popup.component';
+import { ModifyInterviewPopupComponent } from '../../pop-up/interview/modify-interview-popup/modify-interview-popup.component';
 
 @Component({
   templateUrl: './events-page.component.html',
@@ -91,7 +91,7 @@ export class EventsPageComponent implements OnInit {
 
   addEvent() {
     this.dialog
-      .open(AddEventPopupComponent, {
+      .open(AddInterviewPopupComponent, {
         width: '600px',
       })
       .afterClosed()
@@ -102,7 +102,7 @@ export class EventsPageComponent implements OnInit {
 
   openModifyInterview(interview: any) {
     this.dialog
-      .open(ModifyEventPopupComponent, {
+      .open(ModifyInterviewPopupComponent, {
         width: '600px',
         data: {
           dataKey: interview,

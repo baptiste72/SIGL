@@ -11,7 +11,7 @@ import { AddUserPopupComponent } from '../../pop-up/user/add-user-popup/add-user
 import { MatDialog } from '@angular/material/dialog';
 import { AddYearGroupPopupComponent } from '../../pop-up/year-group/add-year-group-popup/add-year-group-popup.component';
 import { UpdateYearGroupPopupComponent } from '../../pop-up/year-group/update-year-group-popup/update-year-group-popup/update-year-group-popup.component';
-import { AddNotePopupComponent } from '../../pop-up/add-note-popup/add-note-popup.component';
+import { AddNotePopupComponent } from '../../pop-up/note/add-note-popup/add-note-popup.component';
 import { AddTeamPopupComponent } from '../../pop-up/tutor-team/add-team-popup/add-team-popup.component';
 import { AddCompanyPopupComponent } from '../../pop-up/company/add-company-popup/add-company-popup.component';
 import { AddSemesterPopupComponent } from '../../pop-up/semester/add-semester-popup/add-semester-popup.component';

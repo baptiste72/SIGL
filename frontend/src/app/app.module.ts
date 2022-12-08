@@ -11,7 +11,7 @@ import { DocumentsComponent } from './components/documents/documents.component';
 import { EvaluationsComponent } from './components/evaluations/evaluations.component';
 import { EventsComponent } from './components/events/events.component';
 import { DocumentsPageComponent } from './components/pages/documents-page/documents-page.component';
-import { AddNotePopupComponent } from './components/pop-up/add-note-popup/add-note-popup.component';
+import { AddNotePopupComponent } from './components/pop-up/note/add-note-popup/add-note-popup.component';
 import { ConfigurationComponent } from './components/pages/configuration/configuration.component';
 import { AddUserPopupComponent } from './components/pop-up/user/add-user-popup/add-user-popup.component';
 import { AddYearGroupPopupComponent } from './components/pop-up/year-group/add-year-group-popup/add-year-group-popup.component';
@@ -20,7 +20,7 @@ import { NotesPageComponent } from './components/pages/notes-page/notes-page.com
 import { UpdateYearGroupPopupComponent } from './components/pop-up/year-group/update-year-group-popup/update-year-group-popup/update-year-group-popup.component';
 import { UpdateSemesterPopupComponent } from './components/pop-up/semester/update-semester-popup/update-semester-popup/update-semester-popup.component';
 import { EventsPageComponent } from './components/pages/events-page/events-page.component';
-import { AddEventPopupComponent } from './components/pop-up/add-event-popup/add-event-popup.component';
+import { AddInterviewPopupComponent } from './components/pop-up/interview/add-interview-popup/add-interview-popup.component';
 
 // MODULES
 import { NgModule } from '@angular/core';
@@ -43,17 +43,18 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
-import { AddDeadlinePopupComponent } from './components/pop-up/add-deadline-popup/add-deadline-popup.component';
+import { AddDeadlinePopupComponent } from './components/pop-up/deadline/add-deadline-popup/add-deadline-popup.component';
 import {
   NgxMatDatetimePickerModule,
   NgxMatTimepickerModule,
   NgxMatNativeDateModule,
 } from '@angular-material-components/datetime-picker';
-import { ModifyNotePopupComponent } from './components/pop-up/modify-note-popup/modify-note-popup.component';
-import { DeleteNotePopupComponent } from './components/pop-up/delete-note-popup/delete-note-popup.component';
+import { ModifyNotePopupComponent } from './components/pop-up/note/modify-note-popup/modify-note-popup.component';
+import { DeleteNotePopupComponent } from './components/pop-up/note/delete-note-popup/delete-note-popup.component';
+import { DeleteInterviewPopupComponent } from './components/pop-up/interview/delete-interview-popup/delete-interview-popup.component';
 import { AddCompanyPopupComponent } from './components/pop-up/company/add-company-popup/add-company-popup.component';
 import { AddSemesterPopupComponent } from './components/pop-up/semester/add-semester-popup/add-semester-popup.component';
-import { ModifyEventPopupComponent } from './components/pop-up/modify-event-popup/modify-event-popup.component';
+import { ModifyInterviewPopupComponent } from './components/pop-up/interview/modify-interview-popup/modify-interview-popup.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ErrorInterceptor, JwtInterceptor } from './helpers';
 
@@ -79,14 +80,15 @@ import { ErrorInterceptor, JwtInterceptor } from './helpers';
     AddYearGroupPopupComponent,
     AddTeamPopupComponent,
     EventsPageComponent,
-    AddEventPopupComponent,
+    AddInterviewPopupComponent,
     AddDeadlinePopupComponent,
     DeleteNotePopupComponent,
     AddCompanyPopupComponent,
     AddSemesterPopupComponent,
     UpdateYearGroupPopupComponent,
     UpdateSemesterPopupComponent,
-    ModifyEventPopupComponent,
+    ModifyInterviewPopupComponent,
+    DeleteInterviewPopupComponent,
   ],
   imports: [
     BrowserModule,

@@ -11,11 +11,11 @@ interface Guest {
 }
 
 @Component({
-  selector: 'app-modify-event-popup',
-  templateUrl: './modify-event-popup.component.html',
-  styleUrls: ['./modify-event-popup.component.scss'],
+  selector: 'app-modify-interview-popup',
+  templateUrl: './modify-interview-popup.component.html',
+  styleUrls: ['./modify-interview-popup.component.scss'],
 })
-export class ModifyEventPopupComponent implements OnInit {
+export class ModifyInterviewPopupComponent implements OnInit {
   interview: any;
   semesters: Semester[] = [
     { name: 'Semestre S5' },
@@ -31,7 +31,7 @@ export class ModifyEventPopupComponent implements OnInit {
   ];
 
   constructor(
-    public dialogRef: MatDialogRef<ModifyEventPopupComponent>,
+    public dialogRef: MatDialogRef<ModifyInterviewPopupComponent>,
     private interviewService: InterviewService,
     private _snackBar: MatSnackBar,
     @Optional() @Inject(MAT_DIALOG_DATA) public mydata: any
@@ -56,6 +56,6 @@ export class ModifyEventPopupComponent implements OnInit {
     });
   }
   closeDialog() {
-    this.dialogRef.close({ event: 'close', data: this.fromDialog });
+    this.dialogRef.close({ interview: 'close', data: this.fromDialog });
   }
 }
