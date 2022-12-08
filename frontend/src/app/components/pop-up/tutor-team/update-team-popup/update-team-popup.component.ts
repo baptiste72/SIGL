@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ApprenticeService } from 'src/app/services/apprentice/apprentice.service';
 import { MentorService } from 'src/app/services/mentor/mentor.service';
 import { TutorService } from 'src/app/services/tutor/tutor.service';
@@ -8,40 +8,53 @@ import { Apprentice } from 'src/app/models/Apprentice';
 import { Tutor } from 'src/app/models/Tutor';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TutorTeamService } from 'src/app/services/tutor-team/tutor-team.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { TutorTeam } from '@app/models/TutorTeam';
 
 @Component({
-  selector: 'app-add-team-popup',
-  templateUrl: './add-team-popup.component.html',
-  styleUrls: ['./add-team-popup.component.scss'],
+  selector: 'app-update-team-popup',
+  templateUrl: './update-team-popup.component.html',
+  styleUrls: ['./update-team-popup.component.scss'],
 })
-export class AddTeamPopupComponent implements OnInit {
-  register: any;
+export class UpdateTeamPopupComponent implements OnInit {
+  public apprentice: Apprentice;
+  public tutor: Tutor;
+  public mentor: Mentor;
 
-  apprentices: Apprentice[] = [];
-  tutors: Tutor[] = [];
-  mentors: Mentor[] = [];
+  public apprentices: Apprentice[] = [];
+  public tutors: Tutor[] = [];
+  public mentors: Mentor[] = [];
+
+  public teamForm: FormGroup;
 
   constructor(
-    public dialogRef: MatDialogRef<AddTeamPopupComponent>,
+    public dialogRef: MatDialogRef<UpdateTeamPopupComponent>,
     private mentorService: MentorService,
     private tutorService: TutorService,
     private apprenticeService: ApprenticeService,
     private tutorTeamService: TutorTeamService,
-    private _snackBar: MatSnackBar
-  ) {}
+    private _snackBar: MatSnackBar,
+    private formBuilder: FormBuilder,
+    @Inject(MAT_DIALOG_DATA) public data: TutorTeam
+  ) {
+    this.mentor = data.mentor;
+    this.apprentice = data.apprentice;
+    this.tutor = data.tutor;
+
+    this.teamForm = this.formBuilder.group({
+      apprentice: [this.apprentice.id, Validators.required],
+      mentor: [this.mentor.id, Validators.required],
+      tutor: [this.tutor.id, Validators.required],
+    });
+  }
 
   ngOnInit(): void {
     this.getApprentice();
     this.getMentor();
     this.getTutor();
-    this.register = {
-      mentor: '',
-      tutor: '',
-      apprentice: '',
-    };
   }
 
-  closeDialog() {
+  public closeDialog() {
     this.dialogRef.close({ event: 'close' });
   }
 
@@ -96,17 +109,17 @@ export class AddTeamPopupComponent implements OnInit {
     });
   }
 
-  addTutorTeam(data: any) {
-    this.tutorTeamService.add(data).subscribe({
+  submitTutorTeam() {
+    this.tutorTeamService.update(this.teamForm.value, this.data.id).subscribe({
       next: (v) => {
-        this._snackBar.open('Equipe pédagohique ajoutée', 'Ok', {
+        this._snackBar.open('Equipe pédagohique modifiée', 'Ok', {
           duration: 2000,
         });
         this.closeDialog();
       },
       error: (err) => {
         this._snackBar.open(
-          '❌ Une erreur est survenue lors de la récupération des maitres d apprentissage',
+          '❌ Une erreur est survenue lors de la mise à jour',
           'Ok',
           {
             duration: 2000,

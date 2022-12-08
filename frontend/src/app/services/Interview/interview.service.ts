@@ -7,15 +7,18 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class InterviewService {
-  private urlPrefix = 'api/v1';
+  private urlPrefix = 'api/v1/interviews';
 
   constructor(private http: HttpClient) {}
 
-  public getInterviews(): Observable<any> {
-    return this.http.get<any>(`${environment.apiUrl}/${this.urlPrefix}/interviews`);
+  public getAll(): Observable<any> {
+    return this.http.get<any>(`${environment.apiUrl}/${this.urlPrefix}`);
   }
 
-  public addinterview(post: any): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/${this.urlPrefix}/add-interview`,post);
+  public add(post: any): Observable<any> {
+    return this.http.post<any>(
+      `${environment.apiUrl}/${this.urlPrefix}/add`,
+      post
+    );
   }
 }

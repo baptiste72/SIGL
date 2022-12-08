@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject, OnInit, Optional } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { CompanyService } from 'src/app/services/company/company.service';
+import { Company } from 'src/app/models/Company';
+import { FormationCenterService } from '@app/services/formation-center/formation-center.service';
+import { FormationCenter } from 'src/app/models/FormationCenter';
+import { YearGroupService } from 'src/app/services/year-group/year-group.service';
+import { YearGroup } from 'src/app/models/YearGroup';
+import { Role } from '@app/helpers';
 
 interface Promotion {
   name: string;
-}
-
-interface Role {
-  name: string;
-  value: string;
 }
 
 @Component({
@@ -19,23 +21,28 @@ interface Role {
 })
 export class AddUserPopupComponent implements OnInit {
   selectedRole = '';
+  fromDialog!: string;
   register: any;
-  promotions: Promotion[] = [
-    { name: 'Noether' },
-    { name: 'Promotion2' },
-    { name: 'Promotion3' },
-  ];
-  roles: Role[] = [
-    {name: 'Apprenti', value: 'APPRENTICE'},
-    {name: 'Maître apprentissage', value: 'MENTOR'},
-    {name: 'Tuteur pédagogique', value: 'TUTOR'},
-    {name: 'Compte Entreprise', value: 'COMPANY'}
+  companys: Company[] = [];
+  formationCenters: FormationCenter[] = [];
+  yearGroups: YearGroup[] = [];
+  readonly roleEnum = Role;
+
+  roles: any[] = [
+    { name: 'Apprenti', value: Role.APPRENTICE },
+    { name: 'Maître apprentissage', value: Role.MENTOR },
+    { name: 'Tuteur pédagogique', value: Role.TUTOR },
+    { name: 'Compte Entreprise', value: Role.COMPANY },
   ];
 
   constructor(
     public dialogRef: MatDialogRef<AddUserPopupComponent>,
     private authService: AuthService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private yearGroupService: YearGroupService,
+    private companyService: CompanyService,
+    private formationCenterService: FormationCenterService,
+    @Optional() @Inject(MAT_DIALOG_DATA) public mydata: any
   ) {}
 
   ngOnInit(): void {
@@ -46,11 +53,60 @@ export class AddUserPopupComponent implements OnInit {
       first_name: '',
       password: '',
       email: '',
+      company: '',
     };
+    this.getYearGroup();
+    this.getCompany();
+    this.getFormationCenter();
   }
 
-  closeDialog() {
-    this.dialogRef.close({ event: 'close' });
+  private getYearGroup() {
+    this.yearGroupService.getAll().subscribe({
+      next: (yearGroupsData) => {
+        this.yearGroups = yearGroupsData;
+      },
+      error: (err) => {
+        this._snackBar.open(
+          '❌ Une erreur est survenue lors de la récupération des équipes pédagogiques',
+          'Ok',
+          { duration: 2000 }
+        );
+      },
+    });
+  }
+
+  private getCompany() {
+    this.companyService.getAll().subscribe({
+      next: (companysData) => {
+        this.companys = companysData;
+      },
+      error: (err) => {
+        this._snackBar.open(
+          '❌ Une erreur est survenue lors de la récupération des équipes pédagogiques',
+          'Ok',
+          { duration: 2000 }
+        );
+      },
+    });
+  }
+
+  private getFormationCenter() {
+    this.formationCenterService.getAll().subscribe({
+      next: (formationCentersData) => {
+        this.formationCenters = formationCentersData;
+      },
+      error: (err) => {
+        this._snackBar.open(
+          '❌ Une erreur est survenue lors de la récupération des équipes pédagogiques',
+          'Ok',
+          { duration: 2000 }
+        );
+      },
+    });
+  }
+
+  public closeDialog() {
+    this.dialogRef.close({ event: 'close', data: this.fromDialog });
   }
 
   public addUser(data: any) {
@@ -71,7 +127,8 @@ export class AddUserPopupComponent implements OnInit {
     var passwordCondition = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/g;
     var emailCondition = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
     var lastNameCondition = data.last_name != '' && data.last_name.length >= 2;
-    var firstNameCondition = data.first_name != '' && data.first_name.length >= 2;
+    var firstNameCondition =
+      data.first_name != '' && data.first_name.length >= 2;
 
     // Vérifie chaque champs et affiche le message d'erreur correspondant
     if (!data.role) {

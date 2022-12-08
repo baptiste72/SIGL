@@ -7,16 +7,33 @@ from rest_framework.exceptions import AuthenticationFailed
 from rest_framework import status
 
 from authentication.graph.graph_helper import get_user
+from base.utilities import Role
 from .graph.auth_helper import get_sign_in_flow, get_token_from_code
-from .serializers import UserSerializer
+from .graph.graph_helper import get_user
+
+from .serializers import (
+    ApprenticeRoleSerializer,
+    MentorRoleSerializer,
+    TutorRoleSerializer,
+    UserSerializer,
+)
 from .models import User
 
 
 class RegisterView(APIView):
     def post(self, request):
-        serializer = UserSerializer(data=request.data)
+        if request.data["role"] == Role.APPRENTICE.value:
+            serializer = ApprenticeRoleSerializer(data=request.data)
+        elif request.data["role"] == Role.TUTOR.value:
+            serializer = TutorRoleSerializer(data=request.data)
+        elif request.data["role"] == Role.MENTOR.value:
+            serializer = MentorRoleSerializer(data=request.data)
+        else:
+            serializer = UserSerializer(data=request.data)
+
         serializer.is_valid(raise_exception=True)
         serializer.save()
+
         return Response(serializer.data)
 
 

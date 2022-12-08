@@ -7,15 +7,18 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class DeadlineService {
-  private urlPrefix = 'api/v1';
+  private urlPrefix = 'api/v1/deadlines';
 
   constructor(private http: HttpClient) {}
 
-  public getDeadlines(): Observable<any> {
-    return this.http.get<any>(`${environment.apiUrl}/${this.urlPrefix}/deadlines`);
+  public getAll(): Observable<any> {
+    return this.http.get<any>(`${environment.apiUrl}/${this.urlPrefix}`);
   }
 
-  public addDeadline(post: any): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/${this.urlPrefix}/add-deadline`,post);
+  public add(deadline: any): Observable<any> {
+    return this.http.post<any>(
+      `${environment.apiUrl}/${this.urlPrefix}/add`,
+      deadline
+    );
   }
 }

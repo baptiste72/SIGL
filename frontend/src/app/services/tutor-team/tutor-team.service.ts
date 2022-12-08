@@ -5,18 +5,40 @@ import { TutorTeam } from 'src/app/models/TutorTeam';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TutorTeamService {
-  private urlPrefix = "api/v1";
+  private urlPrefix = 'api/v1/tutor-teams';
 
   constructor(private http: HttpClient) {}
 
-  public getTutorsTeam(): Observable<TutorTeam[]> {
-    return this.http.get<TutorTeam[]>(`${environment.apiUrl}/${this.urlPrefix}/tutor-teams`);
+  public getAll(): Observable<TutorTeam[]> {
+    return this.http.get<TutorTeam[]>(
+      `${environment.apiUrl}/${this.urlPrefix}`
+    );
   }
 
-  public addTutorTeams(post: any): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/${this.urlPrefix}/add-tutor-teams`, post);
+  public get(id: number): Observable<TutorTeam> {
+    return this.http.get<TutorTeam>(
+      `${environment.apiUrl}/${this.urlPrefix}/${id}`
+    );
+  }
+
+  public add(tutorTeam: TutorTeam): Observable<TutorTeam> {
+    return this.http.post<TutorTeam>(
+      `${environment.apiUrl}/${this.urlPrefix}`,
+      tutorTeam
+    );
+  }
+
+  public update(tutorTeam: TutorTeam, id: number): Observable<TutorTeam> {
+    return this.http.put<TutorTeam>(
+      `${environment.apiUrl}/${this.urlPrefix}/${id}`,
+      tutorTeam
+    );
+  }
+
+  public delete(id: number): Observable<any> {
+    return this.http.delete(`${environment.apiUrl}/${this.urlPrefix}/${id}`);
   }
 }

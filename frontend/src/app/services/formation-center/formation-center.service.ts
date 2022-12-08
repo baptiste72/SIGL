@@ -1,19 +1,19 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Apprentice } from '@app/models/Apprentice';
+import { FormationCenter } from '@app/models/FormationCenter';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ApprenticeService {
-  private urlPrefix = 'api/v1/apprentices';
+export class FormationCenterService {
+  private urlPrefix = 'api/v1/formation-centers';
 
   constructor(private http: HttpClient) {}
 
-  public getAll(): Observable<Apprentice[]> {
-    return this.http.get<Apprentice[]>(
+  public getAll(): Observable<FormationCenter[]> {
+    return this.http.get<FormationCenter[]>(
       `${environment.apiUrl}/${this.urlPrefix}`
     );
   }

@@ -11,7 +11,7 @@ import { SemesterService } from 'src/app/services/semester/semester.service';
   styleUrls: ['./update-semester-popup.component.scss'],
 })
 export class UpdateSemesterPopupComponent implements OnInit {
-  yearGroups: YearGroup[]=[];
+  yearGroups: YearGroup[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<UpdateSemesterPopupComponent>,
@@ -30,7 +30,7 @@ export class UpdateSemesterPopupComponent implements OnInit {
   }
 
   private getYearGroup() {
-    this.yearGroupService.getYearGroup().subscribe({
+    this.yearGroupService.getAll().subscribe({
       next: (yearGroupsData) => {
         this.yearGroups = yearGroupsData;
       },
@@ -47,15 +47,19 @@ export class UpdateSemesterPopupComponent implements OnInit {
   }
 
   updateSemester(data: any) {
-    this.semesterService.updateSemester(data).subscribe({
+    this.semesterService.update(data).subscribe({
       next: (v) => {
         this._snackBar.open('✔ Semestre modifié', 'Ok', { duration: 2000 });
         this.closeDialog();
       },
       error: (err) => {
-        this._snackBar.open('❌ Une erreur est survenue lors de la modification du semestre', 'Ok', {
-          duration: 2000,
-        });
+        this._snackBar.open(
+          '❌ Une erreur est survenue lors de la modification du semestre',
+          'Ok',
+          {
+            duration: 2000,
+          }
+        );
       },
     });
   }
