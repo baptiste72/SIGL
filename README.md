@@ -7,6 +7,7 @@
 docker
 ├── dev
 │   ├── back-dev
+│   │   ├── django-entrypoint.sh
 │   │   └── Dockerfile
 │   ├── docker-compose.yml
 │   ├── front-dev
@@ -16,6 +17,7 @@ docker
 │       └── tsconfig.json
 ├── prod
 │   ├── back-dev
+│   │   ├── django-entrypoint.sh
 │   │   └── Dockerfile
 │   ├── certbot
 │   │   └── conf
@@ -48,6 +50,7 @@ Le script `pull_images.sh` permet de récupérer les images Docker présentes da
 ### Mise en place
 
 Afin de déployer l'application dans un environnement Docker en local, il est nécessaire de récupérer les images présentes dans notre [registry](https://gitlab.com/baptiste72/sigl/container_registry). Pour cela :
+- [x] Démarrer Docker Desktop
 - [x] Avoir Git Bash d'installer sur sa machine
 - [x] Se placer dans le terminal de Visual Studio en mode Bash
 - [x] Lancer le script `pull_images.sh` :
@@ -62,38 +65,43 @@ Il ne reste plus qu'à déclarer un fichier `.env` contenant les identifiants de
 Vous pouvez maintenant utiliser les différentes commandes docker et docker compose pour interagir avec l'environnement.
 
 Pour démarrer tous les conteneurs :
-```docker
+```
 docker compose -f docker/dev/docker-compose.yml up -d
 ```
 
+Pour démarrer un conteneur spécifique :
+```
+docker compose -f docker/dev/docker-compose.yml run -d angular
+```
+
 Pour observer l'état des conteneurs :
-```docker
+```
 docker ps -a
 ```
 
 Pour se connecter à un conteneur :
-```docker
+```
 docker exec -it container_name sh
 ```
 
 Pour exécuter une commande dans un conteneur :
-```docker
+```
 docker exec container_name command
 ```
 
 Pour afficher les logs des conteneurs :
-```docker
+```
 docker compose logs
 ```
 
 Pour arrêter et supprimer les conteneurs :
-```docker
+```
 docker compose -f docker/dev/docker-compose.yml down
 ```
 
 Pour supprimer l'environnement :
 ```
-docker system prune -a
+docker system prune -af && docker volume prune -f
 ```
 > La mise en place d'un environnement Docker ne change en rien le processus de développement.
 
@@ -112,7 +120,7 @@ Sonarqube est configuré, il n'y a plus qu'à lancer SonarScanner pour effectuer
 Les résultats du scan seront visibles depuis Sonarqube.
 
 Pour scanner le code coté front :
-```docker
+```
 docker run --rm \
   -v frontend:/usr/src/frontend \
   dev-sonarscanner \
@@ -125,7 +133,7 @@ docker run --rm \
 ```
 
 Pour scanner le code coté back :
-```docker
+```
 docker run --rm \
   -v backend:/usr/src/backend \
   dev-sonarscanner \
@@ -135,7 +143,7 @@ docker run --rm \
   -Dsonar.login=${token} \
   -X
 ```
-> Remplacer les variables ${ip} et ${token} par l'adresse IP de votre machine et le token généré lors de la création du projet Sonarqube.
+> Remplacer les variables **${ip}** et **${token}** par l'adresse IP de votre machine et le token généré lors de la création du projet Sonarqube.
 
 ## Intégration continue
 

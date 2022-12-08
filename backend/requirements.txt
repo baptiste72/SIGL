@@ -1,8 +1,8 @@
-Django
+django
 djangorestframework
 django-cors-headers
+django_rest_passwordreset
 drf-yasg
 msal
 psycopg2-binary
-PyJWT
 pylint-django

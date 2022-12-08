@@ -16,13 +16,14 @@ services:
   django:
     build:
       context: ./../..
-      dockerfile: ./docker/dev/back-dev/Dockerfile
+      dockerfile: ./docker/prod/back-dev/Dockerfile
     container_name: django
     ports:
       - "8000:8000"
     volumes:
       - ./../../backend:/sigl
     environment:
+      ENV_FILE: "backend.prod"
       POSTGRES_NAME: ${DJANGO_DB}
       POSTGRES_USER: ${DJANGO_USER}
       POSTGRES_PASSWORD: ${DJANGO_PASSWORD}
