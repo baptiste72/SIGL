@@ -221,8 +221,8 @@ class TutorTeamDetail(APIView):
     def get_object(self, pk):
         try:
             return TutorTeam.objects.get(pk=pk)
-        except TutorTeam.DoesNotExist:
-            raise Http404
+        except TutorTeam.DoesNotExist as exc:
+            raise Http404 from exc
 
     def get(self, request, pk):
         tutor_team = self.get_object(pk)

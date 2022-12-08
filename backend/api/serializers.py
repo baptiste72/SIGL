@@ -39,7 +39,9 @@ class CompanySerializer(serializers.ModelSerializer):
 
 class TutorSerializer(serializers.ModelSerializer):
     class Meta:
+        # pylint: disable=duplicate-code
         model = Tutor
+        # pylint: disable=duplicate-code
         fields = (
             "id",
             "last_name",
@@ -100,7 +102,6 @@ class SemesterSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    # pylint: disable=duplicate-code
     class Meta:
         model = User
         fields = (

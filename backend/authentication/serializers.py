@@ -6,7 +6,6 @@ from .models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
-    # pylint: disable=duplicate-code
     class Meta:
         model = User
         fields = ["id", "first_name", "last_name", "email", "password", "role", "token"]
@@ -37,7 +36,9 @@ class ApprenticeRoleSerializer(serializers.ModelSerializer):
 
 class TutorRoleSerializer(serializers.ModelSerializer):
     class Meta:
+        # pylint: disable=duplicate-code
         model = Tutor
+        # pylint: disable=duplicate-code
         fields = (
             "id",
             "last_name",
