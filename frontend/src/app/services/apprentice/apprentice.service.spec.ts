@@ -2,11 +2,15 @@
 
 import { TestBed, async, inject } from '@angular/core/testing';
 import { ApprenticeService } from './apprentice.service';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 describe('Service: Apprentice', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ApprenticeService]
+      providers: [ApprenticeService],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [HttpClientTestingModule], 
     });
   });
 
