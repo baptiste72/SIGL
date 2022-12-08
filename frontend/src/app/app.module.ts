@@ -54,6 +54,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { UpdateUserPopupComponent } from './components/pop-up/user/update-user-popup/update-user-popup/update-user-popup.component';
 import { ErrorInterceptor, JwtInterceptor } from './helpers';
 import { ConfirmDeleteComponent } from './components/pop-up/confirm-delete/confirm-delete.component';
+import { UpdateTeamPopupComponent } from './components/pop-up/tutor-team/update-team-popup/update-team-popup.component';
 
 @NgModule({
   declarations: [
@@ -84,6 +85,7 @@ import { ConfirmDeleteComponent } from './components/pop-up/confirm-delete/confi
     UpdateSemesterPopupComponent,
     UpdateUserPopupComponent,
     ConfirmDeleteComponent,
+    UpdateTeamPopupComponent,
   ],
   imports: [
     BrowserModule,

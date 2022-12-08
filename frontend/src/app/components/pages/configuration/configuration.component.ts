@@ -21,6 +21,7 @@ import { UpdateUserPopupComponent } from '../../pop-up/user/update-user-popup/up
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ConfirmDeleteComponent } from '@app/components/pop-up/confirm-delete/confirm-delete.component';
 import { lastValueFrom, Observable } from 'rxjs';
+import { UpdateTeamPopupComponent } from '@app/components/pop-up/tutor-team/update-team-popup/update-team-popup.component';
 
 @Component({
   templateUrl: './configuration.component.html',
@@ -292,6 +293,18 @@ export class ConfigurationComponent implements OnInit, AfterViewInit {
       });
   }
 
+  public openUpdateTutorTeamPopup(tutorTeam: TutorTeam) {
+    this.dialog
+      .open(UpdateTeamPopupComponent, {
+        width: '600px',
+        data: tutorTeam,
+      })
+      .afterClosed()
+      .subscribe((shouldReload: boolean) => {
+        this.loadTutorTeams();
+      });
+  }
+
   public addCompany() {
     this.dialog.open(AddCompanyPopupComponent, {
       width: '600px',
@@ -301,7 +314,6 @@ export class ConfigurationComponent implements OnInit, AfterViewInit {
 
   // Suppresions
   public async openConfirmDeletePopup(content: string): Promise<boolean> {
-    // FIXME: Faire en sorte d'attendre le clic de l'utilisateur avant de return
     this.confirmDeleteDialogRef = this.dialog.open(ConfirmDeleteComponent, {
       width: '600px',
     });
@@ -363,6 +375,26 @@ export class ConfigurationComponent implements OnInit, AfterViewInit {
         error: (err) => {
           this._snackBar.open(
             "❌ Une erreur est survenue lors de la suppression d'un utilisateur",
+            'Ok',
+            { duration: 2000 }
+          );
+        },
+      });
+    }
+  }
+
+  public async deleteTutorTeam(id: any) {
+    const shouldDelete = await this.openConfirmDeletePopup(
+      'Souhaitez-vous vraiment supprimer cet utilisateur ?'
+    );
+    if (shouldDelete) {
+      this.tutorTeamService.delete(id).subscribe({
+        next: (v) => {
+          this.loadTutorTeams();
+        },
+        error: (err) => {
+          this._snackBar.open(
+            "❌ Une erreur est survenue lors de la suppression d'une équipe",
             'Ok',
             { duration: 2000 }
           );

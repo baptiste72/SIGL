@@ -24,4 +24,17 @@ export class TutorTeamService {
       tutorTeam
     );
   }
+
+  public update(tutorTeam: TutorTeam): Observable<TutorTeam> {
+    return this.http.post<TutorTeam>(
+      `${environment.apiUrl}/${this.urlPrefix}/update`,
+      tutorTeam
+    );
+  }
+
+  public delete(id: number): Observable<any> {
+    return this.http.delete(
+      `${environment.apiUrl}/${this.urlPrefix}/delete/${id}`
+    );
+  }
 }

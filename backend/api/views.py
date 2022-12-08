@@ -12,13 +12,10 @@ from api.serializers import (
     InterviewSerializer,
     MentorSerializer,
     SemesterSerializer,
-    SemesterSerializerDelete,
     TutorSerializer,
     TutorTeamSerializer,
     UserSerializer,
-    UserSerializerDelete,
     YearGroupSerializer,
-    YearGroupSerializerDelete,
 )
 from base.models import (
     Apprentice,
@@ -46,8 +43,9 @@ def get_mentors(request):
 @api_view(["GET"])
 def get_tutors(request):
     tutor_list = Tutor.objects.all()
-    serializers = TutorSerializer(tutor_list, many=True)
-    return Response(serializers.data)
+    serializer = TutorSerializer(tutor_list, many=True)
+    print(serializer.data)
+    return Response(serializer.data)
 
 
 @api_view(["GET"])

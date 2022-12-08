@@ -22,19 +22,9 @@ class TutorTeamSerializer(serializers.ModelSerializer):
 
 
 class MentorSerializer(serializers.ModelSerializer):
-    tutor_team = TutorTeamSerializer(many=True)
-
     class Meta:
         model = Mentor
-        fields = (
-            "id",
-            "last_name",
-            "first_name",
-            "password",
-            "email",
-            "company",
-            "tutorTeam",
-        )
+        fields = ("id", "last_name", "first_name", "password", "email", "company")
 
 
 class CompanySerializer(serializers.ModelSerializer):
@@ -48,8 +38,6 @@ class CompanySerializer(serializers.ModelSerializer):
 
 
 class TutorSerializer(serializers.ModelSerializer):
-    tutor_team = TutorTeamSerializer(many=True)
-
     class Meta:
         model = Tutor
         fields = (
@@ -59,7 +47,6 @@ class TutorSerializer(serializers.ModelSerializer):
             "password",
             "email",
             "formationCenter",
-            "tutorTeam",
         )
 
 
@@ -81,27 +68,12 @@ class YearGroupSerializer(serializers.ModelSerializer):
         fields = ("id", "worded", "beginDate")
 
 
-class YearGroupSerializerDelete(serializers.ModelSerializer):
-    class Meta:
-        model = YearGroup
-        fields = ("id",)
-
-
 class ApprenticeSerializer(serializers.ModelSerializer):
-    year_group = YearGroupSerializer(many=True)
-    tutor_team = TutorTeamSerializer(many=True)
+    yearGroup = YearGroupSerializer()
 
     class Meta:
         model = Apprentice
-        fields = (
-            "id",
-            "last_name",
-            "first_name",
-            "password",
-            "email",
-            "yearGroup",
-            "tutorTeam",
-        )
+        fields = ("id", "last_name", "first_name", "password", "email", "yearGroup")
 
 
 class InterviewSerializer(serializers.ModelSerializer):
@@ -116,12 +88,6 @@ class DeadlineSerializer(serializers.ModelSerializer):
     class Meta:
         model = Deadline
         fields = ("name", "date", "description")
-
-
-class SemesterSerializerDelete(serializers.ModelSerializer):
-    class Meta:
-        model = Semester
-        fields = ("id",)
 
 
 class SemesterSerializer(serializers.ModelSerializer):

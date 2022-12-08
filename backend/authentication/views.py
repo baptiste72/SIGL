@@ -22,11 +22,11 @@ from base.utilities import Role
 
 class RegisterView(APIView):
     def post(self, request):
-        if request.data["role"] == Role.APPRENTICE:
+        if request.data["role"] == Role.APPRENTICE.value:
             serializer = ApprenticeRoleSerializer(data=request.data)
-        elif request.data["role"] == Role.TUTOR:
+        elif request.data["role"] == Role.TUTOR.value:
             serializer = TutorRoleSerializer(data=request.data)
-        elif request.data["role"] == Role.MENTOR:
+        elif request.data["role"] == Role.MENTOR.value:
             serializer = MentorRoleSerializer(data=request.data)
         else:
             serializer = UserSerializer(data=request.data)

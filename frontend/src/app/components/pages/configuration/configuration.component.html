@@ -274,18 +274,22 @@
                 <ng-container matColumnDef="update">
                   <th mat-header-cell *matHeaderCellDef>Modifications</th>
                   <td mat-cell *matCellDef="let element">
-                    <mat-icon
-                      class="conf-edit-icons"
-                      aria-hidden="false"
-                      aria-label="documents icon"
-                      fontIcon="edit"
-                    ></mat-icon>
-                    <mat-icon
-                      class="conf-delete-icons"
-                      aria-hidden="false"
-                      aria-label="documents icon"
-                      fontIcon="close"
-                    ></mat-icon>
+                    <button (click)="openUpdateTutorTeamPopup(element)">
+                      <mat-icon
+                        class="conf-edit-icons"
+                        aria-hidden="false"
+                        aria-label="documents icon"
+                        fontIcon="edit"
+                      ></mat-icon>
+                    </button>
+                    <button (click)="deleteTutorTeam(element.id)">
+                      <mat-icon
+                        class="conf-delete-icons"
+                        aria-hidden="false"
+                        aria-label="documents icon"
+                        fontIcon="close"
+                      ></mat-icon>
+                    </button>
                   </td>
                 </ng-container>
 
