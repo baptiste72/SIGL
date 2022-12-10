@@ -47,12 +47,8 @@ class Company(models.Model):
 class Mentor(User):
     # table des maîtres d'apprentissage
     company = models.ForeignKey(
-        Company, related_name="mentor", on_delete=models.CASCADE, null=True
+        Company, related_name="Mentor", on_delete=models.CASCADE, null=True
     )
-
-
-class Apprentice(User):
-    pass
 
 
 class YearGroup(models.Model):
@@ -70,32 +66,32 @@ class Note(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     begin_date = models.DateTimeField(default=timezone.now)
 
-    def __str__(self):
-        return self.name
+
+class Apprentice(User):
+    # table des apprentis
+    yearGroup = models.ForeignKey(
+        YearGroup, related_name="Apprentice", on_delete=models.CASCADE, null=True
+    )
 
 
 class Semester(models.Model):
     # tables des semestres
     name = models.CharField(max_length=200)
-    begin_date = models.DateTimeField(default=timezone.now)
-    end_date = models.DateTimeField(default=timezone.now)
-    yeargroup = models.ForeignKey(
+    beginDate = models.DateTimeField(default=timezone.now)
+    endDate = models.DateTimeField(default=timezone.now)
+    yearGroup = models.ForeignKey(
         YearGroup, related_name="semester", on_delete=models.CASCADE, null=True
-    )
-
-    apprentice = models.ForeignKey(
-        Apprentice, related_name="yearGroup", on_delete=models.CASCADE, null=True
     )
 
 
 class TutorTeam(models.Model):
     # table équipes tutorales
     mentor = models.ForeignKey(
-        Mentor, related_name="tutorTeam", on_delete=models.CASCADE, null=True
+        Mentor, related_name="TutorTeam", on_delete=models.CASCADE, null=True
     )
     tutor = models.ForeignKey(
-        Tutor, related_name="tutorTeam", on_delete=models.CASCADE, null=True
+        Tutor, related_name="TutorTeam", on_delete=models.CASCADE, null=True
     )
     apprentice = models.ForeignKey(
-        Apprentice, related_name="tutorTeam", on_delete=models.CASCADE, null=True
+        Apprentice, related_name="TutorTeam", on_delete=models.CASCADE, null=True
     )

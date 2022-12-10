@@ -41,4 +41,15 @@ export class DeadlineService {
       post
     );
   }
+
+  public getAll(): Observable<any> {
+    return this.http.get<any>(`${environment.apiUrl}/${this.urlPrefix}`);
+  }
+
+  public add(deadline: any): Observable<any> {
+    return this.http.post<any>(
+      `${environment.apiUrl}/${this.urlPrefix}/add`,
+      deadline
+    );
+  }
 }

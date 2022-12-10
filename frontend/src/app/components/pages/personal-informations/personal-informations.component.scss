@@ -27,7 +27,7 @@
 }
 
 .personal-card-content {
-  padding: 20px 0px;
+  padding: 1rem;
 }
 
 .personal-title {
@@ -48,11 +48,10 @@
   display: table-cell;
 }
 
-.personal-deconnexion-btn {
-  margin-left: 5%;
+.personal-action-btn {
   font-weight: 600;
   cursor: pointer;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   color: $red;
 }

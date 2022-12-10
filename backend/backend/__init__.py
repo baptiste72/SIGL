@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "rest_framework.authtoken",
+    "django_rest_passwordreset",
     "base",
     "corsheaders",
     "drf_yasg",
@@ -85,12 +87,19 @@ WSGI_APPLICATION = "backend.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
+        "NAME": "db_sigl",
+        "USER": "postgres",
+        "PASSWORD": "password",
+        "HOST": "localhost",
+    },
+    "docker": {
+        "ENGINE": "django.db.backends.postgresql",
         "NAME": os.environ.get("POSTGRES_NAME"),
         "USER": os.environ.get("POSTGRES_USER"),
         "PASSWORD": os.environ.get("POSTGRES_PASSWORD"),
         "HOST": "django-db",
-        "PORT": "5433"
-    }
+        "PORT": "5433",
+    },
 }
 
 # Password validation
@@ -151,3 +160,22 @@ MICROSOFT_GRAPH = {
     "WEB_FORMATTED_GRAPH_USER_SCOPES": "User.Read+Mail.Read+Mail.Send",
     "REDIRECT": "http://localhost",
 }
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.TokenAuthentication",
+    ],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
+}
+
+# Email configuration
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "ssl0.ovh.net"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = os.environ.get("EMAIL_USER")
+# EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_PASS")
+EMAIL_HOST_USER = "contact@projet-sigl.fr"
+EMAIL_HOST_PASSWORD = "MmsS3HsEHa7hpDPTk3XV"

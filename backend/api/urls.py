@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 
 urlpatterns = [
@@ -18,39 +18,40 @@ urlpatterns = [
     path("notes", views.get_notes, name="getNotes"),
     path("add-note", views.add_note, name="addNote"),
     path("tree-note", views.tree_note, name="treeNote"),
-    # year-group
-    path("year-group", views.get_year_group, name="getYearGroup"),
-    path("add-year-group", views.add_year_group, name="addYearGroup"),
+    # apprentices
+    path("apprentices", views.get_apprentices, name="getApprentices"),
+    # companies
+    path("companies", views.get_company, name="getCompanies"),
+    # formation-centers
+    path("formation-centers", views.get_formation_centers, name="getformationCenters"),
+    # mentors
+    path("mentors", views.get_mentors, name="getMentors"),
+    path("mentors/add", views.add_mentor, name="addMentor"),
+    # semesters
+    path("semesters", views.get_semesters, name="getSemesters"),
+    path("semesters/add", views.add_semester, name="addSemester"),
+    path("semesters/delete/<int:pk>", views.delete_semester, name="deleteSemesterById"),
+    path("semesters/update", views.update_semester, name="updateSemester"),
+    # tutor-teams
+    path("tutor-teams", views.TutorTeamList.as_view()),
+    path("tutor-teams/<int:pk>", views.TutorTeamDetail.as_view()),
+    # tutors
+    path("tutors", views.get_tutors, name="getTutor"),
+    # users
+    path("users", views.UserList.as_view()),
+    path("users/<int:pk>", views.UserDetail.as_view()),
+    path("users/change-password", views.UserChangePasswordView.as_view()),
     path(
-        "delete-year-group-by-id",
-        views.delete_year_group_by_id,
+        "users/password-reset/",
+        include("django_rest_passwordreset.urls"),
+    ),
+    # year-groups
+    path("year-group", views.get_year_groups, name="getYearGroups"),
+    path("year-group/add", views.add_year_group, name="addYearGroup"),
+    path("year-group/update", views.update_year_group, name="updateYearGroup"),
+    path(
+        "year-group/delete/<int:pk>",
+        views.delete_year_group,
         name="deleteYearGroupById",
     ),
-    path("update-year-group", views.update_year_group, name="updateYearGroup"),
-    path("semester", views.get_semester, name="getSemester"),
-    path("add-semester", views.add_semester, name="addSemester"),
-    path(
-        "delete-semester-by-id", views.delete_semester_by_id, name="deleteSemesterById"
-    ),
-    path("update-semester", views.update_semester, name="updateSemester"),
-    path("mentors", views.get_mentor, name="getMentor"),
-    path("add-mentors", views.add_mentor, name="addMentor"),
-    path("tutors", views.get_tutor, name="getTutor"),
-    path("apprentices", views.get_apprentice, name="getApprentice"),
-    path("tutor-teams", views.get_tutor_teams, name="getTutorTeams"),
-    path("add-tutor-teams", views.add_tutor_teams, name="addTutorTeams"),
-    path("year-group", views.get_year_group, name="getYearGroup"),
-    path("add-year-group", views.add_year_group, name="addYearGroup"),
-    path(
-        "delete-year-group-by-id",
-        views.delete_year_group_by_id,
-        name="deleteYearGroupById",
-    ),
-    path("update-year-group", views.update_year_group, name="updateYearGroup"),
-    path("semester", views.get_semester, name="getSemester"),
-    path("add-semester", views.add_semester, name="addSemester"),
-    path(
-        "delete-semester-by-id", views.delete_semester_by_id, name="deleteSemesterById"
-    ),
-    path("update-semester", views.update_semester, name="updateSemester"),
 ]

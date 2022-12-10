@@ -1,26 +1,22 @@
-import datetime
-import jwt
-
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed
+from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.authtoken.models import Token
 from rest_framework import status
 
 from authentication.graph.graph_helper import get_user
 from .graph.auth_helper import get_sign_in_flow, get_token_from_code
-from .serializers import UserSerializer
+from .graph.graph_helper import get_user
+from .serializers import (
+    UserSerializer,
+)
 from .models import User
 
 
-class RegisterView(APIView):
-    def post(self, request):
-        serializer = UserSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data)
-
-
 class LoginView(APIView):
+    permission_classes = [AllowAny]
+
     def post(self, request):
         email = request.data["email"]
         password = request.data["password"]
@@ -33,13 +29,7 @@ class LoginView(APIView):
         if not user.check_password(password):
             raise AuthenticationFailed("Invalid credentials, please try again")
 
-        payload = {
-            "id": user.id,
-            "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
-            "iat": datetime.datetime.utcnow(),
-        }
-
-        token = jwt.encode(payload, "secret", algorithm="HS256")
+        token = Token.objects.get_or_create(user=user)[0].key
 
         user.token = token
         serializer = UserSerializer(user)
@@ -47,38 +37,25 @@ class LoginView(APIView):
         return Response(serializer.data)
 
 
-class UserView(APIView):
+class LogoutView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
-        token = request.headers.get("Authorization")
-        response: Response
-
-        if not token:
-            raise AuthenticationFailed("Unauthenticated!")
-
-        try:
-            payload = jwt.decode(token, "secret", algorithms=["HS256"])
-        except Exception as exc:
-            raise AuthenticationFailed("Unauthenticated!") from exc
-
-        if request.data["id"] == payload["id"]:
-            user: User = User.objects.get(id=payload["id"])
-            serializer = UserSerializer(user)
-            response = Response(serializer.data)
-        else:
-            response = Response(
-                {"message": "Mauvaise correspondance dans les ids."},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-        return response
+        request.user.auth_token.delete()
+        return Response(status=status.HTTP_200_OK)
 
 
 class MicrosoftLogin(APIView):
+    permission_classes = [AllowAny]
+
     def get(self, request):
         flow = get_sign_in_flow()
         return Response(flow)
 
 
 class MicrosoftGetUser(APIView):
+    permission_classes = [AllowAny]
+
     def post(self, request):
         result = get_token_from_code(request)
         # Get the user's profile from graph_helper.py script

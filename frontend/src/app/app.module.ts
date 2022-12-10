@@ -1,4 +1,3 @@
-// COMPOSANTS
 import { AppComponent } from './app.component';
 import { ConnectionComponent } from './components/pages/connection/connection.component';
 import { ForgotPasswordComponent } from './components/pages/forgot-password/forgot-password.component';
@@ -35,7 +34,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -60,7 +59,12 @@ import { ModifyInterviewPopupComponent } from './components/pop-up/interview/mod
 import { ModifyDeadlinePopupComponent } from './components/pop-up/deadline/modify-deadline-popup/modify-deadline-popup.component';
 
 import { MatTabsModule } from '@angular/material/tabs';
+import { UpdateUserPopupComponent } from './components/pop-up/user/update-user-popup/update-user-popup/update-user-popup.component';
 import { ErrorInterceptor, JwtInterceptor } from './helpers';
+import { ConfirmDeleteComponent } from './components/pop-up/confirm-delete/confirm-delete.component';
+import { UpdateTeamPopupComponent } from './components/pop-up/tutor-team/update-team-popup/update-team-popup.component';
+import { ChangePasswordComponent } from './components/pages/change-password/change-password.component';
+import { PageNotFoundComponent } from './components/pages/page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -95,6 +99,11 @@ import { ErrorInterceptor, JwtInterceptor } from './helpers';
     DeleteInterviewPopupComponent,
     DeleteDeadlinePopupComponent,
     ModifyDeadlinePopupComponent,
+    UpdateUserPopupComponent,
+    ConfirmDeleteComponent,
+    UpdateTeamPopupComponent,
+    ChangePasswordComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,
@@ -125,6 +134,10 @@ import { ErrorInterceptor, JwtInterceptor } from './helpers';
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    {
+      provide: MatDialogRef,
+      useValue: {},
+    },
   ],
   bootstrap: [AppComponent],
   exports: [],

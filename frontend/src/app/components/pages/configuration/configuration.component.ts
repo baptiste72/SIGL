@@ -1,17 +1,10 @@
-import {
-  AfterViewInit,
-  Component,
-  OnInit,
-  ViewChild,
-  ChangeDetectorRef,
-} from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { AddUserPopupComponent } from '../../pop-up/user/add-user-popup/add-user-popup.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AddYearGroupPopupComponent } from '../../pop-up/year-group/add-year-group-popup/add-year-group-popup.component';
 import { UpdateYearGroupPopupComponent } from '../../pop-up/year-group/update-year-group-popup/update-year-group-popup/update-year-group-popup.component';
-import { AddNotePopupComponent } from '../../pop-up/note/add-note-popup/add-note-popup.component';
 import { AddTeamPopupComponent } from '../../pop-up/tutor-team/add-team-popup/add-team-popup.component';
 import { AddCompanyPopupComponent } from '../../pop-up/company/add-company-popup/add-company-popup.component';
 import { AddSemesterPopupComponent } from '../../pop-up/semester/add-semester-popup/add-semester-popup.component';
@@ -23,54 +16,72 @@ import { Semester } from 'src/app/models/Semester';
 import { UpdateSemesterPopupComponent } from '../../pop-up/semester/update-semester-popup/update-semester-popup/update-semester-popup.component';
 import { TutorTeamService } from 'src/app/services/tutor-team/tutor-team.service';
 import { TutorTeam } from 'src/app/models/TutorTeam';
+import { UserService } from 'src/app/services/user/user.service';
+import { UpdateUserPopupComponent } from '../../pop-up/user/update-user-popup/update-user-popup/update-user-popup.component';
+import { MatTabChangeEvent } from '@angular/material/tabs';
+import { ConfirmDeleteComponent } from '@app/components/pop-up/confirm-delete/confirm-delete.component';
+import { lastValueFrom } from 'rxjs';
+import { UpdateTeamPopupComponent } from '@app/components/pop-up/tutor-team/update-team-popup/update-team-popup.component';
 
 @Component({
   templateUrl: './configuration.component.html',
   styleUrls: ['./configuration.component.scss'],
 })
-export class ConfigurationComponent implements AfterViewInit, OnInit {
-  register: any;
+export class ConfigurationComponent implements OnInit, AfterViewInit {
+  // Détermine si l'onglet concerné a déjà été chargé
+  private hlUsers = false;
+  private hlCompanies = false;
+  private hlTutorTeams = false;
+  private hlYearGroups = false;
+  private hlSemesters = false;
 
-  displayedColumnsUsers: string[] = ['name', 'surname', 'role', 'update'];
-  dataSourceUsers = new MatTableDataSource<User>(USERS_DATA);
-  @ViewChild('userPaginator') usersPaginator: any = MatPaginator;
+  public displayedColumnsUsers: string[] = [
+    'first_name',
+    'last_name',
+    'email',
+    'role',
+    'update',
+  ];
+  public dataSourceUsers: MatTableDataSource<User>;
+  @ViewChild('userPaginator') usersPaginator!: MatPaginator;
 
-  displayedColumnsTeams: string[] = ['apprentice', 'tutor', 'mentor', 'update'];
-  dataSourceTutorTeams: any;
-  @ViewChild('tutorTeamPaginator') tutorTeamsPaginator: any = MatPaginator;
+  public displayedColumnsTeams: string[] = [
+    'apprentice',
+    'tutor',
+    'mentor',
+    'update',
+  ];
+  public dataSourceTutorTeams: MatTableDataSource<TutorTeam>;
+  @ViewChild('tutorTeamPaginator') tutorTeamsPaginator!: MatPaginator;
 
-  displayedColumnsCompanies: string[] = [
+  public displayedColumnsCompanies: string[] = [
     'name',
     'companySiret',
     'nbEmployees',
     'codeCpne',
   ];
-  dataSourceCompanies = new MatTableDataSource<Company>(COMPANIES_DATA);
-  @ViewChild('companiesPaginator') companiesPaginator: any = MatPaginator;
+  public dataSourceCompanies: MatTableDataSource<Company>;
+  @ViewChild('companiesPaginator') companiesPaginator!: MatPaginator;
 
-  displayedColumnsYearGroups: string[] = ['name', 'beginDate', 'update'];
-  dataSourceYearGroups: any;
-  @ViewChild('yearGroupPaginator') yearGroupPaginator: any = MatPaginator;
+  public displayedColumnsYearGroups: string[] = ['name', 'beginDate', 'update'];
+  public dataSourceYearGroups: MatTableDataSource<YearGroup>;
+  @ViewChild('yearGroupPaginator') yearGroupPaginator!: MatPaginator;
 
-  displayedColumnsSemesters: string[] = [
+  public displayedColumnsSemesters: string[] = [
     'name',
     'beginDate',
     'endDate',
     'update',
   ];
-  dataSourceSemesters: any;
-  @ViewChild('semestersPaginator') semestersPaginator: any = MatPaginator;
+  public dataSourceSemesters: MatTableDataSource<Semester>;
+  @ViewChild('semestersPaginator') semestersPaginator!: MatPaginator;
 
   ngOnInit(): void {
-    this.getYearGroup();
-    this.getSemester();
-    this.getTutorTeam();
-    this.register = {
-      id: '',
-    };
+    // On charge le premier onglet
+    this.loadUsers();
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.dataSourceUsers.paginator = this.usersPaginator;
     this.dataSourceTutorTeams.paginator = this.tutorTeamsPaginator;
     this.dataSourceCompanies.paginator = this.companiesPaginator;
@@ -80,19 +91,60 @@ export class ConfigurationComponent implements AfterViewInit, OnInit {
 
   constructor(
     public dialog: MatDialog,
+    private confirmDeleteDialogRef: MatDialogRef<ConfirmDeleteComponent>,
+    private userService: UserService,
     private yearGroupService: YearGroupService,
     private semesterService: SemesterService,
     private tutorTeamService: TutorTeamService,
     private _snackBar: MatSnackBar
-  ) {}
+  ) {
+    this.dataSourceCompanies = new MatTableDataSource<Company>(COMPANIES_DATA);
+    this.dataSourceSemesters = new MatTableDataSource<Semester>();
+    this.dataSourceTutorTeams = new MatTableDataSource<TutorTeam>();
+    this.dataSourceUsers = new MatTableDataSource<User>();
+    this.dataSourceYearGroups = new MatTableDataSource<YearGroup>();
+  }
 
-  // PROMOTIONS
-  private getYearGroup() {
-    this.yearGroupService.getYearGroup().subscribe({
+  public onTabChange($event: MatTabChangeEvent) {
+    switch ($event.tab.textLabel) {
+      case 'users':
+        if (!this.hlUsers) {
+          this.loadUsers();
+        }
+        break;
+      case 'companies':
+        if (!this.hlCompanies) {
+          // TODO: Récupérer les companies
+          // TODO: Intégrer la ligne suivante dans le loadCompanies
+          // this.dataSourceCompanies.paginator = this.companiesPaginator;
+        }
+        break;
+      case 'tutor-teams':
+        if (!this.hlTutorTeams) {
+          this.loadTutorTeams();
+        }
+        break;
+      case 'year-groups':
+        if (!this.hlYearGroups) {
+          this.loadYearGroups();
+        }
+        break;
+      case 'semesters':
+        if (!this.hlSemesters) {
+          this.loadSemesters();
+        }
+        break;
+    }
+  }
+
+  // Récupération des données en base
+  private loadYearGroups() {
+    this.yearGroupService.getAll().subscribe({
       next: (yearGroups) => {
         this.dataSourceYearGroups = new MatTableDataSource<YearGroup>(
           yearGroups
         );
+        this.hlYearGroups = true;
       },
       error: (err) => {
         this._snackBar.open(
@@ -104,118 +156,14 @@ export class ConfigurationComponent implements AfterViewInit, OnInit {
     });
   }
 
-  openYearGroupPopup() {
-    this.dialog
-      .open(AddYearGroupPopupComponent, {
-        width: '600px',
-      })
-      .afterClosed()
-      .subscribe((shouldReload: boolean) => {
-        this.getYearGroup();
-      });
-  }
-
-  openUpdateYearGroupPopup(yearGroup: any) {
-    this.dialog
-      .open(UpdateYearGroupPopupComponent, {
-        width: '600px',
-        data: yearGroup,
-      })
-      .afterClosed()
-      .subscribe((shouldReload: boolean) => {
-        this.getYearGroup();
-      });
-  }
-
-  deleteYearGroupById(ID: any) {
-    this.register.id = ID;
-    this.yearGroupService.deleteYearGroupById(this.register).subscribe({
-      next: (v) => {
-        this.getYearGroup();
-      },
-      error: (err) => {
-        this._snackBar.open(
-          '❌ Une erreur est survenue lors de la suppression de la promotion',
-          'Ok',
-          { duration: 2000 }
-        );
-      },
-    });
-  }
-
-  // SEMESTRES
-  private getSemester() {
-    this.semesterService.getSemester().subscribe({
-      next: (semesters) => {
-        this.dataSourceSemesters = new MatTableDataSource<Semester>(semesters);
-      },
-      error: (err) => {
-        this._snackBar.open(
-          '❌ Une erreur est survenue lors de la récupération des semestres',
-          'Ok',
-          {
-            duration: 2000,
-          }
-        );
-      },
-    });
-  }
-
-  openAddSemesterPopup() {
-    this.dialog
-      .open(AddSemesterPopupComponent, {
-        width: '600px',
-      })
-      .afterClosed()
-      .subscribe((shouldReload: boolean) => {
-        this.getSemester();
-      });
-  }
-
-  openUpdateSemesterPopup(semester: any) {
-    this.dialog
-      .open(UpdateSemesterPopupComponent, {
-        width: '600px',
-        data: semester,
-      })
-      .afterClosed()
-      .subscribe((shouldReload: boolean) => {
-        this.getSemester();
-      });
-  }
-
-  deleteSemesterById(ID: any) {
-    this.register.id = ID;
-    this.semesterService.deleteSemesterById(this.register).subscribe({
-      next: (v) => {
-        this.getSemester();
-      },
-      error: (err) => {
-        this._snackBar.open(
-          '❌ Une erreur est survenue lors de la suppression du semestre',
-          'Ok',
-          {
-            duration: 2000,
-          }
-        );
-      },
-    });
-  }
-
-  // UTILISATEURS
-  addUser() {
-    this.dialog.open(AddUserPopupComponent, {
-      width: '600px',
-    });
-  }
-
-  // EQUIPES PEDAGOGIQUES
-  private getTutorTeam() {
-    this.tutorTeamService.getTutorsTeam().subscribe({
+  private loadTutorTeams() {
+    this.tutorTeamService.getAll().subscribe({
       next: (tutorTeamData) => {
         this.dataSourceTutorTeams = new MatTableDataSource<TutorTeam>(
           tutorTeamData
         );
+        this.dataSourceTutorTeams.paginator = this.tutorTeamsPaginator;
+        this.hlTutorTeams = true;
       },
       error: (err) => {
         this._snackBar.open(
@@ -227,28 +175,232 @@ export class ConfigurationComponent implements AfterViewInit, OnInit {
     });
   }
 
-  openTutorTeamPopUp() {
+  private loadUsers() {
+    this.userService.getAll().subscribe({
+      next: (userData) => {
+        this.dataSourceUsers = new MatTableDataSource<User>(userData);
+        this.dataSourceUsers.paginator = this.usersPaginator;
+        this.hlUsers = true;
+      },
+      error: (err) => {
+        this._snackBar.open(
+          '❌ Une erreur est survenue lors de la récupération des équipes pédagogiques',
+          'Ok',
+          { duration: 2000 }
+        );
+      },
+    });
+  }
+
+  private loadSemesters() {
+    this.semesterService.getAll().subscribe({
+      next: (semesters) => {
+        this.dataSourceSemesters = new MatTableDataSource<Semester>(semesters);
+        this.hlSemesters = true;
+        this.dataSourceSemesters.paginator = this.semestersPaginator;
+      },
+      error: (err) => {
+        this._snackBar.open(
+          '❌ Une erreur est survenue lors de la récupération des semestres',
+          'Ok',
+          {
+            duration: 2000,
+          }
+        );
+      },
+    });
+  }
+
+  //#region Popups
+  // Ouvertures
+  public openYearGroupPopup() {
+    this.dialog
+      .open(AddYearGroupPopupComponent, {
+        width: '600px',
+      })
+      .afterClosed()
+      .subscribe((shouldReload: boolean) => {
+        this.loadYearGroups();
+      });
+  }
+
+  public openUpdateYearGroupPopup(yearGroup: any) {
+    this.dialog
+      .open(UpdateYearGroupPopupComponent, {
+        width: '600px',
+        data: yearGroup,
+      })
+      .afterClosed()
+      .subscribe((shouldReload: boolean) => {
+        this.loadYearGroups();
+      });
+  }
+
+  public openAddSemesterPopup() {
+    this.dialog
+      .open(AddSemesterPopupComponent, {
+        width: '600px',
+      })
+      .afterClosed()
+      .subscribe((shouldReload: boolean) => {
+        this.loadSemesters();
+      });
+  }
+
+  public openUpdateSemesterPopup(semester: any) {
+    this.dialog
+      .open(UpdateSemesterPopupComponent, {
+        width: '600px',
+        data: semester,
+      })
+      .afterClosed()
+      .subscribe((shouldReload: boolean) => {
+        this.loadSemesters();
+      });
+  }
+
+  public openUserPopup() {
+    this.dialog
+      .open(AddUserPopupComponent, {
+        width: '600px',
+      })
+      .afterClosed()
+      .subscribe((shouldReload: boolean) => {
+        this.loadUsers();
+      });
+  }
+
+  public openUpdateUserPopup(user: any) {
+    this.dialog
+      .open(UpdateUserPopupComponent, {
+        width: '600px',
+        data: user,
+      })
+      .afterClosed()
+      .subscribe((shouldReload: boolean) => {
+        this.loadUsers();
+      });
+  }
+
+  public openTutorTeamPopUp() {
     this.dialog
       .open(AddTeamPopupComponent, {
         width: '600px',
       })
       .afterClosed()
       .subscribe((shouldReload: boolean) => {
-        this.getTutorTeam();
+        this.loadTutorTeams();
       });
   }
 
-  // ENTREPRISES
-  addCompany() {
+  public openUpdateTutorTeamPopup(tutorTeam: TutorTeam) {
+    this.dialog
+      .open(UpdateTeamPopupComponent, {
+        width: '600px',
+        data: tutorTeam,
+      })
+      .afterClosed()
+      .subscribe((shouldReload: boolean) => {
+        this.loadTutorTeams();
+      });
+  }
+
+  public addCompany() {
     this.dialog.open(AddCompanyPopupComponent, {
       width: '600px',
     });
   }
+  //#endregion Popups
 
-  addNote() {
-    this.dialog.open(AddNotePopupComponent, {
-      width: '1200px',
+  // Suppresions
+  public async openConfirmDeletePopup(content: string): Promise<boolean> {
+    this.confirmDeleteDialogRef = this.dialog.open(ConfirmDeleteComponent, {
+      width: '600px',
     });
+
+    this.confirmDeleteDialogRef.componentInstance.content = content;
+
+    return await lastValueFrom(this.confirmDeleteDialogRef.afterClosed());
+  }
+
+  public async deleteYearGroupById(id: any) {
+    const shouldDelete = await this.openConfirmDeletePopup(
+      'Souhaitez-vous vraiment supprimer cette promotion ?'
+    );
+    if (shouldDelete) {
+      this.yearGroupService.delete(id).subscribe({
+        next: (v) => {
+          this.loadYearGroups();
+        },
+        error: (err) => {
+          this._snackBar.open(
+            '❌ Une erreur est survenue lors de la suppression de la promotion',
+            'Ok',
+            { duration: 2000 }
+          );
+        },
+      });
+    }
+  }
+
+  public async deleteSemesterById(id: any) {
+    const shouldDelete = await this.openConfirmDeletePopup(
+      'Souhaitez-vous vraiment supprimer ce semestre ?'
+    );
+    if (shouldDelete) {
+      this.semesterService.delete(id).subscribe({
+        next: (v) => {
+          this.loadSemesters();
+        },
+        error: (err) => {
+          this._snackBar.open(
+            '❌ Une erreur est survenue lors de la suppression du semestre',
+            'Ok',
+            { duration: 2000 }
+          );
+        },
+      });
+    }
+  }
+
+  public async deleteUserById(id: any) {
+    const shouldDelete = await this.openConfirmDeletePopup(
+      'Souhaitez-vous vraiment supprimer cet utilisateur ?'
+    );
+    if (shouldDelete) {
+      this.userService.delete(id).subscribe({
+        next: (v) => {
+          this.loadUsers();
+        },
+        error: (err) => {
+          this._snackBar.open(
+            "❌ Une erreur est survenue lors de la suppression d'un utilisateur",
+            'Ok',
+            { duration: 2000 }
+          );
+        },
+      });
+    }
+  }
+
+  public async deleteTutorTeam(id: any) {
+    const shouldDelete = await this.openConfirmDeletePopup(
+      'Souhaitez-vous vraiment supprimer cet utilisateur ?'
+    );
+    if (shouldDelete) {
+      this.tutorTeamService.delete(id).subscribe({
+        next: (v) => {
+          this.loadTutorTeams();
+        },
+        error: (err) => {
+          this._snackBar.open(
+            "❌ Une erreur est survenue lors de la suppression d'une équipe",
+            'Ok',
+            { duration: 2000 }
+          );
+        },
+      });
+    }
   }
 }
 

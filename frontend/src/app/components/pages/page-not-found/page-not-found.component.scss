@@ -1,0 +1,23 @@
+@import "/src/styles/helpers/constants.scss";
+
+.error-404 {
+  .error-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 0;
+    }
+    p {
+      font-weight: 500;
+      font-size: 1.25rem;
+    }
+  }
+
+  button {
+    width: 100%;
+  }
+}

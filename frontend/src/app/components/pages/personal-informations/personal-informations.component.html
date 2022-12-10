@@ -2,7 +2,9 @@
   <div class="navigation-content">
     <mat-card class="personal-card">
       <mat-card-header class="personal-card-header">
-        <mat-card-title class="personal-card-title">Informations personnelles</mat-card-title>
+        <mat-card-title class="personal-card-title"
+          >Informations personnelles</mat-card-title
+        >
       </mat-card-header>
       <mat-card-content class="personal-card-content">
         <div class="personal-title">
@@ -11,6 +13,8 @@
             {{ user.first_name }} {{ user.last_name }}
           </h1>
         </div>
+        <h2>Mes informations</h2>
+        <p>Ces informations ont été renseignées lors de votre inscription.</p>
         <ul>
           <li>Civilité : Mme</li>
           <li>Promotion : Noether</li>
@@ -18,10 +22,14 @@
           <li>Email : mathilde.renaud@reseau.eseo.fr</li>
           <li>Téléphone : 06 28 40 52 58</li>
         </ul>
-        <a class="personal-deconnexion-btn">
-          <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="cancel">
+        <a class="personal-action-btn" (click)="changePassword()">
+          <mat-icon
+            aria-hidden="false"
+            aria-label="Example home icon"
+            fontIcon="lock_reset"
+          >
           </mat-icon>
-          Déconnexion
+          Changer de mot de passe
         </a>
       </mat-card-content>
     </mat-card>

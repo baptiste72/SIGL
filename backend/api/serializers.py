@@ -1,5 +1,5 @@
+from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers, fields
-
 from base.models import (
     Apprentice,
     Company,
@@ -10,6 +10,7 @@ from base.models import (
     Semester,
     Tutor,
     TutorTeam,
+    User,
     YearGroup,
     Note,
 )
@@ -22,9 +23,6 @@ class TutorTeamSerializer(serializers.ModelSerializer):
 
 
 class MentorSerializer(serializers.ModelSerializer):
-
-    tutorTeam = TutorTeamSerializer(many=True)
-
     class Meta:
         model = Mentor
         fields = (
@@ -33,25 +31,24 @@ class MentorSerializer(serializers.ModelSerializer):
             "first_name",
             "password",
             "email",
+            "role",
             "company",
-            "tutorTeam",
         )
 
 
 class CompanySerializer(serializers.ModelSerializer):
-
-    mentor = MentorSerializer(many=True)
-
     class Meta:
         model = Company
-        fields = "__all__"
+        fields = (
+            "id",
+            "worded",
+            "address",
+        )
 
 
 class TutorSerializer(serializers.ModelSerializer):
-
-    tutorTeam = TutorTeamSerializer(many=True)
-
     class Meta:
+        # pylint: disable=duplicate-code
         model = Tutor
         fields = (
             "id",
@@ -59,18 +56,19 @@ class TutorSerializer(serializers.ModelSerializer):
             "first_name",
             "password",
             "email",
+            "role",
             "formationCenter",
-            "tutorTeam",
         )
 
 
 class FormationCenterSerializer(serializers.ModelSerializer):
-
-    tutor = TutorSerializer(many=True)
-
     class Meta:
         model = FormationCenter
-        fields = "__all__"
+        fields = (
+            "id",
+            "worded",
+            "address",
+        )
 
 
 class YearGroupSerializer(serializers.ModelSerializer):
@@ -81,15 +79,8 @@ class YearGroupSerializer(serializers.ModelSerializer):
         fields = ("id", "worded", "beginDate")
 
 
-class YearGroupSerializerDelete(serializers.ModelSerializer):
-    class Meta:
-        model = YearGroup
-        fields = ("id",)
-
-
 class ApprenticeSerializer(serializers.ModelSerializer):
-    yearGroup = YearGroupSerializer(many=True)
-    tutorTeam = TutorTeamSerializer(many=True)
+    yearGroup = YearGroupSerializer()
 
     class Meta:
         model = Apprentice
@@ -99,8 +90,22 @@ class ApprenticeSerializer(serializers.ModelSerializer):
             "first_name",
             "password",
             "email",
+            "role",
             "yearGroup",
-            "tutorTeam",
+        )
+
+
+class ApprenticeRoleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Apprentice
+        fields = (
+            "id",
+            "last_name",
+            "first_name",
+            "password",
+            "email",
+            "role",
+            "yearGroup",
         )
 
 
@@ -118,15 +123,6 @@ class DeadlineSerializer(serializers.ModelSerializer):
         fields = ("name", "date", "description")
 
 
-class SemesterSerializer(serializers.ModelSerializer):
-    beginDate = fields.DateTimeField()
-    endDate = fields.DateTimeField()
-
-    class Meta:
-        model = Semester
-        fields = ("id", "name", "begin_Date", "end_Date", "yearGroup")
-
-
 class SemesterSerializerDelete(serializers.ModelSerializer):
     class Meta:
         model = Semester
@@ -140,3 +136,45 @@ class NoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Note
         fields = "__all__"  # ('title', 'text','semester','DateStart','DateEnd')
+
+    class Meta:
+        model = Semester
+        fields = ("id", "name", "beginDate", "endDate", "yearGroup")
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = (
+            "id",
+            "first_name",
+            "last_name",
+            "email",
+            "role",
+        )
+
+
+class RegisterUserSerializer(serializers.ModelSerializer):
+    # pylint: disable=duplicate-code
+    class Meta:
+        model = User
+        fields = ["id", "first_name", "last_name", "email", "password", "role", "token"]
+        extra_kwargs = {"password": {"write_only": True}}
+
+    def create(self, validated_data):
+        password = validated_data.pop("password", None)
+        instance = self.Meta.model(**validated_data)
+        if password is not None:
+            instance.set_password(password)
+        instance.save()
+        return instance
+
+
+# pylint: disable=abstract-method
+class ChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
+
+    def validate_new_password(self, value):
+        validate_password(value)
+        return value
