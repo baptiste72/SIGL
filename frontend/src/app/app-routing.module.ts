@@ -11,6 +11,7 @@ import { NewPasswordComponent } from './components/pages/new-password/new-passwo
 import { NotesPageComponent } from './components/pages/notes-page/notes-page.component';
 import { PersonalInformationsComponent } from './components/pages/personal-informations/personal-informations.component';
 import { AuthGuard, Role } from './helpers';
+import { PageNotFoundComponent } from './components/pages/page-not-found/page-not-found.component';
 
 const routes: Routes = [
   { path: '', component: ConnectionComponent },
@@ -47,6 +48,8 @@ const routes: Routes = [
     // data: { roles: [Role.CA] },
   },
   { path: 'events', component: EventsPageComponent, canActivate: [AuthGuard] },
+  // Redirection vers la page d'erreur 404 - cette route doit être la dernière du tableau
+  { path: '**', component: PageNotFoundComponent },
 ];
 
 @NgModule({
