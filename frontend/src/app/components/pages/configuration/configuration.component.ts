@@ -20,7 +20,7 @@ import { UserService } from 'src/app/services/user/user.service';
 import { UpdateUserPopupComponent } from '../../pop-up/user/update-user-popup/update-user-popup/update-user-popup.component';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ConfirmDeleteComponent } from '@app/components/pop-up/confirm-delete/confirm-delete.component';
-import { lastValueFrom, Observable } from 'rxjs';
+import { lastValueFrom } from 'rxjs';
 import { UpdateTeamPopupComponent } from '@app/components/pop-up/tutor-team/update-team-popup/update-team-popup.component';
 
 @Component({
