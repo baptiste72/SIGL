@@ -56,6 +56,7 @@ import { ErrorInterceptor, JwtInterceptor } from './helpers';
 import { ConfirmDeleteComponent } from './components/pop-up/confirm-delete/confirm-delete.component';
 import { UpdateTeamPopupComponent } from './components/pop-up/tutor-team/update-team-popup/update-team-popup.component';
 import { ChangePasswordComponent } from './components/pages/change-password/change-password.component';
+import { PageNotFoundComponent } from './components/pages/page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -88,6 +89,7 @@ import { ChangePasswordComponent } from './components/pages/change-password/chan
     ConfirmDeleteComponent,
     UpdateTeamPopupComponent,
     ChangePasswordComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,
