@@ -1,7 +1,8 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
-from rest_framework import status
+from rest_framework import status, generics
+from rest_framework.permissions import IsAuthenticated
 from django.http import Http404
 from authentication.models import User
 from base.utilities import Role
@@ -29,6 +30,9 @@ from api.serializers import (
     TutorTeamSerializer,
     UserSerializer,
     YearGroupSerializer,
+    ChangePasswordSerializer,
+    RegisterUserSerializer,
+    ApprenticeRoleSerializer,
 )
 from .helper.tutor_team_helper import TutorTeamHelper
 
@@ -183,38 +187,62 @@ def get_formation_centers(request):
     return Response(serializers.data)
 
 
-@api_view(["GET"])
-def get_users(request):
-    user_list = User.objects.all()
-    serializers = UserSerializer(user_list, many=True)
-    return Response(serializers.data)
+class UserDetail(APIView):
+    def get_object(self, pk, class_name):
+        try:
+            return class_name.objects.get(pk=pk)
+        except class_name.DoesNotExist as exc:
+            raise Http404 from exc
 
-
-@api_view(["DELETE"])
-def delete_user(request, pk):
-    user = User.objects.get(id=pk)
-    user.delete()
-    return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-@api_view(["POST"])
-def update_user(request):
-    user_to_modify = User.objects.get(pk=request.data.get("id"))
-    if user_to_modify.role == Role.MENTOR:
-        user = Mentor.objects.get(pk=request.data.get("id"))
-    elif user_to_modify.role == Role.TUTOR:
-        user = Tutor.objects.get(pk=request.data.get("id"))
-    elif user_to_modify.role == Role.APPRENTICE:
-        user = Apprentice.objects.get(pk=request.data.get("id"))
-    user.first_name = request.data.get("first_name")
-    user.last_name = request.data.get("last_name")
-    user.email = request.data.get("email")
-    serializer = UserSerializer(user, data=request.data)
-    print(request.data)
-    if serializer.is_valid():
-        user.save()
+    def get(self, request, pk):
+        user = self.get_object(pk, User)
+        serializer = UserSerializer(user)
         return Response(serializer.data)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, pk):
+        user = self.get_object(pk, User)
+        if user.role == Role.MENTOR:
+            user = self.get_object(pk, Mentor)
+        elif user.role == Role.TUTOR:
+            user = self.get_object(pk, User)
+        elif user.role == Role.APPRENTICE:
+            user = self.get_object(pk, Apprentice)
+        user.first_name = request.data.get("first_name")
+        user.last_name = request.data.get("last_name")
+        user.email = request.data.get("email")
+        serializer = UserSerializer(user, data=request.data)
+        print(request.data)
+        if serializer.is_valid():
+            user.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        user = self.get_object(pk, User)
+        user.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class UserList(APIView):
+    def get(self, request):
+        user_list = User.objects.all()
+        serializers = UserSerializer(user_list, many=True)
+        return Response(serializers.data)
+
+    def post(self, request):
+        if request.data["role"] == Role.APPRENTICE.value:
+            serializer = ApprenticeRoleSerializer(data=request.data)
+        elif request.data["role"] == Role.TUTOR.value:
+            serializer = TutorSerializer(data=request.data)
+        elif request.data["role"] == Role.MENTOR.value:
+            serializer = MentorSerializer(data=request.data)
+        else:
+            serializer = RegisterUserSerializer(data=request.data)
+
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data)
 
 
 class TutorTeamDetail(APIView):
@@ -255,4 +283,30 @@ class TutorTeamList(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UserChangePasswordView(generics.UpdateAPIView):
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self, queryset=None):
+        return self.request.user
+
+    def update(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        serializer = ChangePasswordSerializer(data=request.data)
+
+        if serializer.is_valid():
+            # Vérification de l'ancien mot de passe
+            if not self.object.check_password(serializer.data.get("old_password")):
+                return Response(
+                    {"old_password": ["Mauvais mot de passe."]},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            # La méthode hash aussi le nouveau password
+            self.object.set_password(serializer.data.get("new_password"))
+            self.object.save()
+
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

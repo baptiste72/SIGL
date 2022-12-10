@@ -1,5 +1,5 @@
+from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers, fields
-
 from base.models import (
     Apprentice,
     Company,
@@ -24,7 +24,15 @@ class TutorTeamSerializer(serializers.ModelSerializer):
 class MentorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Mentor
-        fields = ("id", "last_name", "first_name", "password", "email", "company")
+        fields = (
+            "id",
+            "last_name",
+            "first_name",
+            "password",
+            "email",
+            "role",
+            "company",
+        )
 
 
 class CompanySerializer(serializers.ModelSerializer):
@@ -48,6 +56,7 @@ class TutorSerializer(serializers.ModelSerializer):
             "first_name",
             "password",
             "email",
+            "role",
             "formationCenter",
         )
 
@@ -75,7 +84,29 @@ class ApprenticeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Apprentice
-        fields = ("id", "last_name", "first_name", "password", "email", "yearGroup")
+        fields = (
+            "id",
+            "last_name",
+            "first_name",
+            "password",
+            "email",
+            "role",
+            "yearGroup",
+        )
+
+
+class ApprenticeRoleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Apprentice
+        fields = (
+            "id",
+            "last_name",
+            "first_name",
+            "password",
+            "email",
+            "role",
+            "yearGroup",
+        )
 
 
 class InterviewSerializer(serializers.ModelSerializer):
@@ -111,3 +142,27 @@ class UserSerializer(serializers.ModelSerializer):
             "email",
             "role",
         )
+
+
+class RegisterUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["id", "first_name", "last_name", "email", "password", "role", "token"]
+        extra_kwargs = {"password": {"write_only": True}}
+
+    def create(self, validated_data):
+        password = validated_data.pop("password", None)
+        instance = self.Meta.model(**validated_data)
+        if password is not None:
+            instance.set_password(password)
+        instance.save()
+        return instance
+
+
+class ChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
+
+    def validate_new_password(self, value):
+        validate_password(value)
+        return value

@@ -1,7 +1,4 @@
 from rest_framework import serializers
-
-from base.models import Apprentice, Mentor, Tutor
-
 from .models import User
 
 
@@ -18,47 +15,3 @@ class UserSerializer(serializers.ModelSerializer):
             instance.set_password(password)
         instance.save()
         return instance
-
-
-class ApprenticeRoleSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Apprentice
-        fields = (
-            "id",
-            "last_name",
-            "first_name",
-            "password",
-            "email",
-            "role",
-            "yearGroup",
-        )
-
-
-class TutorRoleSerializer(serializers.ModelSerializer):
-    class Meta:
-        # pylint: disable=duplicate-code
-        model = Tutor
-        # pylint: disable=duplicate-code
-        fields = (
-            "id",
-            "last_name",
-            "first_name",
-            "password",
-            "email",
-            "role",
-            "formationCenter",
-        )
-
-
-class MentorRoleSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Mentor
-        fields = (
-            "id",
-            "last_name",
-            "first_name",
-            "password",
-            "email",
-            "role",
-            "company",
-        )

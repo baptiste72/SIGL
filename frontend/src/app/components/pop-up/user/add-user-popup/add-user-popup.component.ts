@@ -1,7 +1,6 @@
 import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AuthService } from 'src/app/services/auth/auth.service';
 import { CompanyService } from 'src/app/services/company/company.service';
 import { Company } from 'src/app/models/Company';
 import { FormationCenterService } from '@app/services/formation-center/formation-center.service';
@@ -9,6 +8,7 @@ import { FormationCenter } from 'src/app/models/FormationCenter';
 import { YearGroupService } from 'src/app/services/year-group/year-group.service';
 import { YearGroup } from 'src/app/models/YearGroup';
 import { Role } from '@app/helpers';
+import { UserService } from '@app/services';
 
 interface Promotion {
   name: string;
@@ -37,7 +37,7 @@ export class AddUserPopupComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<AddUserPopupComponent>,
-    private authService: AuthService,
+    private userService: UserService,
     private _snackBar: MatSnackBar,
     private yearGroupService: YearGroupService,
     private companyService: CompanyService,
@@ -111,7 +111,7 @@ export class AddUserPopupComponent implements OnInit {
 
   public addUser(data: any) {
     if (this.userFormValidator(data)) {
-      this.authService.register(data).subscribe({
+      this.userService.add(data).subscribe({
         next: (v) => {
           this.displaySnackBar('✔ Inscription réussie');
           this.closeDialog();
