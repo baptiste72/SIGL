@@ -1,21 +1,16 @@
 from django.dispatch import receiver
-from django.urls import reverse
 from django.core.mail import send_mail
+from django.conf import settings
 from django_rest_passwordreset.signals import reset_password_token_created
 
 
 @receiver(reset_password_token_created)
-def password_reset_token_created(
-    # pylint: disable unused-argument
-    sender,
-    instance,
-    reset_password_token,
-    *args,
-    **kwargs
-):
+def password_reset_token_created(reset_password_token, *args, **kwargs):
 
-    email_plaintext_message = "{}?token={}".format(
-        reverse("password_reset:reset-password-request"), reset_password_token.key
+    email_plaintext_message = (
+        "Bonjour, suite à votre demande de réinitialisation de mot de passe, voici le token à insérer. Ce token sera valide lors des prochaines minutes.\n\nTOKEN = "
+        + reset_password_token.key
+        + "\n\nBonne continuation sur notre plateforme.\nL'équipe SIGL2"
     )
 
     send_mail(
@@ -24,7 +19,7 @@ def password_reset_token_created(
         # message:
         email_plaintext_message,
         # from:
-        "TODO:email_a_remplacer",
+        settings.EMAIL_HOST_USER,
         # to:
         [reset_password_token.user.email],
     )

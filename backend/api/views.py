@@ -289,7 +289,10 @@ class TutorTeamList(APIView):
 class UserChangePasswordView(generics.UpdateAPIView):
     permission_classes = [IsAuthenticated]
 
-    def get_object(self, queryset=None):
+    def __init__(self):
+        self.object = self.get_object()
+
+    def get_object(self):
         return self.request.user
 
     def update(self, request, *args, **kwargs):

@@ -37,18 +37,14 @@ export class NewPasswordComponent {
       .subscribe({
         next: () => {
           this.router.navigate(['/login']);
-          this._snackBar.open('Mot de passe modifié !', 'Ok', {
+          this._snackBar.open('✔ Mot de passe modifié !', 'Ok', {
             duration: 2000,
           });
         },
         error: (err) => {
-          this._snackBar.open(
-            'Une erreur est survenu lors du changement de mot de passe.',
-            'Ok',
-            {
-              duration: 2000,
-            }
-          );
+          this._snackBar.open('❌ Token incorrect', 'Ok', {
+            duration: 2000,
+          });
         },
       });
   }

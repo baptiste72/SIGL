@@ -49,7 +49,6 @@ class TutorSerializer(serializers.ModelSerializer):
     class Meta:
         # pylint: disable=duplicate-code
         model = Tutor
-        # pylint: disable=duplicate-code
         fields = (
             "id",
             "last_name",
@@ -145,6 +144,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class RegisterUserSerializer(serializers.ModelSerializer):
+    # pylint: disable=duplicate-code
     class Meta:
         model = User
         fields = ["id", "first_name", "last_name", "email", "password", "role", "token"]
@@ -159,6 +159,7 @@ class RegisterUserSerializer(serializers.ModelSerializer):
         return instance
 
 
+# pylint: disable=abstract-method
 class ChangePasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(required=True)
     new_password = serializers.CharField(required=True)

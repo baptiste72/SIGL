@@ -171,12 +171,11 @@ REST_FRAMEWORK = {
 }
 
 # Email configuration
-# remplacer smtp par console pour un envoi de "mail" dans la console python
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-EMAIL_HOST = "smtp-mail.outlook.com"
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "ssl0.ovh.net"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 # EMAIL_HOST_USER = os.environ.get("EMAIL_USER")
 # EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_PASS")
-EMAIL_HOST_USER = "TODO:email_a_remplacer"
-EMAIL_HOST_PASSWORD = "password"
+EMAIL_HOST_USER = "contact@projet-sigl.fr"
+EMAIL_HOST_PASSWORD = "MmsS3HsEHa7hpDPTk3XV"
