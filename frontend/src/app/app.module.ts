@@ -55,6 +55,7 @@ import { UpdateUserPopupComponent } from './components/pop-up/user/update-user-p
 import { ErrorInterceptor, JwtInterceptor } from './helpers';
 import { ConfirmDeleteComponent } from './components/pop-up/confirm-delete/confirm-delete.component';
 import { UpdateTeamPopupComponent } from './components/pop-up/tutor-team/update-team-popup/update-team-popup.component';
+import { ChangePasswordComponent } from './components/pages/change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -86,6 +87,7 @@ import { UpdateTeamPopupComponent } from './components/pop-up/tutor-team/update-
     UpdateUserPopupComponent,
     ConfirmDeleteComponent,
     UpdateTeamPopupComponent,
+    ChangePasswordComponent,
   ],
   imports: [
     BrowserModule,

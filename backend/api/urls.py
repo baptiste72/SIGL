@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 
 urlpatterns = [
@@ -28,9 +28,13 @@ urlpatterns = [
     # tutors
     path("tutors", views.get_tutors, name="getTutor"),
     # users
-    path("users", views.get_users, name="getUsers"),
-    path("users/delete/<int:pk>", views.delete_user, name="deleteUserById"),
-    path("users/update", views.update_user, name="updateUser"),
+    path("users", views.UserList.as_view()),
+    path("users/<int:pk>", views.UserDetail.as_view()),
+    path("users/change-password", views.UserChangePasswordView.as_view()),
+    path(
+        "users/password-reset/",
+        include("django_rest_passwordreset.urls"),
+    ),
     # year-groups
     path("year-group", views.get_year_groups, name="getYearGroups"),
     path("year-group/add", views.add_year_group, name="addYearGroup"),

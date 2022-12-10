@@ -5,11 +5,13 @@ import { Router } from '@angular/router';
 import { UserService } from '@app/services';
 
 @Component({
-  templateUrl: './new-password.component.html',
-  styleUrls: ['./new-password.component.scss'],
+  selector: 'app-change-password',
+  templateUrl: './change-password.component.html',
+  styleUrls: ['./change-password.component.scss'],
 })
-export class NewPasswordComponent {
-  hide = true;
+export class ChangePasswordComponent {
+  public hideOld = true;
+  public hideNew = true;
   public resetPasswordForm: FormGroup;
 
   constructor(
@@ -20,7 +22,7 @@ export class NewPasswordComponent {
   ) {
     this.resetPasswordForm = this.formBuilder.group(
       {
-        token: ['', Validators.required],
+        currentPassword: ['', Validators.required],
         newPassword: ['', Validators.required],
         confirmPassword: ['', Validators.required],
       },
@@ -30,19 +32,19 @@ export class NewPasswordComponent {
 
   public resetPassword() {
     this.userService
-      .setNewPassword({
-        token: this.resetPasswordForm.value.token,
-        password: this.resetPasswordForm.value.newPassword,
+      .changePassword({
+        old_password: this.resetPasswordForm.value.currentPassword,
+        new_password: this.resetPasswordForm.value.newPassword,
       })
       .subscribe({
         next: () => {
-          this.router.navigate(['/login']);
+          this.router.navigate(['/dashboard']);
           this._snackBar.open('✔ Mot de passe modifié !', 'Ok', {
             duration: 2000,
           });
         },
         error: (err) => {
-          this._snackBar.open('❌ Token incorrect', 'Ok', {
+          this._snackBar.open('❌ Ancien mot de passe incorrect.', 'Ok', {
             duration: 2000,
           });
         },

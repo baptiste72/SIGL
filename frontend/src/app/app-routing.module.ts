@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ChangePasswordComponent } from './components/pages/change-password/change-password.component';
 import { ConfigurationComponent } from './components/pages/configuration/configuration.component';
 import { ConnectionComponent } from './components/pages/connection/connection.component';
 import { DashboardApprenticeComponent } from './components/pages/dashboard-apprentice/dashboard-apprentice.component';
@@ -16,6 +17,11 @@ const routes: Routes = [
   { path: 'login', component: ConnectionComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'new-password', component: NewPasswordComponent },
+  {
+    path: 'change-password',
+    component: ChangePasswordComponent,
+    canActivate: [AuthGuard],
+  },
   {
     path: 'dashboard',
     component: DashboardApprenticeComponent,
