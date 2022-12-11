@@ -51,6 +51,7 @@ test-angular:
   <<: *install-node-modules
   script:
     - ng test --watch=false
+  coverage: '/All files[^|]*\|[^|]*\s+([\d\.]+)/'
   artifacts:
     when: always
     reports:
