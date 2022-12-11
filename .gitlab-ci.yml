@@ -51,6 +51,7 @@ test-angular:
   <<: *install-node-modules
   script:
     - ng test --watch=false
+  coverage: '/^Statements\s*:\s*([^%]+)/'
   artifacts:
     when: always
     reports:
