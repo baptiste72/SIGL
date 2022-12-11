@@ -57,7 +57,7 @@ class Company(models.Model):
 
 class Opco(models.Model):
 
-    opco_company_id = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)
+    opco_cmp_siret = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)
     opco_siret = models.CharField(max_length=200)
     opco_name = models.CharField(max_length=200)
     opco_address = models.CharField(max_length=200)
@@ -68,8 +68,7 @@ class Opco(models.Model):
         return self.name
 
 class ContactCompany(models.Model):
-
-    ct_company_siret = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)
+    ct_cmp_siret = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)
     ct_last_name  = models.CharField(max_length=200,default = "")
     ct_first_name = models.CharField(max_length=200,default = "")
     ct_phone      = models.CharField(max_length=200,default = "")
@@ -94,14 +93,21 @@ class ContactCompany(models.Model):
 
 class Mentor(User):
     # table des maîtres d'apprentissage
-    mt_company_id = models.ForeignKey(Company, related_name="Mentor", on_delete=models.CASCADE, null=True)
-    mt_last_name   = models.CharField(max_length=200, default="")
-    mt_first_name  = models.CharField(max_length=200, default="")
+    mt_cmp_siret = models.ForeignKey(Company, related_name="Mentor", on_delete=models.CASCADE, null=True)
     mt_phone       = models.CharField(max_length=200, default="")
-    mt_email       = models.EmailField(max_length=200, default="")
     mt_job_title   = models.CharField(max_length=200, default="")
     mt_last_diploma = models.CharField(max_length=200, default="")
     mt_former_eseo = models.CharField(max_length=200, default="")
+    
+    def __unicode__(self):
+        return self.name
+
+class CompanyUserCompanyInfoAssociation(models.Model):
+    # Association user entreprise => insertion des données du formulaire
+    user_company_id = models.OneToOneField(User, on_delete=models.CASCADE, null=True, related_name="association")
+    company_siret = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)
+    opco_siret = models.ForeignKey(Opco, on_delete=models.CASCADE, null=True)
+    contactCompany_id = models.ForeignKey(ContactCompany, on_delete=models.CASCADE, null=True)
     
     def __unicode__(self):
         return self.name

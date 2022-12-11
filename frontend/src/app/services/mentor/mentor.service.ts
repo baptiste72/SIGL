@@ -9,18 +9,17 @@ import { environment } from 'src/environments/environment';
 })
 export class MentorService {
   private urlPrefix = 'api/v1/mentors';
-  private  httpOptions = {
-    headers: new HttpHeaders({'Content-Type': 'application/json'})
-  }
+
   constructor(private http: HttpClient) {}
 
   public getAll(): Observable<Mentor[]> {
     return this.http.get<Mentor[]>(`${environment.apiUrl}/${this.urlPrefix}`);
   }
 
-  public add(post: any): Observable<any> {
-
-    return this.http.post<any>(`${environment.apiUrl}/${this.urlPrefix}/add`, post, this.httpOptions);
-
+  public add(mentor: Mentor): Observable<Mentor> {
+    return this.http.post<Mentor>(
+      `${environment.apiUrl}/${this.urlPrefix}/add`,
+      mentor
+    );
   }
 }

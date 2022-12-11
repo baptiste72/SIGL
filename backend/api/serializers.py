@@ -33,11 +33,11 @@ class MentorSerializer(serializers.ModelSerializer):
             "password",
             "email",
             "role",
-            "company",
-            "phone",         
-            "job_title",   
-            "last_diploma",
-            "former_eseo",
+            "mt_cmp_siret",
+            "mt_phone",         
+            "mt_job_title",   
+            "mt_last_diploma",
+            "mt_former_eseo",
         )
 
 
@@ -66,7 +66,7 @@ class OpcoSerializer(serializers.ModelSerializer):
         model = Opco
         fields = (
             "opco_siret",
-            "company_id",
+            "opco_cmp_siret",
             "opco_name",
             "opco_address",
             "opco_phone",
@@ -79,7 +79,7 @@ class ContactCompanySerializer(serializers.ModelSerializer):
     class Meta:
         model = ContactCompany
         fields = (
-            "company_siret"
+            "ct_cmp_siret",
             "ct_last_name",
             "ct_first_name",
             "ct_phone",

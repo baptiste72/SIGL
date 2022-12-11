@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Company } from '@app/models/Company';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -8,18 +9,17 @@ import { environment } from 'src/environments/environment';
 })
 export class CompanyService {
   private urlPrefix = 'api/v1/companies';
-  private  httpOptions = {
-    headers: new HttpHeaders({'Content-Type': 'application/json'})
-  }
+
   constructor(private http: HttpClient) {}
 
-  public getAll(): Observable<any> {
-    return this.http.get<any>(`${environment.apiUrl}/${this.urlPrefix}`);
+  public getAll(): Observable<Company> {
+    return this.http.get<Company>(`${environment.apiUrl}/${this.urlPrefix}`);
   }
 
-  public add(post: any): Observable<any> {
-
-    return this.http.post<any>(`${environment.apiUrl}/${this.urlPrefix}/add`, post, this.httpOptions);
-
-}
+  public add(company: Company): Observable<Company> {
+    return this.http.post<Company>(
+      `${environment.apiUrl}/${this.urlPrefix}/add`,
+      company
+    );
+  }
 }
