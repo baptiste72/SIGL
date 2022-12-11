@@ -3,7 +3,10 @@ FROM node:lts-alpine
 
 # Add metadata
 LABEL description="Set up Angular for development" \
-      version="1.0"
+      version="2.0"
+
+# Set location variable for chromium
+ENV CHROME_BIN=/usr/bin/chromium-browser
 
 # Set working directory
 WORKDIR /sigl
@@ -11,13 +14,10 @@ WORKDIR /sigl
 # Copy frontend to container
 COPY frontend .
 
-# Install the Angular CLI and dependencies
-RUN apk add --no-cache curl \
+# Install the Angular CLI, dependencies and Chromium
+RUN apk add --no-cache chromium curl \
  && npm install --global @angular/cli \
  && npm install
-
-# Install Chromium for Angular testing
-RUN apk add chromium
 
 # Check server is running
 HEALTHCHECK --interval=1m --timeout=10s \
@@ -25,9 +25,6 @@ HEALTHCHECK --interval=1m --timeout=10s \
 
 # Change user to node
 USER node
-
-# Set location variable for chromium
-ENV CHROME_BIN=/usr/bin/chromium-browser
 
 # Launch the server
 ENTRYPOINT ["ng", "serve", "--host", "0.0.0.0"]
