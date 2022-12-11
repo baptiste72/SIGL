@@ -25,12 +25,14 @@ export class AuthGuard implements CanActivate {
         route.data['roles'] &&
         route.data['roles'].indexOf(user.role) === -1
       ) {
-        this._snackBar.open("🔒 Vous n'avez pas accès à cette zone.", 'Ok', {
-          duration: 2000,
-        });
-
-        if (this.router.url == '/' || this.router.url == '/login') {
-          this.router.navigate(['/']);
+        if (this.router.url != '/' && this.router.url != '/login') {
+          this._snackBar.open("🔒 Vous n'avez pas accès à cette zone.", 'Ok', {
+            duration: 2000,
+          });
+        } else if (this.router.url == '/') {
+          this.router.navigate(['/login'], {
+            queryParams: { returnUrl: state.url },
+          });
         }
         return false;
       }

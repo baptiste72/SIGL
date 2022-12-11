@@ -9,6 +9,7 @@ media
 base/migrations/
 authentication/migrations/
 api/migrations/
+*_initial.py
 
 # Backup files # 
 *.bak 

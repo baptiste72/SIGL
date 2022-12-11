@@ -19,16 +19,43 @@ export class UserService {
     return this.http.get<User>(`${environment.apiUrl}/${this.urlPrefix}/${id}`);
   }
 
-  public delete(id: number): Observable<any> {
-    return this.http.delete(
-      `${environment.apiUrl}/${this.urlPrefix}/delete/${id}`
+  public add(user: User) {
+    return this.http.post<User>(
+      `${environment.apiUrl}/${this.urlPrefix}`,
+      user,
+      { withCredentials: true }
     );
   }
 
+  public delete(id: number): Observable<any> {
+    return this.http.delete(`${environment.apiUrl}/${this.urlPrefix}/${id}`);
+  }
+
   public update(user: User): Observable<User> {
-    return this.http.post<User>(
-      `${environment.apiUrl}/${this.urlPrefix}/update`,
+    return this.http.put<User>(
+      `${environment.apiUrl}/${this.urlPrefix}/${user.id}`,
       user
+    );
+  }
+
+  public resetPassword(email: string): Observable<any> {
+    return this.http.post<any>(
+      `${environment.apiUrl}/${this.urlPrefix}/password-reset/`,
+      { email: email }
+    );
+  }
+
+  public setNewPassword(data): Observable<any> {
+    return this.http.post<any>(
+      `${environment.apiUrl}/${this.urlPrefix}/password-reset/confirm/`,
+      data
+    );
+  }
+
+  public changePassword(data: any): Observable<any> {
+    return this.http.put<any>(
+      `${environment.apiUrl}/${this.urlPrefix}/change-password`,
+      data
     );
   }
 }

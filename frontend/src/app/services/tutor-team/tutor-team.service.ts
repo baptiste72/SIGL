@@ -18,23 +18,27 @@ export class TutorTeamService {
     );
   }
 
+  public get(id: number): Observable<TutorTeam> {
+    return this.http.get<TutorTeam>(
+      `${environment.apiUrl}/${this.urlPrefix}/${id}`
+    );
+  }
+
   public add(tutorTeam: TutorTeam): Observable<TutorTeam> {
     return this.http.post<TutorTeam>(
-      `${environment.apiUrl}/${this.urlPrefix}/add`,
+      `${environment.apiUrl}/${this.urlPrefix}`,
       tutorTeam
     );
   }
 
-  public update(tutorTeam: TutorTeam): Observable<TutorTeam> {
-    return this.http.post<TutorTeam>(
-      `${environment.apiUrl}/${this.urlPrefix}/update`,
+  public update(tutorTeam: TutorTeam, id: number): Observable<TutorTeam> {
+    return this.http.put<TutorTeam>(
+      `${environment.apiUrl}/${this.urlPrefix}/${id}`,
       tutorTeam
     );
   }
 
   public delete(id: number): Observable<any> {
-    return this.http.delete(
-      `${environment.apiUrl}/${this.urlPrefix}/delete/${id}`
-    );
+    return this.http.delete(`${environment.apiUrl}/${this.urlPrefix}/${id}`);
   }
 }

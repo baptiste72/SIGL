@@ -17,7 +17,10 @@ export class AuthService {
   private urlPrefix = 'auth';
 
   constructor(private router: Router, private http: HttpClient) {
-    this.userSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('user') ?? '{}'));
+    this.userSubject = new BehaviorSubject<User>(
+      JSON.parse(localStorage.getItem('user') ?? '{}')
+    );
+
     this.user = this.userSubject.asObservable();
   }
 
@@ -25,21 +28,11 @@ export class AuthService {
     return this.userSubject.value;
   }
 
-  private httpPost(route: string, parameter: any, options?: any) {
-    return this.http.post<any>(
-      `${environment.apiUrl}/${this.urlPrefix}/${route}`,
-      parameter,
-      options
-    );
-  }
-
   public login(credentials: any): Observable<any> {
     return this.http
-      .post<any>(
-        `${environment.apiUrl}/${this.urlPrefix}/users/authenticate`,
-        credentials,
-        { withCredentials: true }
-      )
+      .post<any>(`${environment.apiUrl}/${this.urlPrefix}/login`, credentials, {
+        withCredentials: true,
+      })
       .pipe(
         map((user) => {
           // Enregistre les informations de l'utilisateur ainsi que le JWT Token dans le localStorage
@@ -52,36 +45,27 @@ export class AuthService {
 
   public logout() {
     // Suppression des données stockées dans le navigateur
-    sessionStorage.removeItem('token');
-    localStorage.removeItem('microsoftFlow');
-    localStorage.removeItem('user');
-
-    this.userSubject.next(null as any);
-    this.router.navigate(['/login']);
+    return this.http
+      .get<any>(`${environment.apiUrl}/${this.urlPrefix}/logout`)
+      .subscribe(() => {
+        this.router.navigate(['/login']);
+        localStorage.removeItem('microsoftFlow');
+        localStorage.removeItem('user');
+        this.userSubject.next(null as any);
+      });
   }
 
   public microsoftLogin(): Observable<any> {
-    return this.httpGet('microsoft-login');
+    return this.http.get<any>(
+      `${environment.apiUrl}/${this.urlPrefix}/microsoft/login`
+    );
   }
 
   public microsoftGetUser(flow: any): Observable<any> {
-    return this.httpPost('microsoft-get-user', flow, { withCredentials: true });
-  }
-
-  //#region Facilitateurs
-  private httpGet(route: string, options?: any) {
-    return this.http.get<any>(
-      `${environment.apiUrl}/${this.urlPrefix}/${route}`,
-      options
-    );
-  }
-
-  public register(user: User): Observable<any> {
     return this.http.post<any>(
-      `${environment.apiUrl}/${this.urlPrefix}/register`,
-      user,
+      `${environment.apiUrl}/${this.urlPrefix}/microsoft/user`,
+      flow,
       { withCredentials: true }
     );
   }
-  //#endregion
 }

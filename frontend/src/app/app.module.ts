@@ -56,6 +56,8 @@ import { UpdateUserPopupComponent } from './components/pop-up/user/update-user-p
 import { ErrorInterceptor, JwtInterceptor } from './helpers';
 import { ConfirmDeleteComponent } from './components/pop-up/confirm-delete/confirm-delete.component';
 import { UpdateTeamPopupComponent } from './components/pop-up/tutor-team/update-team-popup/update-team-popup.component';
+import { ChangePasswordComponent } from './components/pages/change-password/change-password.component';
+import { PageNotFoundComponent } from './components/pages/page-not-found/page-not-found.component';
 import { MatStepperModule } from '@angular/material/stepper';
 
 @NgModule({
@@ -88,6 +90,8 @@ import { MatStepperModule } from '@angular/material/stepper';
     UpdateUserPopupComponent,
     ConfirmDeleteComponent,
     UpdateTeamPopupComponent,
+    ChangePasswordComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,

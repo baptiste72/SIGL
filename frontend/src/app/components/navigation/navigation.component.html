@@ -22,7 +22,11 @@
       <a routerLink="/profile"
         ><div><mat-icon matPrefix>account_circle</mat-icon>Mon compte</div></a
       >
-      <a routerLink="/configuration"
+      <a
+        routerLink="/configuration"
+        *ngIf="
+          user.role === roleEnum.ADMIN || user.role === roleEnum.COORDINATOR
+        "
         ><div><mat-icon matPrefix>settings</mat-icon>Configuration</div></a
       >
       <a (click)="logout()"
@@ -39,11 +43,19 @@
         </button>
 
         <div class="topbar-right">
-          <div class="divider">
+          <div class="profile" routerLink="/profile">
             <mat-icon matPrefix>person</mat-icon>{{ user.first_name }}
             {{ user.last_name }}
           </div>
-          <mat-icon matPrefix>settings</mat-icon>
+          <div class="divider"></div>
+          <mat-icon
+            matPrefix
+            routerLink="/configuration"
+            *ngIf="
+              user.role === roleEnum.ADMIN || user.role === roleEnum.COORDINATOR
+            "
+            >settings</mat-icon
+          >
           <mat-icon matPrefix>notifications</mat-icon>
           <mat-icon matPrefix (click)="logout()">cancel</mat-icon>
         </div>

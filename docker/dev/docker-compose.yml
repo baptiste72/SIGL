@@ -18,6 +18,7 @@ services:
     volumes:
       - ./../../backend:/sigl
     environment:
+      ENV_FILE: "backend.__init__"
       POSTGRES_NAME: ${DJANGO_DB}
       POSTGRES_USER: ${DJANGO_USER}
       POSTGRES_PASSWORD: ${DJANGO_PASSWORD}

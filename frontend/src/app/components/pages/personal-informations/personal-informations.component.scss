@@ -5,10 +5,10 @@
   width: 100%;
   box-shadow: $box-shadow-secondary;
   padding: 0;
-  @include respond-to('medium') {
+  @include respond-to("medium") {
     width: 70%;
   }
-  @include respond-to('large') {
+  @include respond-to("large") {
     width: 50%;
   }
 }
@@ -19,7 +19,7 @@
   padding: 10px 0px;
 }
 
-.personal-card-title{
+.personal-card-title {
   color: $white;
   font-weight: 500;
   vertical-align: middle;
@@ -27,7 +27,7 @@
 }
 
 .personal-card-content {
-  padding: 20px 0px;
+  padding: 1rem;
 }
 
 .personal-title {
@@ -37,7 +37,7 @@
 }
 
 .personal-avatar {
-  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  background-image: url("https://material.angular.io/assets/img/examples/shiba1.jpg");
   background-size: cover;
   vertical-align: middle;
   display: table-cell;
@@ -48,11 +48,10 @@
   display: table-cell;
 }
 
-.personal-deconnexion-btn {
-  margin-left: 5%;
+.personal-action-btn {
   font-weight: 600;
   cursor: pointer;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   color: $red;
 }
