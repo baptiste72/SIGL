@@ -42,10 +42,9 @@ class CompanySerializer(serializers.ModelSerializer):
     class Meta:
         model = Company
         fields = (
-            "id",
+            "cmp_siret", 
             "cmp_address",
             "cmp_name",
-            "cmp_siret", 
             "cmp_employees",
             "cmp_cpne",
             "cmp_idcc",
@@ -63,10 +62,9 @@ class OpcoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Opco
         fields = (
-            "id",
+            "opco_siret",
             "company_id",
             "opco_name",
-            "opco_siret",
             "opco_address",
             "opco_phone",
             "opco_email",
@@ -78,7 +76,7 @@ class ContactCompanySerializer(serializers.ModelSerializer):
     class Meta:
         model = ContactCompany
         fields = (
-            "id",
+            "company_siret"
             "ct_last_name",
             "ct_first_name",
             "ct_phone",

@@ -28,6 +28,12 @@ export class AddCompanyPopupComponent implements OnInit {
   stageInternat: string[] = ['Lu et approuvé'];
   isOptional = false;
 
+  //Regex validator
+  phoneValidator = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/;
+  stringValidator = /^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/;
+  numberOnlyValidator = /^\d+$/;
+
+
   constructor(public dialogRef: MatDialogRef<AddCompanyPopupComponent>,
     private authService: AuthService,
     private _snackBar: MatSnackBar,
@@ -48,67 +54,67 @@ export class AddCompanyPopupComponent implements OnInit {
     this.fromDialog = "I am from dialog land...";
 
     this.enterpriseForm = this._formBuilder.group({
-      cmp_name:        ['Soco',[Validators.required, Validators.pattern(/^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/)]],
-      cmp_siret:       ['1234',[Validators.required, Validators.pattern(/^\d+$/)]],
-      cmp_employees:   ['222',[Validators.required, Validators.pattern(/^\d+$/)]],
+      cmp_name:        ['Soco',[Validators.required, Validators.pattern(this.stringValidator)]],
+      cmp_siret:       ['1234',[Validators.required, Validators.pattern(this.numberOnlyValidator)]],
+      cmp_employees:   ['222',[Validators.required, Validators.pattern(this.numberOnlyValidator)]],
       cmp_cpne:        ['333',[Validators.required]],
-      cmp_idcc:        ['111',[Validators.required, Validators.pattern(/^\d+$/)]],
+      cmp_idcc:        ['111',[Validators.required, Validators.pattern(this.numberOnlyValidator)]],
       cmp_convention:  ['555',Validators.required],
       cmp_naf_ape:     ['666',[Validators.required]],
       cmp_work_field:  ['Metal',Validators.required],
-      cmp_phone:       ['0630781510',[Validators.required, Validators.minLength(10), Validators.pattern(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/)]],
+      cmp_phone:       ['0630781510',[Validators.required, Validators.minLength(10), Validators.pattern(this.phoneValidator)]],
       cmp_email:       ['jojo@jojo.com',[Validators.required, Validators.email]],
       cmp_address:     ['213 rue tutu',Validators.required],
       cmp_internat:    ['',Validators.required],
     });
 
     this.opcoForm = this._formBuilder.group({
-      opco_name:        ['nomOp',[Validators.required, Validators.pattern(/^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/)]],
-      opco_siret:       ['567',[Validators.required, Validators.pattern(/^\d+$/)]],
+      opco_name:        ['nomOp',[Validators.required, Validators.pattern(this.stringValidator)]],
+      opco_siret:       ['567',[Validators.required, Validators.pattern(this.numberOnlyValidator)]],
       opco_address:     ['444 rue dia',Validators.required],
-      opco_phone:       ['0909090909',[Validators.required, Validators.minLength(10), Validators.pattern(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/)]],
+      opco_phone:       ['0909090909',[Validators.required, Validators.minLength(10), Validators.pattern(this.phoneValidator)]],
       opco_email:       ['Soco@dd.fr',[Validators.required, Validators.email]],
     });
 
     this.contactForm = this._formBuilder.group({
-      ct_last_name:     ['nomC',[Validators.required, Validators.pattern(/^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/)]],
-      ct_first_name:    ['prenomC',[Validators.required, Validators.pattern(/^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/)]],
-      ct_phone:         ['1234567891',[Validators.required, Validators.minLength(10), Validators.pattern(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/)]],
+      ct_last_name:     ['nomC',[Validators.required, Validators.pattern(this.stringValidator)]],
+      ct_first_name:    ['prenomC',[Validators.required, Validators.pattern(this.stringValidator)]],
+      ct_phone:         ['1234567891',[Validators.required, Validators.minLength(10), Validators.pattern(this.phoneValidator)]],
       ct_email:         ['aa@test.cpm',[Validators.required, Validators.email]],
-      ct_job_title:     ['boulanger',[Validators.required, Validators.pattern(/^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/)]],
+      ct_job_title:     ['boulanger',[Validators.required, Validators.pattern(this.stringValidator)]],
       ct_former_eseo:   ['Oui',Validators.required],
-      fi_last_name:     ['nomF',[Validators.required, Validators.pattern(/^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/)]],
-      fi_first_name:    ['prenomF',[Validators.required, Validators.pattern(/^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/)]],
-      fi_phone:         ['1111',[Validators.required, Validators.minLength(10), Validators.pattern(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/)]],
+      fi_last_name:     ['nomF',[Validators.required, Validators.pattern(this.stringValidator)]],
+      fi_first_name:    ['prenomF',[Validators.required, Validators.pattern(this.stringValidator)]],
+      fi_phone:         ['1111',[Validators.required, Validators.minLength(10), Validators.pattern(this.phoneValidator)]],
       fi_email:         ['zz@ee.com',[Validators.required, Validators.email]],
-      fi_job_title:     ['Garagiste',[Validators.required, Validators.pattern(/^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/)]],
+      fi_job_title:     ['Garagiste',[Validators.required, Validators.pattern(this.stringValidator)]],
       fi_former_eseo:   ['Oui',Validators.required],
-      sa_last_name:     ['nomS',[Validators.required, Validators.pattern(/^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/)]],
-      sa_first_name:    ['prenomS',[Validators.required, Validators.pattern(/^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/)]],
-      sa_phone:         ['22222',[Validators.required, Validators.minLength(10), Validators.pattern(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/)]],
+      sa_last_name:     ['nomS',[Validators.required, Validators.pattern(this.stringValidator)]],
+      sa_first_name:    ['prenomS',[Validators.required, Validators.pattern(this.stringValidator)]],
+      sa_phone:         ['22222',[Validators.required, Validators.minLength(10), Validators.pattern(this.phoneValidator)]],
       sa_email:         ['sa@sa.com',[Validators.required, Validators.email]],
-      sa_job_title:     ['Peintre',[Validators.required, Validators.pattern(/^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/)]],
+      sa_job_title:     ['Peintre',[Validators.required, Validators.pattern(this.stringValidator)]],
       sa_former_eseo:   ['',Validators.required],
     });
 
     this.mentorForm = this._formBuilder.group({
-      mt_last_name:     ['LACREUSE',[Validators.required, Validators.pattern(/^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/)]],
-      mt_first_name:    ['Guillaume',[Validators.required, Validators.pattern(/^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/)]],
-      mt_phone:         ['0000000000',[Validators.required, Validators.minLength(10), Validators.pattern(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/)]],
+      mt_last_name:     ['LACREUSE',[Validators.required, Validators.pattern(this.stringValidator)]],
+      mt_first_name:    ['Guillaume',[Validators.required, Validators.pattern(this.stringValidator)]],
+      mt_phone:         ['0000000000',[Validators.required, Validators.minLength(10), Validators.pattern(this.phoneValidator)]],
       mt_email:         ['guigui@soco.com',[Validators.required, Validators.email]],
-      mt_job_title:     ['Le boss',[Validators.required, Validators.pattern(/^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/)]],
+      mt_job_title:     ['Le boss',[Validators.required, Validators.pattern(this.stringValidator)]],
       mt_last_diploma:  ['CAP chaudronerie',Validators.required],
       mt_former_eseo:   ['Oui',Validators.required],
     });
 
     this.apprenticeForm = this._formBuilder.group({
-      app_last_name:              ['heck',[Validators.required, Validators.pattern(/^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/)]],
-      app_first_name:             ['jojo',[Validators.required, Validators.pattern(/^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/)]],
-      app_job_title:              ['boss',[Validators.required, Validators.pattern(/^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/)]],
+      app_last_name:              ['heck',[Validators.required, Validators.pattern(this.stringValidator)]],
+      app_first_name:             ['jojo',[Validators.required, Validators.pattern(this.stringValidator)]],
+      app_job_title:              ['boss',[Validators.required, Validators.pattern(this.stringValidator)]],
       app_description:            ['oui',Validators.required],
-      app_phone:                  ['666',[Validators.required, Validators.minLength(10), Validators.pattern(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/)]],
+      app_phone:                  ['666',[Validators.required, Validators.minLength(10), Validators.pattern(this.phoneValidator)]],
       app_collective_convention:  ['123',Validators.required],
-      app_working_hours:          ['35',[Validators.required, Validators.pattern(/^\d+$/)]],
+      app_working_hours:          ['35',[Validators.required, Validators.pattern(this.numberOnlyValidator)]],
       app_comp_name:              [''],
       app_siret:                  [''],
       app_location:               [''],

@@ -42,9 +42,9 @@ class Company(models.Model):
     # table des entreprises
     #worded = models.CharField(max_length=200)
     #address = models.CharField(max_length=500)
+    cmp_siret = models.CharField(primary_key=True, max_length=200)
     cmp_address = models.CharField(max_length=500)
     cmp_name = models.CharField(max_length=200)
-    cmp_siret = models.CharField(max_length=200)
     cmp_employees = models.CharField(max_length=200)
     cmp_cpne = models.CharField(max_length=200)
     cmp_idcc = models.CharField(max_length=200)
@@ -57,9 +57,9 @@ class Company(models.Model):
 
 class Opco(models.Model):
 
-    company_id = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)
-    opco_name = models.CharField(max_length=200)
+    opco_company_id = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)
     opco_siret = models.CharField(max_length=200)
+    opco_name = models.CharField(max_length=200)
     opco_address = models.CharField(max_length=200)
     opco_phone = models.CharField(max_length=200)
     opco_email = models.CharField(max_length=200)
@@ -69,7 +69,7 @@ class Opco(models.Model):
 
 class ContactCompany(models.Model):
 
-    company_id = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)
+    ct_company_siret = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)
     ct_last_name  = models.CharField(max_length=200,default = "")
     ct_first_name = models.CharField(max_length=200,default = "")
     ct_phone      = models.CharField(max_length=200,default = "")
@@ -94,7 +94,7 @@ class ContactCompany(models.Model):
 
 class Mentor(User):
     # table des maîtres d'apprentissage
-    company_id = models.ForeignKey(Company, related_name="Mentor", on_delete=models.CASCADE, null=True)
+    mt_company_id = models.ForeignKey(Company, related_name="Mentor", on_delete=models.CASCADE, null=True)
     mt_last_name   = models.CharField(max_length=200, default="")
     mt_first_name  = models.CharField(max_length=200, default="")
     mt_phone       = models.CharField(max_length=200, default="")

@@ -201,8 +201,16 @@ def add_company(request):
     serializer = CompanySerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
-    return Response(serializer.data)
-
+        # Set the status code of the response to 201 (Created)
+        response = Response(serializer.data)
+        response.status_code = status.HTTP_201_CREATED
+        return response
+    else:
+        # Return a response with a 400 status code (Bad Request) if the data is not valid
+        response = Response(serializer.errors)
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return response
+        
 
 @api_view(['GET'])
 def get_opco(request):
