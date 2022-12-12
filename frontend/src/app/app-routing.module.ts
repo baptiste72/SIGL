@@ -27,7 +27,6 @@ const routes: Routes = [
     path: 'dashboard',
     component: DashboardApprenticeComponent,
     canActivate: [AuthGuard],
-    data: { roles: [Role.APPRENTICE, Role.UNKNOWN] },
   },
   {
     path: 'profile',

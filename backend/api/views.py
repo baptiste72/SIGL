@@ -22,6 +22,7 @@ from base.models import (
 from api.serializers import (
     ApprenticeSerializer,
     CompanySerializer,
+    CompanyUserSerializer,
     ContactCompanySerializer,
     OpcoSerializer,
     DeadlineSerializer,
@@ -53,7 +54,8 @@ from base.models import (
     YearGroup,
     CompanyUserCompanyInfoAssociation,
 )
-from .helper.tutor_team_helper import TutorTeamHelper
+from api.helpers.password_helper import PasswordHelper
+from api.helpers.tutor_team_helper import TutorTeamHelper
 
 
 @api_view(["GET"])
@@ -308,12 +310,16 @@ class UserList(APIView):
         return Response(serializers.data)
 
     def post(self, request):
+        request.data["password"] = PasswordHelper.generate_password()
+
         if request.data["role"] == Role.APPRENTICE.value:
             serializer = ApprenticeRoleSerializer(data=request.data)
         elif request.data["role"] == Role.TUTOR.value:
             serializer = TutorSerializer(data=request.data)
         elif request.data["role"] == Role.MENTOR.value:
             serializer = MentorSerializer(data=request.data)
+        elif request.data["role"] == Role.COMPANY.value:
+            serializer = CompanyUserSerializer(data=request.data)
         else:
             serializer = RegisterUserSerializer(data=request.data)
 

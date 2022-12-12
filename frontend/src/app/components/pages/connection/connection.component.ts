@@ -77,6 +77,12 @@ export class ConnectionComponent implements OnInit {
     }
   }
 
+  public firstConnection() {
+    this.router.navigate(['/forgot-password'], {
+      queryParams: { firstConnection: true },
+    });
+  }
+
   public login() {
     this.authService.login(this.loginForm.value).subscribe({
       next: () => {
