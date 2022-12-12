@@ -10,10 +10,6 @@ import { YearGroup } from 'src/app/models/YearGroup';
 import { Role } from '@app/helpers';
 import { UserService } from '@app/services';
 
-interface Promotion {
-  name: string;
-}
-
 @Component({
   selector: 'app-add-user-popup',
   templateUrl: './add-user-popup.component.html',
@@ -51,7 +47,6 @@ export class AddUserPopupComponent implements OnInit {
       promotion: '',
       last_name: '',
       first_name: '',
-      password: '',
       email: '',
       company: '',
     };
@@ -124,7 +119,6 @@ export class AddUserPopupComponent implements OnInit {
   }
 
   private userFormValidator(data: any) {
-    var passwordCondition = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/g;
     var emailCondition = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
     var lastNameCondition = data.last_name != '' && data.last_name.length >= 2;
     var firstNameCondition =
@@ -143,11 +137,6 @@ export class AddUserPopupComponent implements OnInit {
 
     if (!(lastNameCondition && firstNameCondition)) {
       this.displaySnackBar('❌ Noms invalides');
-      return false;
-    }
-
-    if (!passwordCondition.test(data.password)) {
-      this.displaySnackBar('❌ Mot de passe invalide');
       return false;
     }
 

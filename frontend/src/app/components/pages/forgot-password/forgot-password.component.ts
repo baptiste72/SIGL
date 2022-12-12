@@ -1,24 +1,36 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '@app/services';
 
 @Component({
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.scss'],
 })
-export class ForgotPasswordComponent {
+export class ForgotPasswordComponent implements OnInit {
   public forgotPwdForm: FormGroup;
+  public title: string = 'Mot de passe oublié';
 
   constructor(
-    private userService: UserService,
     private formBuilder: FormBuilder,
     private _snackBar: MatSnackBar,
-    private router: Router
+    private userService: UserService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.forgotPwdForm = this.formBuilder.group({
       email: ['', Validators.required],
+    });
+  }
+
+  ngOnInit(): void {
+    this.route.queryParams.subscribe((params) => {
+      if (params != undefined && params != null) {
+        if (params['firstConnection']) {
+          this.title = 'Première connexion';
+        }
+      }
     });
   }
 
