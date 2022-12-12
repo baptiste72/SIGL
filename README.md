@@ -1,92 +1,150 @@
 # SIGL
 
+## Environnement Docker
 
-
-## Getting started
-
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
-
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
-
-## Add your files
-
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
-
+### Structure
 ```
-cd existing_repo
-git remote add origin https://gitlab.com/baptiste72/sigl.git
-git branch -M main
-git push -uf origin main
+docker
+├── dev
+│   ├── back-dev
+│   │   ├── django-entrypoint.sh
+│   │   └── Dockerfile
+│   ├── docker-compose.yml
+│   ├── front-dev
+│   │   └── Dockerfile
+│   └── sonarscanner
+│       ├── Dockerfile
+│       └── tsconfig.json
+├── prod
+│   ├── back-dev
+│   │   ├── django-entrypoint.sh
+│   │   └── Dockerfile
+│   ├── certbot
+│   │   └── conf
+│   ├── docker-compose.yml
+│   ├── front-dev
+│   │   └── Dockerfile
+│   └── nginx
+│       └── projet-sigl.conf
+└── pull_images.sh
+```
+Le répertoire Docker est composé d'un environnement de développement et d'un environnement de production.
+L'environnement de développement fonctionne sur vos postes alors que celui de production fonctionne sur le serveur [projet-sigl.fr](https://projet-sigl.fr).<br>
+
+L'environnement de développement comprend :
+* Angular
+* Django
+* La base de données Django
+* Sonarqube
+* La base de données Sonarqube
+* SonarScanner
+
+L'environnement de production comprend :
+* Nginx
+* Django
+* La base de données Django
+* Certbot
+
+Le script `pull_images.sh` permet de récupérer les images Docker présentes dans notre registry pour déployer l'environnement de développement.
+
+### Mise en place
+
+Afin de déployer l'application dans un environnement Docker en local, il est nécessaire de récupérer les images présentes dans notre [registry](https://gitlab.com/baptiste72/sigl/container_registry). Pour cela :
+- [x] Démarrer Docker Desktop
+- [x] Avoir Git Bash d'installer sur sa machine
+- [x] Se placer dans le terminal de Visual Studio en mode Bash
+- [x] Lancer le script `pull_images.sh` :
+
+```bash
+./docker/pull_images.sh
+```
+> Vous devez renseigner vos identifiants de connexion **GitLab**.
+
+Il ne reste plus qu'à déclarer un fichier `.env` contenant les identifiants de connexion aux bases de données de Django et de Sonarqube via la commande [suivante](https://discord.com/channels/1019217607875907634/1019217607875907637/1042110988486447115).
+
+Vous pouvez maintenant utiliser les différentes commandes docker et docker compose pour interagir avec l'environnement.
+
+Pour démarrer tous les conteneurs :
+```
+docker compose -f docker/dev/docker-compose.yml up -d
 ```
 
-## Integrate with your tools
+Pour démarrer un conteneur spécifique :
+```
+docker compose -f docker/dev/docker-compose.yml run -d angular
+```
 
-- [ ] [Set up project integrations](https://gitlab.com/baptiste72/sigl/-/settings/integrations)
+Pour observer l'état des conteneurs :
+```
+docker ps -a
+```
 
-## Collaborate with your team
+Pour se connecter à un conteneur :
+```
+docker exec -it container_name sh
+```
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+Pour exécuter une commande dans un conteneur :
+```
+docker exec container_name command
+```
 
-## Test and Deploy
+Pour afficher les logs des conteneurs :
+```
+docker compose logs
+```
 
-Use the built-in continuous integration in GitLab.
+Pour arrêter et supprimer les conteneurs :
+```
+docker compose -f docker/dev/docker-compose.yml down
+```
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+Pour supprimer l'environnement :
+```
+docker system prune -af && docker volume prune -f
+```
+> La mise en place d'un environnement Docker ne change en rien le processus de développement.
 
-***
+### Sonarqube
 
-# Editing this README
+Une fois que vous avez démarré tous les conteneurs, vous pouvez vous rendre sur l'interface de [Sonarqube](http://localhost:9000).
+Connectez-vous avec `admin` en tant qu'idendtifiant et mot de passe.
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
+Il faut maintenant déclarer un projet dans Sonarqube :
+* Entrez le nom du projet : `sigl`
+* Choisissez `other` pour le langage du projet
+* Sélectionnez `Linux` pour l'OS
+* Entrez la clé du projet : `sigl`
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+Sonarqube est configuré, il n'y a plus qu'à lancer SonarScanner pour effectuer une analyse statique du code.
+Les résultats du scan seront visibles depuis Sonarqube.
 
-## Name
-Choose a self-explaining name for your project.
+Pour scanner le code coté front :
+```
+docker run --rm \
+  -v frontend:/usr/src/frontend \
+  dev-sonarscanner \
+  -Dsonar.projectKey=sigl \
+  -Dsonar.sources=. \
+  -Dsonar.host.url=http://${ip}:9000 \
+  -Dsonar.login=${token} \
+  -Dsonar.exclusions=node_modules \
+  -X
+```
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+Pour scanner le code coté back :
+```
+docker run --rm \
+  -v backend:/usr/src/backend \
+  dev-sonarscanner \
+  -Dsonar.projectKey=sigl \
+  -Dsonar.sources=. \
+  -Dsonar.host.url=http://${ip}:9000 \
+  -Dsonar.login=${token} \
+  -X
+```
+> Remplacer les variables **${ip}** et **${token}** par l'adresse IP de votre machine et le token généré lors de la création du projet Sonarqube.
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+## Intégration continue
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+L'intégration continue ou CI est un processus d'automatisation exécuté pour chaque **push** et à la création de **merge request** grâce au fichier `.gitlab-ci.yml`. Son rôle est de déployer l'application dans un environnement Docker similaire à notre environnement de développement pour y effectuer un ensemble de traitements. L'objectif est de s'assurer que l'application est fonctionnelle. Afin de valider une merge request, l'intégration continue doit pouvoir valider chacun des stages qui lui sont assignés : `lint`, `build`, `test`, `deploy`.

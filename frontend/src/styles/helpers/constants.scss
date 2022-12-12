@@ -1,0 +1,60 @@
+/* GRADIENTS */
+$blue-violet-gradient: linear-gradient(90deg, #6593f8 0%, #d300e6 80%);
+$blue-violet-gradient2: linear-gradient(0deg, #6593f8 0%, #d300e6 80%);
+
+/* COLORS */
+$white: white;
+$black: black;
+$red: #df0000ba;
+
+$purple: #b201c2;
+
+$green: #53c897;
+$green-tr: rgba(83, 200, 151, 0.21);
+
+$blue: #5378c8;
+$blue-tr: rgba(83, 120, 200, 0.19);
+
+$grey: rgba(0, 0, 0, 0.54);
+$dark-grey: rgba(0, 0, 0, 0.87);
+
+/* SHADOW */
+$box-shadow-primary: 0px 8px 15px rgba(0, 0, 0, 0.1);
+$box-shadow-secondary: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+.green {
+  color: $green;
+}
+
+.red {
+  color: $red;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.bg-red {
+  background-color: $red;
+}
+
+.bg-green {
+  background-color: $green;
+}
+
+.bg-gradient {
+  background: $blue-violet-gradient;
+}
+
+.bg-disable {
+  background: $grey;
+  cursor: default;
+}
+
+.bg-purple {
+  background-color: $purple;
+}
+
+.margin-bottom-50 {
+  margin-bottom: 50px;
+}

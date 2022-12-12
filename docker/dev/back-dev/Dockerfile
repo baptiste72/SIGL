@@ -1,16 +1,34 @@
-FROM python:3
+# Pull Python alpine image
+FROM python:alpine
 
+# Add metadata
+LABEL description="Set up Django for development" \
+      version="2.0"
+
+# Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-WORKDIR /code
+# Copy entrypoint script to container
+COPY docker/dev/back-dev/django-entrypoint.sh .
 
-COPY ./back/requirements.txt /code
+# Set working directory
+WORKDIR /sigl
 
-RUN pip install -r requirements.txt \ 
- && pip install djangorestframework \
- && pip install django-cors-headers \
- && pip install drf-yasg -U \
- && pip install flake8
+# Copy backend to container
+COPY backend .
 
-COPY ./back/siglback /code
+# Install Django and dependencies
+RUN apk add --no-cache curl libpq-dev \
+ && addgroup python && adduser python -D -G python python \
+ && pip install --no-cache-dir -r requirements.txt
+
+# Check server is running
+HEALTHCHECK --interval=1m --timeout=10s \
+ CMD curl --fail http://localhost:8000/api/v1/swagger/schema/ || exit 1
+
+# Change user to python
+USER python
+
+# Run migrations and launch the server
+ENTRYPOINT ["sh", "../django-entrypoint.sh"]

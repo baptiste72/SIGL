@@ -1,0 +1,510 @@
+<app-navigation>
+  <mat-tab-group
+    animationDuration="0ms"
+    (selectedTabChange)="onTabChange($event)"
+  >
+    <!-- UTILISATEURS -->
+    <mat-tab label="users">
+      <ng-template mat-tab-label>
+        <mat-icon>groups</mat-icon>
+        Utilisateurs
+      </ng-template>
+      <div class="navigation-content margin-bottom-50">
+        <mat-card class="configuration-page-card">
+          <mat-card-header class="configuration-page-card-header">
+            <mat-card-title class="conf-page-card-title">
+              <mat-icon
+                aria-hidden="false"
+                aria-label="configuration icon"
+                fontIcon="groups"
+              ></mat-icon>
+              UTILISATEURS
+            </mat-card-title>
+          </mat-card-header>
+
+          <mat-card-content>
+            <div class="conf-actions-btns">
+              <button
+                mat-raised-button
+                class="btn_primary bg-green"
+                (click)="openUserPopup()"
+              >
+                AJOUT UTILISATEUR
+              </button>
+            </div>
+
+            <div>
+              <table mat-table [dataSource]="dataSourceUsers">
+                <ng-container matColumnDef="first_name">
+                  <th mat-header-cell *matHeaderCellDef>Prénom</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.first_name }}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="last_name">
+                  <th mat-header-cell *matHeaderCellDef>Nom</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.last_name }}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="email">
+                  <th mat-header-cell *matHeaderCellDef>Email</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.email }}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="role">
+                  <th mat-header-cell *matHeaderCellDef>Rôle</th>
+                  <td mat-cell *matCellDef="let element">{{ element.role }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="update">
+                  <th mat-header-cell *matHeaderCellDef>Modifications</th>
+                  <td mat-cell *matCellDef="let element">
+                    <button (click)="openUpdateUserPopup(element)">
+                      <mat-icon
+                        class="conf-edit-icons"
+                        aria-hidden="false"
+                        aria-label="documents icon"
+                        fontIcon="edit"
+                      ></mat-icon>
+                    </button>
+                    <button (click)="deleteUserById(element.id)">
+                      <mat-icon
+                        class="conf-delete-icons"
+                        aria-hidden="false"
+                        aria-label="documents icon"
+                        fontIcon="close"
+                      ></mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+
+                <tr
+                  mat-header-row
+                  *matHeaderRowDef="displayedColumnsUsers"
+                ></tr>
+                <tr
+                  mat-row
+                  *matRowDef="let row; columns: displayedColumnsUsers"
+                ></tr>
+              </table>
+
+              <mat-paginator
+                [pageSizeOptions]="[5, 10, 20]"
+                showFirstLastButtons
+                #userPaginator
+              >
+              </mat-paginator>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </mat-tab>
+
+    <!-- ENTREPRISES -->
+    <mat-tab label="companies">
+      <ng-template mat-tab-label>
+        <mat-icon>apartment</mat-icon>
+        Entreprises
+      </ng-template>
+      <div class="navigation-content margin-bottom-50">
+        <mat-card class="configuration-page-card">
+          <mat-card-header class="configuration-page-card-header">
+            <mat-card-title class="conf-page-card-title">
+              <mat-icon
+                aria-hidden="false"
+                aria-label="configuration icon"
+                fontIcon="apartment"
+              ></mat-icon>
+              ENTREPRISES
+            </mat-card-title>
+          </mat-card-header>
+
+          <mat-card-content>
+            <div class="conf-actions-btns">
+              <button
+                mat-raised-button
+                class="btn_primary bg-green"
+                (click)="addCompany()"
+              >
+                AJOUT ENTREPRISE
+              </button>
+            </div>
+
+            <div>
+              <table mat-table [dataSource]="dataSourceCompanies">
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef>Raison Sociale</th>
+                  <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+                </ng-container>
+
+                <!-- CompanySiret time Column -->
+                <ng-container matColumnDef="companySiret">
+                  <th mat-header-cell *matHeaderCellDef>
+                    Siret de l'entreprise
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.companySiret }}
+                  </td>
+                </ng-container>
+
+                <!-- NbEmployees By Column -->
+                <ng-container matColumnDef="nbEmployees">
+                  <th mat-header-cell *matHeaderCellDef>Nombre d'employés</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.nbEmployees }}
+                  </td>
+                </ng-container>
+
+                <!-- CodeCpne By Column -->
+                <ng-container matColumnDef="codeCpne">
+                  <th mat-header-cell *matHeaderCellDef>
+                    Code et Libellé CPNE
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.codeCpne }}
+                  </td>
+                </ng-container>
+
+                <!-- Update Link Column -->
+                <ng-container matColumnDef="update">
+                  <th mat-header-cell *matHeaderCellDef>Modifications</th>
+                  <td mat-cell *matCellDef="let element">
+                    <mat-icon
+                      class="conf-edit-icons"
+                      aria-hidden="false"
+                      aria-label="documents icon"
+                      fontIcon="edit"
+                    ></mat-icon>
+                    <mat-icon
+                      class="conf-delete-icons"
+                      aria-hidden="false"
+                      aria-label="documents icon"
+                      fontIcon="close"
+                    ></mat-icon>
+                  </td>
+                </ng-container>
+
+                <tr
+                  mat-header-row
+                  *matHeaderRowDef="displayedColumnsCompanies"
+                ></tr>
+                <tr
+                  mat-row
+                  *matRowDef="let row; columns: displayedColumnsCompanies"
+                ></tr>
+              </table>
+
+              <mat-paginator
+                [pageSizeOptions]="[5, 10, 20]"
+                showFirstLastButtons
+                #companiesPaginator
+              >
+              </mat-paginator>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </mat-tab>
+
+    <!-- EQUIPES PEDAGOGIQUES -->
+    <mat-tab label="tutor-teams">
+      <ng-template mat-tab-label>
+        <mat-icon>diversity_3</mat-icon>
+        Équipes pédagogiques
+      </ng-template>
+      <div class="navigation-content margin-bottom-50">
+        <mat-card class="configuration-page-card">
+          <mat-card-header class="configuration-page-card-header">
+            <mat-card-title class="conf-page-card-title">
+              <mat-icon
+                aria-hidden="false"
+                aria-label="configuration icon"
+                fontIcon="diversity_3"
+              ></mat-icon>
+              ÉQUIPES PÉDAGOGIQUES
+            </mat-card-title>
+          </mat-card-header>
+
+          <mat-card-content>
+            <div class="conf-actions-btns">
+              <button
+                mat-raised-button
+                class="btn_primary bg-purple"
+                (click)="openTutorTeamPopUp()"
+              >
+                AJOUT ÉQUIPE TUTORALE
+              </button>
+            </div>
+
+            <div>
+              <table mat-table [dataSource]="dataSourceTutorTeams">
+                <!-- Apprentice Column -->
+                <ng-container matColumnDef="apprentice">
+                  <th mat-header-cell *matHeaderCellDef>Apprenti</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.apprentice.first_name }}
+                  </td>
+                </ng-container>
+
+                <!-- Tutor time Column -->
+                <ng-container matColumnDef="tutor">
+                  <th mat-header-cell *matHeaderCellDef>Tuteur pédagogique</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.tutor.first_name }}
+                  </td>
+                </ng-container>
+
+                <!-- Master By Column -->
+                <ng-container matColumnDef="mentor">
+                  <th mat-header-cell *matHeaderCellDef>
+                    Maître d'apprentissage
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.mentor.first_name }}
+                  </td>
+                </ng-container>
+
+                <!-- Update Link Column -->
+                <ng-container matColumnDef="update">
+                  <th mat-header-cell *matHeaderCellDef>Modifications</th>
+                  <td mat-cell *matCellDef="let element">
+                    <button (click)="openUpdateTutorTeamPopup(element)">
+                      <mat-icon
+                        class="conf-edit-icons"
+                        aria-hidden="false"
+                        aria-label="documents icon"
+                        fontIcon="edit"
+                      ></mat-icon>
+                    </button>
+                    <button (click)="deleteTutorTeam(element.id)">
+                      <mat-icon
+                        class="conf-delete-icons"
+                        aria-hidden="false"
+                        aria-label="documents icon"
+                        fontIcon="close"
+                      ></mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+
+                <tr
+                  mat-header-row
+                  *matHeaderRowDef="displayedColumnsTeams"
+                ></tr>
+                <tr
+                  mat-row
+                  *matRowDef="let row; columns: displayedColumnsTeams"
+                ></tr>
+              </table>
+
+              <mat-paginator
+                [pageSizeOptions]="[5, 10, 20]"
+                showFirstLastButtons
+                #tutorTeamPaginator
+              >
+              </mat-paginator>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </mat-tab>
+
+    <!-- PROMOTIONS -->
+    <mat-tab label="year-groups">
+      <ng-template mat-tab-label>
+        <mat-icon>person_pin_circle</mat-icon>
+        Promotions
+      </ng-template>
+      <div class="navigation-content margin-bottom-50">
+        <mat-card class="configuration-page-card">
+          <mat-card-header class="configuration-page-card-header">
+            <mat-card-title class="conf-page-card-title">
+              <mat-icon
+                aria-hidden="false"
+                aria-label="configuration icon"
+                fontIcon="person_pin_circle"
+              ></mat-icon>
+              PROMOTIONS
+            </mat-card-title>
+          </mat-card-header>
+
+          <mat-card-content>
+            <div class="conf-actions-btns">
+              <button
+                mat-raised-button
+                class="btn_primary bg-red"
+                (click)="openYearGroupPopup()"
+              >
+                AJOUT PROMOTION
+              </button>
+            </div>
+
+            <div>
+              <table mat-table [dataSource]="dataSourceYearGroups">
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef>Nom</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.worded }}
+                  </td>
+                </ng-container>
+
+                <!-- Begin Date Column -->
+                <ng-container matColumnDef="beginDate">
+                  <th mat-header-cell *matHeaderCellDef>Date de début</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.beginDate | date }}
+                  </td>
+                </ng-container>
+
+                <!-- Update Link Column -->
+                <ng-container matColumnDef="update">
+                  <th mat-header-cell *matHeaderCellDef>Modifications</th>
+                  <td mat-cell *matCellDef="let element">
+                    <button (click)="openUpdateYearGroupPopup(element)">
+                      <mat-icon
+                        class="conf-edit-icons"
+                        aria-hidden="false"
+                        aria-label="documents icon"
+                        fontIcon="edit"
+                      ></mat-icon>
+                    </button>
+                    <button (click)="deleteYearGroupById(element.id)">
+                      <mat-icon
+                        class="conf-delete-icons"
+                        aria-hidden="false"
+                        aria-label="documents icon"
+                        fontIcon="close"
+                      ></mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+
+                <tr
+                  mat-header-row
+                  *matHeaderRowDef="displayedColumnsYearGroups"
+                ></tr>
+                <tr
+                  mat-row
+                  *matRowDef="let row; columns: displayedColumnsYearGroups"
+                ></tr>
+              </table>
+
+              <mat-paginator
+                [pageSizeOptions]="[5, 10, 20]"
+                showFirstLastButtons
+                #yearGroupPaginator
+              >
+              </mat-paginator>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </mat-tab>
+
+    <!-- SEMESTRES -->
+    <mat-tab label="semesters">
+      <ng-template mat-tab-label>
+        <mat-icon>today</mat-icon>
+        Semestres
+      </ng-template>
+      <div class="navigation-content margin-bottom-50">
+        <mat-card class="configuration-page-card">
+          <mat-card-header class="configuration-page-card-header">
+            <mat-card-title class="conf-page-card-title">
+              <mat-icon
+                aria-hidden="false"
+                aria-label="configuration icon"
+                fontIcon="today"
+              ></mat-icon>
+              SEMESTRES
+            </mat-card-title>
+          </mat-card-header>
+
+          <mat-card-content>
+            <div class="conf-actions-btns">
+              <button
+                mat-raised-button
+                class="btn_primary bg-purple"
+                (click)="openAddSemesterPopup()"
+              >
+                AJOUT SEMESTRE
+              </button>
+            </div>
+
+            <div>
+              <table mat-table [dataSource]="dataSourceSemesters">
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef>Nom</th>
+                  <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+                </ng-container>
+
+                <!-- Begin Date Column -->
+                <ng-container matColumnDef="beginDate">
+                  <th mat-header-cell *matHeaderCellDef>Date de début</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.beginDate | date }}
+                  </td>
+                </ng-container>
+
+                <!-- End Date Column -->
+                <ng-container matColumnDef="endDate">
+                  <th mat-header-cell *matHeaderCellDef>Date de fin</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.endDate | date }}
+                  </td>
+                </ng-container>
+
+                <!-- Update Link Column -->
+                <ng-container matColumnDef="update">
+                  <th mat-header-cell *matHeaderCellDef>Modifications</th>
+                  <td mat-cell *matCellDef="let element">
+                    <button (click)="openUpdateSemesterPopup(element)">
+                      <mat-icon
+                        class="conf-edit-icons"
+                        aria-hidden="false"
+                        aria-label="documents icon"
+                        fontIcon="edit"
+                      ></mat-icon>
+                    </button>
+                    <button (click)="deleteSemesterById(element.id)">
+                      <mat-icon
+                        class="conf-delete-icons"
+                        aria-hidden="false"
+                        aria-label="documents icon"
+                        fontIcon="close"
+                      ></mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+
+                <tr
+                  mat-header-row
+                  *matHeaderRowDef="displayedColumnsSemesters"
+                ></tr>
+                <tr
+                  mat-row
+                  *matRowDef="let row; columns: displayedColumnsSemesters"
+                ></tr>
+              </table>
+
+              <mat-paginator
+                [pageSizeOptions]="[5, 10, 20]"
+                showFirstLastButtons
+                #semestersPaginator
+              >
+              </mat-paginator>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</app-navigation>

@@ -1,0 +1,56 @@
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+a { text-decoration: none; color: none; }
+
+.mat-icon {
+  margin-right: 15px;
+}
+
+.mat-drawer-container {
+  background-color: transparent;
+}
+
+.mat-form-field-appearance-fill .mat-form-field-flex {
+  background-color: transparent;
+}
+
+.text-center {
+  text-align: center;
+}
+
+button {
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.logo-eseo {
+  margin-bottom: 30px;
+  height: auto;
+  max-width: 150px;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-elevation-z8 {
+  box-shadow: none;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 15px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: none;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.15);
+  border-radius: 10px;
+}

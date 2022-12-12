@@ -1,79 +1,75 @@
 version: "3.9"
 services:
   angular:
-    build:
-      context: ./../..
-      dockerfile: ./docker/dev/front-dev/Dockerfile
+    image: dev-angular
     container_name: angular
     ports:
       - "80:4200"
+      - "9876:9876"
     volumes:
-      - ./../../front:/sigl
+      - ./../../frontend:/sigl
+      - /sigl/node_modules
     restart: always
 
-  db:
-    image: postgres
-    volumes:
-      - ./../../database/data/db:/var/lib/postgresql/data
-    expose:
-      - "5433" # Publishes 5433 to other containers but NOT to host machine
-    ports:
-      - "5433:5433"
-    command: -p 5433
-    environment:
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-
   django:
-    build:
-      context: ./../..
-      dockerfile: ./docker/dev/back-dev/Dockerfile
-    command: python manage.py runserver 0.0.0.0:8000 
-    volumes:
-      - ./../../back/siglback:/code
+    image: dev-django
+    container_name: django
     ports:
       - "8000:8000"
+    volumes:
+      - ./../../backend:/sigl
     environment:
-      - POSTGRES_NAME=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      ENV_FILE: "backend.__init__"
+      POSTGRES_NAME: ${DJANGO_DB}
+      POSTGRES_USER: ${DJANGO_USER}
+      POSTGRES_PASSWORD: ${DJANGO_PASSWORD}
     depends_on:
-      - db
+      - django-db
+    restart: always
+
+  django-db:
+    image: postgres:alpine
+    container_name: django-db
+    command: -p 5433
+    volumes:
+      - django_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: ${DJANGO_DB:?err}
+      POSTGRES_USER: ${DJANGO_USER:?err}
+      POSTGRES_PASSWORD: ${DJANGO_PASSWORD:?err}
+    restart: always
 
   sonarqube:
     image: sonarqube:alpine
     container_name: sonarqube
-    depends_on:
-      - db_sonar
-    environment:
-      SONAR_JDBC_URL: jdbc:postgresql://db:5432/sonar
-      SONAR_JDBC_USERNAME: sonartest
-      SONAR_JDBC_PASSWORD: sonartest
-    volumes:
-      - sonarqube_extensions:/opt/sonarqube/extensions
-      - sonarqube_logs:/opt/sonarqube/logs
-      - sonarqube_data:/opt/sonarqube/data
     ports:
       - "9000:9000"
-  db_sonar:
-    image: postgres:12
-    container_name: 
-      sonarqubedb
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_logs:/opt/sonarqube/logs
+      - sonarqube_extensions:/opt/sonarqube/extensions
     environment:
-      POSTGRES_USER: sonartest
-      POSTGRES_PASSWORD: sonartesrt
+      - SONAR_JBDC_URL=jdbc:postgresql://dbsonar:5432/sonar
+      - SONAR_JBDC_USERNAME=${SONAR_USER}
+      - SONAR_JBDC_PASSWORD=${SONAR_PASSWORD}
+    depends_on:
+      - sonarqube-db
+    restart: always
+
+  sonarqube-db:
+    image: postgres:alpine
+    container_name: sonarqube-db
     volumes:
       - postgresql:/var/lib/postgresql
       - postgresql_data:/var/lib/postgresql/data
-
-  sonarscanner:
-    build:
-      context: ./../..
-      dockerfile: ./docker/dev/sonarscanner/Dockerfile
-    container_name: sonarscanner
+    environment:
+      - POSTGRES_DB=${SONAR_DB:?err}
+      - POSTGRES_USER=${SONAR_USER:?err}
+      - POSTGRES_PASSWORD=${SONAR_PASSWORD:?err}
+    restart: always
 
 volumes:
+  django_data:
   sonarqube_data:
   sonarqube_logs:
   sonarqube_extensions:

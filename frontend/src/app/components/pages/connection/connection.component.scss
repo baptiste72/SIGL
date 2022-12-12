@@ -1,0 +1,75 @@
+@import "/src/styles/helpers/mixins.scss";
+@import "/src/styles/helpers/constants.scss";
+
+h3 {
+  margin: unset;
+}
+
+.background {
+  height: 100vh;
+  background: $blue-violet-gradient;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-direction: column;
+}
+
+.connection-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: $white;
+  width: 90%;
+  height: 80%;
+  border-radius: 20px 20px 0px 0px;
+  justify-content: space-evenly;
+  @include respond-to('small') {
+    width: 50%;
+  }
+  @include respond-to('medium') {
+    width: 40%;
+  }
+}
+
+.connection-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.div-input {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.btn-hide-password {
+  border: none;
+  background: none;
+}
+
+.user-name {
+  margin-bottom: 20px;
+}
+
+.mdp_forget {
+  font-size: 13px;
+  text-decoration: none;
+  display: block;
+  text-align: right;
+  font-weight: bold;
+  color: $black;
+}
+
+.btn-microsoft {
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+.btn-microsoft img {
+  max-height: 45px;
+}
