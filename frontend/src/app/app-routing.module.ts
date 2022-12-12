@@ -44,7 +44,7 @@ const routes: Routes = [
     component: ConfigurationComponent,
     // FIXME: Peut être provisoirement retiré pour pouvoir créer un compte en période de dév
     canActivate: [AuthGuard],
-    data: { roles: [Role.ADMIN, Role.COORDINATOR] },
+    //data: { roles: [Role.ADMIN, Role.COORDINATOR] },
   },
   { path: 'events', component: EventsPageComponent, canActivate: [AuthGuard] },
   // Redirection vers la page d'erreur 404 - cette route doit être la dernière du tableau
