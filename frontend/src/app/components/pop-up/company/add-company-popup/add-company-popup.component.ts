@@ -1,4 +1,4 @@
-import { Component, Inject, Optional } from '@angular/core';
+import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/services/auth/auth.service';
@@ -8,22 +8,23 @@ import { OpcoService } from '@app/services/opco/opco.service';
 import { ContactCompanyService } from '@app/services/contact-company/contact-company.service';
 import { Company } from '@app/models/Company';
 import { Opco } from '@app/models/Opco';
-import { ContactCompany } from '@app/models/contactCompany';
-
+import { ContactCompany } from '@app/models/ContactCompany';
+import { CompanyUserCompanyInfoAssociation } from '@app/models/CompanyUserCompanyInfoAssociation';
+import { CompanyUserCompanyInfoService } from '@app/services/company-user-company-info/company-user-company-info.service';
 
 @Component({
   selector: 'app-add-company-popup',
   templateUrl: './add-company-popup.component.html',
   styleUrls: ['./add-company-popup.component.scss'],
 })
-export class AddCompanyPopupComponent {
+export class AddCompanyPopupComponent implements OnInit {
   fromPage!: string;
   fromDialog: string;
 
   enterpriseForm: FormGroup;
   opcoForm: FormGroup;
   contactForm: FormGroup;
-
+  association: CompanyUserCompanyInfoAssociation;
 
   isFormerESEO: string[] = ['Oui', 'Non'];
   stageInternat: string[] = ['Lu et approuvé'];
@@ -42,6 +43,8 @@ export class AddCompanyPopupComponent {
     private companyService: CompanyService,
     private opcoService: OpcoService,
     private contactCompanyService: ContactCompanyService,
+    private authService: AuthService,
+    private companyInfoService: CompanyUserCompanyInfoService,
 
     @Optional() @Inject(MAT_DIALOG_DATA) public mydata: any
   ) {
@@ -177,10 +180,21 @@ export class AddCompanyPopupComponent {
       sa_former_eseo: ['', Validators.required],
     });
 
-
+    this.association = new CompanyUserCompanyInfoAssociation(
+      this.authService.userValue.id,
+      0,
+      0,
+      0
+    );
 
     this.isOptional = false;
     this.fromDialog = 'I am from dialog land...';
+  }
+
+  ngOnInit(): void {
+    console.log(this.authService.userValue.id);
+    if (this.companyService.getById(this.authService.userValue.id)) {
+    }
   }
 
   closeDialog() {
@@ -195,6 +209,8 @@ export class AddCompanyPopupComponent {
         });
         this.opcoForm.patchValue({ opco_cmp_siret: companyData.cmp_siret });
         this.contactForm.patchValue({ ct_cmp_siret: companyData.cmp_siret });
+        this.association.company_siret = company.cmp_siret;
+        this.addCompanyUserCompanyInfoAssociation(this.association);
       },
       error: (err) => {
         console.log(err);
@@ -209,6 +225,45 @@ export class AddCompanyPopupComponent {
     this.opcoService.add(opco).subscribe({
       next: (v) => {
         this._snackBar.open('✔ Données OPCO enregistrées', 'Ok', {
+          duration: 2000,
+        });
+        this.association.opco_siret = opco.opco_siret;
+        this.updateCompanyUserCompanyInfoAssociation(this.association);
+      },
+
+      error: (err) => {
+        console.log(err);
+        this._snackBar.open('❌ Une erreur est survenue', 'Ok', {
+          duration: 2000,
+        });
+      },
+    });
+  }
+
+  public addCompanyUserCompanyInfoAssociation(
+    association: CompanyUserCompanyInfoAssociation
+  ) {
+    this.companyInfoService.add(association).subscribe({
+      next: (v) => {
+        this._snackBar.open('✔ Données sauvegardées', 'Ok', {
+          duration: 2000,
+        });
+      },
+      error: (err) => {
+        console.log(err);
+        this._snackBar.open('❌ Une erreur est survenue', 'Ok', {
+          duration: 2000,
+        });
+      },
+    });
+  }
+
+  public updateCompanyUserCompanyInfoAssociation(
+    association: CompanyUserCompanyInfoAssociation
+  ) {
+    this.companyInfoService.update(association).subscribe({
+      next: (v) => {
+        this._snackBar.open('✔ Données sauvegardées', 'Ok', {
           duration: 2000,
         });
       },

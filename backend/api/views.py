@@ -9,6 +9,7 @@ from base.utilities import Role
 from base.models import (
     Apprentice,
     Company,
+    CompanyUserCompanyInfoAssociation,
     Deadline,
     FormationCenter,
     Interview,
@@ -35,6 +36,7 @@ from api.serializers import (
     ChangePasswordSerializer,
     RegisterUserSerializer,
     ApprenticeRoleSerializer,
+    CompanyUserCompanyInfoSerializer,
 )
 from base.models import (
     Apprentice,
@@ -49,6 +51,7 @@ from base.models import (
     Tutor,
     TutorTeam,
     YearGroup,
+    CompanyUserCompanyInfoAssociation,
 )
 from .helper.tutor_team_helper import TutorTeamHelper
 
@@ -235,6 +238,20 @@ def get_contact_companys(request):
 @api_view(["POST"])
 def add_contact_company(request):
     serializer = ContactCompanySerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(["GET"])
+def get_company_user(request):
+    serializers = CompanyUserCompanyInfoSerializer(many=True)
+    return Response(serializers.data)
+
+
+@api_view(["POST"])
+def add_company_user(request):
+    serializer = CompanyUserCompanyInfoSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)

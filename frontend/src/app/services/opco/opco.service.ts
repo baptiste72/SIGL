@@ -12,8 +12,8 @@ export class OpcoService {
 
   constructor(private http: HttpClient) {}
 
-  public getAll(): Observable<any> {
-    return this.http.get<any>(`${environment.apiUrl}/${this.urlPrefix}`);
+  public getAll(): Observable<Opco> {
+    return this.http.get<Opco>(`${environment.apiUrl}/${this.urlPrefix}`);
   }
 
   public add(opco: Opco): Observable<Opco> {

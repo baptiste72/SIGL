@@ -14,6 +14,7 @@ from base.models import (
     TutorTeam,
     User,
     YearGroup,
+    CompanyUserCompanyInfoAssociation,
 )
 
 
@@ -39,6 +40,7 @@ class MentorSerializer(serializers.ModelSerializer):
             "mt_last_diploma",
             "mt_former_eseo",
         )
+
 
 
 class CompanySerializer(serializers.ModelSerializer):
@@ -99,6 +101,17 @@ class ContactCompanySerializer(serializers.ModelSerializer):
             "sa_job_title",
             "sa_former_eseo",
         )       
+
+class CompanyUserCompanyInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CompanyUserCompanyInfoAssociation
+        fields = (
+            "user_company_id",
+            "company_siret",
+            "opco_siret",
+            "contactCompany_id",
+
+        )
 
 class TutorSerializer(serializers.ModelSerializer):
     class Meta:

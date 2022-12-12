@@ -104,13 +104,14 @@ class Mentor(User):
 
 class CompanyUserCompanyInfoAssociation(models.Model):
     # Association user entreprise => insertion des données du formulaire
-    user_company_id = models.OneToOneField(User, on_delete=models.CASCADE, null=True, related_name="association")
-    company_siret = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)
-    opco_siret = models.ForeignKey(Opco, on_delete=models.CASCADE, null=True)
-    contactCompany_id = models.ForeignKey(ContactCompany, on_delete=models.CASCADE, null=True)
+    user_company_id = models.OneToOneField(User, on_delete=models.CASCADE, default="", related_name="association")
+    company_siret = models.CharField(max_length=200, default="")
+    opco_siret = models.CharField(max_length=200, default="")
+    contactCompany_id = models.CharField(max_length=200, default="")
     
     def __unicode__(self):
         return self.name
+
 
 
 class YearGroup(models.Model):

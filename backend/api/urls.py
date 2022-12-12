@@ -9,6 +9,8 @@ urlpatterns = [
     path('companies/add', views.add_company, name='addCompany'),
     path('opco/add', views.add_opco, name='addOpco'),
     path('contact-company/add', views.add_contact_company, name='addContactCompany'),
+    path('company-user', views.get_company_user, name='addContactCompany'),
+    path('company-user/add', views.add_company_user),
     # deadlines
     path("deadlines", views.get_deadlines, name="getDeadlines"),
     path("deadlines/add", views.add_deadline, name="addDeadline"),
