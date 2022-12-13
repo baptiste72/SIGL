@@ -3,6 +3,7 @@ from django.contrib.auth.models import BaseUserManager, AbstractUser
 
 
 class UserManager(BaseUserManager):
+    # pylint: disable=two-many-arguments
     def create_user(self, email, password, role, first_name, last_name):
         if not email:
             raise ValueError("Users must have an email address")
@@ -19,6 +20,7 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
+    # pylint: disable=unused-argument
     def create_superuser(self, email, password, username=None):
         user = self.create_user(
             email="contact@projet-sigl.fr",
