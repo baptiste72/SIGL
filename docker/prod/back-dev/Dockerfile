@@ -21,7 +21,8 @@ COPY backend .
 # Install Django and dependencies
 RUN apk add --no-cache curl libpq-dev \
  && addgroup python && adduser python -D -G python python \
- && pip install --no-cache-dir -r requirements.txt
+ && pip install --no-cache-dir -r requirements.txt \
+ && chown -R python:python .
 
 # Change user to python
 USER python

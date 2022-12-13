@@ -87,19 +87,12 @@ WSGI_APPLICATION = "backend.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "db_sigl",
-        "USER": "postgres",
-        "PASSWORD": "password",
-        "HOST": "localhost",
-    },
-    "docker": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.environ.get("POSTGRES_NAME"),
-        "USER": os.environ.get("POSTGRES_USER"),
-        "PASSWORD": os.environ.get("POSTGRES_PASSWORD"),
-        "HOST": "django-db",
-        "PORT": "5433",
-    },
+        "NAME": os.getenv("POSTGRES_NAME", "db_sigl"),
+        "USER": os.getenv("POSTGRES_USER", "postgres"),
+        "PASSWORD": os.getenv("POSTGRES_PASSWORD", "password"),
+        "HOST": os.getenv("POSTGRES_HOST", "localhost"),
+        "PORT": os.getenv("POSTGRES_PORT", "5432")
+    }
 }
 
 # Password validation
