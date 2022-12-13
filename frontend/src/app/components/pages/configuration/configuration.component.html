@@ -506,5 +506,118 @@
         </mat-card>
       </div>
     </mat-tab>
+
+    <!-- CENTRE DE FORMATION -->
+    <mat-tab label="formation-centers">
+      <ng-template mat-tab-label>
+        <mat-icon>school</mat-icon>
+        Centre de formation
+      </ng-template>
+      <div class="navigation-content margin-bottom-50">
+        <mat-card class="configuration-page-card">
+          <mat-card-header class="configuration-page-card-header">
+            <mat-card-title class="conf-page-card-title">
+              <mat-icon
+                aria-hidden="false"
+                aria-label="configuration icon"
+                fontIcon="school"
+              ></mat-icon>
+              CENTRES DE FORMATION
+            </mat-card-title>
+          </mat-card-header>
+
+          <mat-card-content>
+            <div class="conf-actions-btns">
+              <button
+                mat-raised-button
+                class="btn_primary bg-purple"
+                (click)="openFormationCenterPopUp()"
+              >
+                AJOUT CENTRE DE FORMATION
+              </button>
+            </div>
+
+            <div>
+              <table mat-table [dataSource]="dataSourceFormationCenters">
+                <!-- Apprentice Column -->
+                <ng-container matColumnDef="worded">
+                  <th mat-header-cell *matHeaderCellDef>Nom</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.worded }}
+                  </td>
+                </ng-container>
+
+                <!-- Tutor time Column -->
+                <ng-container matColumnDef="city">
+                  <th mat-header-cell *matHeaderCellDef>Ville</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.city }}
+                  </td>
+                </ng-container>
+
+                <!-- Master By Column -->
+                <ng-container matColumnDef="postal_code">
+                  <th mat-header-cell *matHeaderCellDef>
+                    Code postal
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.postal_code }}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="address">
+                  <th mat-header-cell *matHeaderCellDef>
+                    Adresse
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.address }}
+                  </td>
+                </ng-container>
+
+                <!-- Update Link Column -->
+                <ng-container matColumnDef="update">
+                  <th mat-header-cell *matHeaderCellDef>Modifications</th>
+                  <td mat-cell *matCellDef="let element">
+                    <button (click)="openUpdateFormationCenterPopup(element)">
+                      <mat-icon
+                        class="conf-edit-icons"
+                        aria-hidden="false"
+                        aria-label="documents icon"
+                        fontIcon="edit"
+                      ></mat-icon>
+                    </button>
+                    <button (click)="deleteFormationCenter(element.id)">
+                      <mat-icon
+                        class="conf-delete-icons"
+                        aria-hidden="false"
+                        aria-label="documents icon"
+                        fontIcon="close"
+                      ></mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+
+                <tr
+                  mat-header-row
+                  *matHeaderRowDef="displayedColumnsFormationCenter"
+                ></tr>
+                <tr
+                  mat-row
+                  *matRowDef="let row; columns: displayedColumnsFormationCenter"
+                ></tr>
+              </table>
+
+              <mat-paginator
+                [pageSizeOptions]="[5, 10, 20]"
+                showFirstLastButtons
+                #formationCenterPaginator
+              >
+              </mat-paginator>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </mat-tab>
+
   </mat-tab-group>
 </app-navigation>

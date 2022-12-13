@@ -57,6 +57,8 @@ import { ConfirmDeleteComponent } from './components/pop-up/confirm-delete/confi
 import { UpdateTeamPopupComponent } from './components/pop-up/tutor-team/update-team-popup/update-team-popup.component';
 import { ChangePasswordComponent } from './components/pages/change-password/change-password.component';
 import { PageNotFoundComponent } from './components/pages/page-not-found/page-not-found.component';
+import { AddFormationCenterPopupComponent } from './components/pop-up/formation-center/add-formation-center-popup/add-formation-center-popup.component';
+import { UpdateFormationCenterPopupComponent } from './components/pop-up/formation-center/update-formation-center-popup/update-formation-center-popup.component';
 
 @NgModule({
   declarations: [
@@ -90,6 +92,8 @@ import { PageNotFoundComponent } from './components/pages/page-not-found/page-no
     UpdateTeamPopupComponent,
     ChangePasswordComponent,
     PageNotFoundComponent,
+    AddFormationCenterPopupComponent,
+    UpdateFormationCenterPopupComponent,
   ],
   imports: [
     BrowserModule,
