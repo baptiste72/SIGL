@@ -2,6 +2,7 @@ import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NoteService } from 'src/app/services/note/note.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 interface Semester {
   name: string;
@@ -18,6 +19,7 @@ export class AddNotePopupComponent implements OnInit {
   fromPage!: string;
   fromDialog!: string;
   constructor(
+    private authService: AuthService,
     private noteService: NoteService,
     public dialogRef: MatDialogRef<AddNotePopupComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public mydata: any,
@@ -26,12 +28,17 @@ export class AddNotePopupComponent implements OnInit {
 
   ngOnInit(): void {
     this.jsonNote = {
+      userId: this.getUserId(),
       title: '',
       text: '',
       semester: '',
       dateStart: '',
       dateEnd: '',
     };
+  }
+
+  private getUserId(): number {
+    return this.authService.userValue.id;
   }
 
   public addNote(data: any) {

@@ -4,20 +4,23 @@ from . import views
 urlpatterns = [
     # interviews
     path("interview/<int:id>", views.api_interview, name="apiInterview"),
-    path("interviews", views.get_interview, name="getInterview"),
-    path("add-interview", views.add_interview, name="addInterview"),
-    path("update-interview", views.update_interview, name="updateInterview"),
+    path("interviews", views.get_interviews, name="interviews"),
+    path("interview/add", views.add_interview, name="interview/add"),
+    path("interview/update", views.update_interview, name="interview/update"),
+    path("interviews/<int:userId>/", views.interviews_by_userID.as_view()),
     # deadlines
     path("deadline/<int:id>", views.api_deadline, name="apiDeadline"),
-    path("deadlines", views.get_deadline, name="getDeadline"),
+    path("deadlines", views.get_deadlines, name="getDeadline"),
     path("add-deadline", views.add_deadline, name="addDeadline"),
     path("update-deadline", views.update_deadline, name="updateDeadline"),
+    path("deadlines/<int:userId>/", views.deadlines_by_userID.as_view()),
     # notes
     path("note/<int:id>", views.api_note, name="apiNote"),
     path("update-note", views.update_note, name="updateNote"),
     path("notes", views.get_notes, name="getNotes"),
     path("add-note", views.add_note, name="addNote"),
-    path("tree-note", views.tree_note, name="treeNote"),
+    path("tree-note/<int:userId>/", views.tree_note.as_view()),
+    path("note-by-user-id/<int:userId>/", views.api_note_by_userID.as_view()),
     # apprentices
     path("apprentices", views.get_apprentices, name="getApprentices"),
     # companies

@@ -6,8 +6,16 @@
   padding: 0px;
   width: 100%;
   @include respond-to("medium") {
-    width: 70%;
+    width: 95%;
   }
+}
+table {
+  max-width: 1200;
+}
+
+td.mat-column-star {
+  width: 300px;
+  margin-right: 8px;
 }
 .events-page-card-header {
   padding-top: 12px;
@@ -36,4 +44,8 @@
   @include respond-to("medium") {
     width: 40%;
   }
+}
+.custom-calendar {
+  width: 400px;
+  height: 400px;
 }

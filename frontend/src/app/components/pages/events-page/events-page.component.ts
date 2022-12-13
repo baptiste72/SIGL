@@ -10,6 +10,45 @@ import { Deadlines } from 'src/app/models/Deadlines';
 import { MatPaginator } from '@angular/material/paginator';
 import { Interviews } from 'src/app/models/Interviews';
 import { ModifyInterviewPopupComponent } from '../../pop-up/interview/modify-interview-popup/modify-interview-popup.component';
+import { DeleteInterviewPopupComponent } from '../../pop-up/interview/delete-interview-popup/delete-interview-popup.component';
+import { DeleteDeadlinePopupComponent } from '@app/components/pop-up/deadline/delete-deadline-popup/delete-deadline-popup.component';
+import { ModifyDeadlinePopupComponent } from '@app/components/pop-up/deadline/modify-deadline-popup/modify-deadline-popup.component';
+import { AuthService } from '@app/services/auth/auth.service';
+import { Subject } from 'rxjs';
+
+import {
+  startOfDay,
+  endOfDay,
+  subDays,
+  addDays,
+  endOfMonth,
+  isSameDay,
+  isSameMonth,
+  addHours,
+} from 'date-fns';
+import {
+  CalendarEvent,
+  DAYS_OF_WEEK,
+  CalendarEventAction,
+  CalendarEventTimesChangedEvent,
+  CalendarView,
+} from 'angular-calendar';
+import { CustomDateFormatter } from './custom-date-formatter.provider';
+
+const colors: any = {
+  red: {
+    primary: '#ad2121',
+    secondary: '#FAE3E3',
+  },
+  blue: {
+    primary: '#1e90ff',
+    secondary: '#D1E8FF',
+  },
+  yellow: {
+    primary: '#e3bc08',
+    secondary: '#FDF1BA',
+  },
+};
 
 @Component({
   templateUrl: './events-page.component.html',
@@ -19,9 +58,21 @@ export class EventsPageComponent implements OnInit {
   interviews: any;
   deadlines: any;
   dialogRef: any;
+  refresh: Subject<any> = new Subject();
+
+  view: CalendarView = CalendarView.Month;
+  locale: string = 'fr';
+
+  weekStartsOn: number = DAYS_OF_WEEK.MONDAY;
+
+  weekendDays: number[] = [DAYS_OF_WEEK.FRIDAY, DAYS_OF_WEEK.SATURDAY];
+
+  CalendarView = CalendarView;
+
+  viewDate: Date = new Date();
 
   displayedColumnsInterviews: string[] = [
-    'Id',
+    //'Id',
     'Name',
     'Date',
     'First_hour',
@@ -40,10 +91,19 @@ export class EventsPageComponent implements OnInit {
   ];
   dataSourceDeadlines: any;
   dataSourceInterviews: any;
+  selectedInterviewDates: { date: Date; id: number }[] = [];
+
   @ViewChild('deadlinesPaginator') deadlinesPaginator: any = MatPaginator;
   @ViewChild('interviewsPaginator') interviewsPaginator: any = MatPaginator;
-
+  events: CalendarEvent[] = [
+    {
+      start: startOfDay(new Date()),
+      title: 'An event with no end date',
+      color: colors.yellow,
+    },
+  ];
   constructor(
+    public authService: AuthService,
     public dialog: MatDialog,
     private interviewService: InterviewService,
     private deadlineService: DeadlineService,
@@ -51,12 +111,34 @@ export class EventsPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getInterviews();
-    this.getDeadlines();
+    const userId = this.getUserId();
+
+    this.getInterviewDates(userId);
+    this.getInterviews(userId);
+    this.getDeadlines(userId);
+  }
+  // Définissez une variable pour stocker les dates d'entretien récupérées par la fonction getInterviewDates()
+  interviewsDates: Date[] = [];
+
+  // Modifiez la fonction getInterviewDates() pour stocker les dates d'entretien dans la variable interviewsDates
+  private getInterviewDates(userId: number) {
+    this.interviewService.getInterviews(userId).subscribe({
+      next: (interviews) => {
+        // Extract the interview dates and IDs from the response
+        this.interviewsDates = interviews.map((interview) => interview.date);
+      },
+      error: (err) => {
+        this._snackBar.open(
+          '❌ Une erreur est survenue lors de la récupération des entretiens',
+          'Ok',
+          { duration: 2000 }
+        );
+      },
+    });
   }
 
-  private getInterviews() {
-    this.interviewService.getInterviews().subscribe({
+  private getInterviews(userId: number) {
+    this.interviewService.getInterviews(userId).subscribe({
       next: (v) => {
         this.interviews = v;
         this.dataSourceInterviews = new MatTableDataSource<Interviews>(v);
@@ -72,8 +154,8 @@ export class EventsPageComponent implements OnInit {
     });
   }
 
-  private getDeadlines() {
-    this.deadlineService.getDeadlines().subscribe({
+  private getDeadlines(userId: number) {
+    this.deadlineService.getDeadlines(userId).subscribe({
       next: (v) => {
         this.deadlines = v;
         this.dataSourceDeadlines = new MatTableDataSource<Deadlines>(v);
@@ -89,6 +171,10 @@ export class EventsPageComponent implements OnInit {
     });
   }
 
+  private getUserId(): number {
+    return this.authService.userValue.id;
+  }
+
   addEvent() {
     this.dialog
       .open(AddInterviewPopupComponent, {
@@ -96,7 +182,7 @@ export class EventsPageComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((shouldReload: boolean) => {
-        this.getInterviews();
+        this.getInterviews(this.getUserId());
       });
   }
 
@@ -110,7 +196,49 @@ export class EventsPageComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((shouldReload: boolean) => {
-        this.getInterviews();
+        this.getInterviews(this.getUserId());
+      });
+  }
+
+  openDeleteInterviewDialog(interview: any) {
+    this.dialog
+      .open(DeleteInterviewPopupComponent, {
+        width: '550px',
+        data: {
+          dataKey: interview.id,
+        },
+      })
+      .afterClosed()
+      .subscribe((shouldReload: boolean) => {
+        this.getInterviews(this.getUserId());
+      });
+  }
+
+  openModifyDeadline(deadline: any) {
+    this.dialog
+      .open(ModifyDeadlinePopupComponent, {
+        width: '600px',
+        data: {
+          dataKey: deadline,
+        },
+      })
+      .afterClosed()
+      .subscribe((shouldReload: boolean) => {
+        this.getDeadlines(this.getUserId());
+      });
+  }
+
+  openDeleteDeadlineDialog(deadline: any) {
+    this.dialog
+      .open(DeleteDeadlinePopupComponent, {
+        width: '550px',
+        data: {
+          dataKey: deadline.id,
+        },
+      })
+      .afterClosed()
+      .subscribe((shouldReload: boolean) => {
+        this.getDeadlines(this.getUserId());
       });
   }
 
@@ -121,7 +249,7 @@ export class EventsPageComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((shouldReload: boolean) => {
-        this.getDeadlines();
+        this.getDeadlines(this.getUserId());
       });
   }
 }

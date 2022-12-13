@@ -2,6 +2,7 @@ import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DeadlineService } from 'src/app/services/deadline/deadline.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthService } from '@app/services/auth/auth.service';
 
 interface deadlines {
   name: string;
@@ -24,6 +25,7 @@ export class AddDeadlinePopupComponent implements OnInit {
   ];
 
   constructor(
+    private authService: AuthService,
     public dialogRef: MatDialogRef<AddDeadlinePopupComponent>,
     private deadlineService: DeadlineService,
     private _snackBar: MatSnackBar,
@@ -35,10 +37,15 @@ export class AddDeadlinePopupComponent implements OnInit {
   ngOnInit(): void {
     this.fromDialog = '';
     this.js_deadline = {
+      userId: this.getUserId(),
       name: '',
       date: '',
       description: '',
     };
+  }
+
+  private getUserId(): number {
+    return this.authService.userValue.id;
   }
 
   public addDeadline(data: any) {

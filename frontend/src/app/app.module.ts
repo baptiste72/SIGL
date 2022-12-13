@@ -22,6 +22,7 @@ import { EventsPageComponent } from './components/pages/events-page/events-page.
 import { AddInterviewPopupComponent } from './components/pop-up/interview/add-interview-popup/add-interview-popup.component';
 
 // MODULES
+
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -65,6 +66,11 @@ import { ConfirmDeleteComponent } from './components/pop-up/confirm-delete/confi
 import { UpdateTeamPopupComponent } from './components/pop-up/tutor-team/update-team-popup/update-team-popup.component';
 import { ChangePasswordComponent } from './components/pages/change-password/change-password.component';
 import { PageNotFoundComponent } from './components/pages/page-not-found/page-not-found.component';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+registerLocaleData(localeFr);
 
 @NgModule({
   declarations: [
@@ -106,6 +112,11 @@ import { PageNotFoundComponent } from './components/pages/page-not-found/page-no
     PageNotFoundComponent,
   ],
   imports: [
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
+
     BrowserModule,
     AppRoutingModule,
     MatTableModule,

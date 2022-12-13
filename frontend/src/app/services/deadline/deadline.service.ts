@@ -10,13 +10,13 @@ export class DeadlineService {
   private urlPrefix = 'api/v1';
   constructor(private http: HttpClient) {}
 
-  public getDeadlines(): Observable<any> {
+  public getDeadlines(userId: number): Observable<any> {
     return this.http.get<any>(
-      `${environment.apiUrl}/${this.urlPrefix}/deadlines`
+      `${environment.apiUrl}/${this.urlPrefix}/deadlines/${userId}`
     );
   }
 
-  public addDeadline(post: any): Observable<any> {
+  public add(post: any): Observable<any> {
     return this.http.post<any>(
       `${environment.apiUrl}/${this.urlPrefix}/add-deadline`,
       post
@@ -44,12 +44,5 @@ export class DeadlineService {
 
   public getAll(): Observable<any> {
     return this.http.get<any>(`${environment.apiUrl}/${this.urlPrefix}`);
-  }
-
-  public add(deadline: any): Observable<any> {
-    return this.http.post<any>(
-      `${environment.apiUrl}/${this.urlPrefix}/add`,
-      deadline
-    );
   }
 }

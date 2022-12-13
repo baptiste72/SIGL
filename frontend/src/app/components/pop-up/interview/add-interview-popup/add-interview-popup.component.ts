@@ -2,6 +2,7 @@ import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { InterviewService } from 'src/app/services/interview/interview.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthService } from '@app/services/auth/auth.service';
 
 interface Semester {
   name: string;
@@ -31,6 +32,7 @@ export class AddInterviewPopupComponent implements OnInit {
   ];
 
   constructor(
+    private authService: AuthService,
     public dialogRef: MatDialogRef<AddInterviewPopupComponent>,
     private interviewService: InterviewService,
     private _snackBar: MatSnackBar,
@@ -39,6 +41,7 @@ export class AddInterviewPopupComponent implements OnInit {
 
   ngOnInit(): void {
     this.interview = {
+      userId: this.getUserId(),
       name: '',
       date: '',
       first_hour: '',
@@ -46,6 +49,9 @@ export class AddInterviewPopupComponent implements OnInit {
       description: '',
       semester: ' ',
     };
+  }
+  private getUserId(): number {
+    return this.authService.userValue.id;
   }
 
   public addinterview(data: any) {

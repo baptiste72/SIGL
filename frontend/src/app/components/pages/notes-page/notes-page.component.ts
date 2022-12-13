@@ -7,7 +7,7 @@ import {
 } from '@angular/material/tree';
 import { AddNotePopupComponent } from '../../pop-up/note/add-note-popup/add-note-popup.component';
 import { DeleteNotePopupComponent } from '../../pop-up/note/delete-note-popup/delete-note-popup.component';
-
+import { AuthService } from '@app/services';
 import { NoteService } from 'src/app/services/note/note.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ModifyNotePopupComponent } from '../../pop-up/note/modify-note-popup/modify-note-popup.component';
@@ -63,6 +63,7 @@ export class NotesPageComponent implements OnInit {
   hasNoContent = (_: number, node: ExampleFlatNode) => node.level === 1;
 
   constructor(
+    private authService: AuthService,
     private route: ActivatedRoute,
     public dialog: MatDialog,
     private noteService: NoteService,
@@ -73,7 +74,11 @@ export class NotesPageComponent implements OnInit {
     });
   }
   ngOnInit(): void {
-    this.treeNotes();
+    // Récupérer l'ID de l'utilisateur
+    const userId = this.getUserId();
+
+    // Récupérer les notes en arborescence pour l'utilisateur
+    this.treeNotes(userId);
     this.note = {
       title: 'Affichage de la Note Périodique',
       text: 'Sélectionner une note',
@@ -86,6 +91,7 @@ export class NotesPageComponent implements OnInit {
     }
   }
 
+  // Cette fonction parcourt l'arborescence des notes et définit les parents pour chaque noeud enfant
   setParent(data, parent) {
     data.parent = parent;
     if (data.children) {
@@ -117,8 +123,12 @@ export class NotesPageComponent implements OnInit {
     });
   }
 
-  public treeNotes() {
-    this.noteService.treeNotes().subscribe((response) => {
+  private getUserId(): number {
+    return this.authService.userValue.id;
+  }
+
+  public treeNotes(userId: number) {
+    this.noteService.treeNotes(userId).subscribe((response) => {
       this.treeData = response;
       this.dataSource.data = this.treeData;
     });
@@ -136,7 +146,7 @@ export class NotesPageComponent implements OnInit {
         if (result.event == 'ajout') {
           this.getNote(result.data.id);
         }
-        this.treeNotes();
+        this.treeNotes(this.getUserId());
       });
   }
 
@@ -150,13 +160,13 @@ export class NotesPageComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((shouldReload: boolean) => {
-        this.treeNotes();
-        this.note = {
-          title: 'Affichage de la Note Périodique',
-          text: 'Sélectionner une note',
-          id: '',
-          email: '',
-        };
+        this.treeNotes(this.getUserId()),
+          (this.note = {
+            title: 'Affichage de la Note Périodique',
+            text: 'Sélectionner une note',
+            id: '',
+            email: '',
+          });
         this.isAvailable = false;
       });
   }
@@ -171,7 +181,7 @@ export class NotesPageComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((shouldReload: boolean) => {
-        this.treeNotes();
+        this.treeNotes(this.getUserId());
         this.getNote(this.note.id);
       });
   }

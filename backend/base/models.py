@@ -5,6 +5,7 @@ from authentication.models import User
 
 class Interview(models.Model):
     # table des entretien
+    userId = models.CharField(max_length=400)
     name = models.CharField(max_length=255)
     date = models.DateTimeField()
     first_hour = models.CharField(max_length=100)
@@ -18,6 +19,7 @@ class Interview(models.Model):
 
 class Deadline(models.Model):
     # table des échéances
+    userId = models.CharField(max_length=400)
     name = models.CharField(max_length=255)
     date = models.DateTimeField()
     description = models.CharField(max_length=1500, null=True, blank=True)
@@ -54,17 +56,17 @@ class Mentor(User):
 class YearGroup(models.Model):
     # tables des promotions
     worded = models.CharField(max_length=200)
-    begin_Date = models.DateTimeField(default=timezone.now)
+    beginDate = models.DateTimeField(default=timezone.now)
 
 
 class Note(models.Model):
+    userId = models.CharField(max_length=400)
     title = models.CharField(max_length=400)
     text = models.CharField(max_length=35000, blank=True)
     semester = models.CharField(max_length=255)
-    date_start = models.DateTimeField()
-    date_end = models.DateTimeField()
+    dateStart = models.DateTimeField()
+    dateEnd = models.DateTimeField()
     timestamp = models.DateTimeField(auto_now_add=True)
-    begin_date = models.DateTimeField(default=timezone.now)
 
 
 class Apprentice(User):

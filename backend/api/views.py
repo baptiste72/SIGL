@@ -5,14 +5,17 @@ from rest_framework import status, generics
 from rest_framework.permissions import IsAuthenticated
 from django.http import JsonResponse
 from django.http import Http404
-from helper import data_treatement
+from .helper.tutor_team_helper import TutorTeamHelper
+
+
+from .helper import data_treatement
 from authentication.models import User
 from base.utilities import Role
+
 from base.models import (
     Apprentice,
     Company,
     Deadline,
-    NoteSerializer,
     FormationCenter,
     Interview,
     Mentor,
@@ -22,6 +25,7 @@ from base.models import (
     YearGroup,
     Note,
 )
+
 from api.serializers import (
     ApprenticeSerializer,
     CompanySerializer,
@@ -30,6 +34,8 @@ from api.serializers import (
     InterviewSerializer,
     MentorSerializer,
     SemesterSerializer,
+    NoteSerializer,
+    TreeNoteSerializer,
     TutorSerializer,
     TutorTeamSerializer,
     UserSerializer,
@@ -70,6 +76,13 @@ def add_mentor(request):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class interviews_by_userID(APIView):
+    def get(self, request, userId):
+        interview_list = Interview.objects.filter(userId=userId)
+        serializers = InterviewSerializer(interview_list, many=True)
+        return Response(serializers.data)
 
 
 @api_view(["GET"])
@@ -157,7 +170,7 @@ def api_deadline(request, id):
         )
 
     if request.method == "GET":
-        deadline_serializer = NoteSerializer(DeadlineId)
+        deadline_serializer = DeadlineSerializer(DeadlineId)
         return JsonResponse(deadline_serializer.data)
     elif request.method == "DELETE":
         DeadlineId.delete()
@@ -166,6 +179,11 @@ def api_deadline(request, id):
             status=status.HTTP_204_NO_CONTENT,
         )
 
+class deadlines_by_userID(APIView):
+    def get(self, request, userId):
+        deadline_list = Deadline.objects.filter(userId=userId)
+        serializers = DeadlineSerializer(deadline_list, many=True)
+        return Response(serializers.data)
 
 @api_view(["POST"])
 def update_deadline(request):
@@ -195,14 +213,7 @@ def get_notes(request):
     return Response(serializers.data)
 
 
-# renvois les données en Tree afin d'afficher l'aborescence des notes
-@api_view(["GET"])
-def tree_note(request):
-    NoteList = Note.objects.all()
-    serializers = NoteSerializer(NoteList, many=True)
-    data = data_treatement.data_treatement.treeNotes(serializers.data)
-    print(data)
-    return Response(data)
+
 
 
 @api_view(["POST"])
@@ -233,6 +244,19 @@ def api_note(request, id):
             status=status.HTTP_204_NO_CONTENT,
         )
 
+class api_note_by_userID(APIView):
+    def get(self, request, userId):
+        NoteList = Note.objects.filter(userId=userId)
+        serializers = NoteSerializer(NoteList, many=True)
+        return Response(serializers.data)
+    
+# renvois les données en Tree afin d'afficher l'aborescence des notes
+class tree_note(APIView):
+    def get(self, request, userId):
+        NoteList = Note.objects.filter(userId=userId)
+        serializers = TreeNoteSerializer(NoteList, many=True)
+        data = data_treatement.data_treatement.treeNotes(serializers.data)
+        return Response(data)
 
 @api_view(["POST"])
 def update_note(request):
