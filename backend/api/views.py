@@ -1,5 +1,5 @@
 import os
-from django.http import FileResponse, Http404,JsonResponse
+from django.http import FileResponse, Http404, JsonResponse
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
@@ -48,6 +48,7 @@ from api.helpers.password_helper import PasswordHelper
 from api.helpers.data_treatement import DataTreatement
 from api.helpers.sftp_helper import SftpHelper
 
+
 @api_view(["GET"])
 def get_mentors(request):
     mentor_list = Mentor.objects.all()
@@ -59,7 +60,6 @@ def get_mentors(request):
 def get_tutors(request):
     tutor_list = Tutor.objects.all()
     serializer = TutorSerializer(tutor_list, many=True)
-    print(serializer.data)
     return Response(serializer.data)
 
 
@@ -75,80 +75,9 @@ def add_mentor(request):
     serializer = MentorSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
-        rep= Response(serializer.data, status=status.HTTP_201_CREATED)
-    else:
-        rep= Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    return rep
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-class InterviewsByUserID(APIView):
-    def get(self, request, user_id):
-        interview_list = Interview.objects.filter(userId=user_id)
-        serializers = InterviewSerializer(interview_list, many=True)
-        return Response(serializers.data)
-
-
-@api_view(["GET"])
-def get_interviews(request):
-    interview_list = Interview.objects.all()
-    serializers = InterviewSerializer(interview_list, many=True)
-    return Response(serializers.data)
-
-
-@api_view(["POST"])
-def add_interview(request):
-    serializer = InterviewSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        rep= Response(serializer.data, status=status.HTTP_201_CREATED)
-    else:
-        rep= Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    return rep
-
-@api_view(["GET", "DELETE"])
-def api_interview(request, id_interview):
-    rep=""
-    try:
-        interview_id = Interview.objects.get(pk=id_interview)
-    except Interview.DoesNotExist:
-        rep= JsonResponse(
-            {"message": "the Interview does not exist"},
-            status=status.HTTP_404_NOT_FOUND,
-        )
-
-    if request.method == "GET":
-        interview_serializer = InterviewSerializer(interview_id)
-        rep= JsonResponse(interview_serializer.data)
-    elif request.method == "DELETE":
-        interview_id.delete()
-        rep= JsonResponse(
-            {"message": "the Interview was deleted successfully!"},
-            status=status.HTTP_204_NO_CONTENT,
-        )
-    return rep
-
-@api_view(["POST"])
-def update_interview(request):
-    rep=""
-    try:
-        print(request.data)
-        id_interview = request.data["id"]
-        interview_id = Interview.objects.get(pk=id_interview)
-    except Note.DoesNotExist:
-        rep= JsonResponse(
-            {"message": "the Interview does not exist"},
-            status=status.HTTP_404_NOT_FOUND,
-        )
-
-    serializer = NoteSerializer(instance=interview_id, data=request.data, partial=True)
-    if serializer.is_valid():
-        serializer.save()
-        rep= Response(status=status.HTTP_200_OK, data=serializer.data)
-    else:
-        rep= JsonResponse(
-            {"message": "the Interview is not valid"}, status=status.HTTP_404_NOT_FOUND
-        )
-    return rep
 
 @api_view(["GET"])
 def get_deadlines(request):
@@ -159,34 +88,35 @@ def get_deadlines(request):
 
 @api_view(["POST"])
 def add_deadline(request):
-    rep=""
+    rep = ""
     serializer = DeadlineSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
-        rep= Response(serializer.data, status=status.HTTP_201_CREATED)
-    rep= Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        rep = Response(serializer.data, status=status.HTTP_201_CREATED)
+    rep = Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     return rep
 
 
 @api_view(["GET", "DELETE"])
 def api_deadline(request, id_deadline):
-    rep=""
+    rep = ""
     try:
         deadline_id = Deadline.objects.get(pk=id_deadline)
     except Deadline.DoesNotExist:
-        rep= JsonResponse(
+        rep = JsonResponse(
             {"message": "the Deadline does not exist"}, status=status.HTTP_404_NOT_FOUND
         )
     if request.method == "GET":
         deadline_serializer = DeadlineSerializer(deadline_id)
-        rep=  JsonResponse(deadline_serializer.data)
+        rep = JsonResponse(deadline_serializer.data)
     elif request.method == "DELETE":
         deadline_id.delete()
-        rep=  JsonResponse(
+        rep = JsonResponse(
             {"message": "the Deadline was deleted successfully!"},
             status=status.HTTP_204_NO_CONTENT,
         )
     return rep
+
 
 class DeadlinesByUserID(APIView):
     def get(self, request, user_id):
@@ -194,24 +124,25 @@ class DeadlinesByUserID(APIView):
         serializers = DeadlineSerializer(deadline_list, many=True)
         return Response(serializers.data)
 
+
 @api_view(["POST"])
 def update_deadline(request):
-    rep=""
+    rep = ""
     try:
         print(request.data)
         id_deadline = request.data["id"]
         deadline_id = Deadline.objects.get(pk=id_deadline)
     except Deadline.DoesNotExist:
-        rep= JsonResponse(
+        rep = JsonResponse(
             {"message": "the Deadline does not exist"}, status=status.HTTP_404_NOT_FOUND
         )
 
     serializer = NoteSerializer(instance=deadline_id, data=request.data, partial=True)
     if serializer.is_valid():
         serializer.save()
-        rep= Response(status=status.HTTP_200_OK, data=serializer.data)
+        rep = Response(status=status.HTTP_200_OK, data=serializer.data)
     else:
-        rep= JsonResponse(
+        rep = JsonResponse(
             {"message": "the Deadline is not valid"}, status=status.HTTP_404_NOT_FOUND
         )
     return rep
@@ -222,9 +153,6 @@ def get_notes(request):
     note_list = Note.objects.all()
     serializers = NoteSerializer(note_list, many=True)
     return Response(serializers.data)
-
-
-
 
 
 @api_view(["POST"])
@@ -240,26 +168,28 @@ def api_note(request, id_note):
     try:
         note_id = Note.objects.get(pk=id_note)
     except Note.DoesNotExist:
-        rep= JsonResponse(
+        rep = JsonResponse(
             {"message": "the note does not exist"}, status=status.HTTP_404_NOT_FOUND
         )
     if request.method == "GET":
         note_serializer = NoteSerializer(note_id)
-        rep= JsonResponse(note_serializer.data)
+        rep = JsonResponse(note_serializer.data)
     elif request.method == "DELETE":
         note_id.delete()
-        rep= JsonResponse(
+        rep = JsonResponse(
             {"message": "the note was deleted successfully!"},
             status=status.HTTP_204_NO_CONTENT,
         )
     return rep
+
 
 class ApiNoteByUserId(APIView):
     def get(self, request, user_id):
         note_list = Note.objects.filter(userId=user_id)
         serializers = NoteSerializer(note_list, many=True)
         return Response(serializers.data)
-    
+
+
 # renvois les données en Tree afin d'afficher l'aborescence des notes
 class TreeNote(APIView):
     def get(self, request, user_id):
@@ -268,27 +198,53 @@ class TreeNote(APIView):
         data = DataTreatement.data_treatement.treeNotes(serializers.data)
         return Response(data)
 
+
 @api_view(["POST"])
 def update_note(request):
-    rep=""
+    rep = ""
     try:
         print(request.data)
         id_note = request.data["id"]
         note_id = Note.objects.get(pk=id_note)
     except Note.DoesNotExist:
-        rep= JsonResponse(
+        rep = JsonResponse(
             {"message": "the note does not exist"}, status=status.HTTP_404_NOT_FOUND
         )
 
     serializer = NoteSerializer(instance=note_id, data=request.data, partial=True)
     if serializer.is_valid():
         serializer.save()
-        rep= Response(status=status.HTTP_200_OK, data=serializer.data)
+        rep = Response(status=status.HTTP_200_OK, data=serializer.data)
     else:
-        rep= JsonResponse(
+        rep = JsonResponse(
             {"message": "the note is not valid"}, status=status.HTTP_404_NOT_FOUND
         )
     return rep
+
+
+class InterviewsAttendees(APIView):
+    def get(self, request, pk):
+        attendee_list = Interview.objects.filter(interview_id=pk)
+        serializers = UserSerializer(attendee_list, many=True)
+        return Response(serializers.data)
+
+
+class InterviewsByUserId(APIView):
+    def get(self, request, pk):
+        interview_list = Interview.objects.filter(apprentice_id=pk)
+        serializers = InterviewSerializer(interview_list, many=True)
+        return Response(serializers.data)
+
+
+class InterviewList(generics.ListCreateAPIView):
+    queryset = Interview.objects.all()
+    serializer_class = InterviewSerializer
+
+
+class InterviewDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Interview.objects.all()
+    serializer_class = InterviewSerializer
+
 
 @api_view(["GET"])
 def get_year_groups(request):
@@ -581,7 +537,7 @@ class DocumentDetail(APIView):
         serializer = DocumentSerializer(document)
         sftp, ssh = SftpHelper.sftp_open_connection()
         file_name = serializer.data["file_name"]
-        with open(file_name, "wb") as file_write :
+        with open(file_name, "wb") as file_write:
             sftp.getfo("/datastore/" + file_name, file_write)
         # pylint: disable=consider-using-with
         file_read = open(file_name, "rb")
@@ -594,7 +550,7 @@ class DocumentDetail(APIView):
             sftp, ssh = SftpHelper.sftp_open_connection()
             sftp.remove("/datastore/" + document.file_name)
             SftpHelper.sftp_close_connection(sftp, ssh)
-        except: # pylint: disable=bare-except
+        except:  # pylint: disable=bare-except
             pass
         document.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

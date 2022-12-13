@@ -2,12 +2,6 @@ from django.urls import path, include
 from . import views
 
 urlpatterns = [
-    # interviews
-    path("interview/<int:id>", views.api_interview, name="apiInterview"),
-    path("interviews", views.get_interviews, name="interviews"),
-    path("interview/add", views.add_interview, name="interview/add"),
-    path("interview/update", views.update_interview, name="interview/update"),
-    path("interviews/<int:userId>/", views.InterviewsByUserID.as_view()),
     # deadlines
     path("deadline/<int:id>", views.api_deadline, name="apiDeadline"),
     path("deadlines", views.get_deadlines, name="getDeadline"),
@@ -26,11 +20,20 @@ urlpatterns = [
     # companies
     path("companies", views.get_company, name="getCompanies"),
     # formation-centers
-    path("formation-centers/<int:pk>", views.FormationCenterDetail.as_view(), name="formationCenters"),
-    path("formation-centers", views.FormationCenterList.as_view(), name="formationCenters"),
+    path(
+        "formation-centers/<int:pk>",
+        views.FormationCenterDetail.as_view(),
+        name="formationCenters",
+    ),
+    path(
+        "formation-centers",
+        views.FormationCenterList.as_view(),
+        name="formationCenters",
+    ),
     # interviews
-    path("interviews", views.get_interviews, name="getInterviews"),
-    path("interviews/add", views.add_interview, name="addInterview"),
+    path("interviews", views.InterviewList.as_view()),
+    path("interviews/<int:pk>", views.InterviewDetail.as_view()),
+    path("interviews/users/<int:pk>", views.InterviewsByUserId.as_view()),
     # mentors
     path("mentors", views.get_mentors, name="getMentors"),
     path("mentors/add", views.add_mentor, name="addMentor"),

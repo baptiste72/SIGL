@@ -3,30 +3,6 @@ from django.utils import timezone
 from authentication.models import User
 
 
-class Interview(models.Model):
-    # table des entretien
-    userId = models.CharField(max_length=400)
-    name = models.CharField(max_length=255)
-    date = models.DateTimeField()
-    first_hour = models.CharField(max_length=100)
-    last_hour = models.CharField(max_length=100)
-    description = models.CharField(max_length=1500, null=True, blank=True)
-    guest = models.CharField(max_length=255)
-    semester = models.CharField(max_length=255)
-    # list stand by après les tests
-    # semester = models.CharField(max_length=10, choices=[(tag, tag.value) for tag in Semester])
-
-
-class Deadline(models.Model):
-    # table des échéances
-    userId = models.CharField(max_length=400)
-    name = models.CharField(max_length=255)
-    date = models.DateTimeField()
-    description = models.CharField(max_length=1500, null=True, blank=True)
-    # list stand by après les tests
-    # semester = models.CharField(max_length=10, choices=[(tag, tag.value) for tag in Semester])
-
-
 class FormationCenter(models.Model):
     # table des centres de formation
     worded = models.CharField(max_length=200)
@@ -65,16 +41,6 @@ class YearGroup(models.Model):
     beginDate = models.DateTimeField(default=timezone.now)
 
 
-class Note(models.Model):
-    userId = models.CharField(max_length=400)
-    title = models.CharField(max_length=400)
-    text = models.CharField(max_length=35000, blank=True)
-    semester = models.CharField(max_length=255)
-    dateStart = models.DateTimeField()
-    dateEnd = models.DateTimeField()
-    timestamp = models.DateTimeField(auto_now_add=True)
-
-
 class Apprentice(User):
     # table des apprentis
     yearGroup = models.ForeignKey(
@@ -103,8 +69,8 @@ class TutorTeam(models.Model):
     apprentice = models.ForeignKey(
         Apprentice, related_name="TutorTeam", on_delete=models.CASCADE, null=True
     )
- 
-    
+
+
 class Document(models.Model):
     # tables des documents pédagogiques
     name = models.CharField(max_length=200)
@@ -114,4 +80,42 @@ class Document(models.Model):
     )
     yearGroup = models.ForeignKey(
         YearGroup, related_name="document", on_delete=models.CASCADE, null=True
-    )  
+    )
+
+
+class Interview(models.Model):
+    name = models.CharField(max_length=255)
+    date = models.DateTimeField()
+    first_hour = models.CharField(max_length=100)
+    last_hour = models.CharField(max_length=100)
+    description = models.CharField(max_length=1500, null=True, blank=True)
+    attendees = models.ManyToManyField(User)
+    semester = models.ForeignKey(
+        Semester, related_name="interview", on_delete=models.CASCADE, null=True
+    )
+    apprentice = models.ForeignKey(
+        Apprentice, related_name="interview", on_delete=models.CASCADE
+    )
+
+
+class Deadline(models.Model):
+    name = models.CharField(max_length=255)
+    date = models.DateTimeField()
+    description = models.CharField(max_length=1500, null=True, blank=True)
+    yearGroup = models.ForeignKey(
+        YearGroup, related_name="deadline", on_delete=models.CASCADE
+    )
+
+
+class Note(models.Model):
+    title = models.CharField(max_length=400)
+    text = models.CharField(max_length=35000, blank=True)
+    beginDate = models.DateTimeField()
+    endDate = models.DateTimeField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+    apprentice = models.ForeignKey(
+        Apprentice, related_name="note", on_delete=models.CASCADE
+    )
+    semester = models.ForeignKey(
+        Semester, related_name="note", on_delete=models.CASCADE
+    )

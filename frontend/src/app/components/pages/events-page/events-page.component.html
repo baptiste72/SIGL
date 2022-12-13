@@ -128,14 +128,14 @@
               <th mat-header-cell *matHeaderCellDef>Modifications</th>
               <td mat-cell *matCellDef="let element">
                 <mat-icon
-                  (click)="openModifyInterview(element)"
+                  (click)="openUpdateInterview(element)"
                   class="conf-edit-icons"
                   aria-hidden="false"
                   aria-label="documents icon"
                   fontIcon="edit"
                 ></mat-icon>
                 <mat-icon
-                  (click)="openDeleteInterviewDialog(element)"
+                  (click)="deleteInterviewById(element.id)"
                   class="conf-delete-icons"
                   aria-hidden="false"
                   aria-label="documents icon"

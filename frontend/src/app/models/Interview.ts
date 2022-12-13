@@ -1,12 +1,12 @@
-export class Interviews {
+export class Interview {
   id: number;
   name: string;
   date: Date;
   first_hour: number;
   last_hour: number;
-  guest: string;
+  attendees: number[];
   description: string;
-  semester: string;
+  semester: number;
 
   constructor(
     id: number,
@@ -14,16 +14,16 @@ export class Interviews {
     date: Date,
     first_hour: number,
     last_hour: number,
-    guest: string,
+    attendees: number[],
     description: string,
-    semester: string
+    semester: number
   ) {
     this.id = id;
     this.name = name;
     this.date = date;
     this.first_hour = first_hour;
     this.last_hour = last_hour;
-    this.guest = guest;
+    this.attendees = attendees;
     this.description = description;
     this.semester = semester;
   }

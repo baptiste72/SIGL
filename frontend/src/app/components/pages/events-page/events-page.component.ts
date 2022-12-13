@@ -1,23 +1,23 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogState } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AddInterviewPopupComponent } from '../../pop-up/interview/add-interview-popup/add-interview-popup.component';
-import { InterviewService } from 'src/app/services/interview/interview.service';
+import { InterviewService } from '@app/services/interview/interview.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AddDeadlinePopupComponent } from '../../pop-up/deadline/add-deadline-popup/add-deadline-popup.component';
 import { DeadlineService } from 'src/app/services/deadline/deadline.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { Deadlines } from 'src/app/models/Deadlines';
 import { MatPaginator } from '@angular/material/paginator';
-import { Interviews } from 'src/app/models/Interviews';
-import { ModifyInterviewPopupComponent } from '../../pop-up/interview/modify-interview-popup/modify-interview-popup.component';
-import { DeleteInterviewPopupComponent } from '../../pop-up/interview/delete-interview-popup/delete-interview-popup.component';
+import { Interview } from '@app/models/Interview';
+import { UpdateInterviewPopupComponent } from '../../pop-up/interview/update-interview-popup/update-interview-popup.component';
 import { DeleteDeadlinePopupComponent } from '@app/components/pop-up/deadline/delete-deadline-popup/delete-deadline-popup.component';
 import { ModifyDeadlinePopupComponent } from '@app/components/pop-up/deadline/modify-deadline-popup/modify-deadline-popup.component';
 import { AuthService } from '@app/services/auth/auth.service';
-import { Subject } from 'rxjs';
+import { lastValueFrom } from 'rxjs';
 
 import { startOfDay } from 'date-fns';
 import { CalendarEvent, DAYS_OF_WEEK, CalendarView } from 'angular-calendar';
+import { ConfirmDeleteComponent } from '@app/components/pop-up/confirm-delete/confirm-delete.component';
 
 const colors: any = {
   red: {
@@ -42,17 +42,15 @@ export class EventsPageComponent implements OnInit {
   interviews: any;
   deadlines: any;
   dialogRef: any;
-  refresh: Subject<any> = new Subject();
+  private userId: number;
 
   view: CalendarView = CalendarView.Month;
   locale: string = 'fr';
 
   weekStartsOn: number = DAYS_OF_WEEK.MONDAY;
-
   weekendDays: number[] = [DAYS_OF_WEEK.FRIDAY, DAYS_OF_WEEK.SATURDAY];
 
   CalendarView = CalendarView;
-
   viewDate: Date = new Date();
 
   displayedColumnsInterviews: string[] = [
@@ -90,21 +88,32 @@ export class EventsPageComponent implements OnInit {
     public dialog: MatDialog,
     private interviewService: InterviewService,
     private deadlineService: DeadlineService,
-    private _snackBar: MatSnackBar
-  ) {}
+    private _snackBar: MatSnackBar,
+    private confirmDeleteDialogRef: MatDialogRef<ConfirmDeleteComponent>
+  ) {
+    this.userId = this.authService.userValue.id;
+  }
 
   ngOnInit(): void {
-    const userId = this.getUserId();
+    this.getInterviewDates(this.userId);
+    this.getInterviews(this.userId);
+    this.getDeadlines(this.userId);
+  }
 
-    this.getInterviewDates(userId);
-    this.getInterviews(userId);
-    this.getDeadlines(userId);
+  public async openConfirmDeletePopup(content: string): Promise<boolean> {
+    this.confirmDeleteDialogRef = this.dialog.open(ConfirmDeleteComponent, {
+      width: '600px',
+    });
+
+    this.confirmDeleteDialogRef.componentInstance.content = content;
+
+    return await lastValueFrom(this.confirmDeleteDialogRef.afterClosed());
   }
 
   interviewsDates: Date[] = [];
 
   private getInterviewDates(userId: number) {
-    this.interviewService.getInterviews(userId).subscribe({
+    this.interviewService.getAllByUserId(userId).subscribe({
       next: (interviews) => {
         this.interviewsDates = interviews.map((interview) => interview.date);
       },
@@ -119,10 +128,12 @@ export class EventsPageComponent implements OnInit {
   }
 
   private getInterviews(userId: number) {
-    this.interviewService.getInterviews(userId).subscribe({
-      next: (v) => {
-        this.interviews = v;
-        this.dataSourceInterviews = new MatTableDataSource<Interviews>(v);
+    this.interviewService.getAllByUserId(userId).subscribe({
+      next: (interviews) => {
+        this.interviews = interviews;
+        this.dataSourceInterviews = new MatTableDataSource<Interview>(
+          this.interviews
+        );
         this.dataSourceInterviews.paginator = this.interviewsPaginator;
       },
       error: (err) => {
@@ -152,10 +163,6 @@ export class EventsPageComponent implements OnInit {
     });
   }
 
-  private getUserId(): number {
-    return this.authService.userValue.id;
-  }
-
   addEvent() {
     this.dialog
       .open(AddInterviewPopupComponent, {
@@ -163,36 +170,43 @@ export class EventsPageComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((shouldReload: boolean) => {
-        this.getInterviews(this.getUserId());
+        this.getInterviews(this.userId);
       });
   }
 
-  openModifyInterview(interview: any) {
+  openUpdateInterview(interview: Interview) {
     this.dialog
-      .open(ModifyInterviewPopupComponent, {
+      .open(UpdateInterviewPopupComponent, {
         width: '600px',
         data: {
-          dataKey: interview,
+          interview: interview,
+          userId: this.userId,
         },
       })
       .afterClosed()
       .subscribe((shouldReload: boolean) => {
-        this.getInterviews(this.getUserId());
+        this.getInterviews(this.userId);
       });
   }
 
-  openDeleteInterviewDialog(interview: any) {
-    this.dialog
-      .open(DeleteInterviewPopupComponent, {
-        width: '550px',
-        data: {
-          dataKey: interview.id,
+  public async deleteInterviewById(id: any) {
+    const shouldDelete = await this.openConfirmDeletePopup(
+      'Souhaitez-vous vraiment supprimer cet évènement ?'
+    );
+    if (shouldDelete) {
+      this.interviewService.delete(id).subscribe({
+        next: (v) => {
+          this.getInterviews(this.userId);
         },
-      })
-      .afterClosed()
-      .subscribe((shouldReload: boolean) => {
-        this.getInterviews(this.getUserId());
+        error: (err) => {
+          this._snackBar.open(
+            "❌ Une erreur est survenue lors de la suppression de l'évènement",
+            'Ok',
+            { duration: 2000 }
+          );
+        },
       });
+    }
   }
 
   openModifyDeadline(deadline: any) {
@@ -205,7 +219,7 @@ export class EventsPageComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((shouldReload: boolean) => {
-        this.getDeadlines(this.getUserId());
+        this.getDeadlines(this.userId);
       });
   }
 
@@ -219,7 +233,7 @@ export class EventsPageComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((shouldReload: boolean) => {
-        this.getDeadlines(this.getUserId());
+        this.getDeadlines(this.userId);
       });
   }
 
@@ -230,7 +244,7 @@ export class EventsPageComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((shouldReload: boolean) => {
-        this.getDeadlines(this.getUserId());
+        this.getDeadlines(this.userId);
       });
   }
 }

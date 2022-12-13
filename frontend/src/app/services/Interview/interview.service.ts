@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Attendee } from '@app/models/Attendee';
+import { Interview } from '@app/models/Interview';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -7,48 +9,50 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class InterviewService {
-  private urlPrefix = 'api/v1/interview';
+  private urlPrefix = 'api/v1/interviews';
 
   constructor(private http: HttpClient) {}
 
-  public getInterviews(userId: number): Observable<any> {
-    return this.http.get<any>(
-      `${environment.apiUrl}/${this.urlPrefix}s/${userId}`
+  public getAll(): Observable<Interview[]> {
+    return this.http.get<Interview[]>(
+      `${environment.apiUrl}/${this.urlPrefix}`
     );
   }
 
-  public addInterview(post: any): Observable<any> {
-    return this.http.post<any>(
-      `${environment.apiUrl}/${this.urlPrefix}/add`,
-      post
-    );
-  }
-
-  public getInterview(id: any): Observable<any> {
-    return this.http.get<any>(`${environment.apiUrl}/${this.urlPrefix}/${id}`);
-  }
-
-  public deleteInterview(id: any): Observable<any> {
-    return this.http.delete<any>(
+  public get(id: number): Observable<Interview> {
+    return this.http.get<Interview>(
       `${environment.apiUrl}/${this.urlPrefix}/${id}`
     );
   }
 
-  public updateInterview(post: any): Observable<any> {
-    return this.http.post<any>(
-      `${environment.apiUrl}/${this.urlPrefix}/update`,
-      post
+  public getAllByUserId(userId: number): Observable<Interview[]> {
+    return this.http.get<Interview[]>(
+      `${environment.apiUrl}/${this.urlPrefix}/users/${userId}`
     );
   }
 
-  public getAll(): Observable<any> {
-    return this.http.get<any>(`${environment.apiUrl}/${this.urlPrefix}`);
+  public getAttendees(listId: number[]): Observable<Attendee[]> {
+    return this.http.post<Attendee[]>(
+      `${environment.apiUrl}/${this.urlPrefix}/attendees`,
+      listId
+    );
   }
 
-  public add(post: any): Observable<any> {
-    return this.http.post<any>(
-      `${environment.apiUrl}/${this.urlPrefix}/add`,
-      post
+  public add(interview: Interview): Observable<Interview> {
+    return this.http.post<Interview>(
+      `${environment.apiUrl}/${this.urlPrefix}`,
+      interview
     );
+  }
+
+  public update(interview: Interview, id: number): Observable<Interview> {
+    return this.http.put<Interview>(
+      `${environment.apiUrl}/${this.urlPrefix}/${id}`,
+      interview
+    );
+  }
+
+  public delete(id: number): Observable<any> {
+    return this.http.delete(`${environment.apiUrl}/${this.urlPrefix}/${id}`);
   }
 }
