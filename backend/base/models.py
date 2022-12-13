@@ -65,7 +65,7 @@ class Opco(models.Model):
     opco_phone = models.CharField(max_length=200)
     opco_email = models.CharField(max_length=200)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 class ContactCompany(models.Model):
@@ -89,7 +89,7 @@ class ContactCompany(models.Model):
     sa_job_title  = models.CharField(max_length=200,default = "")
     sa_former_eseo = models.CharField(max_length=200,default = "")
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 class Mentor(User):
@@ -100,7 +100,7 @@ class Mentor(User):
     mt_last_diploma = models.CharField(max_length=200, default="")
     mt_former_eseo = models.CharField(max_length=200, default="")
     
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
@@ -110,7 +110,7 @@ class CompanyUser(User):
     opco_siret = models.CharField(max_length=200, null=True, blank=True)
     contactCompany_id = models.CharField(max_length=200, null=True, blank=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 class YearGroup(models.Model):
