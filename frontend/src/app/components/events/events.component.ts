@@ -58,7 +58,7 @@ export class EventsComponent {
   events: CalendarEvent[] = [
     {
       start: startOfDay(new Date()),
-      title: 'An event with no end date',
+      title: "Aujourd'hui",
       color: colors.yellow,
     },
   ];

@@ -16,24 +16,8 @@ import { ModifyDeadlinePopupComponent } from '@app/components/pop-up/deadline/mo
 import { AuthService } from '@app/services/auth/auth.service';
 import { Subject } from 'rxjs';
 
-import {
-  startOfDay,
-  endOfDay,
-  subDays,
-  addDays,
-  endOfMonth,
-  isSameDay,
-  isSameMonth,
-  addHours,
-} from 'date-fns';
-import {
-  CalendarEvent,
-  DAYS_OF_WEEK,
-  CalendarEventAction,
-  CalendarEventTimesChangedEvent,
-  CalendarView,
-} from 'angular-calendar';
-import { CustomDateFormatter } from './custom-date-formatter.provider';
+import { startOfDay } from 'date-fns';
+import { CalendarEvent, DAYS_OF_WEEK, CalendarView } from 'angular-calendar';
 
 const colors: any = {
   red: {
@@ -72,7 +56,6 @@ export class EventsPageComponent implements OnInit {
   viewDate: Date = new Date();
 
   displayedColumnsInterviews: string[] = [
-    //'Id',
     'Name',
     'Date',
     'First_hour',
@@ -86,7 +69,6 @@ export class EventsPageComponent implements OnInit {
     'Name',
     'Date',
     'Description',
-    //'Deliverable',
     'update',
   ];
   dataSourceDeadlines: any;
@@ -98,10 +80,11 @@ export class EventsPageComponent implements OnInit {
   events: CalendarEvent[] = [
     {
       start: startOfDay(new Date()),
-      title: 'An event with no end date',
+      title: "Aujourd'hui",
       color: colors.yellow,
     },
   ];
+
   constructor(
     public authService: AuthService,
     public dialog: MatDialog,
@@ -117,14 +100,12 @@ export class EventsPageComponent implements OnInit {
     this.getInterviews(userId);
     this.getDeadlines(userId);
   }
-  // Définissez une variable pour stocker les dates d'entretien récupérées par la fonction getInterviewDates()
+
   interviewsDates: Date[] = [];
 
-  // Modifiez la fonction getInterviewDates() pour stocker les dates d'entretien dans la variable interviewsDates
   private getInterviewDates(userId: number) {
     this.interviewService.getInterviews(userId).subscribe({
       next: (interviews) => {
-        // Extract the interview dates and IDs from the response
         this.interviewsDates = interviews.map((interview) => interview.date);
       },
       error: (err) => {
