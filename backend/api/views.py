@@ -271,30 +271,30 @@ class CompanyDetail(APIView):
             raise Http404 from exc
 
     def get(self, request, pk):
-        tutor_team = self.get_object(pk)
-        serializer = CompanySerializer(tutor_team)
+        company = self.get_object(pk)
+        serializer = CompanySerializer(company)
         return Response(serializer.data)
 
     def put(self, request, pk):
-        tutor_team = self.get_object(pk)
-        serializer = CompanySerializer(tutor_team, data=request.data)
+        company = self.get_object(pk)
+        serializer = CompanySerializer(company, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk):
-        tutor_team = self.get_object(pk)
-        tutor_team.delete()
+        company = self.get_object(pk)
+        company.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class CompanyList(APIView):
     def get(self, request):
-        tutor_team_list = Company.objects.all()
-        serializers = CompanySerializer(tutor_team_list, many=True)
-        response = CompanySerializer.getAllCompanies(serializers)
-        return Response(response)
+        company_list = Company.objects.all()
+        serializer = CompanySerializer(company_list, many=True)
+        return Response(serializer.data)
+    
 
     def post(self, request):
         serializer = CompanySerializer(data=request.data)
@@ -304,34 +304,6 @@ class CompanyList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-""" class CompanyDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Company.objects.all()
-    serializer_class = CompanySerializer
-
-class CompanyList(generics.ListCreateAPIView):
-    queryset = Company.objects.all()
-    serializer_class = CompanySerializer """
-
-""" class CompanyUserDetail(APIView):
-    def get_object(self, pk):
-        try:
-            return CompanyUser.objects.get(pk=pk)
-        except CompanyUser.DoesNotExist as exc:
-            raise Http404 from exc
-
-    def get(self, request, pk):
-        company_user = self.get_object(pk)
-        serializer = CompanyUserSerializer(company_user)
-        return Response(serializer.data)
-
-    def put(self, request, pk):
-        company_user = self.get_object(pk)
-        serializer = CompanyUserSerializer(company_user, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) """
-
 class CompanyUserDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = CompanyUser.objects.all()
     serializer_class = CompanyUserSerializer
@@ -340,10 +312,6 @@ class CompanyUserList(generics.ListCreateAPIView):
     queryset = CompanyUser.objects.all()
     serializer_class = CompanyUserSerializer
 
-
-""" class OpcoDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Opco.objects.all()
-    serializer_class = OpcoSerializer """
 
 class OpcoDetail(APIView):
     def get_object(self, pk):

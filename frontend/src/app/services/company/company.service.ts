@@ -1,7 +1,6 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Company } from '@app/models/Company';
-import { CompanyUser } from '@app/models/CompanyUser';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -13,7 +12,7 @@ export class CompanyService {
 
   constructor(private http: HttpClient) {}
 
-  public getAll(): Observable<Company> {
+  public getAll(): Observable<any> {
     return this.http.get<Company>(`${environment.apiUrl}/${this.urlPrefix}`);
   }
 

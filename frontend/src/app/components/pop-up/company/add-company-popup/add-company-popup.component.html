@@ -284,14 +284,6 @@
           >
             SUBMIT
           </button>
-          <button
-          mat-button
-          type="submit"
-          class="green bold"
-          (click)="test()"
-        >
-          test
-        </button>
         </div>
       </form>
     </mat-step>
@@ -419,14 +411,6 @@
           >
             SUBMIT
           </button>
-          <button
-          mat-button
-          type="submit"
-          class="green bold"
-          (click)="test()"
-        >
-          test
-        </button>
         </div>
       </form>
     </mat-step>
@@ -810,14 +794,12 @@
 
         <div mat-dialog-actions align="end">
           <button mat-button class="black bold" matStepperPrevious>BACK</button>
-          <button mat-button class="black bold" matStepperNext>NEXT</button>
           <button
             mat-button
             type="submit"
             class="green bold"
             (click)="addContact(contactForm.value)"
-            [disabled]="contactForm.invalid"
-          >
+            [disabled]="contactForm.invalid">
             SUBMIT
           </button>
         </div>

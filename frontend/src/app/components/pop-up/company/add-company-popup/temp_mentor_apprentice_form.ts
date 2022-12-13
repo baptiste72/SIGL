@@ -1,16 +1,9 @@
-import { Component, Inject, Optional } from '@angular/core';
+/* import { Component, Inject, Optional } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CompanyService } from 'src/app/services/company/company.service';
-import { HttpHeaders } from '@angular/common/http';
-import { OpcoService } from '@app/services/opco/opco.service';
-import { ContactCompanyService } from '@app/services/contact-company/contact-company.service';
 import { MentorService } from '@app/services/mentor/mentor.service';
-import { Company } from '@app/models/Company';
-import { Opco } from '@app/models/Opco';
-import { ContactCompany } from '@app/models/contactCompany';
 import { Mentor } from '@app/models/Mentor';
 
 @Component({
@@ -33,9 +26,7 @@ export class AddApprenticePopupComponent {
     private authService: AuthService,
     private _snackBar: MatSnackBar,
     private _formBuilder: FormBuilder,
-    private companyService: CompanyService,
-    private opcoService: OpcoService,
-    private contactCompanyService: ContactCompanyService,
+
     private mentorService: MentorService,
 
     @Optional() @Inject(MAT_DIALOG_DATA) public mydata: any
@@ -125,3 +116,4 @@ export class AddApprenticePopupComponent {
     console.log('Is the form invalid :', form.invalid);
   }
 }
+ */

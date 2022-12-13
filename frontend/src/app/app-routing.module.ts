@@ -12,6 +12,7 @@ import { NotesPageComponent } from './components/pages/notes-page/notes-page.com
 import { PersonalInformationsComponent } from './components/pages/personal-informations/personal-informations.component';
 import { AuthGuard, Role } from './helpers';
 import { PageNotFoundComponent } from './components/pages/page-not-found/page-not-found.component';
+import { DashboardCompanyComponent } from './components/pages/dashboard-company/dashboard-company.component';
 
 const routes: Routes = [
   { path: '', component: ConnectionComponent },
@@ -27,6 +28,12 @@ const routes: Routes = [
     path: 'dashboard',
     component: DashboardApprenticeComponent,
     canActivate: [AuthGuard],
+  },
+  {
+    path: 'dashboard-company',
+    component: DashboardCompanyComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Role.COMPANY] },
   },
   {
     path: 'profile',
