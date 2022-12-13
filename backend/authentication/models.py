@@ -3,7 +3,7 @@ from django.contrib.auth.models import BaseUserManager, AbstractUser
 
 
 class UserManager(BaseUserManager):
-    # pylint: disable=two-many-arguments
+    # pylint: disable=too-many-arguments
     def create_user(self, email, password, role, first_name, last_name):
         if not email:
             raise ValueError("Users must have an email address")
