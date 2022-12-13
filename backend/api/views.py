@@ -21,6 +21,8 @@ from base.models import (
     TutorTeam,
     YearGroup,
     Document,
+    Opco,
+    ContactCompany,
 )
 from api.helpers.password_helper import PasswordHelper
 from api.helpers.tutor_team_helper import TutorTeamHelper
