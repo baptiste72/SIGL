@@ -10,7 +10,8 @@ urlpatterns = [
     path("deadlines", views.get_deadlines, name="getDeadlines"),
     path("deadlines/add", views.add_deadline, name="addDeadline"),
     # formation-centers
-    path("formation-centers", views.get_formation_centers, name="getformationCenters"),
+    path("formation-centers/<int:pk>", views.FormationCenterDetail.as_view(), name="formationCenters"),
+    path("formation-centers", views.FormationCenterList.as_view(), name="formationCenters"),
     # interviews
     path("interviews", views.get_interviews, name="getInterviews"),
     path("interviews/add", views.add_interview, name="addInterview"),
