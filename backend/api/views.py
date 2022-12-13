@@ -5,10 +5,8 @@ from rest_framework import status, generics
 from rest_framework.permissions import IsAuthenticated
 from django.http import JsonResponse
 from django.http import Http404
-from .helper.tutor_team_helper import TutorTeamHelper
-
-
-from .helper import data_treatement
+from .helpers.tutor_team_helper import TutorTeamHelper
+from .helpers.data_treatement import data_treatement
 from authentication.models import User
 from base.utilities import Role
 
