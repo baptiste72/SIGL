@@ -28,6 +28,8 @@ class Deadline(models.Model):
 class FormationCenter(models.Model):
     # table des centres de formation
     worded = models.CharField(max_length=200)
+    city = models.CharField(max_length=200)
+    postal_code = models.CharField(max_length=5)
     address = models.CharField(max_length=500)
 
 

@@ -123,6 +123,8 @@ class FormationCenterSerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "worded",
+            "city",
+            "postal_code",
             "address",
         )
 

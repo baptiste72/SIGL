@@ -194,11 +194,49 @@ def update_semester(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(["GET"])
-def get_formation_centers(request):
-    formation_center_list = FormationCenter.objects.all()
-    serializers = FormationCenterSerializer(formation_center_list, many=True)
-    return Response(serializers.data)
+class FormationCenterList(APIView):
+    def get(self, request):
+        formation_center_list = FormationCenter.objects.all()
+        serializer = FormationCenterSerializer(formation_center_list, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = FormationCenterSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class FormationCenterDetail(APIView):
+    def get_object(self, pk):
+        try:
+            return FormationCenter.objects.get(pk=pk)
+        except FormationCenter.DoesNotExist as exc:
+            raise Http404 from exc
+
+    def get(self, request, pk):
+        formation_center = self.get_object(pk)
+        serializer = FormationCenterSerializer(formation_center, many=True)
+        return Response(serializer.data)
+
+    def put(self, request, pk):
+        formation_center = self.get_object(pk)
+        formation_center.worded = request.data.get("worded")
+        formation_center.city = request.data.get("city")
+        formation_center.postal_code = request.data.get("postal_code")
+        formation_center.address = request.data.get("address")
+        serializer = FormationCenterSerializer(formation_center, data=request.data)
+        print(request.data)
+        if serializer.is_valid():
+            formation_center.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        formation_center = self.get_object(pk)
+        formation_center.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class UserDetail(APIView):

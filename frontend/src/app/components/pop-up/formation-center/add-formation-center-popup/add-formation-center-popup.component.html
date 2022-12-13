@@ -1,0 +1,49 @@
+<div class="dialog-header bg-red">
+  <h2 mat-dialog-title>Ajout d'un centre de formation</h2>
+</div>
+<div mat-dialog-content class="dialog-content">
+  <div class="div-input">
+    <h3>Nom</h3>
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>Indiquez le nom</mat-label>
+      <input [(ngModel)]="register.worded" type="text" matInput />
+    </mat-form-field>
+  </div>
+
+  <div class="div-input">
+    <h3>Ville</h3>
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>Indiquez la ville</mat-label>
+      <input [(ngModel)]="register.city" type="text" matInput />
+    </mat-form-field>
+  </div>
+
+  <div class="div-input">
+    <h3>Code postal</h3>
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>Indiquez le code postal</mat-label>
+      <input [(ngModel)]="register.postal_code" type="text" matInput />
+    </mat-form-field>
+  </div>
+
+  <div class="div-input">
+    <h3>Adresse</h3>
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>Indiquez l'adresse</mat-label>
+      <input [(ngModel)]="register.address" type="text" matInput />
+    </mat-form-field>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <div mat-dialog-actions align="end">
+    <button
+      mat-button
+      class="green bold"
+      (click)="addFormationCenter(register)"
+    >
+      AJOUTER
+    </button>
+    <button mat-button class="red bold" (click)="closeDialog()">ANNULER</button>
+  </div>
+</div>
