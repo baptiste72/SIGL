@@ -17,3 +17,4 @@ class Role(Enum):
     MENTOR = "MENTOR"
     COMPANY = "COMPANY"
     COORDINATOR = "COORDINATOR"
+    ADMIN = "ADMIN"
