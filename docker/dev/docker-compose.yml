@@ -23,6 +23,8 @@ services:
       POSTGRES_NAME: ${DJANGO_DB}
       POSTGRES_USER: ${DJANGO_USER}
       POSTGRES_PASSWORD: ${DJANGO_PASSWORD}
+      POSTGRES_HOST: ${DJANGO_HOST}
+      POSTGRES_PORT: ${DJANGO_PORT}
     depends_on:
       - django-db
     restart: always
@@ -37,6 +39,8 @@ services:
       POSTGRES_DB: ${DJANGO_DB:?err}
       POSTGRES_USER: ${DJANGO_USER:?err}
       POSTGRES_PASSWORD: ${DJANGO_PASSWORD:?err}
+      POSTGRES_HOST: ${DJANGO_HOST:?err}
+      POSTGRES_PORT: ${DJANGO_PORT:?err}
     restart: always
 
   sonarqube:
