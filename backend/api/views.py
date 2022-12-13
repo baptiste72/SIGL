@@ -5,11 +5,8 @@ from rest_framework import status, generics
 from rest_framework.permissions import IsAuthenticated
 from django.http import JsonResponse
 from django.http import Http404
-from .helpers.tutor_team_helper import TutorTeamHelper
-from .helpers.data_treatement import data_treatement
 from authentication.models import User
 from base.utilities import Role
-
 from base.models import (
     Apprentice,
     Company,
@@ -43,9 +40,9 @@ from api.serializers import (
     RegisterUserSerializer,
     ApprenticeRoleSerializer,
 )
-from api.helpers.password_helper import PasswordHelper
 from api.helpers.tutor_team_helper import TutorTeamHelper
-
+from api.helpers.password_helper import PasswordHelper
+from api.helpers.data_treatement import DataTreatement
 
 @api_view(["GET"])
 def get_mentors(request):
@@ -74,13 +71,15 @@ def add_mentor(request):
     serializer = MentorSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        rep= Response(serializer.data, status=status.HTTP_201_CREATED)
+    else:
+        rep= Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return rep
 
 
-class interviews_by_userID(APIView):
-    def get(self, request, userId):
-        interview_list = Interview.objects.filter(userId=userId)
+class InterviewsByUserID(APIView):
+    def get(self, request, user_id):
+        interview_list = Interview.objects.filter(userId=user_id)
         serializers = InterviewSerializer(interview_list, many=True)
         return Response(serializers.data)
 
@@ -97,52 +96,55 @@ def add_interview(request):
     serializer = InterviewSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+        rep= Response(serializer.data, status=status.HTTP_201_CREATED)
+    else:
+        rep= Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return rep
 
 @api_view(["GET", "DELETE"])
-def api_interview(request, id):
+def api_interview(request, id_interview):
+    rep=""
     try:
-        InterviewId = Interview.objects.get(pk=id)
+        interview_id = Interview.objects.get(pk=id_interview)
     except Interview.DoesNotExist:
-        return JsonResponse(
+        rep= JsonResponse(
             {"message": "the Interview does not exist"},
             status=status.HTTP_404_NOT_FOUND,
         )
 
     if request.method == "GET":
-        interview_serializer = NoteSerializer(InterviewId)
-        return JsonResponse(interview_serializer.data)
+        interview_serializer = InterviewSerializer(interview_id)
+        rep= JsonResponse(interview_serializer.data)
     elif request.method == "DELETE":
-        InterviewId.delete()
-        return JsonResponse(
+        interview_id.delete()
+        rep= JsonResponse(
             {"message": "the Interview was deleted successfully!"},
             status=status.HTTP_204_NO_CONTENT,
         )
-
+    return rep
 
 @api_view(["POST"])
 def update_interview(request):
+    rep=""
     try:
         print(request.data)
-        id = request.data["id"]
-        InterviewId = Interview.objects.get(pk=id)
+        id_interview = request.data["id"]
+        interview_id = Interview.objects.get(pk=id_interview)
     except Note.DoesNotExist:
-        return JsonResponse(
+        rep= JsonResponse(
             {"message": "the Interview does not exist"},
             status=status.HTTP_404_NOT_FOUND,
         )
 
-    serializer = NoteSerializer(instance=InterviewId, data=request.data, partial=True)
+    serializer = NoteSerializer(instance=interview_id, data=request.data, partial=True)
     if serializer.is_valid():
         serializer.save()
-        return Response(status=status.HTTP_200_OK, data=serializer.data)
+        rep= Response(status=status.HTTP_200_OK, data=serializer.data)
     else:
-        return JsonResponse(
+        rep= JsonResponse(
             {"message": "the Interview is not valid"}, status=status.HTTP_404_NOT_FOUND
         )
-
+    return rep
 
 @api_view(["GET"])
 def get_deadlines(request):
@@ -153,63 +155,68 @@ def get_deadlines(request):
 
 @api_view(["POST"])
 def add_deadline(request):
+    rep=""
     serializer = DeadlineSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        rep= Response(serializer.data, status=status.HTTP_201_CREATED)
+    rep= Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return rep
 
 
 @api_view(["GET", "DELETE"])
-def api_deadline(request, id):
+def api_deadline(request, id_deadline):
+    rep=""
     try:
-        DeadlineId = Deadline.objects.get(pk=id)
+        deadline_id = Deadline.objects.get(pk=id_deadline)
     except Deadline.DoesNotExist:
-        return JsonResponse(
+        rep= JsonResponse(
             {"message": "the Deadline does not exist"}, status=status.HTTP_404_NOT_FOUND
         )
-
     if request.method == "GET":
-        deadline_serializer = DeadlineSerializer(DeadlineId)
-        return JsonResponse(deadline_serializer.data)
+        deadline_serializer = DeadlineSerializer(deadline_id)
+        rep=  JsonResponse(deadline_serializer.data)
     elif request.method == "DELETE":
-        DeadlineId.delete()
-        return JsonResponse(
+        deadline_id.delete()
+        rep=  JsonResponse(
             {"message": "the Deadline was deleted successfully!"},
             status=status.HTTP_204_NO_CONTENT,
         )
+    return rep
 
-class deadlines_by_userID(APIView):
-    def get(self, request, userId):
-        deadline_list = Deadline.objects.filter(userId=userId)
+class DeadlinesByUserID(APIView):
+    def get(self, request, user_id):
+        deadline_list = Deadline.objects.filter(userId=user_id)
         serializers = DeadlineSerializer(deadline_list, many=True)
         return Response(serializers.data)
 
 @api_view(["POST"])
 def update_deadline(request):
+    rep=""
     try:
         print(request.data)
-        id = request.data["id"]
-        DeadlineId = Deadline.objects.get(pk=id)
+        id_deadline = request.data["id"]
+        deadline_id = Deadline.objects.get(pk=id_deadline)
     except Note.DoesNotExist:
-        return JsonResponse(
+        rep= JsonResponse(
             {"message": "the Deadline does not exist"}, status=status.HTTP_404_NOT_FOUND
         )
 
-    serializer = NoteSerializer(instance=DeadlineId, data=request.data, partial=True)
+    serializer = NoteSerializer(instance=deadline_id, data=request.data, partial=True)
     if serializer.is_valid():
         serializer.save()
-        return Response(status=status.HTTP_200_OK, data=serializer.data)
+        rep= Response(status=status.HTTP_200_OK, data=serializer.data)
     else:
-        return JsonResponse(
+        rep= JsonResponse(
             {"message": "the Deadline is not valid"}, status=status.HTTP_404_NOT_FOUND
         )
+    return rep
 
 
 @api_view(["GET"])
 def get_notes(request):
-    NoteList = Note.objects.all()
-    serializers = NoteSerializer(NoteList, many=True)
+    note_list = Note.objects.all()
+    serializers = NoteSerializer(note_list, many=True)
     return Response(serializers.data)
 
 
@@ -221,63 +228,63 @@ def add_note(request):
     serializer = NoteSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
-    # print(serializer.errors)
     return Response(serializer.data)
 
 
 @api_view(["GET", "DELETE"])
-def api_note(request, id):
+def api_note(request, id_note):
     try:
-        NoteId = Note.objects.get(pk=id)
+        note_id = Note.objects.get(pk=id_note)
     except Note.DoesNotExist:
-        return JsonResponse(
+        rep= JsonResponse(
             {"message": "the note does not exist"}, status=status.HTTP_404_NOT_FOUND
         )
-
     if request.method == "GET":
-        note_serializer = NoteSerializer(NoteId)
-        return JsonResponse(note_serializer.data)
+        note_serializer = NoteSerializer(note_id)
+        rep= JsonResponse(note_serializer.data)
     elif request.method == "DELETE":
-        NoteId.delete()
-        return JsonResponse(
+        note_id.delete()
+        rep= JsonResponse(
             {"message": "the note was deleted successfully!"},
             status=status.HTTP_204_NO_CONTENT,
         )
+    return rep
 
-class api_note_by_userID(APIView):
-    def get(self, request, userId):
-        NoteList = Note.objects.filter(userId=userId)
-        serializers = NoteSerializer(NoteList, many=True)
+class ApiNoteByUserId(APIView):
+    def get(self, request, user_id):
+        note_list = Note.objects.filter(userId=user_id)
+        serializers = NoteSerializer(note_list, many=True)
         return Response(serializers.data)
     
 # renvois les données en Tree afin d'afficher l'aborescence des notes
-class tree_note(APIView):
-    def get(self, request, userId):
-        NoteList = Note.objects.filter(userId=userId)
-        serializers = TreeNoteSerializer(NoteList, many=True)
-        data = data_treatement.data_treatement.treeNotes(serializers.data)
+class TreeNote(APIView):
+    def get(self, request, user_id):
+        note_list = Note.objects.filter(userId=user_id)
+        serializers = TreeNoteSerializer(note_list, many=True)
+        data = DataTreatement.data_treatement.treeNotes(serializers.data)
         return Response(data)
 
 @api_view(["POST"])
 def update_note(request):
+    rep=""
     try:
         print(request.data)
-        id = request.data["id"]
-        NoteId = Note.objects.get(pk=id)
+        id_note = request.data["id"]
+        note_id = Note.objects.get(pk=id_note)
     except Note.DoesNotExist:
-        return JsonResponse(
+        rep= JsonResponse(
             {"message": "the note does not exist"}, status=status.HTTP_404_NOT_FOUND
         )
 
-    serializer = NoteSerializer(instance=NoteId, data=request.data, partial=True)
+    serializer = NoteSerializer(instance=note_id, data=request.data, partial=True)
     if serializer.is_valid():
         serializer.save()
-        return Response(status=status.HTTP_200_OK, data=serializer.data)
+        rep= Response(status=status.HTTP_200_OK, data=serializer.data)
     else:
-        return JsonResponse(
+        rep= JsonResponse(
             {"message": "the note is not valid"}, status=status.HTTP_404_NOT_FOUND
         )
-
+    return rep
 
 @api_view(["GET"])
 def get_year_groups(request):

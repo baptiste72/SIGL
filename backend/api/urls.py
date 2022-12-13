@@ -7,20 +7,20 @@ urlpatterns = [
     path("interviews", views.get_interviews, name="interviews"),
     path("interview/add", views.add_interview, name="interview/add"),
     path("interview/update", views.update_interview, name="interview/update"),
-    path("interviews/<int:userId>/", views.interviews_by_userID.as_view()),
+    path("interviews/<int:userId>/", views.InterviewsByUserID.as_view()),
     # deadlines
     path("deadline/<int:id>", views.api_deadline, name="apiDeadline"),
     path("deadlines", views.get_deadlines, name="getDeadline"),
     path("add-deadline", views.add_deadline, name="addDeadline"),
     path("update-deadline", views.update_deadline, name="updateDeadline"),
-    path("deadlines/<int:userId>/", views.deadlines_by_userID.as_view()),
+    path("deadlines/<int:userId>/", views.DeadlinesByUserID.as_view()),
     # notes
     path("note/<int:id>", views.api_note, name="apiNote"),
     path("update-note", views.update_note, name="updateNote"),
     path("notes", views.get_notes, name="getNotes"),
     path("add-note", views.add_note, name="addNote"),
-    path("tree-note/<int:userId>/", views.tree_note.as_view()),
-    path("note-by-user-id/<int:userId>/", views.api_note_by_userID.as_view()),
+    path("tree-note/<int:userId>/", views.TreeNote.as_view()),
+    path("note-by-user-id/<int:userId>/", views.ApiNoteByUserId.as_view()),
     # apprentices
     path("apprentices", views.get_apprentices, name="getApprentices"),
     # companies

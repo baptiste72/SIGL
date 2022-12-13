@@ -1,6 +1,6 @@
 import json
 
-class data_treatement:
+class DataTreatement:
     
     # fonction de manipulation de données pour renvoyer l'arborescence des notes périodiques
     def treeNotes(data):
