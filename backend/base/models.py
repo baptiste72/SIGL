@@ -51,6 +51,10 @@ class Mentor(User):
     )
 
 
+class CompanyUser(User):
+    pass
+
+
 class YearGroup(models.Model):
     # tables des promotions
     worded = models.CharField(max_length=200)
