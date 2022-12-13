@@ -15,6 +15,7 @@ from base.models import (
     TutorTeam,
     User,
     YearGroup,
+    Document,
 )
 
 
@@ -130,7 +131,7 @@ class FormationCenterSerializer(serializers.ModelSerializer):
 
 
 class YearGroupSerializer(serializers.ModelSerializer):
-    beginDate = fields.DateTimeField(input_formats=["%Y-%m-%dT%H:%M:%S.%fZ"])
+    beginDate = fields.DateTimeField()
 
     class Meta:
         model = YearGroup
@@ -242,3 +243,14 @@ class ChangePasswordSerializer(serializers.Serializer):
     def validate_new_password(self, value):
         validate_password(value)
         return value
+    
+class DocumentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Document
+        fields = (
+            "id", 
+            "name", 
+            "file_name", 
+            "user", 
+            "yearGroup",
+        )    

@@ -23,6 +23,7 @@ import { AddEventPopupComponent } from './components/pop-up/add-event-popup/add-
 import { AddDeadlinePopupComponent } from './components/pop-up/add-deadline-popup/add-deadline-popup.component';
 import { AddCompanyPopupComponent } from './components/pop-up/company/add-company-popup/add-company-popup.component';
 import { AddSemesterPopupComponent } from './components/pop-up/semester/add-semester-popup/add-semester-popup.component';
+import { AddDocumentPopupComponent } from './components/pop-up/document/add-document-popup/add-document-popup.component';
 
 // MODULES
 import { NgModule } from '@angular/core';
@@ -90,6 +91,7 @@ import { DashboardCompanyComponent } from './components/pages/dashboard-company/
     AddSemesterPopupComponent,
     UpdateYearGroupPopupComponent,
     UpdateSemesterPopupComponent,
+    AddDocumentPopupComponent,
     UpdateUserPopupComponent,
     ConfirmDeleteComponent,
     UpdateTeamPopupComponent,
