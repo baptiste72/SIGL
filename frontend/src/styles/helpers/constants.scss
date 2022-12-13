@@ -21,6 +21,8 @@ $dark-grey: rgba(0, 0, 0, 0.87);
 /* SHADOW */
 $box-shadow-primary: 0px 8px 15px rgba(0, 0, 0, 0.1);
 $box-shadow-secondary: 0px 4px 4px rgba(0, 0, 0, 0.25);
+$box-shadow-tertiary: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+  rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
 
 .green {
   color: $green;
@@ -28,6 +30,10 @@ $box-shadow-secondary: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
 .red {
   color: $red;
+}
+
+.blue {
+  color: $blue;
 }
 
 .bold {
@@ -40,6 +46,10 @@ $box-shadow-secondary: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
 .bg-green {
   background-color: $green;
+}
+
+.bg-blue {
+  background-color: $blue;
 }
 
 .bg-gradient {

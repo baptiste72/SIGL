@@ -45,4 +45,8 @@ urlpatterns = [
         views.delete_year_group,
         name="deleteYearGroupById",
     ),
+    # documents
+    path("documents", views.DocumentList.as_view()),
+    path("documents/<int:pk>", views.DocumentDetail.as_view()),
+    path("documents/cleanup/<str:file_name>", views.cleanup),
 ]
