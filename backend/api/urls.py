@@ -26,7 +26,11 @@ urlpatterns = [
     # companies
     path("companies", views.get_company, name="getCompanies"),
     # formation-centers
-    path("formation-centers", views.get_formation_centers, name="getformationCenters"),
+    path("formation-centers/<int:pk>", views.FormationCenterDetail.as_view(), name="formationCenters"),
+    path("formation-centers", views.FormationCenterList.as_view(), name="formationCenters"),
+    # interviews
+    path("interviews", views.get_interviews, name="getInterviews"),
+    path("interviews/add", views.add_interview, name="addInterview"),
     # mentors
     path("mentors", views.get_mentors, name="getMentors"),
     path("mentors/add", views.add_mentor, name="addMentor"),

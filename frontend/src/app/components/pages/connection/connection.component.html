@@ -43,7 +43,14 @@
             <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
           </button>
         </mat-form-field>
-        <a href="/forgot-password" class="mdp_forget">Mot de passe oublié ?</a>
+        <div class="reset-password-field">
+          <a (click)="firstConnection()" class="mdp_forget"
+            >Première connexion ?</a
+          >
+          <a routerLink="/forgot-password" class="mdp_forget"
+            >Mot de passe oublié ?</a
+          >
+        </div>
       </div>
 
       <button mat-flat-button class="btn_primary bg-gradient" type="submit">

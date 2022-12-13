@@ -71,6 +71,8 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 registerLocaleData(localeFr);
+import { AddFormationCenterPopupComponent } from './components/pop-up/formation-center/add-formation-center-popup/add-formation-center-popup.component';
+import { UpdateFormationCenterPopupComponent } from './components/pop-up/formation-center/update-formation-center-popup/update-formation-center-popup.component';
 
 @NgModule({
   declarations: [
@@ -110,6 +112,8 @@ registerLocaleData(localeFr);
     UpdateTeamPopupComponent,
     ChangePasswordComponent,
     PageNotFoundComponent,
+    AddFormationCenterPopupComponent,
+    UpdateFormationCenterPopupComponent,
   ],
   imports: [
     CalendarModule.forRoot({

@@ -27,7 +27,7 @@ export class ConnectionComponent implements OnInit {
     });
 
     // redirect to home if already logged in
-    if (this.authService.userValue) {
+    if (this.authService.userValue && localStorage.getItem('user') != null) {
       this.router.navigate(['/dashboard']);
     }
   }
@@ -75,6 +75,12 @@ export class ConnectionComponent implements OnInit {
         },
       });
     }
+  }
+
+  public firstConnection() {
+    this.router.navigate(['/forgot-password'], {
+      queryParams: { firstConnection: true },
+    });
   }
 
   public login() {

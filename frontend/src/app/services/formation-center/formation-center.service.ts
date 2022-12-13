@@ -17,4 +17,23 @@ export class FormationCenterService {
       `${environment.apiUrl}/${this.urlPrefix}`
     );
   }
+
+  public add(formationCenter: FormationCenter) {
+    return this.http.post<FormationCenter>(
+      `${environment.apiUrl}/${this.urlPrefix}`,
+      formationCenter,
+      { withCredentials: true }
+    );
+  }
+
+  public delete(id: number): Observable<any> {
+    return this.http.delete(`${environment.apiUrl}/${this.urlPrefix}/${id}`);
+  }
+
+  public update(formationCenter: FormationCenter): Observable<FormationCenter> {
+    return this.http.put<FormationCenter>(
+      `${environment.apiUrl}/${this.urlPrefix}/${formationCenter.id}`,
+      formationCenter
+    );
+  }
 }

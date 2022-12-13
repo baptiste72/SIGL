@@ -73,3 +73,9 @@ h3 {
 .btn-microsoft img {
   max-height: 45px;
 }
+
+.reset-password-field {
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+}

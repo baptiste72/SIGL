@@ -2,14 +2,15 @@
 stages:
   - lint
   - build
+  - test
   - deploy
 
 variables:
-  REGISTRY: $CI_REGISTRY/$CI_PROJECT_ROOT_NAMESPACE/$CI_PROJECT_NAME
+  REGISTRY: "${CI_REGISTRY}/${CI_PROJECT_ROOT_NAMESPACE}/${CI_PROJECT_NAME}"
 
 .install-node-modules: &install-node-modules
   image:
-    name: $REGISTRY/dev-angular
+    name: "${REGISTRY}/dev-angular"
     entrypoint: [""]
   before_script:
     - cd frontend
@@ -25,12 +26,12 @@ lint-angular:
   stage: lint
   <<: *install-node-modules
   script:
-    - npm run lint
+    - ng lint
 
 lint-django:
   stage: lint
   image:
-    name: $REGISTRY/dev-django
+    name: "${REGISTRY}/dev-django"
     entrypoint: [""]
   before_script:
     - cd backend
@@ -42,7 +43,24 @@ build-angular:
   needs: ["lint-angular"]
   <<: *install-node-modules
   script:
-    - npm run build
+    - ng build
+
+test-angular:
+  stage: test
+  needs: ["build-angular"]
+  <<: *install-node-modules
+  script:
+    - ng test --watch=false
+  coverage: '/^Statements\s*:\s*([^%]+)/'
+  artifacts:
+    when: always
+    reports:
+      junit:
+        - frontend/test/junit.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: frontend/coverage/frontend/cobertura-coverage.xml
+  allow_failure: true
 
 deploy-to-prod:
   stage: deploy
@@ -63,15 +81,14 @@ deploy-to-prod:
         && echo -e "DJANGO_DB=${DJANGO_DB}\n
                     DJANGO_USER=${DJANGO_USER}\n
                     DJANGO_PASSWORD=${DJANGO_PASSWORD}\n
-                    SONAR_DB=${SONAR_DB}\n
-                    SONAR_USER=${SONAR_USER}\n
-                    SONAR_PASSWORD=${SONAR_PASSWORD}" > .env
+                    DJANGO_HOST=${DJANGO_HOST}\n
+                    DJANGO_PORT=${DJANGO_PORT}" > .env
         && docker compose down
         && docker system prune -af
         && docker volume prune -f
-        && docker compose up -d
-        && docker exec django python manage.py makemigrations
-        && docker exec django python manage.py migrate'
+        && docker compose up -d'
   environment: production
+  tags:
+    - angular
   only:
     - master

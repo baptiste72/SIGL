@@ -3,6 +3,7 @@ from rest_framework import serializers, fields
 from base.models import (
     Apprentice,
     Company,
+    CompanyUser,
     Deadline,
     FormationCenter,
     Interview,
@@ -67,6 +68,8 @@ class FormationCenterSerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "worded",
+            "city",
+            "postal_code",
             "address",
         )
 
@@ -163,6 +166,19 @@ class UserSerializer(serializers.ModelSerializer):
             "first_name",
             "last_name",
             "email",
+            "role",
+        )
+
+
+class CompanyUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CompanyUser
+        fields = (
+            "id",
+            "first_name",
+            "last_name",
+            "email",
+            "password",
             "role",
         )
 
