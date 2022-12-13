@@ -18,8 +18,14 @@ export class ContactCompanyService {
 
   public add(contact: ContactCompany): Observable<ContactCompany> {
     return this.http.post<ContactCompany>(
-      `${environment.apiUrl}/${this.urlPrefix}/add`,
+      `${environment.apiUrl}/${this.urlPrefix}`,
       contact
+    );
+  }
+
+  public getById(id: number): Observable<ContactCompany> {
+    return this.http.get<ContactCompany>(
+      `${environment.apiUrl}/${this.urlPrefix}/${id}`
     );
   }
 }

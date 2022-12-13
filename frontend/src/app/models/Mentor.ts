@@ -1,5 +1,4 @@
 import { Role } from '@app/helpers';
-import { first } from 'rxjs';
 import { User } from './User';
 
 export class Mentor extends User {

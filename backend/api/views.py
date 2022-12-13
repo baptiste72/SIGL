@@ -9,7 +9,7 @@ from base.utilities import Role
 from base.models import (
     Apprentice,
     Company,
-    CompanyUserCompanyInfoAssociation,
+    CompanyUser,
     Deadline,
     FormationCenter,
     Interview,
@@ -37,11 +37,12 @@ from api.serializers import (
     ChangePasswordSerializer,
     RegisterUserSerializer,
     ApprenticeRoleSerializer,
-    CompanyUserCompanyInfoSerializer,
+    CompanyUserSerializer,
 )
 from base.models import (
     Apprentice,
     Company,
+    CompanyUser,
     ContactCompany,
     Opco,
     Deadline,
@@ -52,7 +53,7 @@ from base.models import (
     Tutor,
     TutorTeam,
     YearGroup,
-    CompanyUserCompanyInfoAssociation,
+
 )
 from api.helpers.password_helper import PasswordHelper
 from api.helpers.tutor_team_helper import TutorTeamHelper
@@ -193,12 +194,12 @@ def update_semester(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(["GET"])
+""" @api_view(["GET"])
 def get_company(request):
     company_list = Company.objects.all()
     serializers = CompanySerializer(company_list, many=True)
-    return Response(serializers.data)
-
+    return Response(serializers.data) """
+"""
 @api_view(['POST'])
 def add_company(request):
     serializer = CompanySerializer(data=request.data)
@@ -213,9 +214,9 @@ def add_company(request):
         response = Response(serializer.errors)
         response.status_code = status.HTTP_400_BAD_REQUEST
         return response
-        
+        """
 
-@api_view(['GET'])
+""" @api_view(['GET'])
 def get_opco(request):
     CompanyList = Opco.objects.all()
     serializers = OpcoSerializer(OpcoList, many=True)
@@ -227,10 +228,10 @@ def add_opco(request):
     serializer = OpcoSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
-    return Response(serializer.data)
+    return Response(serializer.data) """
 
 
-@api_view(["GET"])
+""" @api_view(["GET"])
 def get_contact_companys(request):
     yeargroup_list = ContactCompany.objects.all()
     serializers = ContactCompanySerializer(yeargroup_list, many=True)
@@ -243,21 +244,7 @@ def add_contact_company(request):
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-@api_view(["GET"])
-def get_company_user(request):
-    serializers = CompanyUserCompanyInfoSerializer(many=True)
-    return Response(serializers.data)
-
-
-@api_view(["POST"])
-def add_company_user(request):
-    serializer = CompanyUserCompanyInfoSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) """
 
 
 @api_view(["GET"])
@@ -327,6 +314,118 @@ class UserList(APIView):
         serializer.save()
 
         return Response(serializer.data)
+
+"""
+class CompanyDetail(APIView):
+    def get_object(self, pk):
+        try:
+            return Company.objects.get(pk=pk)
+        except Company.DoesNotExist as exc:
+            raise Http404 from exc
+
+    def get(self, request, pk):
+        company = self.get_object(pk)
+        serializer = CompanySerializer(company)
+        return Response(serializer.data)
+
+    def put(self, request, pk):
+        company = self.get_object(pk)
+        serializer = CompanySerializer(company, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        """
+
+class CompanyDetail(APIView):
+    def get_object(self, pk):
+        try:
+            return TutorTeam.objects.get(pk=pk)
+        except TutorTeam.DoesNotExist as exc:
+            raise Http404 from exc
+
+    def get(self, request, pk):
+        tutor_team = self.get_object(pk)
+        serializer = TutorTeamSerializer(tutor_team)
+        return Response(serializer.data)
+
+    def put(self, request, pk):
+        tutor_team = self.get_object(pk)
+        serializer = TutorTeamSerializer(tutor_team, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        tutor_team = self.get_object(pk)
+        tutor_team.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class CompanyList(APIView):
+    def get(self, request):
+        tutor_team_list = Company.objects.all()
+        serializers = CompanySerializer(tutor_team_list, many=True)
+        response = CompanySerializer.getAllCompanies(serializers)
+        return Response(response)
+
+    def post(self, request):
+        serializer = CompanySerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+""" class CompanyDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Company.objects.all()
+    serializer_class = CompanySerializer
+
+class CompanyList(generics.ListCreateAPIView):
+    queryset = Company.objects.all()
+    serializer_class = CompanySerializer """
+
+class CompanyUserDetail(APIView):
+    def get_object(self, pk):
+        try:
+            return CompanyUser.objects.get(pk=pk)
+        except CompanyUser.DoesNotExist as exc:
+            raise Http404 from exc
+
+    def get(self, request, pk):
+        company_user = self.get_object(pk)
+        serializer = CompanyUserSerializer(company_user)
+        return Response(serializer.data)
+
+    def put(self, request, pk):
+        company_user = self.get_object(pk)
+        serializer = CompanyUserSerializer(company_user, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class CompanyUserList(generics.ListCreateAPIView):
+    queryset = CompanyUser.objects.all()
+    serializer_class = CompanyUserSerializer
+
+
+class OpcoDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Opco.objects.all()
+    serializer_class = OpcoSerializer
+
+class OpcoList(generics.ListCreateAPIView):
+    queryset = Opco.objects.all()
+    serializer_class = OpcoSerializer
+
+class ContactCompanyDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ContactCompany.objects.all()
+    serializer_class = ContactCompanySerializer
+
+class ContactCompanyList(generics.ListCreateAPIView):
+    queryset = ContactCompany.objects.all()
+    serializer_class = ContactCompanySerializer
 
 
 class TutorTeamDetail(APIView):

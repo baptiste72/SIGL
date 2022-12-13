@@ -15,7 +15,6 @@ from base.models import (
     TutorTeam,
     User,
     YearGroup,
-    CompanyUserCompanyInfoAssociation,
 )
 
 
@@ -102,17 +101,6 @@ class ContactCompanySerializer(serializers.ModelSerializer):
             "sa_job_title",
             "sa_former_eseo",
         )       
-
-class CompanyUserCompanyInfoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CompanyUserCompanyInfoAssociation
-        fields = (
-            "user_company_id",
-            "company_siret",
-            "opco_siret",
-            "contactCompany_id",
-
-        )
 
 class TutorSerializer(serializers.ModelSerializer):
     class Meta:
@@ -222,6 +210,9 @@ class CompanyUserSerializer(serializers.ModelSerializer):
             "email",
             "password",
             "role",
+            "company_siret",
+            "opco_siret",
+            "contactCompany_id",
         )
 
 

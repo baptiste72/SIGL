@@ -5,12 +5,17 @@ urlpatterns = [
     # apprentices
     path("apprentices", views.get_apprentices, name="getApprentices"),
     # companies
-    path("companies", views.get_company, name="getCompanies"),
-    path('companies/add', views.add_company, name='addCompany'),
-    path('opco/add', views.add_opco, name='addOpco'),
-    path('contact-company/add', views.add_contact_company, name='addContactCompany'),
-    path('company-user', views.get_company_user, name='addContactCompany'),
-    path('company-user/add', views.add_company_user),
+    path("companies", views.CompanyList.as_view()),
+    path("companies/<int:pk>", views.CompanyDetail.as_view()),
+    #opco
+    path("opco", views.OpcoList.as_view()),
+    path("opco/<int:pk>", views.OpcoDetail.as_view()),
+    #contact-company
+    path("contact-company", views.ContactCompanyList.as_view()),
+    path("contact-company/<int:pk>", views.ContactCompanyDetail.as_view()),
+    #company-user
+    path("contact-company", views.CompanyUserList.as_view()),
+    path("company-user/<int:pk>", views.CompanyUserDetail.as_view()),
     # deadlines
     path("deadlines", views.get_deadlines, name="getDeadlines"),
     path("deadlines/add", views.add_deadline, name="addDeadline"),

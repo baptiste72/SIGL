@@ -102,21 +102,15 @@ class Mentor(User):
     def __unicode__(self):
         return self.name
 
-class CompanyUserCompanyInfoAssociation(models.Model):
-    # Association user entreprise => insertion des données du formulaire
-    user_company_id = models.OneToOneField(User, on_delete=models.CASCADE, default="", related_name="association")
-    company_siret = models.CharField(max_length=200, default="")
-    opco_siret = models.CharField(max_length=200, default="")
-    contactCompany_id = models.CharField(max_length=200, default="")
-    
-    def __unicode__(self):
-        return self.name
-
-
 
 class CompanyUser(User):
-    pass
+    # Association user entreprise => insertion des données du formulaire
+    company_siret = models.CharField(max_length=200, null=True, blank=True)
+    opco_siret = models.CharField(max_length=200, null=True, blank=True)
+    contactCompany_id = models.CharField(max_length=200, null=True, blank=True)
 
+    def __unicode__(self):
+        return self.name
 
 class YearGroup(models.Model):
     # tables des promotions

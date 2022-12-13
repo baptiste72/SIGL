@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Company } from '@app/models/Company';
-import { CompanyUserCompanyInfoAssociation } from '@app/models/CompanyUserCompanyInfoAssociation';
+import { CompanyUser } from '@app/models/CompanyUser';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -19,13 +19,13 @@ export class CompanyService {
 
   public add(company: Company): Observable<Company> {
     return this.http.post<Company>(
-      `${environment.apiUrl}/${this.urlPrefix}/add`,
+      `${environment.apiUrl}/${this.urlPrefix}`,
       company
     );
   }
 
-  public getById(id: number) {
-    return this.http.get<CompanyUserCompanyInfoAssociation>(
+  public get(id: number): Observable<Company> {
+    return this.http.get<Company>(
       `${environment.apiUrl}/${this.urlPrefix}/${id}`
     );
   }

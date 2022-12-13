@@ -9,8 +9,10 @@ import { ContactCompanyService } from '@app/services/contact-company/contact-com
 import { Company } from '@app/models/Company';
 import { Opco } from '@app/models/Opco';
 import { ContactCompany } from '@app/models/ContactCompany';
-import { CompanyUserCompanyInfoAssociation } from '@app/models/CompanyUserCompanyInfoAssociation';
-import { CompanyUserCompanyInfoService } from '@app/services/company-user-company-info/company-user-company-info.service';
+import { CompanyUser } from '@app/models/CompanyUser';
+import { CompanyUserService } from '@app/services/company-user/company-user.service';
+import { lastValueFrom } from 'rxjs';
+import { Role } from '@app/helpers';
 
 @Component({
   selector: 'app-add-company-popup',
@@ -24,11 +26,11 @@ export class AddCompanyPopupComponent implements OnInit {
   enterpriseForm: FormGroup;
   opcoForm: FormGroup;
   contactForm: FormGroup;
-  association: CompanyUserCompanyInfoAssociation;
 
   isFormerESEO: string[] = ['Oui', 'Non'];
   stageInternat: string[] = ['Lu et approuvé'];
   isOptional = false;
+  compUser: CompanyUser;
 
   //Regex validator
   private phoneValidator = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/;
@@ -44,41 +46,41 @@ export class AddCompanyPopupComponent implements OnInit {
     private opcoService: OpcoService,
     private contactCompanyService: ContactCompanyService,
     private authService: AuthService,
-    private companyInfoService: CompanyUserCompanyInfoService,
+    private companyUserService: CompanyUserService,
 
     @Optional() @Inject(MAT_DIALOG_DATA) public mydata: any
   ) {
     this.enterpriseForm = this._formBuilder.group({
       cmp_name: [
-        'Soco',
+        '',
         [Validators.required, Validators.pattern(this.stringValidator)],
       ],
       cmp_siret: [
-        '1234',
+        '',
         [Validators.required, Validators.pattern(this.numberOnlyValidator)],
       ],
       cmp_employees: [
-        '222',
+        '',
         [Validators.required, Validators.pattern(this.numberOnlyValidator)],
       ],
       cmp_cpne: ['333', [Validators.required]],
       cmp_idcc: [
-        '111',
+        '',
         [Validators.required, Validators.pattern(this.numberOnlyValidator)],
       ],
-      cmp_convention: ['555', Validators.required],
-      cmp_naf_ape: ['666', [Validators.required]],
-      cmp_work_field: ['Metal', Validators.required],
+      cmp_convention: ['', Validators.required],
+      cmp_naf_ape: ['', [Validators.required]],
+      cmp_work_field: ['', Validators.required],
       cmp_phone: [
-        '0630781510',
+        '',
         [
           Validators.required,
           Validators.minLength(10),
           Validators.pattern(this.phoneValidator),
         ],
       ],
-      cmp_email: ['jojo@jojo.com', [Validators.required, Validators.email]],
-      cmp_address: ['213 rue tutu', Validators.required],
+      cmp_email: ['', [Validators.required, Validators.email]],
+      cmp_address: ['', Validators.required],
       cmp_internat: ['', Validators.required],
     });
 
@@ -88,23 +90,23 @@ export class AddCompanyPopupComponent implements OnInit {
         [Validators.required, Validators.pattern(this.numberOnlyValidator)],
       ],
       opco_name: [
-        'nomOp',
+        '',
         [Validators.required, Validators.pattern(this.stringValidator)],
       ],
       opco_siret: [
-        '567',
+        '',
         [Validators.required, Validators.pattern(this.numberOnlyValidator)],
       ],
-      opco_address: ['444 rue dia', Validators.required],
+      opco_address: ['', Validators.required],
       opco_phone: [
-        '0909090909',
+        '',
         [
           Validators.required,
           Validators.minLength(10),
           Validators.pattern(this.phoneValidator),
         ],
       ],
-      opco_email: ['Soco@dd.fr', [Validators.required, Validators.email]],
+      opco_email: ['', [Validators.required, Validators.email]],
     });
 
     this.contactForm = this._formBuilder.group({
@@ -113,87 +115,104 @@ export class AddCompanyPopupComponent implements OnInit {
         [Validators.required, Validators.pattern(this.numberOnlyValidator)],
       ],
       ct_last_name: [
-        'nomC',
+        '',
         [Validators.required, Validators.pattern(this.stringValidator)],
       ],
       ct_first_name: [
-        'prenomC',
+        '',
         [Validators.required, Validators.pattern(this.stringValidator)],
       ],
       ct_phone: [
-        '1234567891',
+        '',
         [
           Validators.required,
           Validators.minLength(10),
           Validators.pattern(this.phoneValidator),
         ],
       ],
-      ct_email: ['aa@test.cpm', [Validators.required, Validators.email]],
+      ct_email: ['', [Validators.required, Validators.email]],
       ct_job_title: [
-        'boulanger',
+        '',
         [Validators.required, Validators.pattern(this.stringValidator)],
       ],
-      ct_former_eseo: ['Oui', Validators.required],
+      ct_former_eseo: ['', Validators.required],
       fi_last_name: [
-        'nomF',
+        '',
         [Validators.required, Validators.pattern(this.stringValidator)],
       ],
       fi_first_name: [
-        'prenomF',
+        '',
         [Validators.required, Validators.pattern(this.stringValidator)],
       ],
       fi_phone: [
-        '1111',
+        '',
         [
           Validators.required,
           Validators.minLength(10),
           Validators.pattern(this.phoneValidator),
         ],
       ],
-      fi_email: ['zz@ee.com', [Validators.required, Validators.email]],
+      fi_email: ['', [Validators.required, Validators.email]],
       fi_job_title: [
-        'Garagiste',
+        '',
         [Validators.required, Validators.pattern(this.stringValidator)],
       ],
-      fi_former_eseo: ['Oui', Validators.required],
+      fi_former_eseo: ['', Validators.required],
       sa_last_name: [
-        'nomS',
+        '',
         [Validators.required, Validators.pattern(this.stringValidator)],
       ],
       sa_first_name: [
-        'prenomS',
+        '',
         [Validators.required, Validators.pattern(this.stringValidator)],
       ],
       sa_phone: [
-        '22222',
+        '',
         [
           Validators.required,
           Validators.minLength(10),
           Validators.pattern(this.phoneValidator),
         ],
       ],
-      sa_email: ['sa@sa.com', [Validators.required, Validators.email]],
+      sa_email: ['', [Validators.required, Validators.email]],
       sa_job_title: [
-        'Peintre',
+        '',
         [Validators.required, Validators.pattern(this.stringValidator)],
       ],
       sa_former_eseo: ['', Validators.required],
     });
-
-    this.association = new CompanyUserCompanyInfoAssociation(
-      this.authService.userValue.id,
+    this.compUser = new CompanyUser(
+      999,
+      'TOTO',
+      'TOTOT',
+      'test@gmail.com',
+      Role.COMPANY,
       0,
       0,
       0
     );
+    this.companyUserService.getById(this.authService.userValue.id).subscribe({
+      next: (compUser) => {
+        this.compUser = compUser;
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
 
     this.isOptional = false;
     this.fromDialog = 'I am from dialog land...';
   }
 
+  private async getCompanyUser(): Promise<CompanyUser> {
+    return await lastValueFrom(
+      this.companyUserService.getById(this.authService.userValue.id)
+    );
+  }
+
   ngOnInit(): void {
-    console.log(this.authService.userValue.id);
-    if (this.companyService.getById(this.authService.userValue.id)) {
+    if (this.compUser.company_siret != 0) {
+      this.getCompany(this.compUser.company_siret);
     }
   }
 
@@ -209,8 +228,36 @@ export class AddCompanyPopupComponent implements OnInit {
         });
         this.opcoForm.patchValue({ opco_cmp_siret: companyData.cmp_siret });
         this.contactForm.patchValue({ ct_cmp_siret: companyData.cmp_siret });
-        this.association.company_siret = company.cmp_siret;
-        this.addCompanyUserCompanyInfoAssociation(this.association);
+
+        this.compUser.company_siret = company.cmp_siret;
+        this.updateCompanyUser(this.compUser);
+      },
+      error: (err) => {
+        console.log(err);
+        this._snackBar.open('❌ Une erreur est survenue', 'Ok', {
+          duration: 2000,
+        });
+      },
+    });
+  }
+
+  getCompany(id: number) {
+    this.companyService.get(id).subscribe({
+      next: (company) => {
+        this.enterpriseForm.patchValue({
+          cmp_name: company.cmp_name,
+          cmp_siret: company.cmp_siret,
+          cmp_employees: company.cmp_employees,
+          cmp_cpne: company.cmp_cpne,
+          cmp_idcc: company.cmp_idcc,
+          cmp_convention: company.cmp_convention,
+          cmp_naf_ape: company.cmp_naf_ape,
+          cmp_work_field: company.cmp_work_field,
+          cmp_phone: company.cmp_phone,
+          cmp_email: company.cmp_email,
+          cmp_address: company.cmp_address,
+          cmp_internat: company.cmp_internat,
+        });
       },
       error: (err) => {
         console.log(err);
@@ -227,46 +274,10 @@ export class AddCompanyPopupComponent implements OnInit {
         this._snackBar.open('✔ Données OPCO enregistrées', 'Ok', {
           duration: 2000,
         });
-        this.association.opco_siret = opco.opco_siret;
-        this.updateCompanyUserCompanyInfoAssociation(this.association);
+        this.compUser.opco_siret = opco.opco_siret;
+        this.updateCompanyUser(this.compUser);
       },
 
-      error: (err) => {
-        console.log(err);
-        this._snackBar.open('❌ Une erreur est survenue', 'Ok', {
-          duration: 2000,
-        });
-      },
-    });
-  }
-
-  public addCompanyUserCompanyInfoAssociation(
-    association: CompanyUserCompanyInfoAssociation
-  ) {
-    this.companyInfoService.add(association).subscribe({
-      next: (v) => {
-        this._snackBar.open('✔ Données sauvegardées', 'Ok', {
-          duration: 2000,
-        });
-      },
-      error: (err) => {
-        console.log(err);
-        this._snackBar.open('❌ Une erreur est survenue', 'Ok', {
-          duration: 2000,
-        });
-      },
-    });
-  }
-
-  public updateCompanyUserCompanyInfoAssociation(
-    association: CompanyUserCompanyInfoAssociation
-  ) {
-    this.companyInfoService.update(association).subscribe({
-      next: (v) => {
-        this._snackBar.open('✔ Données sauvegardées', 'Ok', {
-          duration: 2000,
-        });
-      },
       error: (err) => {
         console.log(err);
         this._snackBar.open('❌ Une erreur est survenue', 'Ok', {
@@ -280,6 +291,24 @@ export class AddCompanyPopupComponent implements OnInit {
     this.contactCompanyService.add(contact).subscribe({
       next: (v) => {
         this._snackBar.open('✔ Données des contacts enregistrées', 'Ok', {
+          duration: 2000,
+        });
+        this.compUser.contactCompany_id = contact.ct_cmp_siret;
+        this.updateCompanyUser(this.compUser);
+      },
+      error: (err) => {
+        console.log(err);
+        this._snackBar.open('❌ Une erreur est survenue', 'Ok', {
+          duration: 2000,
+        });
+      },
+    });
+  }
+
+  public updateCompanyUser(compUser: CompanyUser) {
+    this.companyUserService.update(compUser).subscribe({
+      next: (v) => {
+        this._snackBar.open('✔ Données sauvegardées', 'Ok', {
           duration: 2000,
         });
       },

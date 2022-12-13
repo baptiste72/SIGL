@@ -18,8 +18,14 @@ export class OpcoService {
 
   public add(opco: Opco): Observable<Opco> {
     return this.http.post<Opco>(
-      `${environment.apiUrl}/${this.urlPrefix}/add`,
+      `${environment.apiUrl}/${this.urlPrefix}`,
       opco
+    );
+  }
+
+  public getById(id: number): Observable<Opco> {
+    return this.http.get<Opco>(
+      `${environment.apiUrl}/${this.urlPrefix}/${id}`
     );
   }
 }
