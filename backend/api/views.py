@@ -30,7 +30,6 @@ from api.helpers.sftp_helper import SftpHelper
 from api.serializers import (
     ApprenticeSerializer,
     CompanySerializer,
-    CompanyUserSerializer,
     ContactCompanySerializer,
     OpcoSerializer,
     DeadlineSerializer,
