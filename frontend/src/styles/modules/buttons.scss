@@ -5,13 +5,22 @@
   border-radius: 44px;
   padding: 12px 40px;
   margin-top: 30px;
+  }
+
+.btn_secondary {
+  color: $white;
+  border: none;
+  cursor: pointer;
+  border-radius: 44px;
+  padding: 12px 40px;
+  margin-top: 30px;
+  background: linear-gradient(120deg, $purple, $blue);
   background-size: 200% 100%;
   background-position: 100% 0;
   transition: background-position .5s;
-  transition: all 0.3s ease 0s;
-}
-
-.btn_primary:hover {
-  background-position: 0 0;
   box-shadow: $box-shadow-primary;
-}
+  }
+
+  .btn_secondary:hover {
+    background-position: 0 0;
+  }

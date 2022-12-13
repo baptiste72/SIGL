@@ -103,3 +103,15 @@ class TutorTeam(models.Model):
     apprentice = models.ForeignKey(
         Apprentice, related_name="TutorTeam", on_delete=models.CASCADE, null=True
     )
+ 
+    
+class Document(models.Model):
+    # tables des documents pédagogiques
+    name = models.CharField(max_length=200)
+    file_name = models.CharField(max_length=200)
+    user = models.ForeignKey(
+        User, related_name="user", on_delete=models.CASCADE, null=True
+    )
+    yearGroup = models.ForeignKey(
+        YearGroup, related_name="document", on_delete=models.CASCADE, null=True
+    )  

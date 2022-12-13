@@ -1,10 +1,11 @@
+import os
+from django.http import FileResponse, Http404,JsonResponse
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework import status, generics
 from rest_framework.permissions import IsAuthenticated
-from django.http import JsonResponse
-from django.http import Http404
+from rest_framework.parsers import MultiPartParser, FormParser
 from authentication.models import User
 from base.utilities import Role
 from base.models import (
@@ -19,6 +20,7 @@ from base.models import (
     TutorTeam,
     YearGroup,
     Note,
+    Document,
 )
 
 from api.serializers import (
@@ -39,10 +41,12 @@ from api.serializers import (
     ChangePasswordSerializer,
     RegisterUserSerializer,
     ApprenticeRoleSerializer,
+    DocumentSerializer,
 )
 from api.helpers.tutor_team_helper import TutorTeamHelper
 from api.helpers.password_helper import PasswordHelper
 from api.helpers.data_treatement import DataTreatement
+from api.helpers.sftp_helper import SftpHelper
 
 @api_view(["GET"])
 def get_mentors(request):
@@ -197,7 +201,7 @@ def update_deadline(request):
         print(request.data)
         id_deadline = request.data["id"]
         deadline_id = Deadline.objects.get(pk=id_deadline)
-    except Note.DoesNotExist:
+    except Deadline.DoesNotExist:
         rep= JsonResponse(
             {"message": "the Deadline does not exist"}, status=status.HTTP_404_NOT_FOUND
         )
@@ -541,3 +545,62 @@ class UserChangePasswordView(generics.UpdateAPIView):
             return Response(status=status.HTTP_204_NO_CONTENT)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class DocumentList(APIView):
+    parser_classes = (MultiPartParser, FormParser)
+
+    def get(self, request):
+        document_list = Document.objects.all()
+        serializers = DocumentSerializer(document_list, many=True)
+        return Response(serializers.data)
+
+    def post(self, request, *args, **kwargs):
+        serializer = DocumentSerializer(data=request.data)
+        if serializer.is_valid():
+            file = request.FILES["file"]
+            sftp, ssh = SftpHelper.sftp_open_connection()
+            sftp.putfo(file, "/datastore/" + request.data["file_name"])
+            SftpHelper.sftp_close_connection(sftp, ssh)
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class DocumentDetail(APIView):
+    parser_classes = (MultiPartParser, FormParser)
+
+    def get_object(self, pk):
+        try:
+            return Document.objects.get(pk=pk)
+        except Document.DoesNotExist as exc:
+            raise Http404 from exc
+
+    def get(self, request, pk):
+        document = self.get_object(pk)
+        serializer = DocumentSerializer(document)
+        sftp, ssh = SftpHelper.sftp_open_connection()
+        file_name = serializer.data["file_name"]
+        with open(file_name, "wb") as file_write :
+            sftp.getfo("/datastore/" + file_name, file_write)
+        # pylint: disable=consider-using-with
+        file_read = open(file_name, "rb")
+        SftpHelper.sftp_close_connection(sftp, ssh)
+        return FileResponse(file_read, content_type="application/pdf")
+
+    def delete(self, request, pk):
+        document = self.get_object(pk)
+        try:
+            sftp, ssh = SftpHelper.sftp_open_connection()
+            sftp.remove("/datastore/" + document.file_name)
+            SftpHelper.sftp_close_connection(sftp, ssh)
+        except: # pylint: disable=bare-except
+            pass
+        document.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(["DELETE"])
+def cleanup(request, file_name):
+    os.remove(file_name)
+    return Response(status=status.HTTP_200_OK)

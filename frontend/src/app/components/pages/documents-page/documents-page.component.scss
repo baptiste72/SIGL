@@ -5,13 +5,11 @@
   box-shadow: $box-shadow-secondary;
   padding: 0px;
   width: 100%;
-  @include respond-to('medium') {
-    width: 70%;
-  }
 }
 
 .documents-page-card-header {
   padding-top: 12px;
+  margin-bottom: 10px;
   box-shadow: $box-shadow-secondary;
   background-color: $blue;
   color: $white;
@@ -20,10 +18,6 @@
 
 .documents-page-card-title {
   display: flex;
-}
-
-.download-icons {
- color: $blue;
 }
 
 .mat-column-download-link {

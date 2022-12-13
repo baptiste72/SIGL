@@ -19,9 +19,6 @@ import { NotesPageComponent } from './components/pages/notes-page/notes-page.com
 import { UpdateYearGroupPopupComponent } from './components/pop-up/year-group/update-year-group-popup/update-year-group-popup/update-year-group-popup.component';
 import { UpdateSemesterPopupComponent } from './components/pop-up/semester/update-semester-popup/update-semester-popup/update-semester-popup.component';
 import { EventsPageComponent } from './components/pages/events-page/events-page.component';
-import { AddInterviewPopupComponent } from './components/pop-up/interview/add-interview-popup/add-interview-popup.component';
-
-// MODULES
 
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -73,6 +70,8 @@ import localeFr from '@angular/common/locales/fr';
 registerLocaleData(localeFr);
 import { AddFormationCenterPopupComponent } from './components/pop-up/formation-center/add-formation-center-popup/add-formation-center-popup.component';
 import { UpdateFormationCenterPopupComponent } from './components/pop-up/formation-center/update-formation-center-popup/update-formation-center-popup.component';
+import { AddInterviewPopupComponent } from './components/pop-up/interview/add-interview-popup/add-interview-popup.component';
+import { AddDocumentPopupComponent } from './components/pop-up/document/add-document-popup/add-document-popup.component';
 
 @NgModule({
   declarations: [
@@ -107,6 +106,7 @@ import { UpdateFormationCenterPopupComponent } from './components/pop-up/formati
     DeleteInterviewPopupComponent,
     DeleteDeadlinePopupComponent,
     ModifyDeadlinePopupComponent,
+    AddDocumentPopupComponent,
     UpdateUserPopupComponent,
     ConfirmDeleteComponent,
     UpdateTeamPopupComponent,
