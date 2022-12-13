@@ -56,9 +56,8 @@ class Company(models.Model):
     cmp_internat = models.CharField(max_length=20,default = "Non")
 
 class Opco(models.Model):
-
+    opco_siret = models.CharField(max_length=200,primary_key=True)
     opco_cmp_siret = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)
-    opco_siret = models.CharField(max_length=200)
     opco_name = models.CharField(max_length=200)
     opco_address = models.CharField(max_length=200)
     opco_phone = models.CharField(max_length=200)

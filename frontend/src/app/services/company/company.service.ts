@@ -24,7 +24,7 @@ export class CompanyService {
     );
   }
 
-  public get(id: number): Observable<Company> {
+  public getById(id: number): Observable<Company> {
     return this.http.get<Company>(
       `${environment.apiUrl}/${this.urlPrefix}/${id}`
     );

@@ -14,7 +14,7 @@ urlpatterns = [
     path("contact-company", views.ContactCompanyList.as_view()),
     path("contact-company/<int:pk>", views.ContactCompanyDetail.as_view()),
     #company-user
-    path("contact-company", views.CompanyUserList.as_view()),
+    path("company-user", views.CompanyUserList.as_view()),
     path("company-user/<int:pk>", views.CompanyUserDetail.as_view()),
     # deadlines
     path("deadlines", views.get_deadlines, name="getDeadlines"),

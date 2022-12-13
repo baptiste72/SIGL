@@ -1,4 +1,10 @@
-import { Component, Inject, OnInit, Optional } from '@angular/core';
+import {
+  Component,
+  Inject,
+  OnInit,
+  AfterViewInit,
+  Optional,
+} from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/services/auth/auth.service';
@@ -19,7 +25,7 @@ import { Role } from '@app/helpers';
   templateUrl: './add-company-popup.component.html',
   styleUrls: ['./add-company-popup.component.scss'],
 })
-export class AddCompanyPopupComponent implements OnInit {
+export class AddCompanyPopupComponent {
   fromPage!: string;
   fromDialog: string;
 
@@ -191,29 +197,28 @@ export class AddCompanyPopupComponent implements OnInit {
       0,
       0
     );
-    this.companyUserService.getById(this.authService.userValue.id).subscribe({
+    console.log(this.compUser);
+    console.log(this.authService.userValue.id);
+    this.getCompanyUser(this.authService.userValue.id);
+
+    /*     this.companyUserService.getById(this.authService.userValue.id).subscribe({
       next: (compUser) => {
         this.compUser = compUser;
       },
       error: (err) => {
         console.log(err);
       },
-    });
+    }); */
 
+    console.log(this.compUser);
     this.isOptional = false;
     this.fromDialog = 'I am from dialog land...';
   }
 
-  private async getCompanyUser(): Promise<CompanyUser> {
+  private async getCompanyUserTest(): Promise<CompanyUser> {
     return await lastValueFrom(
       this.companyUserService.getById(this.authService.userValue.id)
     );
-  }
-
-  ngOnInit(): void {
-    if (this.compUser.company_siret != 0) {
-      this.getCompany(this.compUser.company_siret);
-    }
   }
 
   closeDialog() {
@@ -229,8 +234,9 @@ export class AddCompanyPopupComponent implements OnInit {
         this.opcoForm.patchValue({ opco_cmp_siret: companyData.cmp_siret });
         this.contactForm.patchValue({ ct_cmp_siret: companyData.cmp_siret });
 
-        this.compUser.company_siret = company.cmp_siret;
+        this.compUser.company_siret = companyData.cmp_siret;
         this.updateCompanyUser(this.compUser);
+        console.log(this.compUser);
       },
       error: (err) => {
         console.log(err);
@@ -241,8 +247,8 @@ export class AddCompanyPopupComponent implements OnInit {
     });
   }
 
-  getCompany(id: number) {
-    this.companyService.get(id).subscribe({
+  public getCompany(id: number) {
+    this.companyService.getById(id).subscribe({
       next: (company) => {
         this.enterpriseForm.patchValue({
           cmp_name: company.cmp_name,
@@ -268,13 +274,96 @@ export class AddCompanyPopupComponent implements OnInit {
     });
   }
 
+  public getOpco(id: number) {
+    this.opcoService.getById(id).subscribe({
+      next: (opco) => {
+        this.opcoForm.patchValue({
+          opco_cmp_siret: opco.opco_cmp_siret,
+          opco_name: opco.opco_name,
+          opco_siret: opco.opco_siret,
+          opco_address: opco.opco_address,
+          opco_phone: opco.opco_phone,
+          opco_email: opco.opco_email,
+        });
+      },
+      error: (err) => {
+        console.log(err);
+        this._snackBar.open('❌ Une erreur est survenue', 'Ok', {
+          duration: 2000,
+        });
+      },
+    });
+  }
+
+  public getContactCompany(id: number) {
+    this.contactCompanyService.getById(id).subscribe({
+      next: (contact) => {
+        this.contactForm.patchValue({
+          ct_cmp_siret: contact.ct_cmp_siret,
+          ct_last_name: contact.ct_last_name,
+          ct_first_name: contact.ct_first_name,
+          ct_phone: contact.ct_phone,
+          ct_email: contact.ct_email,
+          ct_former_eseo: contact.ct_former_eseo,
+          fi_last_name: contact.fi_last_name,
+          fi_first_name: contact.fi_first_name,
+          fi_phone: contact.fi_phone,
+          fi_email: contact.fi_email,
+          fi_job_title: contact.fi_job_title,
+          fi_former_eseo: contact.fi_former_eseo,
+          sa_last_name: contact.sa_last_name,
+          sa_first_name: contact.sa_first_name,
+          sa_phone: contact.sa_phone,
+          sa_email: contact.sa_email,
+          sa_job_title: contact.sa_job_title,
+          sa_former_eseo: contact.sa_former_eseo,
+        });
+      },
+      error: (err) => {
+        console.log(err);
+        this._snackBar.open('❌ Une erreur est survenue', 'Ok', {
+          duration: 2000,
+        });
+      },
+    });
+  }
+
+  public getCompanyUser(id: number) {
+    this.companyUserService.getById(id).subscribe({
+      next: (user) => {
+        this.compUser = user;
+        if (this.compUser.company_siret != null) {
+          this.getCompany(this.compUser.company_siret);
+          this.opcoForm.patchValue({
+            opco_cmp_siret: this.compUser.company_siret,
+          });
+          this.contactForm.patchValue({
+            ct_cmp_siret: this.compUser.company_siret,
+          });
+        }
+        if (this.compUser.opco_siret != null) {
+          this.getOpco(this.compUser.opco_siret);
+        }
+        if (this.compUser.contactCompany_id != null) {
+          this.getContactCompany(this.compUser.contactCompany_id);
+        }
+      },
+      error: (err) => {
+        console.log(err);
+        this._snackBar.open('❌ Une erreur est survenue', 'Ok', {
+          duration: 2000,
+        });
+      },
+    });
+  }
+
   public addOpco(opco: Opco) {
     this.opcoService.add(opco).subscribe({
-      next: (v) => {
+      next: (op) => {
         this._snackBar.open('✔ Données OPCO enregistrées', 'Ok', {
           duration: 2000,
         });
-        this.compUser.opco_siret = opco.opco_siret;
+        this.compUser.opco_siret = op.opco_siret;
         this.updateCompanyUser(this.compUser);
       },
 
@@ -319,5 +408,11 @@ export class AddCompanyPopupComponent implements OnInit {
         });
       },
     });
+  }
+
+  public test() {
+    console.log(this.compUser);
+    console.log(this.opcoForm.valid);
+    console.log(this.opcoForm.value);
   }
 }
