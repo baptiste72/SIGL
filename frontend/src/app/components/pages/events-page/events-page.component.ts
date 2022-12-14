@@ -93,9 +93,10 @@ export class EventsPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getInterviewDates(this.userId);
-    this.getInterviews(this.userId);
-    this.getDeadlines(this.userId);
+    console.log('page events');
+    //this.getInterviewDates(this.userId);
+    //this.getInterviews(this.userId);
+    //this.getDeadlines(this.userId);
   }
 
   public async openConfirmDeletePopup(content: string): Promise<boolean> {
@@ -145,7 +146,7 @@ export class EventsPageComponent implements OnInit {
   }
 
   private getDeadlines(userId: number) {
-    this.deadlineService.get(userId).subscribe({
+    this.deadlineService.getAllByUserId(userId).subscribe({
       next: (v) => {
         this.deadlines = v;
         this.dataSourceDeadlines = new MatTableDataSource<Deadline>(

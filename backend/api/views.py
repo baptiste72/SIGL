@@ -82,8 +82,8 @@ class ApprenticeDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ApprenticeSerializer
 
 class DeadlinesByUserId(APIView):
-    def get(self, request, user_id):
-        deadline_list = Deadline.objects.filter(apprentice_id=user_id)
+    def get(self, request, pk):
+        deadline_list = Deadline.objects.filter(apprentice_id=pk)
         serializers = DeadlineSerializer(deadline_list, many=True)
         return Response(serializers.data)
 
