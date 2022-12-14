@@ -6,7 +6,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AddYearGroupPopupComponent } from '../../pop-up/year-group/add-year-group-popup/add-year-group-popup.component';
 import { UpdateYearGroupPopupComponent } from '../../pop-up/year-group/update-year-group-popup/update-year-group-popup/update-year-group-popup.component';
 import { AddTeamPopupComponent } from '../../pop-up/tutor-team/add-team-popup/add-team-popup.component';
-import { AddCompanyPopupComponent } from '../../pop-up/company/add-company-popup/add-company-popup.component';
+import { AddCompanyFormComponent } from '../../forms/add-company-form/add-company-form.component';
 import { AddSemesterPopupComponent } from '../../pop-up/semester/add-semester-popup/add-semester-popup.component';
 import { YearGroupService } from 'src/app/services/year-group/year-group.service';
 import { SemesterService } from 'src/app/services/semester/semester.service';
@@ -26,6 +26,7 @@ import { FormationCenterService } from 'src/app/services/formation-center/format
 import { FormationCenter } from 'src/app/models/FormationCenter';
 import { UpdateFormationCenterPopupComponent } from '@app/components/pop-up/formation-center/update-formation-center-popup/update-formation-center-popup.component';
 import { AddFormationCenterPopupComponent } from '@app/components/pop-up/formation-center/add-formation-center-popup/add-formation-center-popup.component';
+import { CompanyService } from '@app/services/company/company.service';
 
 @Component({
   templateUrl: './configuration.component.html',
@@ -113,9 +114,10 @@ export class ConfigurationComponent implements OnInit, AfterViewInit {
     private semesterService: SemesterService,
     private tutorTeamService: TutorTeamService,
     private formationCenterService: FormationCenterService,
+    private companyService: CompanyService,
     private _snackBar: MatSnackBar
   ) {
-    this.dataSourceCompanies = new MatTableDataSource<Company>(COMPANIES_DATA);
+    this.dataSourceCompanies = new MatTableDataSource<Company>();
     this.dataSourceSemesters = new MatTableDataSource<Semester>();
     this.dataSourceTutorTeams = new MatTableDataSource<TutorTeam>();
     this.dataSourceUsers = new MatTableDataSource<User>();
@@ -132,9 +134,7 @@ export class ConfigurationComponent implements OnInit, AfterViewInit {
         break;
       case 'companies':
         if (!this.hlCompanies) {
-          // TODO: Récupérer les companies
-          // TODO: Intégrer la ligne suivante dans le loadCompanies
-          // this.dataSourceCompanies.paginator = this.companiesPaginator;
+          this.loadCompanies();
         }
         break;
       case 'tutor-teams':
@@ -207,7 +207,25 @@ export class ConfigurationComponent implements OnInit, AfterViewInit {
       },
       error: (err) => {
         this._snackBar.open(
-          '❌ Une erreur est survenue lors de la récupération des équipes pédagogiques',
+          '❌ Une erreur est survenue lors de la récupération des utilisateurs',
+          'Ok',
+          { duration: 2000 }
+        );
+      },
+    });
+  }
+
+  private loadCompanies() {
+    this.companyService.getAll().subscribe({
+      next: (companies) => {
+        this.dataSourceCompanies = new MatTableDataSource<Company>(companies);
+        this.dataSourceCompanies.paginator = this.companiesPaginator;
+        this.hlCompanies = true;
+        console.log(this.dataSourceCompanies);
+      },
+      error: (err) => {
+        this._snackBar.open(
+          '❌ Une erreur est survenue lors de la récupération des entreprises',
           'Ok',
           { duration: 2000 }
         );
@@ -371,7 +389,7 @@ export class ConfigurationComponent implements OnInit, AfterViewInit {
   }
 
   public addCompany() {
-    this.dialog.open(AddCompanyPopupComponent, {
+    this.dialog.open(AddCompanyFormComponent, {
       width: '600px',
     });
   }
@@ -505,47 +523,33 @@ const USERS_DATA: User[] = [
 ];
 
 export interface Company {
-  name: string;
-  companySiret: string;
-  nbEmployees: number;
-  codeCpne: string;
-  cideIdcc: string;
-  collectiveConvention: string;
-  codeNafApe: string;
-  activityArea: string;
-  phoneNumber: string;
-  mailAddress: string;
-  address: string;
-  trainingSiteName: string;
-  trainingSiteSiret: string;
-  trainingSiteAddress: string;
-  opcoName: string;
-  opcoSiret: string;
-  opcoAddress: string;
-  opcoPhoneNumber: string;
-  opcoMailAddress: string;
+  cmp_name: string;
+  cmp_siret: number;
+  cmp_employees: number;
+  cmp_cpne: string;
+  cmp_idcc: number;
+  cmp_convention: string;
+  cmp_naf_ape: string;
+  cmp_work_field: string;
+  cmp_phone: string;
+  cmp_email: string;
+  cmp_address: string;
+  cmp_internat: string;
 }
 
-const COMPANIES_DATA: Company[] = [
+ const COMPANIES_DATA: Company[] = [
   {
-    name: 'Itanica',
-    companySiret: '399 826 981 00017',
-    nbEmployees: 250,
-    codeCpne: '123',
-    cideIdcc: '123',
-    collectiveConvention: '123',
-    codeNafApe: '123',
-    activityArea: '123',
-    phoneNumber: '123',
-    mailAddress: '123',
-    address: '123',
-    trainingSiteName: '123',
-    trainingSiteSiret: '123',
-    trainingSiteAddress: '123',
-    opcoName: '123',
-    opcoSiret: '123',
-    opcoAddress: '123',
-    opcoPhoneNumber: '123',
-    opcoMailAddress: '123',
+    cmp_name: 'Itanica',
+    cmp_siret: 3998269810017,
+    cmp_employees: 250,
+    cmp_cpne: '123',
+    cmp_idcc: 123,
+    cmp_convention: '123',
+    cmp_naf_ape: '123',
+    cmp_work_field: '123',
+    cmp_phone: '123',
+    cmp_email: '123',
+    cmp_address: '123',
+    cmp_internat: 'Oui',
   },
 ];
