@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { AddCompanyPopupComponent } from './add-company-popup.component';
+import { AddCompanyFormComponent } from './add-company-form.component';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
-describe('AddCompanyPopupComponent', () => {
-  let component: AddCompanyPopupComponent;
-  let fixture: ComponentFixture<AddCompanyPopupComponent>;
+describe('AddCompanyFormComponent', () => {
+  let component: AddCompanyFormComponent;
+  let fixture: ComponentFixture<AddCompanyFormComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AddCompanyPopupComponent ],
+      declarations: [ AddCompanyFormComponent ],
       schemas: [NO_ERRORS_SCHEMA],
       imports: [HttpClientTestingModule, MatDialogModule, MatSnackBarModule],
       providers: [
@@ -19,14 +19,14 @@ describe('AddCompanyPopupComponent', () => {
           provide: MatDialogRef,
           useValue: {}
         },
-        { provide: MAT_DIALOG_DATA, 
+        { provide: MAT_DIALOG_DATA,
           useValue: {}
         },
       ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AddCompanyPopupComponent);
+    fixture = TestBed.createComponent(AddCompanyFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

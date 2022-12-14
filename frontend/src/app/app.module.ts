@@ -21,7 +21,7 @@ import { UpdateSemesterPopupComponent } from './components/pop-up/semester/updat
 import { EventsPageComponent } from './components/pages/events-page/events-page.component';
 import { AddEventPopupComponent } from './components/pop-up/add-event-popup/add-event-popup.component';
 import { AddDeadlinePopupComponent } from './components/pop-up/add-deadline-popup/add-deadline-popup.component';
-import { AddCompanyPopupComponent } from './components/pop-up/company/add-company-popup/add-company-popup.component';
+import { AddCompanyFormComponent } from './components/forms/add-company-form/add-company-form.component';
 import { AddSemesterPopupComponent } from './components/pop-up/semester/add-semester-popup/add-semester-popup.component';
 import { AddDocumentPopupComponent } from './components/pop-up/document/add-document-popup/add-document-popup.component';
 
@@ -87,7 +87,7 @@ import { DashboardCompanyComponent } from './components/pages/dashboard-company/
     EventsPageComponent,
     AddEventPopupComponent,
     AddDeadlinePopupComponent,
-    AddCompanyPopupComponent,
+    AddCompanyFormComponent,
     AddSemesterPopupComponent,
     UpdateYearGroupPopupComponent,
     UpdateSemesterPopupComponent,

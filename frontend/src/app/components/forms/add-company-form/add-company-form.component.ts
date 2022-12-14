@@ -1,10 +1,4 @@
-import {
-  Component,
-  Inject,
-  OnInit,
-  AfterViewInit,
-  Optional,
-} from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/services/auth/auth.service';
@@ -17,18 +11,14 @@ import { Opco } from '@app/models/Opco';
 import { ContactCompany } from '@app/models/ContactCompany';
 import { CompanyUser } from '@app/models/CompanyUser';
 import { CompanyUserService } from '@app/services/company-user/company-user.service';
-import { lastValueFrom } from 'rxjs';
 import { Role } from '@app/helpers';
 
 @Component({
-  selector: 'app-add-company-popup',
-  templateUrl: './add-company-popup.component.html',
-  styleUrls: ['./add-company-popup.component.scss'],
+  selector: 'app-add-company-form',
+  templateUrl: './add-company-form.component.html',
+  styleUrls: ['./add-company-form.component.scss'],
 })
-export class AddCompanyPopupComponent {
-  fromPage!: string;
-  fromDialog: string;
-
+export class AddCompanyFormComponent {
   enterpriseForm: FormGroup;
   opcoForm: FormGroup;
   contactForm: FormGroup;
@@ -45,7 +35,6 @@ export class AddCompanyPopupComponent {
   private numberOnlyValidator = /^\d+$/;
 
   constructor(
-    public dialogRef: MatDialogRef<AddCompanyPopupComponent>,
     private _snackBar: MatSnackBar,
     private _formBuilder: FormBuilder,
     private companyService: CompanyService,
@@ -53,8 +42,6 @@ export class AddCompanyPopupComponent {
     private contactCompanyService: ContactCompanyService,
     private authService: AuthService,
     private companyUserService: CompanyUserService,
-
-    @Optional() @Inject(MAT_DIALOG_DATA) public mydata: any
   ) {
     this.enterpriseForm = this._formBuilder.group({
       cmp_name: [
@@ -199,11 +186,6 @@ export class AddCompanyPopupComponent {
     );
     this.getCompanyUser(this.authService.userValue.id);
     this.isOptional = false;
-    this.fromDialog = 'I am from dialog land...';
-  }
-
-  closeDialog() {
-    this.dialogRef.close({ event: 'close', data: this.fromDialog });
   }
 
   // COMPANY
@@ -258,7 +240,6 @@ export class AddCompanyPopupComponent {
   }
 
   // OPCO
-
   public addOpco(opco: Opco) {
     this.opcoService.add(opco).subscribe({
       next: (op) => {
@@ -300,7 +281,6 @@ export class AddCompanyPopupComponent {
   }
 
   // CONTACT COMPANY
-
   public addContact(contact: ContactCompany) {
     this.contactCompanyService.add(contact).subscribe({
       next: (v) => {
@@ -309,7 +289,6 @@ export class AddCompanyPopupComponent {
         });
         this.compUser.contactCompany_id = contact.ct_cmp_siret;
         this.updateCompanyUser(this.compUser);
-        this.closeDialog;
       },
       error: (err) => {
         console.log(err);
@@ -354,7 +333,6 @@ export class AddCompanyPopupComponent {
   }
 
   // COMPANY USER
-
   public updateCompanyUser(compUser: CompanyUser) {
     this.companyUserService.update(compUser).subscribe({
       next: (v) => {

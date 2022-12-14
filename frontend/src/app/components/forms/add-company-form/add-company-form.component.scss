@@ -1,0 +1,22 @@
+@import "/src/styles/helpers/constants.scss";
+
+.mat-step-icon .mat-icon {
+    margin: 0;
+}
+
+.company-form-card {
+    box-shadow: $box-shadow-secondary;
+    padding: 0px;
+}
+
+.company-form-card-header {
+    padding-top: 12px;
+    box-shadow: $box-shadow-secondary;
+    background-color: $purple;
+    color: $white;
+    justify-content: center;
+}
+
+.company-form-card-title {
+display: flex;
+}
