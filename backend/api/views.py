@@ -1,5 +1,5 @@
 import os
-from django.http import FileResponse, Http404, JsonResponse
+from django.http import FileResponse, Http404
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
@@ -61,6 +61,7 @@ def get_mentors(request):
     serializers = MentorSerializer(mentor_list, many=True)
     return Response(serializers.data)
 
+
 @api_view(["POST"])
 def add_mentor(request):
     serializer = MentorSerializer(data=request.data)
@@ -85,6 +86,7 @@ def add_mentor(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 class ApprenticeList(generics.ListCreateAPIView):
     queryset = Apprentice.objects.all()
     serializer_class = ApprenticeSerializer
@@ -93,6 +95,7 @@ class ApprenticeList(generics.ListCreateAPIView):
 class ApprenticeDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Apprentice.objects.all()
     serializer_class = ApprenticeSerializer
+
 
 class DeadlinesByUserId(APIView):
     def get(self, request, pk):
@@ -380,7 +383,6 @@ class CompanyList(APIView):
         company_list = Company.objects.all()
         serializer = CompanySerializer(company_list, many=True)
         return Response(serializer.data)
-    
 
     def post(self, request):
         serializer = CompanySerializer(data=request.data)
@@ -393,7 +395,8 @@ class CompanyList(APIView):
 class CompanyUserDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = CompanyUser.objects.all()
     serializer_class = CompanyUserSerializer
-  
+
+
 class CompanyUserList(generics.ListCreateAPIView):
     queryset = CompanyUser.objects.all()
     serializer_class = CompanyUserSerializer
@@ -424,13 +427,16 @@ class OpcoDetail(APIView):
         tutor_team.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+
 class OpcoList(generics.ListCreateAPIView):
     queryset = Opco.objects.all()
     serializer_class = OpcoSerializer
 
+
 class ContactCompanyDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = ContactCompany.objects.all()
     serializer_class = ContactCompanySerializer
+
 
 class ContactCompanyList(generics.ListCreateAPIView):
     queryset = ContactCompany.objects.all()
