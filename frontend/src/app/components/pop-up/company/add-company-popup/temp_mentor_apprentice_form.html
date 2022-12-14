@@ -1,0 +1,346 @@
+<!-- <mat-step [stepControl]="mentorForm" [optional]="isOptional">
+    <form [formGroup]="mentorForm">
+      <ng-template matStepLabel>Maître d'apprentissage</ng-template>
+
+      <div class="div-input">
+        <h3>NOM</h3>
+        <mat-form-field class="full-width" appearance="fill">
+          <input type="text" matInput formControlName="mt_last_name" />
+          <mat-hint
+            >Il s'agit du NOM de la personne qui va assurer l'encadrement
+            opérationnel de l'apprenti(e) en entreprise.</mat-hint
+          >
+          <mat-error
+            *ngIf="
+              mentorForm.get('mt_last_name')?.invalid &&
+              (mentorForm.get('mt_last_name')?.dirty ||
+                mentorForm.get('mt_last_name')?.touched)
+            "
+          >
+            Nom du MA requis</mat-error
+          >
+        </mat-form-field>
+      </div>
+
+      <div class="div-input">
+        <h3>Prénom</h3>
+        <mat-form-field class="full-width" appearance="fill">
+          <input type="text" matInput formControlName="mt_first_name" />
+          <mat-hint
+            >Il s'agit du PRÉNOM de la personne qui va assurer l'encadrement
+            opérationnel de l'apprenti(e) en entreprise.</mat-hint
+          >
+          <mat-error
+            *ngIf="
+              mentorForm.get('mt_first_name')?.invalid &&
+              (mentorForm.get('mt_first_name')?.dirty ||
+                mentorForm.get('mt_first_name')?.touched)
+            "
+          >
+            Prénom du MA requis</mat-error
+          >
+        </mat-form-field>
+      </div>
+
+      <div class="div-input">
+        <h3>Numéro de téléphone</h3>
+        <mat-form-field class="full-width" appearance="fill">
+          <input type="text" matInput formControlName="mt_phone" />
+          <mat-hint
+            >Il s'agit du NUMÉRO DE LIGNE DIRECTE de la personne qui va
+            assurer l'encadrement opérationnel de l'apprenti(e) en
+            entreprise</mat-hint
+          >
+          <mat-error
+            *ngIf="
+              mentorForm.get('mt_phone')?.invalid &&
+              (mentorForm.get('mt_phone')?.dirty ||
+                mentorForm.get('mt_phone')?.touched)
+            "
+          >
+            Numéro de téléphone du MA requis</mat-error
+          >
+        </mat-form-field>
+      </div>
+
+      <div class="div-input">
+        <h3>Addresse Email</h3>
+        <mat-form-field class="full-width" appearance="fill">
+          <input type="text" matInput formControlName="mt_email" />
+          <mat-hint
+            >Il s'agit de l'E-MAIL de la personne qui va assurer l'encadrement
+            opérationnel de l'apprenti(e) en entreprise.</mat-hint
+          >
+          <mat-error
+            *ngIf="
+              mentorForm.get('mt_email')?.invalid &&
+              (mentorForm.get('mt_email')?.dirty ||
+                mentorForm.get('mt_email')?.touched)
+            "
+          >
+            Adresse email du MA requis</mat-error
+          >
+        </mat-form-field>
+      </div>
+
+      <div class="div-input">
+        <h3>Fonction dans l'entreprise</h3>
+        <mat-form-field class="full-width" appearance="fill">
+          <input type="text" matInput formControlName="mt_job_title" />
+          <mat-hint
+            >Il s'agit de la FONCTION occupée par la personne qui va assurer
+            l'encadrement opérationnel de l'apprenti(e) en
+            entreprise</mat-hint
+          >
+          <mat-error
+            *ngIf="
+              mentorForm.get('mt_job_title')?.invalid &&
+              (mentorForm.get('mt_job_title')?.dirty ||
+                mentorForm.get('mt_job_title')?.touched)
+            "
+          >
+            Titre (Fonction) du MA requis</mat-error
+          >
+        </mat-form-field>
+      </div>
+
+      <div class="div-input">
+        <h3>Dernier diplôme obtenu</h3>
+        <mat-form-field class="full-width" appearance="fill">
+          <input type="text" matInput formControlName="mt_last_diploma" />
+          <mat-hint
+            >Il s'agit du DERNIER DIPLÔME OBTENU par la personne qui va
+            assurer l'encadrement opérationnel de l'apprenti(e) en
+            entreprise.</mat-hint
+          >
+          <mat-error
+            *ngIf="
+              mentorForm.get('mt_last_diploma')?.invalid &&
+              (mentorForm.get('mt_last_diploma')?.dirty ||
+                mentorForm.get('mt_last_diploma')?.touched)
+            "
+          >
+            Dernier diplôme du MA requis</mat-error
+          >
+        </mat-form-field>
+      </div>
+
+      <div class="div-input">
+        <h3>Ancien élève ESEO ?</h3>
+        <mat-radio-group
+          aria-labelledby=""
+          class="stage-radiogroup"
+          formControlName="mt_former_eseo"
+        >
+          <mat-radio-button
+            class="radio-btn"
+            *ngFor="let response of isFormerESEO"
+            [value]="response"
+          >
+            {{ response }}
+          </mat-radio-button>
+          <mat-error *ngIf="contactForm.get('mt_former_eseo')?.invalid">
+            Champ requis</mat-error
+          >
+        </mat-radio-group>
+      </div>
+
+      <div mat-dialog-actions align="end">
+        <button mat-button class="black bold" matStepperPrevious>BACK</button>
+        <button mat-button class="black bold" matStepperNext>NEXT</button>
+        <button
+          mat-button
+          type="submit"
+          class="green bold"
+          (click)="addMentor(mentorForm.value)"
+          [disabled]="mentorForm.invalid"
+        >
+          SUBMIT
+        </button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step [stepControl]="apprenticeForm" [optional]="isOptional">
+    <form [formGroup]="apprenticeForm">
+      <ng-template matStepLabel>Apprenti</ng-template>
+
+      <div class="div-input">
+        <h3>NOM</h3>
+        <mat-form-field class="full-width" appearance="fill">
+          <input type="text" matInput formControlName="app_last_name" />
+          <mat-hint
+            >NOM de l'apprenti(e) ESEO recruté(e) dans le cadre du contrat
+            d'apprentissage</mat-hint
+          >
+          <mat-error
+            *ngIf="
+              apprenticeForm.get('app_last_name')?.invalid &&
+              (apprenticeForm.get('app_last_name')?.dirty ||
+                apprenticeForm.get('app_last_name')?.touched)
+            "
+          >
+            Nom de l'apprenti requis</mat-error
+          >
+        </mat-form-field>
+      </div>
+
+      <div class="div-input">
+        <h3>Prénom</h3>
+        <mat-form-field class="full-width" appearance="fill">
+          <input type="text" matInput formControlName="app_first_name" />
+          <mat-hint
+            >PRÉNOM de l'apprenti(e) ESEO recruté(e) dans le cadre du contrat
+            d'apprentissage</mat-hint
+          >
+          <mat-error
+            *ngIf="
+              apprenticeForm.get('app_first_name')?.invalid &&
+              (apprenticeForm.get('app_first_name')?.dirty ||
+                apprenticeForm.get('app_first_name')?.touched)
+            "
+          >
+            Prénom de l'apprenti requis</mat-error
+          >
+        </mat-form-field>
+      </div>
+
+      <div class="div-input">
+        <h3>Numéro de téléphone</h3>
+        <mat-form-field class="full-width" appearance="fill">
+          <input type="text" matInput formControlName="app_phone" />
+          <mat-hint></mat-hint>
+          <mat-error
+            *ngIf="
+              apprenticeForm.get('app_phone')?.invalid &&
+              (apprenticeForm.get('app_phone')?.dirty ||
+                apprenticeForm.get('app_phone')?.touched)
+            "
+          >
+            Numéro de téléphone de l'apprenti requis</mat-error
+          >
+        </mat-form-field>
+      </div>
+
+      <div class="div-input">
+        <h3>Intitulé du poste</h3>
+        <mat-form-field class="full-width" appearance="fill">
+          <input type="text" matInput formControlName="app_job_title" />
+          <mat-error
+            *ngIf="
+              apprenticeForm.get('app_job_title')?.invalid &&
+              (apprenticeForm.get('app_job_title')?.dirty ||
+                apprenticeForm.get('app_job_title')?.touched)
+            "
+          >
+            Titre (Fonction) de l'apprenti requis</mat-error
+          >
+        </mat-form-field>
+      </div>
+
+      <div class="div-input">
+        <h3>
+          Descriptif du poste fiche de poste détaillée des missions confiées
+          dans le cadre du contrat d'apprentissage
+        </h3>
+        <mat-form-field class="full-width" appearance="fill">
+          <input type="text" matInput formControlName="app_description" />
+          <mat-hint
+            >L'ESEO vérifiera l'adéquation des missions afférentes avec les
+            objectifs du diplôme préparé.</mat-hint
+          >
+          <mat-error
+            *ngIf="
+              apprenticeForm.get('app_description')?.invalid &&
+              (apprenticeForm.get('app_description')?.dirty ||
+                apprenticeForm.get('app_description')?.touched)
+            "
+          >
+            Descriptif du poste de l'apprenti requis</mat-error
+          >
+        </mat-form-field>
+      </div>
+
+      <div class="div-input">
+        <h3>Classification dans la convention collective</h3>
+        <mat-form-field class="full-width" appearance="fill">
+          <input
+            type="text"
+            matInput
+            formControlName="app_collective_convention"
+          />
+          <mat-hint
+            >Il s’agit des niveaux et coefficients d’entrée et de sortie de
+            l'apprenti(e) (en début, puis en fin de contrat)</mat-hint
+          >
+          <mat-error
+            *ngIf="
+              apprenticeForm.get('app_collective_convention')?.invalid &&
+              (apprenticeForm.get('app_collective_convention')?.dirty ||
+                apprenticeForm.get('app_collective_convention')?.touched)
+            "
+          >
+            Classification dans la convention collective requise</mat-error
+          >
+        </mat-form-field>
+      </div>
+
+      <div class="div-input">
+        <h3>Durée hebdomadaire de travail</h3>
+        <mat-form-field class="full-width" appearance="fill">
+          <input type="text" matInput formControlName="app_working_hours" />
+          <mat-error
+            *ngIf="
+              apprenticeForm.get('app_working_hours')?.invalid &&
+              (apprenticeForm.get('app_working_hours')?.dirty ||
+                apprenticeForm.get('app_working_hours')?.touched)
+            "
+          >
+            Durée de travail hebdomadaire de l'apprenti requise</mat-error
+          >
+        </mat-form-field>
+      </div>
+
+      <div class="div-input">
+        <h3>Lieu de formation (Raison sociale)</h3>
+        <mat-form-field class="full-width" appearance="fill">
+          <input type="email" matInput formControlName="app_comp_name" />
+          <mat-hint
+            >Merci de renseigner, si elle est différente de celle renseignée
+            ci-dessus, la raison sociale du lieu d'exécution du contrat
+            d'apprentissage.</mat-hint
+          >
+        </mat-form-field>
+      </div>
+
+      <div class="div-input">
+        <h3>Lieu de formation (SIRET)</h3>
+        <mat-form-field class="full-width" appearance="fill">
+          <input type="email" matInput formControlName="app_siret" />
+          <mat-hint
+            >Merci de renseigner, s'il est différent de celui renseigné
+            ci-dessus, le n° de SIRET du lieu d'exécution du contrat
+            d'apprentissage.</mat-hint
+          >
+        </mat-form-field>
+      </div>
+
+      <div class="div-input">
+        <h3>Lieu de formation (Adresse - CP- Ville)</h3>
+        <mat-form-field class="full-width" appearance="fill">
+          <input type="email" matInput formControlName="app_location" />
+          <mat-hint
+            >Merci de renseigner, si elle est différente de celle renseignée
+            ci-dessus, l'adresse COMPLÈTE du lieu d'exécution du contrat
+            d'apprentissage.</mat-hint
+          >
+        </mat-form-field>
+      </div>
+
+      <div mat-dialog-actions align="end">
+        <button mat-button class="black bold" matStepperPrevious>BACK</button>
+
+      </div>
+    </form>
+  </mat-step>
+ -->

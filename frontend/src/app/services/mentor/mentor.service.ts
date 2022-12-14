@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Mentor } from '@app/models/Mentor';
 import { Observable } from 'rxjs';
@@ -14,5 +14,12 @@ export class MentorService {
 
   public getAll(): Observable<Mentor[]> {
     return this.http.get<Mentor[]>(`${environment.apiUrl}/${this.urlPrefix}`);
+  }
+
+  public add(mentor: Mentor): Observable<Mentor> {
+    return this.http.post<Mentor>(
+      `${environment.apiUrl}/${this.urlPrefix}/add`,
+      mentor
+    );
   }
 }

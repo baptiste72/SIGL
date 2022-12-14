@@ -46,6 +46,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
+import { MatRadioModule } from '@angular/material/radio';
 import {
   NgxMatDatetimePickerModule,
   NgxMatTimepickerModule,
@@ -60,6 +61,8 @@ import { ChangePasswordComponent } from './components/pages/change-password/chan
 import { PageNotFoundComponent } from './components/pages/page-not-found/page-not-found.component';
 import { AddFormationCenterPopupComponent } from './components/pop-up/formation-center/add-formation-center-popup/add-formation-center-popup.component';
 import { UpdateFormationCenterPopupComponent } from './components/pop-up/formation-center/update-formation-center-popup/update-formation-center-popup.component';
+import { MatStepperModule, MatStepper } from '@angular/material/stepper';
+import { DashboardCompanyComponent } from './components/pages/dashboard-company/dashboard-company.component';
 
 @NgModule({
   declarations: [
@@ -96,6 +99,7 @@ import { UpdateFormationCenterPopupComponent } from './components/pop-up/formati
     PageNotFoundComponent,
     AddFormationCenterPopupComponent,
     UpdateFormationCenterPopupComponent,
+    DashboardCompanyComponent,
   ],
   imports: [
     BrowserModule,
@@ -121,6 +125,8 @@ import { UpdateFormationCenterPopupComponent } from './components/pop-up/formati
     NgxMatTimepickerModule,
     NgxMatNativeDateModule,
     MatTabsModule,
+    MatStepperModule,
+    MatRadioModule,
     ReactiveFormsModule,
   ],
   providers: [

@@ -73,7 +73,7 @@ export class AddUserPopupComponent implements OnInit {
   private getCompany() {
     this.companyService.getAll().subscribe({
       next: (companysData) => {
-        this.companys = companysData;
+        //this.companys = companysData;
       },
       error: (err) => {
         this._snackBar.open(
