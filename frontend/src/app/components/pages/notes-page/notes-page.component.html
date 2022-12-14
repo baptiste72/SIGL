@@ -62,8 +62,8 @@
             <mat-card-title>{{ note.title }}</mat-card-title>
             <mat-card-content>
               <div *ngIf="isAvailable">
-                Du {{ note.dateStart | date: "shortDate" }} au
-                {{ note.dateEnd | date: "shortDate" }}
+                Du {{ note.dateStart | date : "shortDate" }} au
+                {{ note.dateEnd | date : "shortDate" }}
                 <br />
                 <br />
               </div>
@@ -85,7 +85,7 @@
                 mat-icon-button
                 *ngIf="isAvailable"
                 class="btn-delete-note red"
-                (click)="openDeleteDialog()"
+                (click)="deleteNoteById(this.note.id)"
               >
                 <mat-icon>close</mat-icon>SUPPRIMER
               </button>

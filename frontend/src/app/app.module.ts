@@ -47,9 +47,6 @@ import {
   NgxMatNativeDateModule,
 } from '@angular-material-components/datetime-picker';
 import { ModifyNotePopupComponent } from './components/pop-up/note/modify-note-popup/modify-note-popup.component';
-import { DeleteNotePopupComponent } from './components/pop-up/note/delete-note-popup/delete-note-popup.component';
-import { DeleteDeadlinePopupComponent } from './components/pop-up/deadline/delete-deadline-popup/delete-deadline-popup.component';
-
 import { AddCompanyPopupComponent } from './components/pop-up/company/add-company-popup/add-company-popup.component';
 import { AddSemesterPopupComponent } from './components/pop-up/semester/add-semester-popup/add-semester-popup.component';
 import { UpdateInterviewPopupComponent } from './components/pop-up/interview/update-interview-popup/update-interview-popup.component';
@@ -96,13 +93,11 @@ import { AddDocumentPopupComponent } from './components/pop-up/document/add-docu
     EventsPageComponent,
     AddInterviewPopupComponent,
     AddDeadlinePopupComponent,
-    DeleteNotePopupComponent,
     AddCompanyPopupComponent,
     AddSemesterPopupComponent,
     UpdateYearGroupPopupComponent,
     UpdateSemesterPopupComponent,
     UpdateInterviewPopupComponent,
-    DeleteDeadlinePopupComponent,
     ModifyDeadlinePopupComponent,
     AddDocumentPopupComponent,
     UpdateUserPopupComponent,

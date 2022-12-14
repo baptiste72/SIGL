@@ -6,15 +6,13 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { AddDeadlinePopupComponent } from '../../pop-up/deadline/add-deadline-popup/add-deadline-popup.component';
 import { DeadlineService } from 'src/app/services/deadline/deadline.service';
 import { MatTableDataSource } from '@angular/material/table';
-import { Deadlines } from 'src/app/models/Deadlines';
+import { Deadline } from '@app/models/Deadline';
 import { MatPaginator } from '@angular/material/paginator';
 import { Interview } from '@app/models/Interview';
 import { UpdateInterviewPopupComponent } from '../../pop-up/interview/update-interview-popup/update-interview-popup.component';
-import { DeleteDeadlinePopupComponent } from '@app/components/pop-up/deadline/delete-deadline-popup/delete-deadline-popup.component';
 import { ModifyDeadlinePopupComponent } from '@app/components/pop-up/deadline/modify-deadline-popup/modify-deadline-popup.component';
 import { AuthService } from '@app/services/auth/auth.service';
 import { lastValueFrom } from 'rxjs';
-
 import { startOfDay } from 'date-fns';
 import { CalendarEvent, DAYS_OF_WEEK, CalendarView } from 'angular-calendar';
 import { ConfirmDeleteComponent } from '@app/components/pop-up/confirm-delete/confirm-delete.component';
@@ -147,10 +145,12 @@ export class EventsPageComponent implements OnInit {
   }
 
   private getDeadlines(userId: number) {
-    this.deadlineService.getDeadlines(userId).subscribe({
+    this.deadlineService.get(userId).subscribe({
       next: (v) => {
         this.deadlines = v;
-        this.dataSourceDeadlines = new MatTableDataSource<Deadlines>(v);
+        this.dataSourceDeadlines = new MatTableDataSource<Deadline>(
+          this.deadlines
+        );
         this.dataSourceDeadlines.paginator = this.deadlinesPaginator;
       },
       error: (err) => {
@@ -209,26 +209,32 @@ export class EventsPageComponent implements OnInit {
     }
   }
 
+  public async deleteDeadlineById(id: any) {
+    const shouldDelete = await this.openConfirmDeletePopup(
+      'Souhaitez-vous vraiment supprimer cet échéance ?'
+    );
+    if (shouldDelete) {
+      this.interviewService.delete(id).subscribe({
+        next: (v) => {
+          this.getDeadlines(this.userId);
+        },
+        error: (err) => {
+          this._snackBar.open(
+            "❌ Une erreur est survenue lors de la suppression de l'échéance",
+            'Ok',
+            { duration: 2000 }
+          );
+        },
+      });
+    }
+  }
+
   openModifyDeadline(deadline: any) {
     this.dialog
       .open(ModifyDeadlinePopupComponent, {
         width: '600px',
         data: {
           dataKey: deadline,
-        },
-      })
-      .afterClosed()
-      .subscribe((shouldReload: boolean) => {
-        this.getDeadlines(this.userId);
-      });
-  }
-
-  openDeleteDeadlineDialog(deadline: any) {
-    this.dialog
-      .open(DeleteDeadlinePopupComponent, {
-        width: '550px',
-        data: {
-          dataKey: deadline.id,
         },
       })
       .afterClosed()

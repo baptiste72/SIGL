@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Note } from '@app/models/Note';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -7,36 +8,33 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class NoteService {
-  private urlPrefix = 'api/v1';
+  private urlPrefix = 'api/v1/notes';
 
   constructor(private http: HttpClient) {}
 
-  public getNote(id: any): Observable<any> {
-    return this.http.get<any>(
-      `${environment.apiUrl}/${this.urlPrefix}/note/${id}`
+  public get(id: any): Observable<Note> {
+    return this.http.get<Note>(`${environment.apiUrl}/${this.urlPrefix}/${id}`);
+  }
+
+  public delete(id: number): Observable<any> {
+    return this.http.delete(`${environment.apiUrl}/${this.urlPrefix}/${id}`);
+  }
+
+  public getAllByUserId(userId: number): Observable<Note[]> {
+    return this.http.get<Note[]>(
+      `${environment.apiUrl}/${this.urlPrefix}/users/${userId}`
     );
   }
 
-  public deleteNote(id: any): Observable<any> {
-    return this.http.delete<any>(
-      `${environment.apiUrl}/${this.urlPrefix}/note/${id}`
+  public update(note: Note, id: number): Observable<Note> {
+    return this.http.put<Note>(
+      `${environment.apiUrl}/${this.urlPrefix}/${id}`,
+      note
     );
   }
 
-  public getNotesbyUserId(userId: number): Observable<any> {
-    const url = `${environment.apiUrl}/${this.urlPrefix}/note-by-user-id/${userId}`;
-    return this.http.get<any>(url);
-  }
-
-  public updateNote(post: any): Observable<any> {
-    return this.http.post<any>(
-      `${environment.apiUrl}/${this.urlPrefix}/update-note`,
-      post
-    );
-  }
-
-  public getNotes(): Observable<any> {
-    return this.http.get<any>(`${environment.apiUrl}/${this.urlPrefix}/notes`);
+  public getAll(): Observable<Note[]> {
+    return this.http.get<Note[]>(`${environment.apiUrl}/${this.urlPrefix}`);
   }
 
   public treeNotes(userId: number): Observable<any> {
@@ -44,10 +42,10 @@ export class NoteService {
     return this.http.get<any>(url);
   }
 
-  public addNote(post: any): Observable<any> {
-    return this.http.post<any>(
-      `${environment.apiUrl}/${this.urlPrefix}/add-note`,
-      post
+  public add(note: Note): Observable<Note> {
+    return this.http.post<Note>(
+      `${environment.apiUrl}/${this.urlPrefix}`,
+      note
     );
   }
 }

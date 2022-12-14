@@ -26,11 +26,9 @@ export class NotesComponent implements OnInit {
   }
 
   public getNotes() {
-    this.noteService
-      .getNotesbyUserId(this.getUserId())
-      .subscribe((response) => {
-        this.notes = response;
-      });
+    this.noteService.getAllByUserId(this.getUserId()).subscribe((response) => {
+      this.notes = response;
+    });
   }
 
   private getUserId(): number {

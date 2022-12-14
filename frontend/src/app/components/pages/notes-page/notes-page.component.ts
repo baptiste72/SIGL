@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import {
   MatTreeFlatDataSource,
   MatTreeFlattener,
 } from '@angular/material/tree';
 import { AddNotePopupComponent } from '../../pop-up/note/add-note-popup/add-note-popup.component';
-import { DeleteNotePopupComponent } from '../../pop-up/note/delete-note-popup/delete-note-popup.component';
 import { AuthService } from '@app/services';
 import { NoteService } from 'src/app/services/note/note.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ModifyNotePopupComponent } from '../../pop-up/note/modify-note-popup/modify-note-popup.component';
-import { ActivatedRoute } from '@angular/router';
+import { lastValueFrom } from 'rxjs';
+import { ConfirmDeleteComponent } from '@app/components/pop-up/confirm-delete/confirm-delete.component';
+
 interface Note {
   id: any;
   name: string;
@@ -64,7 +65,7 @@ export class NotesPageComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private route: ActivatedRoute,
+    private confirmDeleteDialogRef: MatDialogRef<ConfirmDeleteComponent>,
     public dialog: MatDialog,
     private noteService: NoteService,
     private _snackBar: MatSnackBar
@@ -104,7 +105,7 @@ export class NotesPageComponent implements OnInit {
   public getNote(data: any) {
     this.isAvailable = true;
     console.log(data);
-    this.noteService.getNote(data).subscribe({
+    this.noteService.get(data).subscribe({
       next: (v) => {
         this.note = v;
         console.log(this.note);
@@ -118,7 +119,7 @@ export class NotesPageComponent implements OnInit {
   }
 
   public getNotes() {
-    this.noteService.getNotes().subscribe((response) => {
+    this.noteService.getAll().subscribe((response) => {
       this.notes = response;
     });
   }
@@ -150,25 +151,40 @@ export class NotesPageComponent implements OnInit {
       });
   }
 
-  openDeleteDialog() {
-    this.dialog
-      .open(DeleteNotePopupComponent, {
-        width: '550px',
-        data: {
-          dataKey: this.note.id,
+  public async openConfirmDeletePopup(content: string): Promise<boolean> {
+    this.confirmDeleteDialogRef = this.dialog.open(ConfirmDeleteComponent, {
+      width: '600px',
+    });
+
+    this.confirmDeleteDialogRef.componentInstance.content = content;
+
+    return await lastValueFrom(this.confirmDeleteDialogRef.afterClosed());
+  }
+
+  public async deleteNoteById(id: any) {
+    const shouldDelete = await this.openConfirmDeletePopup(
+      'Souhaitez-vous vraiment supprimer cet note ?'
+    );
+    if (shouldDelete) {
+      this.noteService.delete(id).subscribe({
+        next: (v) => {
+          this.treeNotes(this.getUserId()),
+            (this.note = {
+              title: 'Affichage de la Note Périodique',
+              text: 'Sélectionner une note',
+              id: '',
+              email: '',
+            });
         },
-      })
-      .afterClosed()
-      .subscribe((shouldReload: boolean) => {
-        this.treeNotes(this.getUserId()),
-          (this.note = {
-            title: 'Affichage de la Note Périodique',
-            text: 'Sélectionner une note',
-            id: '',
-            email: '',
-          });
-        this.isAvailable = false;
+        error: (err) => {
+          this._snackBar.open(
+            "❌ Une erreur est survenue lors de la suppression de l'échéance",
+            'Ok',
+            { duration: 2000 }
+          );
+        },
       });
+    }
   }
 
   openModifyDialog() {

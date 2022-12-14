@@ -43,7 +43,7 @@ export class ModifyDeadlinePopupComponent implements OnInit {
   }
 
   public updateDeadline(data: any) {
-    this.deadlineService.updateDeadline(data).subscribe({
+    this.deadlineService.update(data, data.id).subscribe({
       next: (v) => {
         this._snackBar.open('✔ Evénement créé', 'Ok', { duration: 2000 });
         this.closeDialog();

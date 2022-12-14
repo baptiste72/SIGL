@@ -42,7 +42,7 @@ export class AddNotePopupComponent implements OnInit {
   }
 
   public addNote(data: any) {
-    this.noteService.addNote(data).subscribe({
+    this.noteService.add(data).subscribe({
       next: (v) => {
         this._snackBar.open('✔ Note créé', 'Ok', { duration: 2000 });
         this.closeDialogAdd(v);

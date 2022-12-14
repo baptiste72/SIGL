@@ -2,47 +2,46 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { Deadline } from '@app/models/Deadline';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DeadlineService {
-  private urlPrefix = 'api/v1';
+  private urlPrefix = 'api/v1/deadlines';
   constructor(private http: HttpClient) {}
 
-  public getDeadlines(userId: number): Observable<any> {
-    return this.http.get<any>(
-      `${environment.apiUrl}/${this.urlPrefix}/deadlines/${userId}`
+  public getAll(): Observable<Deadline[]> {
+    return this.http.get<Deadline[]>(`${environment.apiUrl}/${this.urlPrefix}`);
+  }
+
+  public get(id: number): Observable<Deadline> {
+    return this.http.get<Deadline>(
+      `${environment.apiUrl}/${this.urlPrefix}/${id}`
     );
   }
 
-  public add(post: any): Observable<any> {
-    return this.http.post<any>(
-      `${environment.apiUrl}/${this.urlPrefix}/add-deadline`,
-      post
+  public getAllByUserId(userId: number): Observable<Deadline[]> {
+    return this.http.get<Deadline[]>(
+      `${environment.apiUrl}/${this.urlPrefix}/users/${userId}`
     );
   }
 
-  public getDeadline(id: any): Observable<any> {
-    return this.http.get<any>(
-      `${environment.apiUrl}/${this.urlPrefix}/deadline/${id}`
+  public add(deadline: Deadline): Observable<Deadline> {
+    return this.http.post<Deadline>(
+      `${environment.apiUrl}/${this.urlPrefix}`,
+      deadline
     );
   }
 
-  public deleteDeadline(id: any): Observable<any> {
-    return this.http.delete<any>(
-      `${environment.apiUrl}/${this.urlPrefix}/deadline/${id}`
+  public update(deadline: Deadline, id: number): Observable<Deadline> {
+    return this.http.put<Deadline>(
+      `${environment.apiUrl}/${this.urlPrefix}/${id}`,
+      deadline
     );
   }
 
-  public updateDeadline(post: any): Observable<any> {
-    return this.http.post<any>(
-      `${environment.apiUrl}/${this.urlPrefix}/update-deadline`,
-      post
-    );
-  }
-
-  public getAll(): Observable<any> {
-    return this.http.get<any>(`${environment.apiUrl}/${this.urlPrefix}`);
+  public delete(id: number): Observable<any> {
+    return this.http.delete(`${environment.apiUrl}/${this.urlPrefix}/${id}`);
   }
 }

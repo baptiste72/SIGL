@@ -28,7 +28,7 @@ export class ModifyNotePopupComponent implements OnInit {
   }
 
   public updateNote(data: any) {
-    this.noteService.updateNote(data).subscribe({
+    this.noteService.update(data, data.id).subscribe({
       next: (v) => {
         this._snackBar.open('✔ Note créé', 'Ok', { duration: 2000 });
         this.closeDialog();

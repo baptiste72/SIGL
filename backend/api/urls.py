@@ -2,19 +2,6 @@ from django.urls import path, include
 from . import views
 
 urlpatterns = [
-    # deadlines
-    path("deadline/<int:id>", views.api_deadline, name="apiDeadline"),
-    path("deadlines", views.get_deadlines, name="getDeadline"),
-    path("add-deadline", views.add_deadline, name="addDeadline"),
-    path("update-deadline", views.update_deadline, name="updateDeadline"),
-    path("deadlines/<int:userId>/", views.DeadlinesByUserID.as_view()),
-    # notes
-    path("note/<int:id>", views.api_note, name="apiNote"),
-    path("update-note", views.update_note, name="updateNote"),
-    path("notes", views.get_notes, name="getNotes"),
-    path("add-note", views.add_note, name="addNote"),
-    path("tree-note/<int:userId>/", views.TreeNote.as_view()),
-    path("note-by-user-id/<int:userId>/", views.ApiNoteByUserId.as_view()),
     # apprentices
     path("apprentices", views.get_apprentices, name="getApprentices"),
     # companies
@@ -30,6 +17,15 @@ urlpatterns = [
         views.FormationCenterList.as_view(),
         name="formationCenters",
     ),
+    # notes
+    path("notes", views.NotesList.as_view()),
+    path("notes/<int:pk>", views.NotesDetail.as_view()),
+    path("tree-note/<int:userId>/", views.TreeNote.as_view()),
+    path("notes/users/<int:userId>/", views.ApiNoteByUserId.as_view()),
+    # deadlines
+    path("deadlines", views.DeadlinesList.as_view()),
+    path("deadlines/<int:pk>", views.DeadlinesDetail.as_view()),
+    path("deadlines/users/<int:pk>", views.DeadlinesByUserID.as_view()),
     # interviews
     path("interviews", views.InterviewList.as_view()),
     path("interviews/<int:pk>", views.InterviewDetail.as_view()),
