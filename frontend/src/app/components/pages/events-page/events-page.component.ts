@@ -167,6 +167,9 @@ export class EventsPageComponent implements OnInit {
     this.dialog
       .open(AddInterviewPopupComponent, {
         width: '600px',
+        data: {
+          userId: this.userId,
+        },
       })
       .afterClosed()
       .subscribe((shouldReload: boolean) => {

@@ -16,7 +16,7 @@
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Choisissez un semestre</mat-label>
       <mat-select required [(ngModel)]="interview.semester">
-        <mat-option *ngFor="let semester of semesters" [value]="semester.name">
+        <mat-option *ngFor="let semester of semesters" [value]="semester.id">
           {{ semester.name }}
         </mat-option>
       </mat-select>

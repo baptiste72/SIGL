@@ -36,6 +36,7 @@ export class NotesPageComponent implements OnInit {
   notes: any;
   note: any;
   request: any;
+  private userId;
   private treeData;
   private _transformer = (node: Note, level: number) => {
     return {
@@ -73,13 +74,12 @@ export class NotesPageComponent implements OnInit {
     Object.keys(this.dataSource.data).forEach((x) => {
       this.setParent(this.dataSource.data[x], null);
     });
+
+    this.userId = this.authService.userValue.id;
   }
   ngOnInit(): void {
-    // Récupérer l'ID de l'utilisateur
-    const userId = this.getUserId();
-
     // Récupérer les notes en arborescence pour l'utilisateur
-    this.treeNotes(userId);
+    this.treeNotes(this.userId);
     this.note = {
       title: 'Affichage de la Note Périodique',
       text: 'Sélectionner une note',
@@ -124,10 +124,6 @@ export class NotesPageComponent implements OnInit {
     });
   }
 
-  private getUserId(): number {
-    return this.authService.userValue.id;
-  }
-
   public treeNotes(userId: number) {
     this.noteService.treeNotes(userId).subscribe((response) => {
       this.treeData = response;
@@ -140,6 +136,7 @@ export class NotesPageComponent implements OnInit {
       .open(AddNotePopupComponent, {
         width: '1200px',
         data: note,
+        userId: this.userId,
       })
       .afterClosed()
       .subscribe((result) => {
@@ -147,7 +144,7 @@ export class NotesPageComponent implements OnInit {
         if (result.event == 'ajout') {
           this.getNote(result.data.id);
         }
-        this.treeNotes(this.getUserId());
+        this.treeNotes(this.userId);
       });
   }
 
@@ -168,7 +165,7 @@ export class NotesPageComponent implements OnInit {
     if (shouldDelete) {
       this.noteService.delete(id).subscribe({
         next: (v) => {
-          this.treeNotes(this.getUserId()),
+          this.treeNotes(this.userId),
             (this.note = {
               title: 'Affichage de la Note Périodique',
               text: 'Sélectionner une note',
@@ -197,7 +194,7 @@ export class NotesPageComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((shouldReload: boolean) => {
-        this.treeNotes(this.getUserId());
+        this.treeNotes(this.userId);
         this.getNote(this.note.id);
       });
   }

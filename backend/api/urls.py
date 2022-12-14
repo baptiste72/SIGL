@@ -3,7 +3,8 @@ from . import views
 
 urlpatterns = [
     # apprentices
-    path("apprentices", views.get_apprentices, name="getApprentices"),
+    path("apprentices", views.ApprenticeList.as_view()),
+    path("apprentices/<int:pk>", views.ApprenticeDetail.as_view()),
     # companies
     path("companies", views.get_company, name="getCompanies"),
     # formation-centers
@@ -20,12 +21,12 @@ urlpatterns = [
     # notes
     path("notes", views.NotesList.as_view()),
     path("notes/<int:pk>", views.NotesDetail.as_view()),
-    path("tree-note/<int:userId>/", views.TreeNote.as_view()),
-    path("notes/users/<int:userId>/", views.ApiNoteByUserId.as_view()),
+    path("notes/users/<int:pk>/", views.ApiNoteByUserId.as_view()),
+    path("tree-note/<int:pk>/", views.TreeNote.as_view()),
     # deadlines
     path("deadlines", views.DeadlinesList.as_view()),
     path("deadlines/<int:pk>", views.DeadlinesDetail.as_view()),
-    path("deadlines/users/<int:pk>", views.DeadlinesByUserID.as_view()),
+    path("deadlines/users/<int:pk>", views.DeadlinesByUserId.as_view()),
     # interviews
     path("interviews", views.InterviewList.as_view()),
     path("interviews/<int:pk>", views.InterviewDetail.as_view()),
@@ -38,6 +39,7 @@ urlpatterns = [
     path("semesters/add", views.add_semester, name="addSemester"),
     path("semesters/delete/<int:pk>", views.delete_semester, name="deleteSemesterById"),
     path("semesters/update", views.update_semester, name="updateSemester"),
+    path("semesters/year-group/<int:pk>", views.SemesterByYearGroup.as_view()),
     # tutor-teams
     path("tutor-teams", views.TutorTeamList.as_view()),
     path("tutor-teams/<int:pk>", views.TutorTeamDetail.as_view()),

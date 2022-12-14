@@ -17,4 +17,10 @@ export class ApprenticeService {
       `${environment.apiUrl}/${this.urlPrefix}`
     );
   }
+
+  public getById(id: string): Observable<Apprentice> {
+    return this.http.get<Apprentice>(
+      `${environment.apiUrl}/${this.urlPrefix}/${id}`
+    );
+  }
 }

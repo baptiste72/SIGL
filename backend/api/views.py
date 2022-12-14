@@ -63,13 +63,6 @@ def get_tutors(request):
     return Response(serializer.data)
 
 
-@api_view(["GET"])
-def get_apprentices(request):
-    apprentice_list = Apprentice.objects.all()
-    serializers = ApprenticeSerializer(apprentice_list, many=True)
-    return Response(serializers.data)
-
-
 @api_view(["POST"])
 def add_mentor(request):
     serializer = MentorSerializer(data=request.data)
@@ -78,45 +71,55 @@ def add_mentor(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class ApprenticeList(generics.ListCreateAPIView):
+    queryset = Apprentice.objects.all()
+    serializer_class = ApprenticeSerializer
 
 
-class DeadlinesByUserID(APIView):
+class ApprenticeDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Apprentice.objects.all()
+    serializer_class = ApprenticeSerializer
+
+class DeadlinesByUserId(APIView):
     def get(self, request, user_id):
-        deadline_list = Deadline.objects.filter(userId=user_id)
+        deadline_list = Deadline.objects.filter(apprentice_id=user_id)
         serializers = DeadlineSerializer(deadline_list, many=True)
         return Response(serializers.data)
+
 
 class DeadlinesList(generics.ListCreateAPIView):
     queryset = Deadline.objects.all()
     serializer_class = DeadlineSerializer
+
 
 class DeadlinesDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Deadline.objects.all()
     serializer_class = DeadlineSerializer
 
 
-
 class NotesList(generics.ListCreateAPIView):
     queryset = Note.objects.all()
     serializer_class = NoteSerializer
+
 
 class NotesDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Note.objects.all()
     serializer_class = NoteSerializer
 
+
 class ApiNoteByUserId(APIView):
-    def get(self, request, user_id):
-        note_list = Note.objects.filter(userId=user_id)
+    def get(self, request, pk):
+        note_list = Note.objects.filter(apprentice_id=pk)
         serializers = NoteSerializer(note_list, many=True)
         return Response(serializers.data)
 
 
 # renvois les données en Tree afin d'afficher l'aborescence des notes
 class TreeNote(APIView):
-    def get(self, request, user_id):
-        note_list = Note.objects.filter(userId=user_id)
+    def get(self, request, pk):
+        note_list = Note.objects.filter(apprentice_id=pk)
         serializers = TreeNoteSerializer(note_list, many=True)
-        data = DataTreatement.data_treatement.treeNotes(serializers.data)
+        data = DataTreatement.treeNotes(serializers.data)
         return Response(data)
 
 
@@ -184,6 +187,13 @@ def get_semesters(request):
     semester_list = Semester.objects.all()
     serializers = SemesterSerializer(semester_list, many=True)
     return Response(serializers.data)
+
+
+class SemesterByYearGroup(APIView):
+    def get(self, request, pk):
+        semesters = Semester.objects.filter(yearGroup_id=pk)
+        serializers = SemesterSerializer(semesters, many=True)
+        return Response(serializers.data)
 
 
 @api_view(["POST"])

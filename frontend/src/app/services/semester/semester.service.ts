@@ -16,6 +16,12 @@ export class SemesterService {
     return this.http.get<Semester[]>(`${environment.apiUrl}/${this.urlPrefix}`);
   }
 
+  public getAllByYearGroup(yearGroupId: number): Observable<Semester[]> {
+    return this.http.get<Semester[]>(
+      `${environment.apiUrl}/${this.urlPrefix}/year-groups/${yearGroupId}`
+    );
+  }
+
   public add(semester: Semester): Observable<Semester> {
     return this.http.post<Semester>(
       `${environment.apiUrl}/${this.urlPrefix}/add`,

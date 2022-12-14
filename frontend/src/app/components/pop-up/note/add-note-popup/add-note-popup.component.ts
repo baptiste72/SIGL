@@ -3,10 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NoteService } from 'src/app/services/note/note.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/services/auth/auth.service';
-
-interface Semester {
-  name: string;
-}
+import { SemesterService } from 'src/app/services/semester/semester.service';
 
 @Component({
   selector: 'app-add-note-popup',
@@ -18,17 +15,25 @@ export class AddNotePopupComponent implements OnInit {
 
   fromPage!: string;
   fromDialog!: string;
+
+  public semesters: Semester[] = [];
+  public userId: number;
+
   constructor(
     private authService: AuthService,
     private noteService: NoteService,
     public dialogRef: MatDialogRef<AddNotePopupComponent>,
-    @Optional() @Inject(MAT_DIALOG_DATA) public mydata: any,
-    private _snackBar: MatSnackBar
-  ) {}
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
+    private _snackBar: MatSnackBar,
+    private semesterService: SemesterService
+  ) {
+    this.userId = data.userId;
+  }
 
   ngOnInit(): void {
+    this.semester = this.semesterService.getAllByYearGroup();
     this.jsonNote = {
-      userId: this.getUserId(),
+      userId: this.userId,
       title: '',
       text: '',
       semester: '',
@@ -41,11 +46,11 @@ export class AddNotePopupComponent implements OnInit {
     return this.authService.userValue.id;
   }
 
-  public addNote(data: any) {
-    this.noteService.add(data).subscribe({
+  public addNote(note: any) {
+    this.noteService.add(note).subscribe({
       next: (v) => {
         this._snackBar.open('✔ Note créé', 'Ok', { duration: 2000 });
-        this.closeDialogAdd(v);
+        this.closeDialog();
       },
       error: (err) => {
         this._snackBar.open('❌ Une erreur est survenue', 'Ok', {
@@ -56,18 +61,6 @@ export class AddNotePopupComponent implements OnInit {
   }
 
   closeDialog() {
-    this.dialogRef.close({ event: 'close', data: this.jsonNote });
+    this.dialogRef.close({ event: 'close' });
   }
-
-  closeDialogAdd(data: any) {
-    this.dialogRef.close({ event: 'ajout', data: data });
-  }
-
-  semesters: Semester[] = [
-    { name: 'Semestre S5' },
-    { name: 'Semestre S6' },
-    { name: 'Semestre S7' },
-    { name: 'Semestre S8' },
-    { name: 'Semestre S9' },
-  ];
 }

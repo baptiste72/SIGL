@@ -1,22 +1,21 @@
-import { Apprentice } from './Apprentice';
-import { Semester } from './Semester';
 export class Note {
   id: number;
   title: string;
   text: string;
   beginDate: Date;
   endDate: Date;
-  apprentice: Apprentice;
-  semester: Semester;
+  apprentice: number;
+  semester: number;
   timestamp?: Date;
+
   constructor(
     id: number,
     title: string,
     text: string,
     beginDate: Date,
     endDate: Date,
-    apprentice: Apprentice,
-    semester: Semester,
+    apprentice: number,
+    semester: number,
     timestamp?: Date
   ) {
     this.id = id;

@@ -3,11 +3,11 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { InterviewService } from '@app/services/interview/interview.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from '@app/services/auth/auth.service';
+import { Semester } from '@app/models/Semester';
+import { SemesterService } from '@app/services/semester/semester.service';
+import { ApprenticeService } from '@app/services/apprentice/apprentice.service';
 
-interface Semester {
-  name: string;
-}
-interface Guest {
+interface Attendees {
   name: string;
 }
 
@@ -18,30 +18,23 @@ interface Guest {
 })
 export class AddInterviewPopupComponent implements OnInit {
   interview: any;
-  semesters: Semester[] = [
-    { name: 'Semestre S5' },
-    { name: 'Semestre S6' },
-    { name: 'Semestre S7' },
-    { name: 'Semestre S8' },
-    { name: 'Semestre S9' },
-  ];
-  guests: Guest[] = [
+  public semesters: Semester[] = [];
+  guests: Attendees[] = [
     { name: 'Equipe tutorale' },
     { name: "Maitre d'apprentissage" },
     { name: 'tuteur pédaogique' },
   ];
 
   constructor(
-    private authService: AuthService,
     public dialogRef: MatDialogRef<AddInterviewPopupComponent>,
     private interviewService: InterviewService,
+    private apprenticeService: ApprenticeService,
+    private semesterService: SemesterService,
     private _snackBar: MatSnackBar,
-    @Optional() @Inject(MAT_DIALOG_DATA) public mydata: any
-  ) {}
-
-  ngOnInit(): void {
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
     this.interview = {
-      userId: this.getUserId(),
+      userId: data.userId,
       name: '',
       date: '',
       first_hour: '',
@@ -50,8 +43,15 @@ export class AddInterviewPopupComponent implements OnInit {
       semester: ' ',
     };
   }
-  private getUserId(): number {
-    return this.authService.userValue.id;
+
+  ngOnInit(): void {
+    this.apprenticeService.getById(this.data.userId).subscribe((apprentice) => {
+      this.semesterService
+        .getAllByYearGroup(apprentice.yearGroup_id)
+        .subscribe((semesters) => {
+          this.semesters = semesters;
+        });
+    });
   }
 
   public addinterview(data: any) {
