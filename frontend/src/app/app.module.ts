@@ -92,7 +92,6 @@ import { DashboardCompanyComponent } from './components/pages/dashboard-company/
     AddUserPopupComponent,
     AddYearGroupPopupComponent,
     AddTeamPopupComponent,
-    EventsPageComponent,
     AddInterviewPopupComponent,
     AddDeadlinePopupComponent,
     AddCompanyFormComponent,
@@ -110,6 +109,8 @@ import { DashboardCompanyComponent } from './components/pages/dashboard-company/
     AddFormationCenterPopupComponent,
     UpdateFormationCenterPopupComponent,
     DashboardCompanyComponent,
+    EventsPageComponent,
+    AddInterviewPopupComponent,
   ],
   imports: [
     CalendarModule.forRoot({
