@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AddInterviewPopupComponent } from '../../pop-up/interview/add-interview-popup/add-interview-popup.component';
-import { InterviewService } from '@app/services/interview/interview.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AddDeadlinePopupComponent } from '../../pop-up/deadline/add-deadline-popup/add-deadline-popup.component';
 import { DeadlineService } from 'src/app/services/deadline/deadline.service';
@@ -16,6 +15,7 @@ import { lastValueFrom } from 'rxjs';
 import { startOfDay } from 'date-fns';
 import { CalendarEvent, DAYS_OF_WEEK, CalendarView } from 'angular-calendar';
 import { ConfirmDeleteComponent } from '@app/components/pop-up/confirm-delete/confirm-delete.component';
+import { InterviewService } from '@app/services/interview/interview.service';
 
 const colors: any = {
   red: {
