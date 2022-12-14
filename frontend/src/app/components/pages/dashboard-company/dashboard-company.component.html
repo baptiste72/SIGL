@@ -1,8 +1,5 @@
 <app-navigation>
-  <mat-tab-group
-    animationDuration="0ms"
-    (selectedTabChange)="onTabChange($event)"
-  >
+  <div class="navigation-content">
     <!--     AJOUTER Partie ajout apprenti / maitre d'apprentissage, reutiliser l'onglet User
     <mat-tab label="users">
       <ng-template mat-tab-label>
@@ -104,61 +101,6 @@
     </mat-tab> -->
 
     <!-- ENTREPRISES -->
-    <mat-tab label="companies">
-      <ng-template mat-tab-label>
-        <mat-icon>apartment</mat-icon>
-        Informations Entreprise
-      </ng-template>
-      <div class="navigation-content margin-bottom-50">
-        <mat-card class="configuration-page-card">
-          <mat-card-header class="configuration-page-card-header">
-            <mat-card-title class="conf-page-card-title">
-              <mat-icon
-                aria-hidden="false"
-                aria-label="configuration icon"
-                fontIcon="apartment"
-              ></mat-icon>
-              ENTREPRISES
-            </mat-card-title>
-          </mat-card-header>
-
-          <mat-card-content>
-            <div class="conf-actions-btns">
-              <button
-                mat-raised-button
-                class="btn_primary bg-green"
-                (click)="addCompany()"
-              >
-                AJOUT ENTREPRISE
-              </button>
-            </div>
-            <div>
-              <mat-paginator
-                [pageSizeOptions]="[5, 10, 20]"
-                showFirstLastButtons
-                #companiesPaginator
-              >
-              </mat-paginator>
-            </div>
-          </mat-card-content>
-        </mat-card>
-      </div>
-    </mat-tab>
-
-    <mat-paginator
-      [pageSizeOptions]="[5, 10, 20]"
-      showFirstLastButtons
-      #tutorTeamPaginator
-    >
-    </mat-paginator>
-
-    <div>
-      <mat-paginator
-        [pageSizeOptions]="[5, 10, 20]"
-        showFirstLastButtons
-        #semestersPaginator
-      >
-      </mat-paginator>
+      <app-add-company-form></app-add-company-form>
     </div>
-  </mat-tab-group>
 </app-navigation>
