@@ -31,7 +31,7 @@ export class SemesterService {
 
   public update(semester: Semester): Observable<Semester> {
     return this.http.post<Semester>(
-      `${environment.apiUrl}/${this.urlPrefix}/update-semester`,
+      `${environment.apiUrl}/${this.urlPrefix}/update`,
       semester
     );
   }
