@@ -14,15 +14,15 @@ interface deadlines {
 }
 
 @Component({
-  selector: 'app-modify-deadline-popup',
-  templateUrl: './modify-deadline-popup.component.html',
-  styleUrls: ['./modify-deadline-popup.component.scss'],
+  selector: 'app-update-deadline-popup',
+  templateUrl: './update-deadline-popup.component.html',
+  styleUrls: ['./update-deadline-popup.component.scss'],
 })
-export class ModifyDeadlinePopupComponent implements OnInit {
+export class UpdateDeadlinePopupComponent implements OnInit {
   js_deadline: any;
 
   constructor(
-    public dialogRef: MatDialogRef<ModifyDeadlinePopupComponent>,
+    public dialogRef: MatDialogRef<UpdateDeadlinePopupComponent>,
     private deadlineService: DeadlineService,
     private _snackBar: MatSnackBar,
     @Optional() @Inject(MAT_DIALOG_DATA) public mydata: any
@@ -35,7 +35,7 @@ export class ModifyDeadlinePopupComponent implements OnInit {
     { name: 'Rapport de synthèse S7' },
     { name: 'Rapport de synthèse S8' },
     { name: 'Rapport de synthèse S9' },
-    { name: 'Rapport Ping' },
+    { name: 'Rapport PING' },
   ];
   ngOnInit(): void {
     this.fromDialog = '';

@@ -1,4 +1,5 @@
 import { Role } from '@app/helpers';
+import { YearGroup } from './YearGroup';
 
 export class Apprentice {
   id: number;
@@ -7,7 +8,7 @@ export class Apprentice {
   email: string;
   role: Role;
   token?: string;
-  yearGroup_id: number;
+  yearGroup: YearGroup;
 
   constructor(
     id: number,
@@ -15,13 +16,13 @@ export class Apprentice {
     lastName: string,
     email: string,
     role: Role,
-    yearGroup_id: number
+    yearGroup: YearGroup
   ) {
     this.id = id;
     this.first_name = firstName;
     this.last_name = lastName;
     this.email = email;
     this.role = role;
-    this.yearGroup_id = yearGroup_id;
+    this.yearGroup = yearGroup;
   }
 }

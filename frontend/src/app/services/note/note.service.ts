@@ -22,7 +22,7 @@ export class NoteService {
 
   public getAllByUserId(userId: number): Observable<Note[]> {
     return this.http.get<Note[]>(
-      `${environment.apiUrl}/${this.urlPrefix}/users/${userId}`
+      `${environment.apiUrl}/${this.urlPrefix}/users/${userId}/`
     );
   }
 
@@ -38,8 +38,9 @@ export class NoteService {
   }
 
   public treeNotes(userId: number): Observable<any> {
-    const url = `${environment.apiUrl}/${this.urlPrefix}/tree-note/${userId}`;
-    return this.http.get<any>(url);
+    return this.http.get<any>(
+      `${environment.apiUrl}/${this.urlPrefix}/tree-note/${userId}/`
+    );
   }
 
   public add(note: Note): Observable<Note> {

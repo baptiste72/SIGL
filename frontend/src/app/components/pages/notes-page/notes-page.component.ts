@@ -9,7 +9,7 @@ import { AddNotePopupComponent } from '../../pop-up/note/add-note-popup/add-note
 import { AuthService } from '@app/services';
 import { NoteService } from 'src/app/services/note/note.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ModifyNotePopupComponent } from '../../pop-up/note/modify-note-popup/modify-note-popup.component';
+import { UpdateNotePopupComponent } from '../../pop-up/note/update-note-popup/update-note-popup.component';
 import { lastValueFrom } from 'rxjs';
 import { ConfirmDeleteComponent } from '@app/components/pop-up/confirm-delete/confirm-delete.component';
 
@@ -135,8 +135,10 @@ export class NotesPageComponent implements OnInit {
     this.dialog
       .open(AddNotePopupComponent, {
         width: '1200px',
-        data: note,
-        userId: this.userId,
+        data: {
+          note: note,
+          userId: this.userId,
+        },
       })
       .afterClosed()
       .subscribe((result) => {
@@ -186,10 +188,11 @@ export class NotesPageComponent implements OnInit {
 
   openModifyDialog() {
     this.dialog
-      .open(ModifyNotePopupComponent, {
+      .open(UpdateNotePopupComponent, {
         width: '1200px',
         data: {
-          dataKey: this.note,
+          note: this.note,
+          userId: this.userId,
         },
       })
       .afterClosed()

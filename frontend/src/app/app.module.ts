@@ -46,11 +46,11 @@ import {
   NgxMatTimepickerModule,
   NgxMatNativeDateModule,
 } from '@angular-material-components/datetime-picker';
-import { ModifyNotePopupComponent } from './components/pop-up/note/modify-note-popup/modify-note-popup.component';
+import { UpdateNotePopupComponent } from './components/pop-up/note/update-note-popup/update-note-popup.component';
 import { AddCompanyPopupComponent } from './components/pop-up/company/add-company-popup/add-company-popup.component';
 import { AddSemesterPopupComponent } from './components/pop-up/semester/add-semester-popup/add-semester-popup.component';
 import { UpdateInterviewPopupComponent } from './components/pop-up/interview/update-interview-popup/update-interview-popup.component';
-import { ModifyDeadlinePopupComponent } from './components/pop-up/deadline/modify-deadline-popup/modify-deadline-popup.component';
+import { UpdateDeadlinePopupComponent } from './components/pop-up/deadline/update-deadline-popup/update-deadline-popup.component';
 
 import { MatTabsModule } from '@angular/material/tabs';
 import { UpdateUserPopupComponent } from './components/pop-up/user/update-user-popup/update-user-popup/update-user-popup.component';
@@ -85,7 +85,7 @@ import { AddDocumentPopupComponent } from './components/pop-up/document/add-docu
     DocumentsPageComponent,
     NotesPageComponent,
     AddNotePopupComponent,
-    ModifyNotePopupComponent,
+    UpdateNotePopupComponent,
     ConfigurationComponent,
     AddUserPopupComponent,
     AddYearGroupPopupComponent,
@@ -98,7 +98,7 @@ import { AddDocumentPopupComponent } from './components/pop-up/document/add-docu
     UpdateYearGroupPopupComponent,
     UpdateSemesterPopupComponent,
     UpdateInterviewPopupComponent,
-    ModifyDeadlinePopupComponent,
+    UpdateDeadlinePopupComponent,
     AddDocumentPopupComponent,
     UpdateUserPopupComponent,
     ConfirmDeleteComponent,

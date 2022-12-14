@@ -18,7 +18,7 @@ export class ApprenticeService {
     );
   }
 
-  public getById(id: string): Observable<Apprentice> {
+  public getById(id: number): Observable<Apprentice> {
     return this.http.get<Apprentice>(
       `${environment.apiUrl}/${this.urlPrefix}/${id}`
     );

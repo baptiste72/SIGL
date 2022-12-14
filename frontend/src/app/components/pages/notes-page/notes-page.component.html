@@ -62,8 +62,8 @@
             <mat-card-title>{{ note.title }}</mat-card-title>
             <mat-card-content>
               <div *ngIf="isAvailable">
-                Du {{ note.dateStart | date : "shortDate" }} au
-                {{ note.dateEnd | date : "shortDate" }}
+                Du {{ note.beginDate | date : "shortDate" }} au
+                {{ note.endDate | date : "shortDate" }}
                 <br />
                 <br />
               </div>

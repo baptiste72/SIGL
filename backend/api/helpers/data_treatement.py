@@ -7,6 +7,7 @@ class DataTreatement:
         def get_semester(data):
             val=data["name"][-1]
             return int(val)
+        
         data = json.dumps(data)
         data = json.loads(data)
         treeList=[]

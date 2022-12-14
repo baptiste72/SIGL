@@ -143,20 +143,20 @@ class SemesterSerializerDelete(serializers.ModelSerializer):
 
 
 class NoteSerializer(serializers.ModelSerializer):
-    dateStart = fields.DateTimeField()
-    dateEnd = fields.DateTimeField()
+    beginDate = fields.DateTimeField()
+    endDate = fields.DateTimeField()
+    
     class Meta:
         model = Note
-        fields =('id','userId','title', 'text','semester','dateStart','dateEnd')
-
-#sert serializer pour la gestion de l'arborescence      
+        fields = '__all__'
+     
 class TreeNoteSerializer(serializers.ModelSerializer):
-    dateStart = fields.DateTimeField()
-    dateEnd = fields.DateTimeField()
+    beginDate = fields.DateTimeField()
+    endDate = fields.DateTimeField()
 
     class Meta:
         model = Note
-        fields =('id','userId','title', 'text','semester','dateStart','dateEnd')
+        fields = '__all__'
 
 
 class UserSerializer(serializers.ModelSerializer):

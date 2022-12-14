@@ -47,6 +47,7 @@ from api.helpers.tutor_team_helper import TutorTeamHelper
 from api.helpers.password_helper import PasswordHelper
 from api.helpers.data_treatement import DataTreatement
 from api.helpers.sftp_helper import SftpHelper
+from api.helpers.semester_helper import SemesterHelper
 
 
 @api_view(["GET"])
@@ -117,9 +118,10 @@ class ApiNoteByUserId(APIView):
 # renvois les données en Tree afin d'afficher l'aborescence des notes
 class TreeNote(APIView):
     def get(self, request, pk):
-        note_list = Note.objects.filter(apprentice_id=pk)
-        serializers = TreeNoteSerializer(note_list, many=True)
-        data = DataTreatement.treeNotes(serializers.data)
+        notes = Note.objects.filter(apprentice_id=pk)
+        serializers = TreeNoteSerializer(notes, many=True)
+        formatted_data = SemesterHelper.getSemestersNames(serializers)
+        data = DataTreatement.treeNotes(formatted_data)
         return Response(data)
 
 

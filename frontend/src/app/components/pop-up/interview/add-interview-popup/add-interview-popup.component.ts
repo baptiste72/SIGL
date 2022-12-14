@@ -47,7 +47,7 @@ export class AddInterviewPopupComponent implements OnInit {
   ngOnInit(): void {
     this.apprenticeService.getById(this.data.userId).subscribe((apprentice) => {
       this.semesterService
-        .getAllByYearGroup(apprentice.yearGroup_id)
+        .getAllByYearGroup(apprentice.yearGroup.id)
         .subscribe((semesters) => {
           this.semesters = semesters;
         });

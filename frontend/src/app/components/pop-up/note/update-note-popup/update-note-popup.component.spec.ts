@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ModifyNotePopupComponent } from './modify-note-popup.component';
+import { UpdateNotePopupComponent } from './update-note-popup.component';
 
 describe('ModifyNotePopupComponent', () => {
-  let component: ModifyNotePopupComponent;
-  let fixture: ComponentFixture<ModifyNotePopupComponent>;
+  let component: UpdateNotePopupComponent;
+  let fixture: ComponentFixture<UpdateNotePopupComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ModifyNotePopupComponent],
+      declarations: [UpdateNotePopupComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ModifyNotePopupComponent);
+    fixture = TestBed.createComponent(UpdateNotePopupComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

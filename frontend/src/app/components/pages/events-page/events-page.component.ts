@@ -10,7 +10,7 @@ import { Deadline } from '@app/models/Deadline';
 import { MatPaginator } from '@angular/material/paginator';
 import { Interview } from '@app/models/Interview';
 import { UpdateInterviewPopupComponent } from '../../pop-up/interview/update-interview-popup/update-interview-popup.component';
-import { ModifyDeadlinePopupComponent } from '@app/components/pop-up/deadline/modify-deadline-popup/modify-deadline-popup.component';
+import { UpdateDeadlinePopupComponent } from '@app/components/pop-up/deadline/update-deadline-popup/update-deadline-popup.component';
 import { AuthService } from '@app/services/auth/auth.service';
 import { lastValueFrom } from 'rxjs';
 import { startOfDay } from 'date-fns';
@@ -234,7 +234,7 @@ export class EventsPageComponent implements OnInit {
 
   openModifyDeadline(deadline: any) {
     this.dialog
-      .open(ModifyDeadlinePopupComponent, {
+      .open(UpdateDeadlinePopupComponent, {
         width: '600px',
         data: {
           dataKey: deadline,
