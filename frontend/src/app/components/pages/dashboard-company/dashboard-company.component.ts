@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { AddCompanyPopupComponent } from '../../pop-up/company/add-company-popup/add-company-popup.component';
+import { AddCompanyFormComponent } from '../../forms/add-company-form/add-company-form.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserService } from 'src/app/services/user/user.service';
 import { MatTabChangeEvent } from '@angular/material/tabs';
@@ -55,14 +55,5 @@ export class DashboardCompanyComponent {
         }
     }
   }
-
-  //#region Popups
-
-  public addCompany() {
-    this.dialog.open(AddCompanyPopupComponent, {
-      width: '600px',
-    });
-  }
-  //#endregion Popups
 }
 

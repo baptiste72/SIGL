@@ -1,16 +1,14 @@
-<div class="dialog-header bg-green">
-  <h2 mat-dialog-title>Ajout d'une entreprise</h2>
-</div>
-<div mat-dialog-content class="dialog-content">
+<mat-card class="evals-card">
+  <mat-card-header class="evals-card-header">
+    <mat-card-title class="evals-card-title">
+      Complétion des informations de l'entreprise
+    </mat-card-title>
+    </mat-card-header>
   <mat-stepper linear #stepper>
     <mat-step [stepControl]="enterpriseForm">
       <form [formGroup]="enterpriseForm">
         <ng-template matStepLabel>Entreprise</ng-template>
-
-        <mat-card class="card">
-          <mat-card-header>
-            <mat-card-title>Organisme d'accueil</mat-card-title>
-          </mat-card-header>
+          <h2 class="text-align-center">Organisme d'accueil</h2>
           <div class="div-input">
             <h3>Raison sociale de l’entreprise</h3>
             <mat-form-field class="full-width" appearance="fill">
@@ -221,12 +219,8 @@
               >
             </mat-form-field>
           </div>
-        </mat-card>
 
-        <mat-card class="card-international">
-          <mat-card-header>
-            <mat-card-title>International</mat-card-title>
-          </mat-card-header>
+            <h2 class="text-align-center">International</h2>
           <div>
             <h3>
               Rappel concernant l'Expérience Internationale exigée par la CTI
@@ -271,10 +265,9 @@
               >
             </mat-radio-group>
           </div>
-        </mat-card>
 
         <div mat-dialog-actions align="end">
-          <button mat-button class="black bold" matStepperNext>NEXT</button>
+          <button mat-button class="blue bold" matStepperNext>SUIVANT</button>
           <button
             mat-button
             type="submit"
@@ -282,7 +275,7 @@
             (click)="addCompany(enterpriseForm.value)"
             [disabled]="enterpriseForm.invalid"
           >
-            SUBMIT
+            SAUVEGARDER
           </button>
         </div>
       </form>
@@ -400,8 +393,8 @@
         </div>
 
         <div mat-dialog-actions align="end">
-          <button mat-button class="black bold" matStepperPrevious>BACK</button>
-          <button mat-button class="black bold" matStepperNext>NEXT</button>
+          <button mat-button class="purple bold" matStepperPrevious>PRÉCÉDENT</button>
+          <button mat-button class="blue bold" matStepperNext>SUIVANT</button>
           <button
             mat-button
             type="submit"
@@ -409,7 +402,7 @@
             (click)="addOpco(opcoForm.value)"
             [disabled]="opcoForm.invalid"
           >
-            SUBMIT
+            SAUVEGARDER
           </button>
         </div>
       </form>
@@ -418,12 +411,7 @@
     <mat-step [stepControl]="contactForm" [optional]="isOptional">
       <form [formGroup]="contactForm">
         <ng-template matStepLabel>Contacts Entreprise</ng-template>
-
-        <mat-card class="card">
-          <mat-card-header>
-            <mat-card-title>Responsable Entreprise</mat-card-title>
-          </mat-card-header>
-
+          <h2  class="text-align-center">Responsable Entreprise</h2>
           <div class="div-input">
             <h3>NOM</h3>
             <mat-form-field class="full-width" appearance="fill">
@@ -557,13 +545,8 @@
               >
             </mat-radio-group>
           </div>
-        </mat-card>
 
-        <mat-card class="card">
-          <mat-card-header>
-            <mat-card-title>Responsable Finance/Comptabilité</mat-card-title>
-          </mat-card-header>
-
+          <h2  class="text-align-center">Responsable Finance/Comptabilité</h2>
           <div class="div-input">
             <h3>NOM</h3>
             <mat-form-field class="full-width" appearance="fill">
@@ -674,13 +657,8 @@
               >
             </mat-radio-group>
           </div>
-        </mat-card>
 
-        <mat-card class="card">
-          <mat-card-header>
-            <mat-card-title>Administrateur du dossier</mat-card-title>
-          </mat-card-header>
-
+          <h2  class="text-align-center">Administrateur du dossier</h2>
           <div class="div-input">
             <h3>NOM</h3>
             <mat-form-field class="full-width" appearance="fill">
@@ -790,20 +768,19 @@
               >
             </mat-radio-group>
           </div>
-        </mat-card>
 
         <div mat-dialog-actions align="end">
-          <button mat-button class="black bold" matStepperPrevious>BACK</button>
+          <button mat-button class="blue bold" matStepperPrevious>PRÉCÉDENT</button>
           <button
             mat-button
             type="submit"
             class="green bold"
             (click)="addContact(contactForm.value)"
             [disabled]="contactForm.invalid">
-            SUBMIT
+            SAUVEGARDER
           </button>
         </div>
       </form>
     </mat-step>
   </mat-stepper>
-</div>
+</mat-card>

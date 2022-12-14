@@ -50,7 +50,7 @@ const routes: Routes = [
     path: 'configuration',
     component: ConfigurationComponent,
     canActivate: [AuthGuard],
-    data: { roles: [Role.ADMIN, Role.COORDINATOR] },
+    // data: { roles: [Role.ADMIN, Role.COORDINATOR] },
   },
   { path: 'events', component: EventsPageComponent, canActivate: [AuthGuard] },
   // Redirection vers la page d'erreur 404 - cette route doit être la dernière du tableau
