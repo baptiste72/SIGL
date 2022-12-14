@@ -31,8 +31,11 @@
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Choisissez une entreprise</mat-label>
       <mat-select required [(ngModel)]="register.company">
-        <mat-option *ngFor="let company of companys" [value]="company.cmp_siret">
-          {{ company.cmp_siret }}
+        <mat-option
+          *ngFor="let company of companies"
+          [value]="company.cmp_siret"
+        >
+          {{ company.cmp_name }}
         </mat-option>
       </mat-select>
     </mat-form-field>

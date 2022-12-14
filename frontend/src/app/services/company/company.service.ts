@@ -12,8 +12,8 @@ export class CompanyService {
 
   constructor(private http: HttpClient) {}
 
-  public getAll(): Observable<any> {
-    return this.http.get<Company>(`${environment.apiUrl}/${this.urlPrefix}`);
+  public getAll(): Observable<Company[]> {
+    return this.http.get<Company[]>(`${environment.apiUrl}/${this.urlPrefix}`);
   }
 
   public add(company: Company): Observable<Company> {

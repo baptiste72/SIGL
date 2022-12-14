@@ -90,7 +90,8 @@ export class ConfigurationComponent implements OnInit, AfterViewInit {
     'update',
   ];
   public dataSourceFormationCenters: MatTableDataSource<FormationCenter>;
-  @ViewChild('formationCenterPaginator') formationCenterPaginator!: MatPaginator;
+  @ViewChild('formationCenterPaginator')
+  formationCenterPaginator!: MatPaginator;
 
   ngOnInit(): void {
     // On charge le premier onglet
@@ -221,7 +222,6 @@ export class ConfigurationComponent implements OnInit, AfterViewInit {
         this.dataSourceCompanies = new MatTableDataSource<Company>(companies);
         this.dataSourceCompanies.paginator = this.companiesPaginator;
         this.hlCompanies = true;
-        console.log(this.dataSourceCompanies);
       },
       error: (err) => {
         this._snackBar.open(
@@ -255,9 +255,11 @@ export class ConfigurationComponent implements OnInit, AfterViewInit {
   private loadFormationCenters() {
     this.formationCenterService.getAll().subscribe({
       next: (formation_center_list) => {
-        this.dataSourceFormationCenters = new MatTableDataSource<FormationCenter>(formation_center_list);
+        this.dataSourceFormationCenters =
+          new MatTableDataSource<FormationCenter>(formation_center_list);
         this.hlFormationCenters = true;
-        this.dataSourceFormationCenters.paginator = this.formationCenterPaginator;
+        this.dataSourceFormationCenters.paginator =
+          this.formationCenterPaginator;
       },
       error: (err) => {
         this._snackBar.open(
@@ -497,7 +499,7 @@ export class ConfigurationComponent implements OnInit, AfterViewInit {
         },
         error: (err) => {
           this._snackBar.open(
-            "❌ Une erreur est survenue lors de la suppression du centre de formation",
+            '❌ Une erreur est survenue lors de la suppression du centre de formation',
             'Ok',
             { duration: 2000 }
           );
@@ -537,7 +539,7 @@ export interface Company {
   cmp_internat: string;
 }
 
- const COMPANIES_DATA: Company[] = [
+const COMPANIES_DATA: Company[] = [
   {
     cmp_name: 'Itanica',
     cmp_siret: 3998269810017,
