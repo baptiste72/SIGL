@@ -42,8 +42,6 @@ class Tutor(User):
 
 class Company(models.Model):
     # table des entreprises
-    #worded = models.CharField(max_length=200)
-    #address = models.CharField(max_length=500)
     cmp_siret = models.CharField(primary_key=True, max_length=200)
     cmp_address = models.CharField(max_length=500)
     cmp_name = models.CharField(max_length=200)
