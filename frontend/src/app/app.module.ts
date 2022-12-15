@@ -51,7 +51,6 @@ import { UpdateNotePopupComponent } from './components/pop-up/note/update-note-p
 import { AddSemesterPopupComponent } from './components/pop-up/semester/add-semester-popup/add-semester-popup.component';
 import { UpdateInterviewPopupComponent } from './components/pop-up/interview/update-interview-popup/update-interview-popup.component';
 import { UpdateDeadlinePopupComponent } from './components/pop-up/deadline/update-deadline-popup/update-deadline-popup.component';
-
 import { MatTabsModule } from '@angular/material/tabs';
 import { UpdateUserPopupComponent } from './components/pop-up/user/update-user-popup/update-user-popup/update-user-popup.component';
 import { ErrorInterceptor, JwtInterceptor } from './helpers';
