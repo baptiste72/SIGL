@@ -23,7 +23,6 @@ export class DashboardCompanyComponent {
   private hlCompanies = false;
   compUser: CompanyUser;
 
-
   constructor(
     public dialog: MatDialog,
     private confirmDeleteDialogRef: MatDialogRef<ConfirmDeleteComponent>,
@@ -33,7 +32,6 @@ export class DashboardCompanyComponent {
     private companyUserService: CompanyUserService,
     private _snackBar: MatSnackBar
   ) {
-
     this.compUser = new CompanyUser(
       999,
       'TOTO',
@@ -50,10 +48,9 @@ export class DashboardCompanyComponent {
     switch ($event.tab.textLabel) {
       case 'companies':
         if (!this.hlCompanies) {
-        //this.loadCompany();
-        break;
+          //this.loadCompany();
+          break;
         }
     }
   }
 }
-
