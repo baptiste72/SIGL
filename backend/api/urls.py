@@ -6,7 +6,20 @@ urlpatterns = [
     path("apprentices", views.ApprenticeList.as_view()),
     path("apprentices/<int:pk>", views.ApprenticeDetail.as_view()),
     # companies
-    path("companies", views.get_company, name="getCompanies"),
+    path("companies", views.CompanyList.as_view()),
+    path("companies/<int:pk>", views.CompanyDetail.as_view()),
+    # opco
+    path("opco", views.OpcoList.as_view()),
+    path("opco/<int:pk>", views.OpcoDetail.as_view()),
+    # contact-company
+    path("contact-company", views.ContactCompanyList.as_view()),
+    path("contact-company/<int:pk>", views.ContactCompanyDetail.as_view()),
+    # company-user
+    path("company-user", views.CompanyUserList.as_view()),
+    path("company-user/<int:pk>", views.CompanyUserDetail.as_view()),
+    # deadlines
+    path("deadlines", views.get_deadlines, name="getDeadlines"),
+    path("deadlines/add", views.add_deadline, name="addDeadline"),
     # formation-centers
     path(
         "formation-centers/<int:pk>",

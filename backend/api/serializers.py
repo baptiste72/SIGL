@@ -4,6 +4,8 @@ from base.models import (
     Apprentice,
     Company,
     CompanyUser,
+    ContactCompany,
+    Opco,
     Deadline,
     FormationCenter,
     Interview,
@@ -34,19 +36,73 @@ class MentorSerializer(serializers.ModelSerializer):
             "password",
             "email",
             "role",
-            "company",
+            "mt_cmp_siret",
+            "mt_phone",         
+            "mt_job_title",   
+            "mt_last_diploma",
+            "mt_former_eseo",
         )
+
 
 
 class CompanySerializer(serializers.ModelSerializer):
     class Meta:
         model = Company
         fields = (
-            "id",
-            "worded",
-            "address",
+            "cmp_siret", 
+            "cmp_address",
+            "cmp_name",
+            "cmp_employees",
+            "cmp_cpne",
+            "cmp_idcc",
+            "cmp_convention",
+            "cmp_naf_ape",
+            "cmp_work_field",
+            "cmp_phone", 
+            "cmp_email", 
+            "cmp_internat", 
         )
 
+class OpcoSerializer(serializers.ModelSerializer):
+    
+    #mentor = MentorSerializer(many=True)
+    class Meta:
+        model = Opco
+        fields = (
+            "opco_siret",
+            "opco_cmp_siret",
+            "opco_name",
+            "opco_address",
+            "opco_phone",
+            "opco_email",
+        )
+
+class ContactCompanySerializer(serializers.ModelSerializer):
+    
+    #mentor = MentorSerializer(many=True)
+    class Meta:
+        model = ContactCompany
+        fields = (
+            "ct_cmp_siret",
+            "ct_last_name",
+            "ct_first_name",
+            "ct_phone",
+            "ct_email",
+            "ct_job_title",
+            "ct_former_eseo",
+            "fi_last_name",
+            "fi_first_name",
+            "fi_phone",
+            "fi_email",
+            "fi_job_title",
+            "fi_former_eseo",
+            "sa_last_name",
+            "sa_first_name",
+            "sa_phone",
+            "sa_email",
+            "sa_job_title",
+            "sa_former_eseo",
+        )       
 
 class TutorSerializer(serializers.ModelSerializer):
     class Meta:
@@ -181,6 +237,9 @@ class CompanyUserSerializer(serializers.ModelSerializer):
             "email",
             "password",
             "role",
+            "company_siret",
+            "opco_siret",
+            "contactCompany_id",
         )
 
 

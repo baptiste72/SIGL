@@ -19,6 +19,7 @@ import { NotesPageComponent } from './components/pages/notes-page/notes-page.com
 import { UpdateYearGroupPopupComponent } from './components/pop-up/year-group/update-year-group-popup/update-year-group-popup/update-year-group-popup.component';
 import { UpdateSemesterPopupComponent } from './components/pop-up/semester/update-semester-popup/update-semester-popup/update-semester-popup.component';
 import { EventsPageComponent } from './components/pages/events-page/events-page.component';
+import { AddCompanyFormComponent } from './components/forms/add-company-form/add-company-form.component';
 
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -41,13 +42,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
 import { AddDeadlinePopupComponent } from './components/pop-up/deadline/add-deadline-popup/add-deadline-popup.component';
+import { MatRadioModule } from '@angular/material/radio';
 import {
   NgxMatDatetimePickerModule,
   NgxMatTimepickerModule,
   NgxMatNativeDateModule,
 } from '@angular-material-components/datetime-picker';
 import { UpdateNotePopupComponent } from './components/pop-up/note/update-note-popup/update-note-popup.component';
-import { AddCompanyPopupComponent } from './components/pop-up/company/add-company-popup/add-company-popup.component';
 import { AddSemesterPopupComponent } from './components/pop-up/semester/add-semester-popup/add-semester-popup.component';
 import { UpdateInterviewPopupComponent } from './components/pop-up/interview/update-interview-popup/update-interview-popup.component';
 import { UpdateDeadlinePopupComponent } from './components/pop-up/deadline/update-deadline-popup/update-deadline-popup.component';
@@ -68,6 +69,8 @@ import { AddFormationCenterPopupComponent } from './components/pop-up/formation-
 import { UpdateFormationCenterPopupComponent } from './components/pop-up/formation-center/update-formation-center-popup/update-formation-center-popup.component';
 import { AddInterviewPopupComponent } from './components/pop-up/interview/add-interview-popup/add-interview-popup.component';
 import { AddDocumentPopupComponent } from './components/pop-up/document/add-document-popup/add-document-popup.component';
+import { MatStepperModule, MatStepper } from '@angular/material/stepper';
+import { DashboardCompanyComponent } from './components/pages/dashboard-company/dashboard-company.component';
 
 @NgModule({
   declarations: [
@@ -93,7 +96,7 @@ import { AddDocumentPopupComponent } from './components/pop-up/document/add-docu
     EventsPageComponent,
     AddInterviewPopupComponent,
     AddDeadlinePopupComponent,
-    AddCompanyPopupComponent,
+    AddCompanyFormComponent,
     AddSemesterPopupComponent,
     UpdateYearGroupPopupComponent,
     UpdateSemesterPopupComponent,
@@ -107,6 +110,7 @@ import { AddDocumentPopupComponent } from './components/pop-up/document/add-docu
     PageNotFoundComponent,
     AddFormationCenterPopupComponent,
     UpdateFormationCenterPopupComponent,
+    DashboardCompanyComponent,
   ],
   imports: [
     CalendarModule.forRoot({
@@ -137,6 +141,8 @@ import { AddDocumentPopupComponent } from './components/pop-up/document/add-docu
     NgxMatTimepickerModule,
     NgxMatNativeDateModule,
     MatTabsModule,
+    MatStepperModule,
+    MatCardModule,
     ReactiveFormsModule,
   ],
   providers: [
