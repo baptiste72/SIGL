@@ -49,7 +49,6 @@ import {
 } from '@angular-material-components/datetime-picker';
 import { UpdateNotePopupComponent } from './components/pop-up/note/update-note-popup/update-note-popup.component';
 import { AddSemesterPopupComponent } from './components/pop-up/semester/add-semester-popup/add-semester-popup.component';
-import { UpdateInterviewPopupComponent } from './components/pop-up/interview/update-interview-popup/update-interview-popup.component';
 import { UpdateDeadlinePopupComponent } from './components/pop-up/deadline/update-deadline-popup/update-deadline-popup.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { UpdateUserPopupComponent } from './components/pop-up/user/update-user-popup/update-user-popup/update-user-popup.component';
@@ -65,10 +64,11 @@ import localeFr from '@angular/common/locales/fr';
 registerLocaleData(localeFr);
 import { AddFormationCenterPopupComponent } from './components/pop-up/formation-center/add-formation-center-popup/add-formation-center-popup.component';
 import { UpdateFormationCenterPopupComponent } from './components/pop-up/formation-center/update-formation-center-popup/update-formation-center-popup.component';
-import { AddInterviewPopupComponent } from './components/pop-up/interview/add-interview-popup/add-interview-popup.component';
 import { AddDocumentPopupComponent } from './components/pop-up/document/add-document-popup/add-document-popup.component';
 import { MatStepperModule, MatStepper } from '@angular/material/stepper';
 import { DashboardCompanyComponent } from './components/pages/dashboard-company/dashboard-company.component';
+import { AddInterviewPopupComponent } from './components/pop-up/interview/add-interview-popup/add-interview-popup.component';
+import { UpdateInterviewPopupComponent } from './components/pop-up/interview/update-interview-popup/update-interview-popup.component';
 
 @NgModule({
   declarations: [
