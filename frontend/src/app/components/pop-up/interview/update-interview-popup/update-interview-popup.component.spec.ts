@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UpdateInterviewPopupComponent } from './update-interview-popup.component';
 
-describe('ModifyInterviewPopupComponent', () => {
+describe('UpdateInterviewPopupComponent', () => {
   let component: UpdateInterviewPopupComponent;
   let fixture: ComponentFixture<UpdateInterviewPopupComponent>;
 

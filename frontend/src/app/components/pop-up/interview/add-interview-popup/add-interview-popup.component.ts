@@ -12,7 +12,7 @@ interface Attendees {
 }
 
 @Component({
-  selector: 'app-add-event-popup',
+  selector: 'app-add-interview-popup',
   templateUrl: './add-interview-popup.component.html',
   styleUrls: ['./add-interview-popup.component.scss'],
 })
