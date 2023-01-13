@@ -4,5 +4,6 @@ django-cors-headers
 django_rest_passwordreset
 drf-yasg
 msal
+paramiko
 psycopg2-binary
 pylint-django
