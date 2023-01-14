@@ -23,8 +23,7 @@
     "paths": {
       "@app/*": ["src/app/*"],
       "@environments/*": ["src/environments/*"]
-    },
-    "useDefineForClassFields": false
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
