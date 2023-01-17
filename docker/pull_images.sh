@@ -26,6 +26,8 @@ pull_images() {
 }
 
 main() {
+  docker logout "${REGISTRY}"
+
   if [[ "${OSTYPE}" == "msys" ]]; then
     winpty docker login "${REGISTRY}"
   else

@@ -3,7 +3,7 @@ FROM node:lts-alpine
 
 # Add metadata
 LABEL description="Set up Angular for development" \
-      version="2.0"
+      version="3.0"
 
 # Set location variable for chromium
 ENV CHROME_BIN=/usr/bin/chromium-browser
