@@ -6,8 +6,11 @@
     <h3>Apprenti</h3>
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Choisissez un apprenti</mat-label>
-      <mat-select required [(ngModel)] = "register.apprentice">
-        <mat-option *ngFor="let apprentice of apprentices" [value]="apprentice.id">
+      <mat-select required [(ngModel)]="register.apprentice">
+        <mat-option
+          *ngFor="let apprentice of apprentices"
+          [value]="apprentice.id"
+        >
           {{ apprentice.first_name }} {{ apprentice.last_name }}
         </mat-option>
       </mat-select>
@@ -18,9 +21,9 @@
     <h3>Tuteur pédagogique</h3>
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Choisissez un tuteur pédagogique</mat-label>
-      <mat-select required [(ngModel)] = "register.tutor">
+      <mat-select required [(ngModel)]="register.tutor">
         <mat-option *ngFor="let tutor of tutors" [value]="tutor.id">
-          {{ tutor.first_name }} {{ tutor.last_name}}
+          {{ tutor.first_name }} {{ tutor.last_name }}
         </mat-option>
       </mat-select>
     </mat-form-field>
@@ -30,7 +33,7 @@
     <h3>Maître d'apprentissage</h3>
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Choisissez un maître d'apprentissage</mat-label>
-      <mat-select required [(ngModel)] = "register.mentor">
+      <mat-select required [(ngModel)]="register.mentor">
         <mat-option *ngFor="let mentor of mentors" [value]="mentor.id">
           {{ mentor.first_name }} {{ mentor.last_name }}
         </mat-option>
@@ -40,6 +43,8 @@
 </div>
 <mat-divider></mat-divider>
 <div mat-dialog-actions align="end">
-  <button mat-button class="green bold" (click)="addTutorTeam(register)">AJOUTER</button>
+  <button mat-button class="green bold" (click)="addTutorTeam(register)">
+    AJOUTER
+  </button>
   <button mat-button class="red bold" (click)="closeDialog()">ANNULER</button>
 </div>

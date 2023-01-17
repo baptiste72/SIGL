@@ -1,12 +1,30 @@
 <mat-card class="events-card">
   <mat-card-header class="events-card-header">
     <mat-card-title class="events-card-title">
-      <mat-icon aria-hidden="false" aria-label="events icon" fontIcon="calendar_month"></mat-icon>
+      <mat-icon
+        aria-hidden="false"
+        aria-label="events icon"
+        fontIcon="calendar_month"
+      ></mat-icon>
       ÉVENEMENTS
     </mat-card-title>
   </mat-card-header>
 
   <mat-card-content>
-
+    <div class="row text-center">
+      <div class="col-md-4">
+        <h3>
+          {{
+            viewDate | calendarDate : view + "ViewTitle" : locale : weekStartsOn
+          }}
+        </h3>
+      </div>
+      <mwl-calendar-month-view
+        [locale]="locale"
+        [viewDate]="viewDate"
+        [events]="events"
+      >
+      </mwl-calendar-month-view>
+    </div>
   </mat-card-content>
 </mat-card>

@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '@app/services/auth/auth.service';
+import { NoteService } from 'src/app/services/note/note.service';
 
 export interface Section {
   name: string;
@@ -10,15 +13,29 @@ export interface Section {
   templateUrl: './notes.component.html',
   styleUrls: ['./notes.component.scss'],
 })
-export class NotesComponent {
-  constructor() {}
+export class NotesComponent implements OnInit {
+  notes: any;
+  constructor(
+    private router: Router,
+    private noteService: NoteService,
+    private authService: AuthService
+  ) {}
 
-  notes: Section[] = [
-    { name: 'Période 15 au 27 mai', link: './notes' },
-    { name: 'Période 28 au 05 juin', link: './notes' },
-    { name: 'Période 06 au 30 juin', link: './notes' },
-    { name: 'Période 03 au 15 août', link: './notes' },
-    { name: 'Période 16 au 27 août', link: './notes' },
-    { name: 'Période 01 au 12 septembre', link: './notes' },
-  ];
+  ngOnInit(): void {
+    this.getNotes();
+  }
+
+  public getNotes() {
+    this.noteService.getAllByUserId(this.getUserId()).subscribe((response) => {
+      this.notes = response;
+    });
+  }
+
+  private getUserId(): number {
+    return this.authService.userValue.id;
+  }
+
+  public goToNote(noteId: number) {
+    this.router.navigate(['notes'], { state: { id: noteId } });
+  }
 }

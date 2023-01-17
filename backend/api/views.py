@@ -20,13 +20,12 @@ from base.models import (
     Tutor,
     TutorTeam,
     YearGroup,
+    Note,
     Document,
     Opco,
     ContactCompany,
 )
-from api.helpers.password_helper import PasswordHelper
-from api.helpers.tutor_team_helper import TutorTeamHelper
-from api.helpers.sftp_helper import SftpHelper
+
 from api.serializers import (
     ApprenticeSerializer,
     CompanySerializer,
@@ -37,6 +36,8 @@ from api.serializers import (
     InterviewSerializer,
     MentorSerializer,
     SemesterSerializer,
+    NoteSerializer,
+    TreeNoteSerializer,
     TutorSerializer,
     TutorTeamSerializer,
     UserSerializer,
@@ -47,6 +48,11 @@ from api.serializers import (
     DocumentSerializer,
     CompanyUserSerializer,
 )
+from api.helpers.tutor_team_helper import TutorTeamHelper
+from api.helpers.password_helper import PasswordHelper
+from api.helpers.data_treatement import DataTreatement
+from api.helpers.sftp_helper import SftpHelper
+from api.helpers.semester_helper import SemesterHelper
 
 
 @api_view(["GET"])
@@ -54,6 +60,7 @@ def get_mentors(request):
     mentor_list = Mentor.objects.all()
     serializers = MentorSerializer(mentor_list, many=True)
     return Response(serializers.data)
+
 
 @api_view(["POST"])
 def add_mentor(request):
@@ -68,8 +75,12 @@ def add_mentor(request):
 def get_tutors(request):
     tutor_list = Tutor.objects.all()
     serializer = TutorSerializer(tutor_list, many=True)
-    print(serializer.data)
     return Response(serializer.data)
+
+
+class ApprenticeList(generics.ListCreateAPIView):
+    queryset = Apprentice.objects.all()
+    serializer_class = ApprenticeSerializer
 
 
 @api_view(["GET"])
@@ -86,29 +97,77 @@ def get_interviews(request):
     return Response(serializers.data)
 
 
-@api_view(["POST"])
-def add_interview(request):
-    serializer = InterviewSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class ApprenticeDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Apprentice.objects.all()
+    serializer_class = ApprenticeSerializer
 
 
-@api_view(["GET"])
-def get_deadlines(request):
-    dealine_list = Deadline.objects.all()
-    serializers = DeadlineSerializer(dealine_list, many=True)
-    return Response(serializers.data)
+class DeadlinesByUserId(APIView):
+    def get(self, request, pk):
+        deadline_list = Deadline.objects.filter(apprentice_id=pk)
+        serializers = DeadlineSerializer(deadline_list, many=True)
+        return Response(serializers.data)
 
 
-@api_view(["POST"])
-def add_deadline(request):
-    serializer = DeadlineSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class DeadlinesList(generics.ListCreateAPIView):
+    queryset = Deadline.objects.all()
+    serializer_class = DeadlineSerializer
+
+
+class DeadlinesDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Deadline.objects.all()
+    serializer_class = DeadlineSerializer
+
+
+class NotesList(generics.ListCreateAPIView):
+    queryset = Note.objects.all()
+    serializer_class = NoteSerializer
+
+
+class NotesDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Note.objects.all()
+    serializer_class = NoteSerializer
+
+
+class ApiNoteByUserId(APIView):
+    def get(self, request, pk):
+        note_list = Note.objects.filter(apprentice_id=pk)
+        serializers = NoteSerializer(note_list, many=True)
+        return Response(serializers.data)
+
+
+# renvois les données en Tree afin d'afficher l'aborescence des notes
+class TreeNote(APIView):
+    def get(self, request, pk):
+        notes = Note.objects.filter(apprentice_id=pk)
+        serializers = TreeNoteSerializer(notes, many=True)
+        formatted_data = SemesterHelper.getSemestersNames(serializers)
+        data = DataTreatement.treeNotes(formatted_data)
+        return Response(data)
+
+
+class InterviewsAttendees(APIView):
+    def get(self, request, pk):
+        attendee_list = Interview.objects.filter(interview_id=pk)
+        serializers = UserSerializer(attendee_list, many=True)
+        return Response(serializers.data)
+
+
+class InterviewsByUserId(APIView):
+    def get(self, request, pk):
+        interview_list = Interview.objects.filter(apprentice_id=pk)
+        serializers = InterviewSerializer(interview_list, many=True)
+        return Response(serializers.data)
+
+
+class InterviewList(generics.ListCreateAPIView):
+    queryset = Interview.objects.all()
+    serializer_class = InterviewSerializer
+
+
+class InterviewDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Interview.objects.all()
+    serializer_class = InterviewSerializer
 
 
 @api_view(["GET"])
@@ -151,6 +210,13 @@ def get_semesters(request):
     semester_list = Semester.objects.all()
     serializers = SemesterSerializer(semester_list, many=True)
     return Response(serializers.data)
+
+
+class SemesterByYearGroup(APIView):
+    def get(self, request, pk):
+        semesters = Semester.objects.filter(yearGroup_id=pk)
+        serializers = SemesterSerializer(semesters, many=True)
+        return Response(serializers.data)
 
 
 @api_view(["POST"])
@@ -322,7 +388,6 @@ class CompanyList(APIView):
         company_list = Company.objects.all()
         serializer = CompanySerializer(company_list, many=True)
         return Response(serializer.data)
-    
 
     def post(self, request):
         serializer = CompanySerializer(data=request.data)
@@ -335,7 +400,8 @@ class CompanyList(APIView):
 class CompanyUserDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = CompanyUser.objects.all()
     serializer_class = CompanyUserSerializer
-  
+
+
 class CompanyUserList(generics.ListCreateAPIView):
     queryset = CompanyUser.objects.all()
     serializer_class = CompanyUserSerializer
@@ -366,13 +432,16 @@ class OpcoDetail(APIView):
         tutor_team.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+
 class OpcoList(generics.ListCreateAPIView):
     queryset = Opco.objects.all()
     serializer_class = OpcoSerializer
 
+
 class ContactCompanyDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = ContactCompany.objects.all()
     serializer_class = ContactCompanySerializer
+
 
 class ContactCompanyList(generics.ListCreateAPIView):
     queryset = ContactCompany.objects.all()
@@ -483,7 +552,7 @@ class DocumentDetail(APIView):
         serializer = DocumentSerializer(document)
         sftp, ssh = SftpHelper.sftp_open_connection()
         file_name = serializer.data["file_name"]
-        with open(file_name, "wb") as file_write :
+        with open(file_name, "wb") as file_write:
             sftp.getfo("/datastore/" + file_name, file_write)
         # pylint: disable=consider-using-with
         file_read = open(file_name, "rb")
@@ -496,7 +565,7 @@ class DocumentDetail(APIView):
             sftp, ssh = SftpHelper.sftp_open_connection()
             sftp.remove("/datastore/" + document.file_name)
             SftpHelper.sftp_close_connection(sftp, ssh)
-        except: # pylint: disable=bare-except
+        except:  # pylint: disable=bare-except
             pass
         document.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
