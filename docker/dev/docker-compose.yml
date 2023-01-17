@@ -8,7 +8,7 @@ services:
       - "9876:9876"
     volumes:
       - ./../../frontend:/sigl
-      - /sigl/node_modules
+      - node_modules:/sigl/node_modules
     restart: always
 
   django:
@@ -73,6 +73,7 @@ services:
     restart: always
 
 volumes:
+  node_modules:
   django_data:
   sonarqube_data:
   sonarqube_logs:
