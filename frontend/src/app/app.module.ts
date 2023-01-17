@@ -116,7 +116,7 @@ import { UpdateInterviewPopupComponent } from './components/pop-up/interview/upd
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
-
+    MatRadioModule,
     BrowserModule,
     AppRoutingModule,
     MatTableModule,
