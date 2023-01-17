@@ -5,8 +5,12 @@
   <div class="div-input">
     <h3>Nom</h3>
     <mat-form-field class="full-width" appearance="fill">
-      <mat-label>Semestre 1</mat-label>
-      <input [(ngModel)]="register.name" type="text" matInput />
+      <mat-label>Choisissez un semestre</mat-label>
+      <mat-select required [(ngModel)]="register.name">
+        <mat-option *ngFor="let semester of semesters" [value]="semester.name">
+          {{ semester.name }}
+        </mat-option>
+      </mat-select>
     </mat-form-field>
   </div>
 
@@ -15,8 +19,16 @@
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Entrez une période</mat-label>
       <mat-date-range-input [rangePicker]="picker">
-        <input [(ngModel)]="register.beginDate" matStartDate placeholder="Date de début" />
-        <input [(ngModel)]="register.endDate" matEndDate placeholder="Date de fin" />
+        <input
+          [(ngModel)]="register.beginDate"
+          matStartDate
+          placeholder="Date de début"
+        />
+        <input
+          [(ngModel)]="register.endDate"
+          matEndDate
+          placeholder="Date de fin"
+        />
       </mat-date-range-input>
       <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -35,8 +47,11 @@
       </mat-select>
     </mat-form-field>
   </div>
-<mat-divider></mat-divider>
-<div mat-dialog-actions align="end">
-  <button mat-button class="green bold" (click)="addSemester(register)">AJOUTER</button>
-  <button mat-button class="red bold" (click)="closeDialog()">ANNULER</button>
+  <mat-divider></mat-divider>
+  <div mat-dialog-actions align="end">
+    <button mat-button class="green bold" (click)="addSemester(register)">
+      AJOUTER
+    </button>
+    <button mat-button class="red bold" (click)="closeDialog()">ANNULER</button>
+  </div>
 </div>
