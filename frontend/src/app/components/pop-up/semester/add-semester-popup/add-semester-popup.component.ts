@@ -5,6 +5,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { YearGroup } from 'src/app/models/YearGroup';
 import { SemesterService } from 'src/app/services/semester/semester.service';
 
+interface Semester {
+  name: string;
+}
+
 @Component({
   selector: 'app-add-semester-popup',
   templateUrl: './add-semester-popup.component.html',
@@ -13,6 +17,14 @@ import { SemesterService } from 'src/app/services/semester/semester.service';
 export class AddSemesterPopupComponent implements OnInit {
   yearGroups: YearGroup[] = [];
   register: any;
+
+  public semesters: Semester[] = [
+    { name: 'Semestre S5' },
+    { name: 'Semestre S6' },
+    { name: 'Semestre S7' },
+    { name: 'Semestre S8' },
+    { name: 'Semestre S9' },
+  ];
 
   constructor(
     public dialogRef: MatDialogRef<AddSemesterPopupComponent>,

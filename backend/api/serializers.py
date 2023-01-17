@@ -15,6 +15,7 @@ from base.models import (
     TutorTeam,
     User,
     YearGroup,
+    Note,
     Document,
 )
 
@@ -175,11 +176,11 @@ class InterviewSerializer(serializers.ModelSerializer):
 
 
 class DeadlineSerializer(serializers.ModelSerializer):
-    date = fields.DateField(input_formats=["%Y-%m-%dT%H:%M:%S.%fZ"])
+    date = fields.DateTimeField(input_formats=["%Y-%m-%dT%H:%M:%S.%fZ"])
 
     class Meta:
         model = Deadline
-        fields = ("name", "date", "description")
+        fields = ("id","name", "date", "description")
 
 
 class SemesterSerializer(serializers.ModelSerializer):
@@ -189,6 +190,29 @@ class SemesterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Semester
         fields = ("id", "name", "beginDate", "endDate", "yearGroup")
+
+
+class SemesterSerializerDelete(serializers.ModelSerializer):
+    class Meta:
+        model = Semester
+        fields = ("id",)
+
+
+class NoteSerializer(serializers.ModelSerializer):
+    beginDate = fields.DateTimeField()
+    endDate = fields.DateTimeField()
+    
+    class Meta:
+        model = Note
+        fields = '__all__'
+     
+class TreeNoteSerializer(serializers.ModelSerializer):
+    beginDate = fields.DateTimeField()
+    endDate = fields.DateTimeField()
+
+    class Meta:
+        model = Note
+        fields = '__all__'
 
 
 class UserSerializer(serializers.ModelSerializer):
