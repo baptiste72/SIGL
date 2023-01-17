@@ -2,7 +2,6 @@ import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { InterviewService } from '@app/services/interview/interview.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AuthService } from '@app/services/auth/auth.service';
 import { Semester } from '@app/models/Semester';
 import { SemesterService } from '@app/services/semester/semester.service';
 import { ApprenticeService } from '@app/services/apprentice/apprentice.service';
@@ -12,7 +11,7 @@ interface Attendees {
 }
 
 @Component({
-  selector: 'app-add-event-popup',
+  selector: 'app-add-interview-popup',
   templateUrl: './add-interview-popup.component.html',
   styleUrls: ['./add-interview-popup.component.scss'],
 })

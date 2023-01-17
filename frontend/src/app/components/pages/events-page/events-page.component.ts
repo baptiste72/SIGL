@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AddInterviewPopupComponent } from '../../pop-up/interview/add-interview-popup/add-interview-popup.component';
-import { InterviewService } from '@app/services/interview/interview.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AddDeadlinePopupComponent } from '../../pop-up/deadline/add-deadline-popup/add-deadline-popup.component';
 import { DeadlineService } from 'src/app/services/deadline/deadline.service';
@@ -16,6 +15,7 @@ import { lastValueFrom } from 'rxjs';
 import { startOfDay } from 'date-fns';
 import { CalendarEvent, DAYS_OF_WEEK, CalendarView } from 'angular-calendar';
 import { ConfirmDeleteComponent } from '@app/components/pop-up/confirm-delete/confirm-delete.component';
+import { InterviewService } from '@app/services/interview/interview.service';
 
 const colors: any = {
   red: {
@@ -93,9 +93,10 @@ export class EventsPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getInterviewDates(this.userId);
-    this.getInterviews(this.userId);
-    this.getDeadlines(this.userId);
+    console.log('page events');
+    //this.getInterviewDates(this.userId);
+    //this.getInterviews(this.userId);
+    //this.getDeadlines(this.userId);
   }
 
   public async openConfirmDeletePopup(content: string): Promise<boolean> {
@@ -145,7 +146,7 @@ export class EventsPageComponent implements OnInit {
   }
 
   private getDeadlines(userId: number) {
-    this.deadlineService.get(userId).subscribe({
+    this.deadlineService.getAllByUserId(userId).subscribe({
       next: (v) => {
         this.deadlines = v;
         this.dataSourceDeadlines = new MatTableDataSource<Deadline>(

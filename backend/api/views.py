@@ -1,5 +1,5 @@
 import os
-from django.http import FileResponse, Http404, JsonResponse
+from django.http import FileResponse, Http404
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
@@ -78,15 +78,6 @@ def get_tutors(request):
     return Response(serializer.data)
 
 
-@api_view(["POST"])
-def add_mentor(request):
-    serializer = MentorSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
 class ApprenticeList(generics.ListCreateAPIView):
     queryset = Apprentice.objects.all()
     serializer_class = ApprenticeSerializer
@@ -112,8 +103,8 @@ class ApprenticeDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 class DeadlinesByUserId(APIView):
-    def get(self, request, user_id):
-        deadline_list = Deadline.objects.filter(apprentice_id=user_id)
+    def get(self, request, pk):
+        deadline_list = Deadline.objects.filter(apprentice_id=pk)
         serializers = DeadlineSerializer(deadline_list, many=True)
         return Response(serializers.data)
 

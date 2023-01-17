@@ -17,9 +17,6 @@ urlpatterns = [
     # company-user
     path("company-user", views.CompanyUserList.as_view()),
     path("company-user/<int:pk>", views.CompanyUserDetail.as_view()),
-    # deadlines
-    path("deadlines", views.get_deadlines, name="getDeadlines"),
-    path("deadlines/add", views.add_deadline, name="addDeadline"),
     # formation-centers
     path(
         "formation-centers/<int:pk>",

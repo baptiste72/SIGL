@@ -50,9 +50,7 @@ import {
 } from '@angular-material-components/datetime-picker';
 import { UpdateNotePopupComponent } from './components/pop-up/note/update-note-popup/update-note-popup.component';
 import { AddSemesterPopupComponent } from './components/pop-up/semester/add-semester-popup/add-semester-popup.component';
-import { UpdateInterviewPopupComponent } from './components/pop-up/interview/update-interview-popup/update-interview-popup.component';
 import { UpdateDeadlinePopupComponent } from './components/pop-up/deadline/update-deadline-popup/update-deadline-popup.component';
-
 import { MatTabsModule } from '@angular/material/tabs';
 import { UpdateUserPopupComponent } from './components/pop-up/user/update-user-popup/update-user-popup/update-user-popup.component';
 import { ErrorInterceptor, JwtInterceptor } from './helpers';
@@ -71,6 +69,7 @@ import { AddInterviewPopupComponent } from './components/pop-up/interview/add-in
 import { AddDocumentPopupComponent } from './components/pop-up/document/add-document-popup/add-document-popup.component';
 import { MatStepperModule, MatStepper } from '@angular/material/stepper';
 import { DashboardCompanyComponent } from './components/pages/dashboard-company/dashboard-company.component';
+import { UpdateInterviewPopupComponent } from './components/pop-up/interview/update-interview-popup/update-interview-popup.component';
 
 @NgModule({
   declarations: [
@@ -93,7 +92,6 @@ import { DashboardCompanyComponent } from './components/pages/dashboard-company/
     AddUserPopupComponent,
     AddYearGroupPopupComponent,
     AddTeamPopupComponent,
-    EventsPageComponent,
     AddInterviewPopupComponent,
     AddDeadlinePopupComponent,
     AddCompanyFormComponent,
@@ -111,6 +109,7 @@ import { DashboardCompanyComponent } from './components/pages/dashboard-company/
     AddFormationCenterPopupComponent,
     UpdateFormationCenterPopupComponent,
     DashboardCompanyComponent,
+    EventsPageComponent,
   ],
   imports: [
     CalendarModule.forRoot({
