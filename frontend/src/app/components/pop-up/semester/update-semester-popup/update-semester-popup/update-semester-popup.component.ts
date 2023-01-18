@@ -4,6 +4,7 @@ import { YearGroupService } from 'src/app/services/year-group/year-group.service
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { YearGroup } from 'src/app/models/YearGroup';
 import { SemesterService } from 'src/app/services/semester/semester.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-update-semester-popup',
@@ -12,14 +13,24 @@ import { SemesterService } from 'src/app/services/semester/semester.service';
 })
 export class UpdateSemesterPopupComponent implements OnInit {
   yearGroups: YearGroup[] = [];
+  public updateSemesterForm: FormGroup;
+  submitted: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<UpdateSemesterPopupComponent>,
     private yearGroupService: YearGroupService,
     private semesterService: SemesterService,
     private _snackBar: MatSnackBar,
+    private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
+  ) {
+    this.updateSemesterForm = this.formBuilder.group({
+      name: ['', Validators.required],
+      beginDate: ['', Validators.required],
+      endDate: ['', Validators.required],
+      yearGroup: ['', Validators.required]
+    });
+  }
 
   ngOnInit(): void {
     this.getYearGroup();
@@ -47,6 +58,8 @@ export class UpdateSemesterPopupComponent implements OnInit {
   }
 
   updateSemester(data: any) {
+    this.submitted = true;
+    if (this.updateSemesterForm.valid) {
     this.semesterService.update(data).subscribe({
       next: (v) => {
         this._snackBar.open('✔ Semestre modifié', 'Ok', { duration: 2000 });
@@ -62,5 +75,6 @@ export class UpdateSemesterPopupComponent implements OnInit {
         );
       },
     });
+    }
   }
 }

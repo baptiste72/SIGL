@@ -1,7 +1,7 @@
 <div class="dialog-header bg-purple">
   <h2 mat-dialog-title>Modification d'une équipe pédagogique</h2>
 </div>
-<form [formGroup]="teamForm" (ngSubmit)="submitTutorTeam()">
+<form [formGroup]="updateTeamForm" (ngSubmit)="submitTutorTeam()">
   <div mat-dialog-content class="dialog-content">
     <div class="div-input">
       <h3>Apprenti</h3>
@@ -9,8 +9,8 @@
         <mat-label>Choisissez un apprenti</mat-label>
         <mat-select
           required
-          formControlName="apprentice"
           [(value)]="this.apprentice.id"
+          formControlName="apprentice"
         >
           <mat-option
             *ngFor="let apprentice of apprentices"
@@ -19,6 +19,11 @@
             {{ apprentice.first_name }} {{ apprentice.last_name }}
           </mat-option>
         </mat-select>
+        <mat-error
+        *ngIf="submitted && updateTeamForm.hasError('required', 'apprentice')"
+      >
+        Merci de sélectionner un apprenti
+      </mat-error>
       </mat-form-field>
     </div>
 
@@ -31,6 +36,11 @@
             {{ tutor.first_name }} {{ tutor.last_name }}
           </mat-option>
         </mat-select>
+        <mat-error
+        *ngIf="submitted && updateTeamForm.hasError('required', 'tutor')"
+      >
+        Merci de sélectionner un tuteur
+      </mat-error>
       </mat-form-field>
     </div>
 
@@ -47,6 +57,11 @@
             {{ mentor.first_name }} {{ mentor.last_name }}
           </mat-option>
         </mat-select>
+        <mat-error
+        *ngIf="submitted && updateTeamForm.hasError('required', 'mentor')"
+      >
+        Merci de sélectionner un maître d'apprentissage
+      </mat-error>
       </mat-form-field>
     </div>
   </div>
@@ -56,7 +71,6 @@
       mat-button
       class="green bold"
       type="submit"
-      [disabled]="teamForm.invalid"
     >
       MODIFIER
     </button>

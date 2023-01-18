@@ -4,6 +4,7 @@ import { YearGroupService } from 'src/app/services/year-group/year-group.service
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { YearGroup } from 'src/app/models/YearGroup';
 import { SemesterService } from 'src/app/services/semester/semester.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 interface Semester {
   name: string;
@@ -17,6 +18,8 @@ interface Semester {
 export class AddSemesterPopupComponent implements OnInit {
   yearGroups: YearGroup[] = [];
   register: any;
+  public addSemesterForm: FormGroup;
+  submitted: boolean = false;
 
   public semesters: Semester[] = [
     { name: 'Semestre S5' },
@@ -30,8 +33,16 @@ export class AddSemesterPopupComponent implements OnInit {
     public dialogRef: MatDialogRef<AddSemesterPopupComponent>,
     private yearGroupService: YearGroupService,
     private semesterService: SemesterService,
-    private _snackBar: MatSnackBar
-  ) {}
+    private _snackBar: MatSnackBar,
+    private formBuilder: FormBuilder
+  ) {
+    this.addSemesterForm = this.formBuilder.group({
+      name: ['', Validators.required],
+      beginDate: ['', Validators.required],
+      endDate: ['', Validators.required],
+      yearGroup: ['', Validators.required]
+    });
+  }
 
   ngOnInit(): void {
     this.getYearGroup();
@@ -65,6 +76,8 @@ export class AddSemesterPopupComponent implements OnInit {
   }
 
   addSemester(data: any) {
+    this.submitted = true;
+    if (this.addSemesterForm.valid) {
     this.semesterService.add(data).subscribe({
       next: (v) => {
         this._snackBar.open('✔ Semestre ajoutée', 'Ok', { duration: 2000 });
@@ -80,5 +93,6 @@ export class AddSemesterPopupComponent implements OnInit {
         );
       },
     });
+    }
   }
 }

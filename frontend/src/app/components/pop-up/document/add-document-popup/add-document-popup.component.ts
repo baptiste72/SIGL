@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { User } from '@app/models/User';
@@ -19,15 +20,23 @@ export class AddDocumentPopupComponent implements OnInit {
   selectedFile: any = null;
   formData = new FormData();
   file_name: any;
+  public addDocumentForm: FormGroup;
+  submitted: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<AddDocumentPopupComponent>,
     private yearGroupService: YearGroupService,
     private documentService: DocumentService,
     private _snackBar: MatSnackBar,
-    private authService: AuthService
+    private authService: AuthService,
+    private formBuilder: FormBuilder
   ) {
     this.user = this.authService.userValue;
+    this.addDocumentForm = this.formBuilder.group({
+      name: ['', Validators.required],
+      yearGroup: ['', Validators.required],
+      pdf: ['', Validators.required],
+    });
   }
 
   ngOnInit(): void {
@@ -61,28 +70,31 @@ export class AddDocumentPopupComponent implements OnInit {
   }
 
   addDocument(data: any) {
-    this.formData.append('file', this.selectedFile);
-    this.formData.append('name', this.register.name);
-    this.formData.append('file_name', this.file_name);
-    this.formData.append('link', this.register.link);
-    this.formData.append('yearGroup', this.register.yearGroup);
-    // this.formData.append('user', this.user.id.toString());
-    this.formData.append('user', '1');
-    this.documentService.add(this.formData).subscribe({
-      next: (v) => {
-        this._snackBar.open('✔ Document ajouté', 'Ok', { duration: 2000 });
-        this.closeDialog();
-      },
-      error: (err) => {
-        this._snackBar.open(
-          '❌ Une erreur est survenue lors de l ajout du document',
-          'Ok',
-          {
-            duration: 2000,
-          }
-        );
-      },
-    });
+    this.submitted = true;
+    if (this.addDocumentForm.valid) {
+      this.formData.append('file', this.selectedFile);
+      this.formData.append('name', this.register.name);
+      this.formData.append('file_name', this.file_name);
+      this.formData.append('link', this.register.link);
+      this.formData.append('yearGroup', this.register.yearGroup);
+      // this.formData.append('user', this.user.id.toString());
+      this.formData.append('user', '1');
+      this.documentService.add(this.formData).subscribe({
+        next: (v) => {
+          this._snackBar.open('✔ Document ajouté', 'Ok', { duration: 2000 });
+          this.closeDialog();
+        },
+        error: (err) => {
+          this._snackBar.open(
+            '❌ Une erreur est survenue lors de l ajout du document',
+            'Ok',
+            {
+              duration: 2000,
+            }
+          );
+        },
+      });
+    }
   }
 
   onFileSelected(event: any): void {

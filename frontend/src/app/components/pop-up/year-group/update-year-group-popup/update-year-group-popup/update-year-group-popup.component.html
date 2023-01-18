@@ -1,26 +1,53 @@
 <div class="dialog-header bg-red">
   <h2 mat-dialog-title>Modification d'une promotion</h2>
 </div>
-<div mat-dialog-content class="dialog-content">
-  <div class="div-input">
-    <h3>Nom</h3>
-    <mat-form-field class="full-width" appearance="fill">
-      <input [(ngModel)]="data.worded" type="text" matInput />
-    </mat-form-field>
+
+<form [formGroup]="updateYearGroupForm" (ngSubmit)="updatePromotion(data)">
+  <div mat-dialog-content class="dialog-content">
+    <div class="div-input">
+      <h3>Nom</h3>
+      <mat-form-field class="full-width" appearance="fill">
+        <input
+          [(ngModel)]="data.worded"
+          type="text"
+          matInput
+          formControlName="worded"
+        />
+        <mat-error
+          *ngIf="submitted && updateYearGroupForm.hasError('required', 'worded')"
+        >
+          Merci de renseigner un nom
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="div-input">
+      <h3>Date de début</h3>
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Sélectionnez une date</mat-label>
+        <input
+          matInput
+          [(ngModel)]="data.beginDate"
+          [matDatepicker]="picker"
+          formControlName="beginDate"
+        />
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error
+          *ngIf="
+            submitted && updateYearGroupForm.hasError('required', 'beginDate')
+          "
+        >
+          Merci de renseigner une date de début
+        </mat-error>
+      </mat-form-field>
+    </div>
   </div>
 
-  <div class="div-input">
-    <h3>Date de début</h3>
-    <mat-form-field class="full-width" appearance="fill">
-      <mat-label>Sélectionnez une date</mat-label>
-      <input matInput [(ngModel)]="data.beginDate" [matDatepicker]="picker">
-      <mat-hint>MM/DD/YYYY</mat-hint>
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
+  <mat-divider></mat-divider>
+  <div mat-dialog-actions align="end">
+    <button mat-button class="green bold">MODIFIER</button>
+    <button mat-button class="red bold" (click)="closeDialog()">ANNULER</button>
   </div>
-<mat-divider></mat-divider>
-<div mat-dialog-actions align="end">
-  <button mat-button class="green bold" (click)="updatePromotion(data)">MODIFIER</button>
-  <button mat-button class="red bold" (click)="closeDialog()">ANNULER</button>
-</div>
+</form>

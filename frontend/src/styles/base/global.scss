@@ -54,3 +54,15 @@ table {
   background: rgba(0,0,0,0.15);
   border-radius: 10px;
 }
+
+form {
+  display: contents !important;
+}
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background: none;
+}
+
+.mat-mdc-form-field-focus-overlay {
+  background: none;
+}

@@ -25,7 +25,8 @@ export class UpdateTeamPopupComponent implements OnInit {
   public tutors: Tutor[] = [];
   public mentors: Mentor[] = [];
 
-  public teamForm: FormGroup;
+  public updateTeamForm: FormGroup;
+  submitted: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<UpdateTeamPopupComponent>,
@@ -41,7 +42,7 @@ export class UpdateTeamPopupComponent implements OnInit {
     this.apprentice = data.apprentice;
     this.tutor = data.tutor;
 
-    this.teamForm = this.formBuilder.group({
+    this.updateTeamForm = this.formBuilder.group({
       apprentice: [this.apprentice.id, Validators.required],
       mentor: [this.mentor.id, Validators.required],
       tutor: [this.tutor.id, Validators.required],
@@ -110,7 +111,9 @@ export class UpdateTeamPopupComponent implements OnInit {
   }
 
   submitTutorTeam() {
-    this.tutorTeamService.update(this.teamForm.value, this.data.id).subscribe({
+    this.submitted = true;
+    if (this.updateTeamForm.valid) {
+    this.tutorTeamService.update(this.updateTeamForm.value, this.data.id).subscribe({
       next: (v) => {
         this._snackBar.open('Equipe pédagohique modifiée', 'Ok', {
           duration: 2000,
@@ -127,5 +130,6 @@ export class UpdateTeamPopupComponent implements OnInit {
         );
       },
     });
+  }
   }
 }

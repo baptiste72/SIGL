@@ -1,44 +1,73 @@
 <div class="dialog-header bg-blue">
   <h2 mat-dialog-title>Ajout d'un document</h2>
 </div>
-<div mat-dialog-content class="dialog-content">
-  <div class="div-input">
-    <h3>Nom</h3>
-    <mat-form-field class="full-width" appearance="fill">
-      <mat-label>Planning 2022-2023</mat-label>
-      <input [(ngModel)]="register.name" type="text" matInput />
-    </mat-form-field>
-  </div>
 
-  <div class="div-input">
-    <h3>Promotion</h3>
-    <mat-form-field class="full-width" appearance="fill">
-      <mat-label>Choisissez une promotion associée</mat-label>
-      <mat-select required [(ngModel)]="register.yearGroup">
-        <mat-option *ngFor="let yearGroup of yearGroups" [value]="yearGroup.id">
-          {{ yearGroup.worded }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
+<form [formGroup]="addDocumentForm" (ngSubmit)="addDocument(register)">
+  <div mat-dialog-content class="dialog-content">
+    <div class="div-input">
+      <h3>Nom</h3>
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Planning 2022-2023</mat-label>
+        <input
+          [(ngModel)]="register.name"
+          type="text"
+          matInput
+          formControlName="name"
+        />
+        <mat-error
+          *ngIf="submitted && addDocumentForm.hasError('required', 'name')"
+        >
+          Merci de renseigner un nom
+        </mat-error>
+      </mat-form-field>
+    </div>
 
-  <button type="button" mat-raised-button (click)="fileInput.click()">
-    Sélectionnez un fichier PDF :
-  </button>
-  <input
-    hidden
-    (change)="onFileSelected($event)"
-    #fileInput
-    type="file"
-    accept=".pdf"
-  />
-  <span>{{ selectedFile?.name }}</span>
+    <div class="div-input">
+      <h3>Promotion</h3>
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Choisissez une promotion associée</mat-label>
+        <mat-select
+          required
+          [(ngModel)]="register.yearGroup"
+          formControlName="yearGroup"
+        >
+          <mat-option
+            *ngFor="let yearGroup of yearGroups"
+            [value]="yearGroup.id"
+          >
+            {{ yearGroup.worded }}
+          </mat-option>
+        </mat-select>
+        <mat-error
+          *ngIf="submitted && addDocumentForm.hasError('required', 'yearGroup')"
+        >
+          Merci de renseigner une promotion
+        </mat-error>
+      </mat-form-field>
+    </div>
 
-  <mat-divider></mat-divider>
-  <div mat-dialog-actions align="end">
-    <button mat-button class="green bold" (click)="addDocument(register)">
-      AJOUTER
+    <button type="button" mat-raised-button (click)="fileInput.click()">
+      Sélectionnez un fichier PDF :
     </button>
-    <button mat-button class="red bold" (click)="closeDialog()">ANNULER</button>
+    <input
+      hidden
+      (change)="onFileSelected($event)"
+      #fileInput
+      type="file"
+      accept=".pdf"
+      formControlName="pdf"
+    />
+    <span>{{ selectedFile?.name }}</span>
+    <mat-error *ngIf="submitted && addDocumentForm.hasError('required', 'pdf')">
+      Merci de renseigner un document
+    </mat-error>
+
+    <mat-divider></mat-divider>
+    <div mat-dialog-actions align="end">
+      <button mat-button class="green bold">AJOUTER</button>
+      <button mat-button class="red bold" (click)="closeDialog()">
+        ANNULER
+      </button>
+    </div>
   </div>
-</div>
+</form>
