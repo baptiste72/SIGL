@@ -17,15 +17,12 @@ import { TutorTeam } from '@app/models/TutorTeam';
   styleUrls: ['./update-team-popup.component.scss'],
 })
 export class UpdateTeamPopupComponent implements OnInit {
-  public apprentice: Apprentice;
-  public tutor: Tutor;
-  public mentor: Mentor;
-
   public apprentices: Apprentice[] = [];
   public tutors: Tutor[] = [];
   public mentors: Mentor[] = [];
 
-  public teamForm: FormGroup;
+  public updateTeamForm: FormGroup;
+  public submitted: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<UpdateTeamPopupComponent>,
@@ -37,14 +34,10 @@ export class UpdateTeamPopupComponent implements OnInit {
     private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: TutorTeam
   ) {
-    this.mentor = data.mentor;
-    this.apprentice = data.apprentice;
-    this.tutor = data.tutor;
-
-    this.teamForm = this.formBuilder.group({
-      apprentice: [this.apprentice.id, Validators.required],
-      mentor: [this.mentor.id, Validators.required],
-      tutor: [this.tutor.id, Validators.required],
+    this.updateTeamForm = this.formBuilder.group({
+      apprentice: [data.apprentice.id, Validators.required],
+      mentor: [data.mentor.id, Validators.required],
+      tutor: [data.tutor.id, Validators.required],
     });
   }
 
@@ -110,22 +103,27 @@ export class UpdateTeamPopupComponent implements OnInit {
   }
 
   submitTutorTeam() {
-    this.tutorTeamService.update(this.teamForm.value, this.data.id).subscribe({
-      next: (v) => {
-        this._snackBar.open('Equipe pédagohique modifiée', 'Ok', {
-          duration: 2000,
+    this.submitted = true;
+    if (this.updateTeamForm.valid) {
+      this.tutorTeamService
+        .update(this.updateTeamForm.value, this.data.id)
+        .subscribe({
+          next: (v) => {
+            this._snackBar.open('Equipe pédagohique modifiée', 'Ok', {
+              duration: 2000,
+            });
+            this.closeDialog();
+          },
+          error: (err) => {
+            this._snackBar.open(
+              '❌ Une erreur est survenue lors de la mise à jour',
+              'Ok',
+              {
+                duration: 2000,
+              }
+            );
+          },
         });
-        this.closeDialog();
-      },
-      error: (err) => {
-        this._snackBar.open(
-          '❌ Une erreur est survenue lors de la mise à jour',
-          'Ok',
-          {
-            duration: 2000,
-          }
-        );
-      },
-    });
+    }
   }
 }

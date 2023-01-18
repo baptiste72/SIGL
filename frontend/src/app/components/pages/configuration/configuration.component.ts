@@ -222,7 +222,6 @@ export class ConfigurationComponent implements OnInit, AfterViewInit {
         this.dataSourceCompanies = new MatTableDataSource<Company>(companies);
         this.dataSourceCompanies.paginator = this.companiesPaginator;
         this.hlCompanies = true;
-        console.log(this.dataSourceCompanies);
       },
       error: (err) => {
         this._snackBar.open(

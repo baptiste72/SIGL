@@ -30,9 +30,13 @@
 
 .note-item:hover {
   background-color: $green-tr;
-  .note-icon, .note-name {
-    color : $green;
+  .note-icon,
+  .note-name {
+    color: $green;
   }
 }
 
-
+mat-list {
+  max-height: 350px;
+  overflow: auto;
+}

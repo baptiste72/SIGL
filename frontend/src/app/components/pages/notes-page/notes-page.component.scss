@@ -20,7 +20,7 @@
 }
 
 .notes-icons {
- color: $blue;
+  color: $blue;
 }
 
 .note-page-content {
@@ -35,14 +35,14 @@
 
 .tree-div {
   width: 100%;
-  @include respond-to('medium') {
+  @include respond-to("medium") {
     width: 30%;
   }
 }
 
 .note-card-div {
   width: 100%;
-  @include respond-to('medium') {
+  @include respond-to("medium") {
     width: 70%;
   }
 }

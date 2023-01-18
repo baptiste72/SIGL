@@ -17,7 +17,10 @@
 
 .dialog-header {
   padding: 15px 20px;
-  color: $white;
+}
+
+.dialog-header h2{
+  color: $white !important;
 }
 
 .dialog-content {
@@ -31,3 +34,4 @@
 .mat-form-field {
   margin-bottom: 20px;
 }
+
