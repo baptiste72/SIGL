@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 from rest_framework import status, generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import MultiPartParser, FormParser
+from api.helpers.document_helper import DocumentHelper
 from authentication.models import User
 from base.utilities import Role
 from base.models import (
@@ -524,7 +525,8 @@ class DocumentList(APIView):
     def get(self, request):
         document_list = Document.objects.all()
         serializers = DocumentSerializer(document_list, many=True)
-        return Response(serializers.data)
+        response = DocumentHelper.getAllDocuments(serializers)
+        return Response(response)
 
     def post(self, request, *args, **kwargs):
         serializer = DocumentSerializer(data=request.data)

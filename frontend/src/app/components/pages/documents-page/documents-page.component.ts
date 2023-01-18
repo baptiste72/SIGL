@@ -17,7 +17,8 @@ export class DocumentsPageComponent implements AfterViewInit, OnInit {
   displayedColumns: string[] = [
     'name',
     'file_name',
-    'user',
+    'user_first_name',
+    'user_last_name',
     'yearGroup',
     'link',
   ];
