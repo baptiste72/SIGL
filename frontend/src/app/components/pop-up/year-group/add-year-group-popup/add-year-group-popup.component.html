@@ -3,7 +3,7 @@
 </div>
 
 <form [formGroup]="addYearGroupForm"
-  (ngSubmit)="addPromotion(register)"
+  (ngSubmit)="addPromotion()"
 >
   <div mat-dialog-content class="dialog-content">
     <div class="div-input">
@@ -11,7 +11,6 @@
       <mat-form-field class="full-width" appearance="fill">
         <mat-label>Noether</mat-label>
         <input
-          [(ngModel)]="register.worded"
           type="text"
           matInput
           formControlName="worded"
@@ -28,7 +27,6 @@
         <mat-label>Sélectionnez une date</mat-label>
         <input
           matInput
-          [(ngModel)]="register.beginDate"
           [matDatepicker]="picker"
           formControlName="beginDate"
         />

@@ -9,10 +9,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   templateUrl: './add-year-group-popup.component.html',
   styleUrls: ['./add-year-group-popup.component.scss'],
 })
-export class AddYearGroupPopupComponent implements OnInit {
-  register: any;
+export class AddYearGroupPopupComponent {
   public addYearGroupForm: FormGroup;
-  submitted: boolean = false;
+  public submitted: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<AddYearGroupPopupComponent>,
@@ -22,25 +21,18 @@ export class AddYearGroupPopupComponent implements OnInit {
   ) {
     this.addYearGroupForm = this.formBuilder.group({
       worded: ['', Validators.required],
-      beginDate: ['', Validators.required]
+      beginDate: ['', Validators.required],
     });
-  }
-
-  ngOnInit(): void {
-    this.register = {
-      worded: '',
-      beginDate: '',
-    };
   }
 
   closeDialog() {
     this.dialogRef.close({ event: 'close' });
   }
 
-  public addPromotion(data: any) {
+  public addPromotion() {
     this.submitted = true;
     if (this.addYearGroupForm.valid) {
-      this.yearGroupService.add(data).subscribe({
+      this.yearGroupService.add(this.addYearGroupForm.value).subscribe({
         next: (v) => {
           this._snackBar.open('✔ Promotion ajoutée', 'Ok', { duration: 2000 });
           this.closeDialog();

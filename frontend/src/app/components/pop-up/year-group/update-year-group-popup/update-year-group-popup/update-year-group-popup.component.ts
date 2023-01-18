@@ -12,7 +12,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class UpdateYearGroupPopupComponent {
   public updateYearGroupForm: FormGroup;
-  submitted: boolean = false;
+  public submitted: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<UpdateYearGroupPopupComponent>,
@@ -22,8 +22,8 @@ export class UpdateYearGroupPopupComponent {
     @Inject(MAT_DIALOG_DATA) public data: YearGroup
   ) {
     this.updateYearGroupForm = this.formBuilder.group({
-      worded: ['', Validators.required],
-      beginDate: ['', Validators.required],
+      worded: [this.data.worded, Validators.required],
+      beginDate: [this.data.beginDate, Validators.required],
     });
   }
 
@@ -31,10 +31,10 @@ export class UpdateYearGroupPopupComponent {
     this.dialogRef.close({ event: 'close' });
   }
 
-  updatePromotion(data: any) {
+  updatePromotion() {
     this.submitted = true;
     if (this.updateYearGroupForm.valid) {
-      this.yearGroupService.update(data).subscribe({
+      this.yearGroupService.update(this.updateYearGroupForm.value).subscribe({
         next: (v) => {
           this._snackBar.open('✔ Promotion modifiée', 'Ok', { duration: 2000 });
           this.closeDialog();

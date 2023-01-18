@@ -5,7 +5,7 @@
 <form
   class="connection-form"
   [formGroup]="addSemesterForm"
-  (ngSubmit)="addSemester(register)"
+  (ngSubmit)="addSemester()"
 >
   <div mat-dialog-content class="dialog-content">
     <div class="div-input">
@@ -13,7 +13,6 @@
       <mat-form-field class="full-width" appearance="fill">
         <mat-label>Semestre 1</mat-label>
         <input
-          [(ngModel)]="register.name"
           type="text"
           matInput
           formControlName="name"
@@ -32,13 +31,11 @@
         <mat-label>Entrez une période</mat-label>
         <mat-date-range-input [rangePicker]="picker">
           <input
-            [(ngModel)]="register.beginDate"
             matStartDate
             placeholder="Date de début"
             formControlName="beginDate"
           />
           <input
-            [(ngModel)]="register.endDate"
             matEndDate
             placeholder="Date de fin"
             formControlName="endDate"
@@ -65,7 +62,6 @@
         <mat-label>Choisissez une promotion associée</mat-label>
         <mat-select
           required
-          [(ngModel)]="register.yearGroup"
           formControlName="yearGroup"
         >
           <mat-option

@@ -12,7 +12,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class UpdateFormationCenterPopupComponent {
   public updateFormationCenterForm: FormGroup;
-  submitted: boolean = false;
+  public submitted: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<UpdateFormationCenterPopupComponent>,
@@ -22,10 +22,10 @@ export class UpdateFormationCenterPopupComponent {
     @Inject(MAT_DIALOG_DATA) public data: FormationCenter
   ) {
     this.updateFormationCenterForm = this.formBuilder.group({
-      worded: ['', Validators.required],
-      city: ['', Validators.required],
-      postal_code: ['', Validators.required],
-      address: ['', Validators.required],
+      worded: [this.data.worded, Validators.required],
+      city: [this.data.city, Validators.required],
+      postal_code: [this.data.postal_code, Validators.required],
+      address: [this.data.address, Validators.required],
     });
   }
 
@@ -33,26 +33,28 @@ export class UpdateFormationCenterPopupComponent {
     this.dialogRef.close({ event: 'close' });
   }
 
-  updateFormationCenter(formation_center: FormationCenter) {
+  updateFormationCenter() {
     this.submitted = true;
     if (this.updateFormationCenterForm.valid) {
-      this.formationCenterService.update(formation_center).subscribe({
-        next: (v) => {
-          this._snackBar.open('✔ Centre de formation modifiée', 'Ok', {
-            duration: 2000,
-          });
-          this.closeDialog();
-        },
-        error: (err) => {
-          this._snackBar.open(
-            '❌ Une erreur est survenue lors de la modificaiton du centre de formation',
-            'Ok',
-            {
+      this.formationCenterService
+        .update(this.updateFormationCenterForm.value)
+        .subscribe({
+          next: (v) => {
+            this._snackBar.open('✔ Centre de formation modifiée', 'Ok', {
               duration: 2000,
-            }
-          );
-        },
-      });
+            });
+            this.closeDialog();
+          },
+          error: (err) => {
+            this._snackBar.open(
+              '❌ Une erreur est survenue lors de la modificaiton du centre de formation',
+              'Ok',
+              {
+                duration: 2000,
+              }
+            );
+          },
+        });
     }
   }
 }

@@ -16,10 +16,9 @@ interface Semester {
   styleUrls: ['./add-semester-popup.component.scss'],
 })
 export class AddSemesterPopupComponent implements OnInit {
-  yearGroups: YearGroup[] = [];
-  register: any;
+  public yearGroups: YearGroup[] = [];
   public addSemesterForm: FormGroup;
-  submitted: boolean = false;
+  public submitted: boolean = false;
 
   public semesters: Semester[] = [
     { name: 'Semestre S5' },
@@ -46,12 +45,6 @@ export class AddSemesterPopupComponent implements OnInit {
 
   ngOnInit(): void {
     this.getYearGroup();
-    this.register = {
-      name: '',
-      beginDate: '',
-      endDate: '',
-      yearGroup: '',
-    };
   }
 
   closeDialog() {
@@ -75,10 +68,10 @@ export class AddSemesterPopupComponent implements OnInit {
     });
   }
 
-  addSemester(data: any) {
+  addSemester() {
     this.submitted = true;
     if (this.addSemesterForm.valid) {
-    this.semesterService.add(data).subscribe({
+    this.semesterService.add(this.addSemesterForm.value).subscribe({
       next: (v) => {
         this._snackBar.open('✔ Semestre ajoutée', 'Ok', { duration: 2000 });
         this.closeDialog();

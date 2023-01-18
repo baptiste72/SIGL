@@ -14,14 +14,13 @@ import { YearGroupService } from 'src/app/services/year-group/year-group.service
   styleUrls: ['./add-document-popup.component.scss'],
 })
 export class AddDocumentPopupComponent implements OnInit {
-  register: any;
-  yearGroups: YearGroup[] = [];
+  public yearGroups: YearGroup[] = [];
   public user: User;
-  selectedFile: any = null;
-  formData = new FormData();
-  file_name: any;
+  public selectedFile: any = null;
+  private formData = new FormData();
+  private file_name: any;
   public addDocumentForm: FormGroup;
-  submitted: boolean = false;
+  public submitted: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<AddDocumentPopupComponent>,
@@ -41,11 +40,6 @@ export class AddDocumentPopupComponent implements OnInit {
 
   ngOnInit(): void {
     this.getYearGroup();
-    this.register = {
-      name: '',
-      link: './link',
-      yearGroup: '',
-    };
   }
 
   closeDialog() {
@@ -69,14 +63,14 @@ export class AddDocumentPopupComponent implements OnInit {
     });
   }
 
-  addDocument(data: any) {
+  addDocument() {
     this.submitted = true;
     if (this.addDocumentForm.valid) {
       this.formData.append('file', this.selectedFile);
-      this.formData.append('name', this.register.name);
+      this.formData.append('name', this.addDocumentForm.value.name);
       this.formData.append('file_name', this.file_name);
-      this.formData.append('link', this.register.link);
-      this.formData.append('yearGroup', this.register.yearGroup);
+      this.formData.append('link', this.addDocumentForm.value.link);
+      this.formData.append('yearGroup', this.addDocumentForm.value.yearGroup);
       // this.formData.append('user', this.user.id.toString());
       this.formData.append('user', '1');
       this.documentService.add(this.formData).subscribe({

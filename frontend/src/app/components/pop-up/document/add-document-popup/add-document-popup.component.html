@@ -2,14 +2,13 @@
   <h2 mat-dialog-title>Ajout d'un document</h2>
 </div>
 
-<form [formGroup]="addDocumentForm" (ngSubmit)="addDocument(register)">
+<form [formGroup]="addDocumentForm" (ngSubmit)="addDocument()">
   <div mat-dialog-content class="dialog-content">
     <div class="div-input">
       <h3>Nom</h3>
       <mat-form-field class="full-width" appearance="fill">
         <mat-label>Planning 2022-2023</mat-label>
         <input
-          [(ngModel)]="register.name"
           type="text"
           matInput
           formControlName="name"
@@ -28,7 +27,6 @@
         <mat-label>Choisissez une promotion associée</mat-label>
         <mat-select
           required
-          [(ngModel)]="register.yearGroup"
           formControlName="yearGroup"
         >
           <mat-option

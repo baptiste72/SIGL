@@ -16,13 +16,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./add-team-popup.component.scss'],
 })
 export class AddTeamPopupComponent implements OnInit {
-  register: any;
   public addTeamForm: FormGroup;
-  submitted: boolean = false;
+  public submitted: boolean = false;
 
-  apprentices: Apprentice[] = [];
-  tutors: Tutor[] = [];
-  mentors: Mentor[] = [];
+  public apprentices: Apprentice[] = [];
+  public tutors: Tutor[] = [];
+  public mentors: Mentor[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<AddTeamPopupComponent>,
@@ -44,11 +43,6 @@ export class AddTeamPopupComponent implements OnInit {
     this.getApprentice();
     this.getMentor();
     this.getTutor();
-    this.register = {
-      mentor: '',
-      tutor: '',
-      apprentice: '',
-    };
   }
 
   closeDialog() {
@@ -106,10 +100,10 @@ export class AddTeamPopupComponent implements OnInit {
     });
   }
 
-  addTutorTeam(data: any) {
+  addTutorTeam() {
     this.submitted = true;
     if (this.addTeamForm.valid) {
-    this.tutorTeamService.add(data).subscribe({
+    this.tutorTeamService.add(this.addTeamForm.value).subscribe({
       next: (v) => {
         this._snackBar.open('Equipe pédagohique ajoutée', 'Ok', {
           duration: 2000,

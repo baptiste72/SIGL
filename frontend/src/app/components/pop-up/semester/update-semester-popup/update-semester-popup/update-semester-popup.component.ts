@@ -12,9 +12,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./update-semester-popup.component.scss'],
 })
 export class UpdateSemesterPopupComponent implements OnInit {
-  yearGroups: YearGroup[] = [];
+  public yearGroups: YearGroup[] = [];
   public updateSemesterForm: FormGroup;
-  submitted: boolean = false;
+  public submitted: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<UpdateSemesterPopupComponent>,
@@ -25,10 +25,10 @@ export class UpdateSemesterPopupComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.updateSemesterForm = this.formBuilder.group({
-      name: ['', Validators.required],
-      beginDate: ['', Validators.required],
-      endDate: ['', Validators.required],
-      yearGroup: ['', Validators.required]
+      name: [this.data.name, Validators.required],
+      beginDate: [this.data.beginDate, Validators.required],
+      endDate: [this.data.endDate, Validators.required],
+      yearGroup: [this.data.yearGroup, Validators.required]
     });
   }
 
@@ -57,10 +57,10 @@ export class UpdateSemesterPopupComponent implements OnInit {
     });
   }
 
-  updateSemester(data: any) {
+  updateSemester() {
     this.submitted = true;
     if (this.updateSemesterForm.valid) {
-    this.semesterService.update(data).subscribe({
+    this.semesterService.update(this.updateSemesterForm.value).subscribe({
       next: (v) => {
         this._snackBar.open('✔ Semestre modifié', 'Ok', { duration: 2000 });
         this.closeDialog();

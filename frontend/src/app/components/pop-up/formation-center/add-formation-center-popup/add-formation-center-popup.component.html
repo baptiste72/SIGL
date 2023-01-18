@@ -3,14 +3,14 @@
 </div>
 
 <form [formGroup]="addFormationCenterForm"
-  (ngSubmit)="addFormationCenter(register)"
+  (ngSubmit)="addFormationCenter()"
 >
 <div mat-dialog-content class="dialog-content">
   <div class="div-input">
     <h3>Nom</h3>
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Indiquez le nom</mat-label>
-      <input [(ngModel)]="register.worded"
+      <input
       type="text"
       matInput
       formControlName="worded" />
@@ -24,7 +24,7 @@
     <h3>Ville</h3>
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Indiquez la ville</mat-label>
-      <input [(ngModel)]="register.city"
+      <input
       type="text"
       matInput
       formControlName="city" />
@@ -38,7 +38,7 @@
     <h3>Code postal</h3>
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Indiquez le code postal</mat-label>
-      <input [(ngModel)]="register.postal_code"
+      <input
       type="text"
       matInput
       formControlName="postal_code" />
@@ -52,7 +52,7 @@
     <h3>Adresse</h3>
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Indiquez l'adresse</mat-label>
-      <input [(ngModel)]="register.address"
+      <input
       type="text"
       matInput
       formControlName="address" />

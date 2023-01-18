@@ -2,20 +2,13 @@
   <h2 mat-dialog-title>Modification d'un semestre</h2>
 </div>
 
-<form [formGroup]="updateSemesterForm"
-  (ngSubmit)="updateSemester(data)"
->
+<form [formGroup]="updateSemesterForm" (ngSubmit)="updateSemester()">
   <div mat-dialog-content class="dialog-content">
     <div class="div-input">
       <h3>Nom</h3>
       <mat-form-field class="full-width" appearance="fill">
         <mat-label>Semestre 1</mat-label>
-        <input
-          [(ngModel)]="data.name"
-          type="text"
-          matInput
-          formControlName="name"
-        />
+        <input type="text" matInput formControlName="name" />
         <mat-error
           *ngIf="submitted && updateSemesterForm.hasError('required', 'name')"
         >
@@ -30,13 +23,11 @@
         <mat-label>Entrez une période</mat-label>
         <mat-date-range-input [rangePicker]="picker">
           <input
-            [(ngModel)]="data.beginDate"
             matStartDate
             placeholder="Date de début"
             formControlName="beginDate"
           />
           <input
-            [(ngModel)]="data.endDate"
             matEndDate
             placeholder="Date de fin"
             formControlName="endDate"
@@ -61,11 +52,7 @@
       <h3>Promotion</h3>
       <mat-form-field class="full-width" appearance="fill">
         <mat-label>Choisissez une promotion associée</mat-label>
-        <mat-select
-          required
-          [(ngModel)]="data.yearGroup"
-          formControlName="yearGroup"
-        >
+        <mat-select required formControlName="yearGroup">
           <mat-option
             *ngFor="let yearGroup of yearGroups"
             [value]="yearGroup.id"
@@ -74,7 +61,9 @@
           </mat-option>
         </mat-select>
         <mat-error
-          *ngIf="submitted && updateSemesterForm.hasError('required', 'yearGroup')"
+          *ngIf="
+            submitted && updateSemesterForm.hasError('required', 'yearGroup')
+          "
         >
           Merci de renseigner une promotion
         </mat-error>

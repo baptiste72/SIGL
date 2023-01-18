@@ -10,10 +10,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   templateUrl: './add-formation-center-popup.component.html',
   styleUrls: ['./add-formation-center-popup.component.scss'],
 })
-export class AddFormationCenterPopupComponent implements OnInit {
-  register: any;
+export class AddFormationCenterPopupComponent {
   public addFormationCenterForm: FormGroup;
-  submitted: boolean = false;
+  public submitted: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<AddFormationCenterPopupComponent>,
@@ -29,23 +28,14 @@ export class AddFormationCenterPopupComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    this.register = {
-      worded: '',
-      city: '',
-      postal_code: '',
-      address: '',
-    };
-  }
-
   closeDialog() {
     this.dialogRef.close({ event: 'close' });
   }
 
-  public addFormationCenter(formation_center: FormationCenter) {
+  public addFormationCenter() {
     this.submitted = true;
     if (this.addFormationCenterForm.valid) {
-      this.formationCenterService.add(formation_center).subscribe({
+      this.formationCenterService.add(this.addFormationCenterForm.value).subscribe({
         next: (v) => {
           this._snackBar.open('✔ Centre de formation ajouté', 'Ok', {
             duration: 2000,
