@@ -59,4 +59,14 @@ table {
   display: flex;
   align-items: center;
   padding: 10px 0px !important;
+form {
+  display: contents !important;
+}
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background: none;
+}
+
+.mat-mdc-form-field-focus-overlay {
+  background: none;
 }
