@@ -54,3 +54,9 @@ table {
   background: rgba(0,0,0,0.15);
   border-radius: 10px;
 }
+
+.mat-mdc-card-header {
+  display: flex;
+  align-items: center;
+  padding: 10px 0px !important;
+}
