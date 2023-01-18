@@ -1,6 +1,4 @@
 import { Role } from '@app/helpers';
-import { ApprenticeService } from '@app/services/apprentice/apprentice.service';
-import { concat } from 'rxjs';
 import { YearGroup } from './YearGroup';
 
 export class Apprentice {

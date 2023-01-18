@@ -38,10 +38,9 @@ interface ExampleFlatNode {
   styleUrls: ['./notes-page.component.scss'],
 })
 export class NotesPageComponent implements OnInit {
-  isAvailable = false;
-  notes: any;
-  note: any;
-  request: any;
+  public isAvailable = false;
+  private notes: any;
+  public note: any;
   public user: User;
   readonly roleEnum = Role;
   private userId;
