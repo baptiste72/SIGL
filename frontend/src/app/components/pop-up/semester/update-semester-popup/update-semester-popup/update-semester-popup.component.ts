@@ -4,6 +4,7 @@ import { YearGroupService } from 'src/app/services/year-group/year-group.service
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { YearGroup } from 'src/app/models/YearGroup';
 import { SemesterService } from 'src/app/services/semester/semester.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-update-semester-popup',
@@ -11,15 +12,25 @@ import { SemesterService } from 'src/app/services/semester/semester.service';
   styleUrls: ['./update-semester-popup.component.scss'],
 })
 export class UpdateSemesterPopupComponent implements OnInit {
-  yearGroups: YearGroup[] = [];
+  public yearGroups: YearGroup[] = [];
+  public updateSemesterForm: FormGroup;
+  public submitted: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<UpdateSemesterPopupComponent>,
     private yearGroupService: YearGroupService,
     private semesterService: SemesterService,
     private _snackBar: MatSnackBar,
+    private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
+  ) {
+    this.updateSemesterForm = this.formBuilder.group({
+      name: [this.data.name, Validators.required],
+      beginDate: [this.data.beginDate, Validators.required],
+      endDate: [this.data.endDate, Validators.required],
+      yearGroup: [this.data.yearGroup, Validators.required]
+    });
+  }
 
   ngOnInit(): void {
     this.getYearGroup();
@@ -46,8 +57,10 @@ export class UpdateSemesterPopupComponent implements OnInit {
     });
   }
 
-  updateSemester(data: any) {
-    this.semesterService.update(data).subscribe({
+  updateSemester() {
+    this.submitted = true;
+    if (this.updateSemesterForm.valid) {
+    this.semesterService.update(this.updateSemesterForm.value).subscribe({
       next: (v) => {
         this._snackBar.open('✔ Semestre modifié', 'Ok', { duration: 2000 });
         this.closeDialog();
@@ -62,5 +75,6 @@ export class UpdateSemesterPopupComponent implements OnInit {
         );
       },
     });
+    }
   }
 }
