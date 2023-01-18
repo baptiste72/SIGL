@@ -1,5 +1,29 @@
 <app-navigation>
   <div class="navigation-content">
+    <form *ngIf="user.role === roleEnum.ADMIN">
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Sélectionnez un apprenti</mat-label>
+        <input
+          type="text"
+          matInput
+          [formControl]="myControl"
+          [matAutocomplete]="auto"
+        />
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          [displayWith]="displayFn"
+          (optionSelected)="treeNotes($event.option.value.id)"
+        >
+          <mat-option
+            *ngFor="let option of filteredOptions | async"
+            [value]="option"
+          >
+            {{ option.first_name }} {{ option.last_name }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </form>
+
     <mat-card class="notes-page-card">
       <mat-card-header class="notes-page-card-header">
         <mat-card-title class="notes-page-card-title">
@@ -15,6 +39,7 @@
       <mat-card-content class="note-page-content">
         <div class="tree-div">
           <button
+            *ngIf="user.role === roleEnum.APPRENTICE"
             class="btn_primary bg-green"
             mat-button
             (click)="openDialog(note)"
@@ -22,10 +47,6 @@
             AJOUTER UNE NOTE
           </button>
           <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
-            <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
-              <button mat-icon-button></button>
-              {{ node.name }}
-            </mat-tree-node>
             <mat-tree-node
               *matTreeNodeDef="let node; when: hasChild"
               matTreeNodePadding
@@ -42,7 +63,7 @@
                       : "chevron_right"
                   }}
                 </mat-icon>
-                <button>
+                <button class="tree-parents">
                   {{ node.name }}
                 </button>
               </button>
@@ -51,28 +72,23 @@
               *matTreeNodeDef="let node; when: hasNoContent"
               matTreeNodePadding
             >
-              <button mat-button (click)="getNote(node.id)">
+              <button class="tree-child" mat-button (click)="getNote(node.id)">
                 {{ node.name }}
               </button>
             </mat-tree-node>
           </mat-tree>
         </div>
         <div class="note-card-div">
-          <mat-card class="note-card">
-            <mat-card-title>{{ note.title }}</mat-card-title>
-            <mat-card-content>
-              <div *ngIf="isAvailable">
-                Du {{ note.beginDate | date : "shortDate" }} au
-                {{ note.endDate | date : "shortDate" }}
-                <br />
-                <br />
-              </div>
-              <span style="white-space: pre-line">{{ note.text }}</span>
-            </mat-card-content>
-            <mat-card-content *ngIf !="isAvailable">
-              <span style="white-space: pre-line">Sélectionner une note</span>
-            </mat-card-content>
-            <mat-card-actions class="note-card-actions">
+          <div *ngIf="!isAvailable">Aucune note a afficher</div>
+          <div class="note-card" *ngIf="isAvailable">
+            <h3>{{ note.title }}</h3>
+            <p *ngIf="isAvailable">
+              Du {{ note.beginDate | date : "shortDate" }} au
+              {{ note.endDate | date : "shortDate" }}
+            </p>
+            <p>{{ note.text }}</p>
+
+            <div class="note-card-actions" *ngIf="user.role === roleEnum.APPRENTICE">
               <button
                 mat-icon-button
                 *ngIf="isAvailable"
@@ -89,8 +105,8 @@
               >
                 <mat-icon>close</mat-icon>SUPPRIMER
               </button>
-            </mat-card-actions>
-          </mat-card>
+            </div>
+          </div>
         </div>
       </mat-card-content>
     </mat-card>
