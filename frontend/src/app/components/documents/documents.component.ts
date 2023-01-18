@@ -13,19 +13,34 @@ export class DocumentsComponent implements OnInit {
 
   constructor(
     private documentService: DocumentService,
-    private _snackBar: MatSnackBar) {
-
-  }
+    private _snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
     this.getDocuments();
   }
 
-
   private getDocuments() {
     this.documentService.getAll().subscribe({
       next: (documents) => {
         this.documents = documents;
+      },
+      error: (err) => {
+        this._snackBar.open(
+          '❌ Une erreur est survenue lors de la récupération des documents',
+          'Ok',
+          { duration: 2000 }
+        );
+      },
+    });
+  }
+
+  downloadDocument(id: number, file_name: string) {
+    this.documentService.getById(id).subscribe({
+      next: (document) => {
+        const url = window.URL.createObjectURL(document);
+        window.open(url);
+        this.documentService.cleanup(file_name).subscribe();
       },
       error: (err) => {
         this._snackBar.open(
