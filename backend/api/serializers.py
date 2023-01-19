@@ -280,7 +280,7 @@ class DocumentSerializer(serializers.ModelSerializer):
             "yearGroup",
         )    
 
-class EvaluationSerializer(serializers.Service):
+class EvaluationSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Evaluations
