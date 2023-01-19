@@ -38,10 +38,12 @@ class LoginView(APIView):
 
 
 class LogoutView(APIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        request.user.auth_token.delete()
+        if request.user is not None:
+            if request.user.auth_token:
+                request.user.auth_token.delete()
         return Response(status=status.HTTP_200_OK)
 
 
