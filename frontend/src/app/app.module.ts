@@ -48,6 +48,8 @@ import {
   NgxMatTimepickerModule,
   NgxMatNativeDateModule,
 } from '@angular-material-components/datetime-picker';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+
 import { UpdateNotePopupComponent } from './components/pop-up/note/update-note-popup/update-note-popup.component';
 import { AddSemesterPopupComponent } from './components/pop-up/semester/add-semester-popup/add-semester-popup.component';
 import { UpdateDeadlinePopupComponent } from './components/pop-up/deadline/update-deadline-popup/update-deadline-popup.component';
@@ -143,6 +145,7 @@ import { UpdateInterviewPopupComponent } from './components/pop-up/interview/upd
     MatStepperModule,
     MatCardModule,
     ReactiveFormsModule,
+    MatAutocompleteModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

@@ -10,8 +10,14 @@ import { AuthService } from '@app/services';
 import { NoteService } from 'src/app/services/note/note.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UpdateNotePopupComponent } from '../../pop-up/note/update-note-popup/update-note-popup.component';
-import { lastValueFrom } from 'rxjs';
+import { lastValueFrom, map, Observable, startWith } from 'rxjs';
 import { ConfirmDeleteComponent } from '@app/components/pop-up/confirm-delete/confirm-delete.component';
+import { User } from 'src/app/models/User';
+import { Role } from '@app/helpers';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { FormControl } from '@angular/forms';
+import { ApprenticeService } from '@app/services/apprentice/apprentice.service';
+import { Apprentice } from '@app/models/Apprentice';
 
 interface Note {
   id: any;
@@ -32,12 +38,13 @@ interface ExampleFlatNode {
   styleUrls: ['./notes-page.component.scss'],
 })
 export class NotesPageComponent implements OnInit {
-  isAvailable = false;
-  notes: any;
-  note: any;
-  request: any;
+  public isAvailable = false;
+  private notes: any;
+  public note: any;
+  public user: User;
+  readonly roleEnum = Role;
   private userId;
-  private treeData;
+  public treeData;
   private _transformer = (node: Note, level: number) => {
     return {
       expandable: !!node.children && node.children.length > 0,
@@ -64,22 +71,28 @@ export class NotesPageComponent implements OnInit {
   hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
   hasNoContent = (_: number, node: ExampleFlatNode) => node.level === 1;
 
+  myControl = new FormControl<string | Apprentice>('');
+  filteredOptions: Observable<Apprentice[]> | undefined;
+  public apprentices: Apprentice[] = [];
+
   constructor(
     private authService: AuthService,
     private confirmDeleteDialogRef: MatDialogRef<ConfirmDeleteComponent>,
     public dialog: MatDialog,
     private noteService: NoteService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private apprenticeService: ApprenticeService
   ) {
     Object.keys(this.dataSource.data).forEach((x) => {
       this.setParent(this.dataSource.data[x], null);
     });
 
     this.userId = this.authService.userValue.id;
+    this.user = this.authService.userValue;
   }
   ngOnInit(): void {
     // Récupérer les notes en arborescence pour l'utilisateur
-    this.treeNotes(this.userId);
+    this.treeNotes(this.userId.toString());
     this.note = {
       title: 'Affichage de la Note Périodique',
       text: 'Sélectionner une note',
@@ -90,6 +103,52 @@ export class NotesPageComponent implements OnInit {
     if (history.state['id'] != undefined) {
       this.getNote(history.state['id']);
     }
+    this.getApprentice();
+  }
+
+  private getApprentice() {
+    this.apprenticeService.getAll().subscribe({
+      next: (apprenticesData) => {
+        this.apprentices = apprenticesData;
+        this.filteredOptions = this.myControl.valueChanges.pipe(
+          startWith(''),
+          map((value) => {
+            const name =
+              typeof value === 'string'
+                ? value
+                : value?.first_name + '' + value?.last_name;
+            return name
+              ? this._filter(name as string)
+              : this.apprentices.slice();
+          })
+        );
+      },
+      error: (err) => {
+        this._snackBar.open(
+          '❌ Une erreur est survenue lors de la récupération des apprentis',
+          'Ok',
+          {
+            duration: 2000,
+          }
+        );
+      },
+    });
+  }
+
+  private _filter(name: string): Apprentice[] {
+    const filterValue = name.toLowerCase();
+
+    return this.apprentices.filter(
+      (option) =>
+        option.first_name.toLowerCase().includes(filterValue) ||
+        option.last_name.toLowerCase().includes(filterValue)
+    );
+  }
+
+  displayFn(apprentice: Apprentice): string {
+    return apprentice && apprentice.first_name
+      ? apprentice.first_name + ' ' + apprentice.last_name
+      : '';
   }
 
   // Cette fonction parcourt l'arborescence des notes et définit les parents pour chaque noeud enfant
@@ -124,10 +183,13 @@ export class NotesPageComponent implements OnInit {
     });
   }
 
-  public treeNotes(userId: number) {
+  public treeNotes(userId: string) {
     this.noteService.treeNotes(userId).subscribe((response) => {
       this.treeData = response;
       this.dataSource.data = this.treeData;
+      if (response.length === 0) {
+        this.isAvailable = false;
+      }
     });
   }
 
@@ -146,7 +208,7 @@ export class NotesPageComponent implements OnInit {
         if (result.event == 'ajout') {
           this.getNote(result.data.id);
         }
-        this.treeNotes(this.userId);
+        this.treeNotes(this.userId.toString());
       });
   }
 
@@ -167,13 +229,10 @@ export class NotesPageComponent implements OnInit {
     if (shouldDelete) {
       this.noteService.delete(id).subscribe({
         next: (v) => {
-          this.treeNotes(this.userId),
-            (this.note = {
-              title: 'Affichage de la Note Périodique',
-              text: 'Sélectionner une note',
-              id: '',
-              email: '',
-            });
+          this.isAvailable = false;
+          this._snackBar.open('✔ La note a été supprimée', 'Ok', {
+            duration: 2000,
+          });
         },
         error: (err) => {
           this._snackBar.open(
@@ -197,7 +256,7 @@ export class NotesPageComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((shouldReload: boolean) => {
-        this.treeNotes(this.userId);
+        this.treeNotes(this.userId.toString());
         this.getNote(this.note.id);
       });
   }

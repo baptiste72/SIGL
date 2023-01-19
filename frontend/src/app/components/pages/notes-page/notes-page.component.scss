@@ -8,7 +8,7 @@
 }
 
 .notes-page-card-header {
-  padding-top: 12px;
+  padding: 12px;
   box-shadow: $box-shadow-secondary;
   background-color: $green;
   color: $white;
@@ -26,7 +26,7 @@
 .note-page-content {
   display: flex;
   flex-wrap: wrap;
-  padding: 10px 80px;
+  padding: 16px 30px;
 }
 
 .note-card {
@@ -35,15 +35,17 @@
 
 .tree-div {
   width: 100%;
+  border-right: 1px solid lightgrey;
   @include respond-to("medium") {
     width: 30%;
   }
 }
 
 .note-card-div {
+  padding: 30px;
   width: 100%;
   @include respond-to("medium") {
-    width: 70%;
+    width: 61%;
   }
 }
 
@@ -63,4 +65,13 @@
 
 .note-card-actions {
   display: flex;
+}
+
+.tree-parents {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.tree-child:hover {
+  color: $green;
 }
