@@ -1,0 +1,32 @@
+<app-navigation>
+  <div class="navigation-content">
+    <div class="full-width"><h1>Dashboard Administrateur</h1></div>
+    <form>
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Sélectionnez un apprenti</mat-label>
+        <input
+          type="text"
+          matInput
+          [formControl]="myControl"
+          [matAutocomplete]="auto"
+        />
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          [displayWith]="displayFn"
+          (optionSelected)="showApprentice($event.option.value.id)"
+        >
+          <mat-option
+            *ngFor="let option of filteredOptions | async"
+            [value]="option"
+          >
+            {{ option.first_name }} {{ option.last_name }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </form>
+    <app-profile class="app-full-width"></app-profile>
+    <app-evaluations class="app-full-width"></app-evaluations>
+    <app-notes class="app-full-width"></app-notes>
+    <app-events class="app-full-width"></app-events>
+  </div>
+</app-navigation>
