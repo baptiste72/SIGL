@@ -1,6 +1,10 @@
 @import "/src/styles/helpers/constants.scss";
 @import "/src/styles/helpers/mixins.scss";
 
+.configuration-tab-group .mat-mdc-tab-header {
+  margin: 30px 50px;
+}
+
 .configuration-page-card {
   box-shadow: $box-shadow-secondary;
   padding: 0px;

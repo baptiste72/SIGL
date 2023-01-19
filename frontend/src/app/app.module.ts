@@ -2,7 +2,7 @@ import { AppComponent } from './app.component';
 import { ConnectionComponent } from './components/pages/connection/connection.component';
 import { ForgotPasswordComponent } from './components/pages/forgot-password/forgot-password.component';
 import { NewPasswordComponent } from './components/pages/new-password/new-password.component';
-import { DashboardApprenticeComponent } from './components/pages/dashboard-apprentice/dashboard-apprentice.component';
+import { DashboardApprenticeComponent } from './components/Dashboard/dashboard-apprentice/dashboard-apprentice.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { NotesComponent } from './components/notes/notes.component';
 import { PersonalInformationsComponent } from './components/pages/personal-informations/personal-informations.component';
@@ -70,8 +70,11 @@ import { UpdateFormationCenterPopupComponent } from './components/pop-up/formati
 import { AddInterviewPopupComponent } from './components/pop-up/interview/add-interview-popup/add-interview-popup.component';
 import { AddDocumentPopupComponent } from './components/pop-up/document/add-document-popup/add-document-popup.component';
 import { MatStepperModule, MatStepper } from '@angular/material/stepper';
-import { DashboardCompanyComponent } from './components/pages/dashboard-company/dashboard-company.component';
+import { DashboardCompanyComponent } from './components/Dashboard/dashboard-company/dashboard-company.component';
 import { UpdateInterviewPopupComponent } from './components/pop-up/interview/update-interview-popup/update-interview-popup.component';
+import { DashboardAdminComponent } from './components/Dashboard/dashboard-admin/dashboard-admin.component';
+import { ProfileComponent } from './components/profile/profile/profile.component';
+import { DashboardPedagoComponent } from './components/Dashboard/dashboard-pedago/dashboard-pedago.component';
 
 @NgModule({
   declarations: [
@@ -112,6 +115,9 @@ import { UpdateInterviewPopupComponent } from './components/pop-up/interview/upd
     UpdateFormationCenterPopupComponent,
     DashboardCompanyComponent,
     EventsPageComponent,
+    DashboardAdminComponent,
+    ProfileComponent,
+    DashboardPedagoComponent,
   ],
   imports: [
     CalendarModule.forRoot({
