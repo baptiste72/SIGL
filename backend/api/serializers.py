@@ -17,6 +17,7 @@ from base.models import (
     YearGroup,
     Note,
     Document,
+    Evaluations,
 )
 
 
@@ -278,3 +279,17 @@ class DocumentSerializer(serializers.ModelSerializer):
             "user", 
             "yearGroup",
         )    
+
+class EvaluationSerializer(serializers.Service):
+    
+    class Meta:
+        model = Evaluations
+        fields = (
+            "id", 
+            "file_name", 
+            "modification_date",
+            "status",
+            "type",
+            "user",
+            "yearGroup",
+    )

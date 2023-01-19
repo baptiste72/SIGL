@@ -173,3 +173,15 @@ class Note(models.Model):
     semester = models.ForeignKey(
         Semester, related_name="note", on_delete=models.CASCADE
     )
+
+class Evaluations(models.Model):
+    file_name = models.CharField(max_length=200)
+    modification_date = models.DateTimeField()
+    status = models.CharField(max_length=10)
+    type = models.CharField(max_length=50)
+    user = models.ForeignKey(
+        User, related_name="user", on_delete=models.CASCADE, null=True
+    )
+    yearGroup = models.ForeignKey(
+        YearGroup, related_name="deadline", on_delete=models.CASCADE
+    )

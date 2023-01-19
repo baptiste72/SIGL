@@ -76,4 +76,9 @@ urlpatterns = [
     path("documents", views.DocumentList.as_view()),
     path("documents/<int:pk>", views.DocumentDetail.as_view()),
     path("documents/cleanup/<str:file_name>", views.cleanup),
+    
+    # livrables
+    path("evaluations", views.EvaluationList.as_view()),
+    path("evaluations/<int:pk>", views.EvaluationDetail.as_view()),
+    path("evaluations/cleanup/<str:file_name>", views.cleanup),
 ]

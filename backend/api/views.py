@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 from rest_framework import status, generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import MultiPartParser, FormParser
+from api.helpers.evaluation_helper import EvaluationHelper
 from authentication.models import User
 from base.utilities import Role
 from base.models import (
@@ -13,6 +14,7 @@ from base.models import (
     Company,
     CompanyUser,
     Deadline,
+    Evaluations,
     FormationCenter,
     Interview,
     Mentor,
@@ -47,6 +49,7 @@ from api.serializers import (
     ApprenticeRoleSerializer,
     DocumentSerializer,
     CompanyUserSerializer,
+    EvaluationSerializer,
 )
 from api.helpers.tutor_team_helper import TutorTeamHelper
 from api.helpers.password_helper import PasswordHelper
@@ -572,6 +575,57 @@ class DocumentDetail(APIView):
         document.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+class EvaluationList(APIView):
+    parser_classes = (MultiPartParser, FormParser)
+
+    def get(self, request):
+        evaluation_list = Evaluations.objects.all()
+        serializers = EvaluationSerializer(evaluation_list, many=True)
+        response = EvaluationHelper.getAllEvaluations(serializers)
+        return Response(response)
+
+    def post(self, request, *args, **kwargs):
+        serializer = EvaluationSerializer(data=request.data)
+        if serializer.is_valid():
+            file = request.FILES["file"]
+            sftp, ssh = SftpHelper.sftp_open_connection()
+            sftp.putfo(file, "/datastore/" + request.data["file_name"])
+            SftpHelper.sftp_close_connection(sftp, ssh)
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class EvaluationDetail(APIView):
+    parser_classes = (MultiPartParser, FormParser)
+
+    def get_object(self, pk):
+        try:
+            return Evaluations.objects.get(pk=pk)
+        except Evaluations.DoesNotExist as exc:
+            raise Http404 from exc
+
+    def get(self, request, pk):
+        evaluation = self.get_object(pk)
+        serializer = EvaluationSerializer(evaluation)
+        sftp, ssh = SftpHelper.sftp_open_connection()
+        file_name = serializer.data["file_name"]
+        with open(file_name, "wb") as file_write:
+            sftp.getfo("/datastore/" + file_name, file_write)
+        # pylint: disable=consider-using-with
+        file_read = open(file_name, "rb")
+        SftpHelper.sftp_close_connection(sftp, ssh)
+        return FileResponse(file_read, content_type="application/pdf")
+
+    def delete(self, request, pk):
+        evaluation = self.get_object(pk)
+        try:
+            sftp, ssh = SftpHelper.sftp_open_connection()
+            sftp.remove("/datastore/" + evaluation.file_name)
+            SftpHelper.sftp_close_connection(sftp, ssh)
+        except:  # pylint: disable=bare-except
+            pass
+        evaluation.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 @api_view(["DELETE"])
 def cleanup(request, file_name):
