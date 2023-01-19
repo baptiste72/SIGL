@@ -20,6 +20,8 @@ services:
       - ./../../backend:/sigl
     environment:
       ENV_FILE: "backend.__init__"
+      DJANGO_SUPERUSER_EMAIL: ${DJANGO_SUPERUSER_EMAIL:?err}
+      DJANGO_SUPERUSER_PASSWORD: ${DJANGO_SUPERUSER_PASSWORD:?err}
       POSTGRES_NAME: ${DJANGO_DB}
       POSTGRES_USER: ${DJANGO_USER}
       POSTGRES_PASSWORD: ${DJANGO_PASSWORD}
