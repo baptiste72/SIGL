@@ -233,6 +233,7 @@ export class NotesPageComponent implements OnInit {
           this._snackBar.open('✔ La note a été supprimée', 'Ok', {
             duration: 2000,
           });
+          this.treeNotes(this.userId.toString());
         },
         error: (err) => {
           this._snackBar.open(

@@ -5,10 +5,8 @@
   box-shadow: $box-shadow-secondary;
   padding: 0px;
   width: 100%;
-  @include respond-to("medium") {
-    width: 95%;
-  }
 }
+
 table {
   max-width: 1200;
 }
