@@ -71,8 +71,7 @@ export class AddDocumentPopupComponent implements OnInit {
       this.formData.append('file_name', this.file_name);
       this.formData.append('link', this.addDocumentForm.value.link);
       this.formData.append('yearGroup', this.addDocumentForm.value.yearGroup);
-      // this.formData.append('user', this.user.id.toString());
-      this.formData.append('user', '1');
+      this.formData.append('user', this.user.id.toString());
       this.documentService.add(this.formData).subscribe({
         next: (v) => {
           this._snackBar.open('✔ Document ajouté', 'Ok', { duration: 2000 });

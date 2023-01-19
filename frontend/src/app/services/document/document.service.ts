@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { DocumentPdf } from '@app/models/DocumentPdf';
 import { Observable } from 'rxjs/internal/Observable';
 import { environment } from 'src/environments/environment';
 
@@ -11,8 +12,8 @@ export class DocumentService {
 
   constructor(private http: HttpClient) {}
 
-  public getAll(): Observable<Document[]> {
-    return this.http.get<Document[]>(`${environment.apiUrl}/${this.urlPrefix}`);
+  public getAll(): Observable<DocumentPdf[]> {
+    return this.http.get<DocumentPdf[]>(`${environment.apiUrl}/${this.urlPrefix}`);
   }
 
   public getById(id: number) {

@@ -7,6 +7,7 @@ import { DocumentService } from 'src/app/services/document/document.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmDeleteComponent } from '@app/components/pop-up/confirm-delete/confirm-delete.component';
 import { lastValueFrom } from 'rxjs';
+import { DocumentPdf } from '@app/models/DocumentPdf';
 
 @Component({
   templateUrl: './documents-page.component.html',
@@ -16,7 +17,8 @@ export class DocumentsPageComponent implements AfterViewInit, OnInit {
   displayedColumns: string[] = [
     'name',
     'file_name',
-    'user',
+    'user_first_name',
+    'user_last_name',
     'yearGroup',
     'link',
   ];
@@ -29,7 +31,7 @@ export class DocumentsPageComponent implements AfterViewInit, OnInit {
     private _snackBar: MatSnackBar,
     private confirmDeleteDialogRef: MatDialogRef<ConfirmDeleteComponent>
   ) {
-    this.dataSource = new MatTableDataSource<Document>();
+    this.dataSource = new MatTableDataSource<DocumentPdf>();
   }
 
   ngOnInit(): void {
@@ -54,7 +56,7 @@ export class DocumentsPageComponent implements AfterViewInit, OnInit {
   private getDocuments() {
     this.documentService.getAll().subscribe({
       next: (documents) => {
-        this.dataSource = new MatTableDataSource<Document>(documents);
+        this.dataSource = new MatTableDataSource<DocumentPdf>(documents);
       },
       error: (err) => {
         this._snackBar.open(

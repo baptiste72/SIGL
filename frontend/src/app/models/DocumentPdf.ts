@@ -1,7 +1,7 @@
 import { User } from './User';
 import { YearGroup } from './YearGroup';
 
-export class Document {
+export class DocumentPdf {
   id: number;
   name: string;
   file_name: string;

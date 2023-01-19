@@ -39,6 +39,6 @@ class TutorTeamHelper:
                 "tutor": tutor,
             }
 
-            # ajout de l'équipe tutorale récupérée ou autre équipe tutorale
+            # ajout de l'équipe tutorale récupérée à la liste d'équipes tutorales
             response.append(context)
         return response
