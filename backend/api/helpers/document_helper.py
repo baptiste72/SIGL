@@ -1,6 +1,3 @@
-
-
-
 from authentication.models import User
 from base.models import YearGroup
 
@@ -27,7 +24,7 @@ class DocumentHelper():
                 .first()
             )
 
-            # fabriaction d'un json object document contenant réellement les infos
+            # fabrication d'un json object document contenant réellement les infos
             context = {
                 "id": serializers.data[data]["id"],
                 "name": serializers.data[data]["name"],

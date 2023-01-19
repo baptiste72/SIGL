@@ -6,7 +6,6 @@ from rest_framework.views import APIView
 from rest_framework import status, generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import MultiPartParser, FormParser
-from api.helpers.document_helper import DocumentHelper
 from authentication.models import User
 from base.utilities import Role
 from base.models import (
@@ -54,6 +53,7 @@ from api.helpers.password_helper import PasswordHelper
 from api.helpers.data_treatement import DataTreatement
 from api.helpers.sftp_helper import SftpHelper
 from api.helpers.semester_helper import SemesterHelper
+from api.helpers.document_helper import DocumentHelper
 
 
 @api_view(["GET"])
