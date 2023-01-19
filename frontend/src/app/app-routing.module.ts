@@ -13,6 +13,7 @@ import { PersonalInformationsComponent } from './components/pages/personal-infor
 import { AuthGuard, Role } from './helpers';
 import { PageNotFoundComponent } from './components/pages/page-not-found/page-not-found.component';
 import { DashboardCompanyComponent } from './components/pages/dashboard-company/dashboard-company.component';
+import { EvaluationsPageComponent } from './components/pages/evaluations-page/evaluations-page.component';
 
 const routes: Routes = [
   { path: '', component: ConnectionComponent },
@@ -43,6 +44,11 @@ const routes: Routes = [
   {
     path: 'documents',
     component: DocumentsPageComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'evaluations',
+    component: EvaluationsPageComponent,
     canActivate: [AuthGuard],
   },
   { path: 'notes', component: NotesPageComponent, canActivate: [AuthGuard] },

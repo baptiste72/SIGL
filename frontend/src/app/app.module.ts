@@ -70,6 +70,7 @@ import { AddDocumentPopupComponent } from './components/pop-up/document/add-docu
 import { MatStepperModule, MatStepper } from '@angular/material/stepper';
 import { DashboardCompanyComponent } from './components/pages/dashboard-company/dashboard-company.component';
 import { UpdateInterviewPopupComponent } from './components/pop-up/interview/update-interview-popup/update-interview-popup.component';
+import { EvaluationsPageComponent } from './components/pages/evaluations-page/evaluations-page.component';
 
 @NgModule({
   declarations: [
@@ -110,6 +111,7 @@ import { UpdateInterviewPopupComponent } from './components/pop-up/interview/upd
     UpdateFormationCenterPopupComponent,
     DashboardCompanyComponent,
     EventsPageComponent,
+    EvaluationsPageComponent,
   ],
   imports: [
     CalendarModule.forRoot({
