@@ -180,8 +180,8 @@ class Evaluations(models.Model):
     status = models.CharField(max_length=10)
     type = models.CharField(max_length=50)
     user = models.ForeignKey(
-        User, related_name="user", on_delete=models.CASCADE, null=True
+        User, related_name="evaluation_user", on_delete=models.CASCADE, null=True
     )
     yearGroup = models.ForeignKey(
-        YearGroup, related_name="deadline", on_delete=models.CASCADE
+        YearGroup, related_name="evaluation_yearGroup", on_delete=models.CASCADE, null=True
     )
