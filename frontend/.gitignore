@@ -39,7 +39,6 @@ frontend/node_modules/__ngcc_entry_points__.json
 testem.log
 /typings
 package-lock.json
-/test
 
 # System files
 .DS_Store
