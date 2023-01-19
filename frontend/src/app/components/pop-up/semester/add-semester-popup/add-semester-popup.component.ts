@@ -20,14 +20,6 @@ export class AddSemesterPopupComponent implements OnInit {
   public addSemesterForm: FormGroup;
   public submitted: boolean = false;
 
-  public semesters: Semester[] = [
-    { name: 'Semestre S5' },
-    { name: 'Semestre S6' },
-    { name: 'Semestre S7' },
-    { name: 'Semestre S8' },
-    { name: 'Semestre S9' },
-  ];
-
   constructor(
     public dialogRef: MatDialogRef<AddSemesterPopupComponent>,
     private yearGroupService: YearGroupService,

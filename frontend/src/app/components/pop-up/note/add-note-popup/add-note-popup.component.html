@@ -1,60 +1,91 @@
 <div class="dialog-header bg-green">
   <h2 mat-dialog-title>Ajout d'une note périodique</h2>
 </div>
-<form [formGroup]="noteForm" (ngSubmit)="submitNote()">
+<form [formGroup]="addNoteForm" (ngSubmit)="submitNote()">
   <div mat-dialog-content class="dialog-content">
     <div class="Add-note">
       <h3>Informations sur la note</h3>
+      <div class="add-note-field-div">
+        <mat-form-field class="add-note-field">
+          <mat-label>Nom de la note </mat-label>
+          <mat-icon matPrefix>note</mat-icon>
+          <input type="text" formControlName="title" matInput />
+          <mat-error
+            *ngIf="submitted && addNoteForm.hasError('required', 'title')"
+          >
+            Merci de renseigner un nom
+          </mat-error>
+        </mat-form-field>
 
-      <mat-form-field class="Add-Note" appearance="fill">
-        <mat-label>Nom de la note </mat-label>
-        <mat-icon matPrefix>note</mat-icon>
-        <input type="tel" formControlName="title" matInput />
-      </mat-form-field>
+        <mat-form-field class="add-note-field">
+          <mat-label>Choisissez un semestre</mat-label>
+          <mat-select required formControlName="semester">
+            <mat-option
+              *ngFor="let semester of semesters"
+              [value]="semester.id"
+            >
+              {{ semester.name }}
+            </mat-option>
+          </mat-select>
+          <mat-error
+            *ngIf="submitted && addNoteForm.hasError('required', 'semester')"
+          >
+            Merci de séletionner un semestre
+          </mat-error>
+        </mat-form-field>
 
-      <mat-form-field class="Add-Note" appearance="fill">
-        <mat-label>Choisissez un semestre</mat-label>
-        <mat-select required formControlName="semester">
-          <mat-option *ngFor="let semester of semesters" [value]="semester.id">
-            {{ semester.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field class="Add-Note" appearance="fill">
-        <mat-label>Entrez une période</mat-label>
-        <mat-date-range-input [rangePicker]="picker">
-          <input
-            matStartDate
-            formControlName="beginDate"
-            placeholder="Date de début"
-          />
-          <input
-            matEndDate
-            formControlName="endDate"
-            placeholder="Date de fin"
-          />
-        </mat-date-range-input>
-        <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-date-range-picker #picker></mat-date-range-picker>
-      </mat-form-field>
+        <mat-form-field class="add-note-field">
+          <mat-label>Entrez une période</mat-label>
+          <mat-date-range-input [rangePicker]="picker">
+            <input
+              matStartDate
+              formControlName="beginDate"
+              placeholder="Date de début"
+            />
+            <input
+              matEndDate
+              formControlName="endDate"
+              placeholder="Date de fin"
+            />
+          </mat-date-range-input>
+          <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+          <mat-error
+            *ngIf="
+              submitted &&
+              addNoteForm.hasError('required', 'beginDate') &&
+              addNoteForm.hasError('required', 'endDate')
+            "
+          >
+            Merci de renseigner une date de début et une date de fin
+          </mat-error>
+        </mat-form-field>
+      </div>
     </div>
 
     <div class="div-input">
       <h3>Description</h3>
-      <mat-form-field class="full-width" appearance="fill">
+      <mat-form-field class="full-width">
         <mat-label>Ajouter une description</mat-label>
         <textarea
           formControlName="text"
-          [innerHTML]="noteForm.value.text"
+          [innerHTML]="addNoteForm.value.text"
           cdkTextareaAutosize
-          cdkAutosizeMinRows="15"
-          cdkAutosizeMaxRows="20"
+          cdkAutosizeMinRows="10"
+          cdkAutosizeMaxRows="15"
           matInput
           placeholder="Ex. J'ai réalisé..."
         >
         </textarea>
+        <mat-error
+          *ngIf="submitted && addNoteForm.hasError('required', 'text')"
+        >
+          Merci de renseigner une description
+        </mat-error>
       </mat-form-field>
     </div>
   </div>

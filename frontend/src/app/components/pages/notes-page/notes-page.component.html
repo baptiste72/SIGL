@@ -88,7 +88,10 @@
             </p>
             <p>{{ note.text }}</p>
 
-            <div class="note-card-actions" *ngIf="user.role === roleEnum.APPRENTICE">
+            <div
+              class="note-card-actions"
+              *ngIf="user.role === roleEnum.APPRENTICE"
+            >
               <button
                 mat-icon-button
                 *ngIf="isAvailable"
