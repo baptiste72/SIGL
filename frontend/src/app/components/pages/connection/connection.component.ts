@@ -13,6 +13,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class ConnectionComponent implements OnInit {
   hide = true;
   public loginForm: FormGroup;
+  public user: User;
+  readonly roleEnum = Role;
 
   constructor(
     private authService: AuthService,
@@ -21,14 +23,15 @@ export class ConnectionComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private formBuilder: FormBuilder
   ) {
+    this.user = this.authService.userValue;
     this.loginForm = this.formBuilder.group({
       email: ['', Validators.required],
       password: ['', Validators.required],
     });
 
     // redirect to home if already logged in
-    if (this.authService.userValue && localStorage.getItem('user') != null) {
-      this.router.navigate(['/dashboard']);
+    if (this.user && localStorage.getItem('user') != null) {
+      this.redirectHomepage(this.user);
     }
   }
 
@@ -77,6 +80,25 @@ export class ConnectionComponent implements OnInit {
     }
   }
 
+  public redirectHomepage(user: User) {
+    if (
+      user.role == this.roleEnum.ADMIN ||
+      user.role == this.roleEnum.COORDINATOR
+    ) {
+      this.router.navigate(['/dashboard-admin']);
+    } else if (user.role == this.roleEnum.APPRENTICE) {
+      this.router.navigate(['/dashboard']);
+    } else if (user.role == this.roleEnum.COMPANY) {
+      this.router.navigate(['/dashboard-company']);
+    } else if (
+      user.role == this.roleEnum.MENTOR ||
+      user.role == this.roleEnum.TUTOR
+    ) {
+      this.router.navigate(['/dashboard-pedago']);
+    }
+  }
+
+
   public firstConnection() {
     this.router.navigate(['/forgot-password'], {
       queryParams: { firstConnection: true },
@@ -85,8 +107,8 @@ export class ConnectionComponent implements OnInit {
 
   public login() {
     this.authService.login(this.loginForm.value).subscribe({
-      next: () => {
-        this.router.navigate(['dashboard']);
+      next: (user) => {
+        this.redirectHomepage(user);
         this._snackBar.open('✔ Connexion réussie', 'Ok', {
           duration: 2000,
         });

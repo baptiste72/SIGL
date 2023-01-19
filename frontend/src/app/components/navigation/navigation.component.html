@@ -2,48 +2,50 @@
   <mat-drawer #drawer class="sidenav" mode="side" [(opened)]="opened">
     <img class="logo-eseo" src="assets/images/logo-eseo.png" alt="logo ESEO" />
     <div class="ul-navigation">
-      <a routerLink="/dashboard"
-      *ngIf="
-      user.role !== roleEnum.COMPANY
-      "
+      <!-- DASHBOARDS -->
+      <a routerLink="/dashboard" *ngIf="user.role === roleEnum.APPRENTICE"
         ><div><mat-icon matPrefix>home</mat-icon>Journal de formation</div></a
       >
+      <a routerLink="/dashboard-company" *ngIf="user.role === roleEnum.COMPANY"
+        ><div>
+          <mat-icon matPrefix>home</mat-icon>Informations Entreprise
+        </div></a
+      >
       <a
-      routerLink="/dashboard-company"
-      *ngIf="
-        user.role === roleEnum.COMPANY
-      "
-      ><div><mat-icon matPrefix>home</mat-icon>Informations Entreprise</div></a
-    >
-      <a routerLink="/documents"
-      *ngIf="
-      user.role !== roleEnum.COMPANY
-      "
+        routerLink="/dashboard-admin"
+        *ngIf="
+          user.role === roleEnum.ADMIN || user.role === roleEnum.COORDINATOR
+        "
+        ><div><mat-icon matPrefix>home</mat-icon>Dashboard</div></a
+      >
+      <a
+        routerLink="/dashboard-pedago"
+        *ngIf="user.role === roleEnum.MENTOR || user.role === roleEnum.TUTOR"
+        ><div><mat-icon matPrefix>home</mat-icon>Dashboard</div></a
+      >
+      <!-- DOCUMENTS -->
+      <a routerLink="/documents" *ngIf="user.role !== roleEnum.COMPANY"
         ><div>
           <mat-icon matPrefix>description</mat-icon>Docs Pédagogiques
         </div></a
       >
-      <a routerLink="/notes"
-      *ngIf="
-      user.role !== roleEnum.COMPANY
-      "
-        ><div><mat-icon matPrefix>edit_note</mat-icon>Notes</div></a
+      <!-- NOTES PERIODIQUES -->
+      <a routerLink="/notes" *ngIf="user.role !== roleEnum.COMPANY"
+        ><div><mat-icon matPrefix>edit_note</mat-icon>Notes Périodiques</div></a
       >
       <a routerLink="/evaluations"
-      *ngIf="
-      user.role !== roleEnum.COMPANY
-      "
+      *ngIf="user.role !== roleEnum.COMPANY"
         ><div><mat-icon matPrefix>co_present</mat-icon>Livrables</div></a
       >
-      <a routerLink="/events"
-            *ngIf="
-      user.role !== roleEnum.COMPANY
-      "
+      <!-- EVENEMENTS -->
+      <a routerLink="/events" *ngIf="user.role !== roleEnum.COMPANY"
         ><div><mat-icon matPrefix>calendar_month</mat-icon>Évènements</div></a
       >
+      <!-- PROFILE -->
       <a routerLink="/profile"
         ><div><mat-icon matPrefix>account_circle</mat-icon>Mon compte</div></a
       >
+      <!-- CONFIGURATION -->
       <a
         routerLink="/configuration"
         *ngIf="

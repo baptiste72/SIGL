@@ -28,14 +28,22 @@
 @import "/src/app/components/pages/new-password/new-password.component.scss";
 
 @import "/src/app/components/pages/personal-informations/personal-informations.component.scss";
-@import "/src/app/components/pages/dashboard-apprentice/dashboard-apprentice.component.scss";
 @import "/src/app/components/pages/documents-page/documents-page.component.scss";
 @import "/src/app/components/pages/notes-page/notes-page.component.scss";
 @import "/src/app/components/pages/configuration/configuration.component.scss";
 @import "/src/app/components/pages/events-page/events-page.component.scss";
 @import "/src/app/components/pages/evaluations-page/evaluations-page.component.scss";
+
+/* DASHBOARD */
+@import "/src/app/components/Dashboard/dashboard-admin/dashboard-admin.component.scss";
+@import "/src/app/components/Dashboard/dashboard-apprentice/dashboard-apprentice.component.scss";
+@import "/src/app/components/Dashboard/dashboard-company/dashboard-company.component.scss";
+@import "/src/app/components/Dashboard/dashboard-pedago/dashboard-pedago.component.scss";
+
 /* POPUP */
 @import "/src/app/components/pop-up/year-group/add-year-group-popup/add-year-group-popup.component.scss";
-
+@import "/src/app/components/pop-up/year-group/update-year-group-popup/update-year-group-popup/update-year-group-popup.component.scss";
+@import "/src/app/components/pop-up/note/add-note-popup/add-note-popup.component.scss";
+@import "/src/app/components/pop-up/note/update-note-popup/update-note-popup.component.scss";
 /* FORM */
 @import "/src/app/components/forms/add-company-form/add-company-form.component.scss";

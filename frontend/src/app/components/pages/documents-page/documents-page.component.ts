@@ -8,12 +8,17 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmDeleteComponent } from '@app/components/pop-up/confirm-delete/confirm-delete.component';
 import { lastValueFrom } from 'rxjs';
 import { DocumentPdf } from '@app/models/DocumentPdf';
+import { AuthService } from '@app/services';
+import { Role } from '@app/helpers';
+import { User } from '@app/models/User';
 
 @Component({
   templateUrl: './documents-page.component.html',
   styleUrls: ['./documents-page.component.scss'],
 })
 export class DocumentsPageComponent implements AfterViewInit, OnInit {
+  public user: User;
+  readonly roleEnum = Role;
   displayedColumns: string[] = [
     'name',
     'file_name',
@@ -29,9 +34,11 @@ export class DocumentsPageComponent implements AfterViewInit, OnInit {
     public dialog: MatDialog,
     private documentService: DocumentService,
     private _snackBar: MatSnackBar,
-    private confirmDeleteDialogRef: MatDialogRef<ConfirmDeleteComponent>
+    private confirmDeleteDialogRef: MatDialogRef<ConfirmDeleteComponent>,
+    private authService: AuthService
   ) {
     this.dataSource = new MatTableDataSource<DocumentPdf>();
+    this.user = this.authService.userValue;
   }
 
   ngOnInit(): void {

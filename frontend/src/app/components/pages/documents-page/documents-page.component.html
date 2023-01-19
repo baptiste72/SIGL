@@ -13,7 +13,12 @@
       </mat-card-header>
 
       <mat-card-content>
-        <div class="conf-actions-btns">
+        <div
+          class="conf-actions-btns"
+          *ngIf="
+            user.role === roleEnum.ADMIN || user.role === roleEnum.COORDINATOR
+          "
+        >
           <button
             mat-raised-button
             class="btn_primary bg-blue"
@@ -42,13 +47,17 @@
             <!-- User By Column -->
             <ng-container matColumnDef="user_first_name">
               <th mat-header-cell *matHeaderCellDef>Prénom</th>
-              <td mat-cell *matCellDef="let element">{{ element.user.first_name }}</td>
+              <td mat-cell *matCellDef="let element">
+                {{ element.user.first_name }}
+              </td>
             </ng-container>
 
             <!-- User By Column -->
             <ng-container matColumnDef="user_last_name">
               <th mat-header-cell *matHeaderCellDef>Nom</th>
-              <td mat-cell *matCellDef="let element">{{ element.user.last_name }}</td>
+              <td mat-cell *matCellDef="let element">
+                {{ element.user.last_name }}
+              </td>
             </ng-container>
 
             <!-- Semester By Column -->
@@ -73,7 +82,13 @@
                     fontIcon="file_download"
                   ></mat-icon>
                 </button>
-                <button (click)="deleteDocumentById(element.id)">
+                <button
+                  *ngIf="
+                    user.role === roleEnum.ADMIN ||
+                    user.role === roleEnum.COORDINATOR
+                  "
+                  (click)="deleteDocumentById(element.id)"
+                >
                   <mat-icon
                     class="red"
                     aria-hidden="false"
