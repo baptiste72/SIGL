@@ -6,7 +6,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AddYearGroupPopupComponent } from '../../pop-up/year-group/add-year-group-popup/add-year-group-popup.component';
 import { UpdateYearGroupPopupComponent } from '../../pop-up/year-group/update-year-group-popup/update-year-group-popup/update-year-group-popup.component';
 import { AddTeamPopupComponent } from '../../pop-up/tutor-team/add-team-popup/add-team-popup.component';
-import { AddCompanyPopupComponent } from '../../pop-up/company/add-company-popup/add-company-popup.component';
+import { AddCompanyFormComponent } from '../../forms/add-company-form/add-company-form.component';
 import { AddSemesterPopupComponent } from '../../pop-up/semester/add-semester-popup/add-semester-popup.component';
 import { YearGroupService } from 'src/app/services/year-group/year-group.service';
 import { SemesterService } from 'src/app/services/semester/semester.service';
@@ -22,6 +22,11 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ConfirmDeleteComponent } from '@app/components/pop-up/confirm-delete/confirm-delete.component';
 import { lastValueFrom } from 'rxjs';
 import { UpdateTeamPopupComponent } from '@app/components/pop-up/tutor-team/update-team-popup/update-team-popup.component';
+import { FormationCenterService } from 'src/app/services/formation-center/formation-center.service';
+import { FormationCenter } from 'src/app/models/FormationCenter';
+import { UpdateFormationCenterPopupComponent } from '@app/components/pop-up/formation-center/update-formation-center-popup/update-formation-center-popup.component';
+import { AddFormationCenterPopupComponent } from '@app/components/pop-up/formation-center/add-formation-center-popup/add-formation-center-popup.component';
+import { CompanyService } from '@app/services/company/company.service';
 
 @Component({
   templateUrl: './configuration.component.html',
@@ -34,6 +39,7 @@ export class ConfigurationComponent implements OnInit, AfterViewInit {
   private hlTutorTeams = false;
   private hlYearGroups = false;
   private hlSemesters = false;
+  private hlFormationCenters = false;
 
   public displayedColumnsUsers: string[] = [
     'first_name',
@@ -76,6 +82,17 @@ export class ConfigurationComponent implements OnInit, AfterViewInit {
   public dataSourceSemesters: MatTableDataSource<Semester>;
   @ViewChild('semestersPaginator') semestersPaginator!: MatPaginator;
 
+  public displayedColumnsFormationCenter: string[] = [
+    'worded',
+    'city',
+    'postal_code',
+    'address',
+    'update',
+  ];
+  public dataSourceFormationCenters: MatTableDataSource<FormationCenter>;
+  @ViewChild('formationCenterPaginator')
+  formationCenterPaginator!: MatPaginator;
+
   ngOnInit(): void {
     // On charge le premier onglet
     this.loadUsers();
@@ -87,6 +104,7 @@ export class ConfigurationComponent implements OnInit, AfterViewInit {
     this.dataSourceCompanies.paginator = this.companiesPaginator;
     this.dataSourceYearGroups.paginator = this.yearGroupPaginator;
     this.dataSourceSemesters.paginator = this.semestersPaginator;
+    this.dataSourceFormationCenters.paginator = this.formationCenterPaginator;
   }
 
   constructor(
@@ -96,13 +114,16 @@ export class ConfigurationComponent implements OnInit, AfterViewInit {
     private yearGroupService: YearGroupService,
     private semesterService: SemesterService,
     private tutorTeamService: TutorTeamService,
+    private formationCenterService: FormationCenterService,
+    private companyService: CompanyService,
     private _snackBar: MatSnackBar
   ) {
-    this.dataSourceCompanies = new MatTableDataSource<Company>(COMPANIES_DATA);
+    this.dataSourceCompanies = new MatTableDataSource<Company>();
     this.dataSourceSemesters = new MatTableDataSource<Semester>();
     this.dataSourceTutorTeams = new MatTableDataSource<TutorTeam>();
     this.dataSourceUsers = new MatTableDataSource<User>();
     this.dataSourceYearGroups = new MatTableDataSource<YearGroup>();
+    this.dataSourceFormationCenters = new MatTableDataSource<FormationCenter>();
   }
 
   public onTabChange($event: MatTabChangeEvent) {
@@ -114,9 +135,7 @@ export class ConfigurationComponent implements OnInit, AfterViewInit {
         break;
       case 'companies':
         if (!this.hlCompanies) {
-          // TODO: Récupérer les companies
-          // TODO: Intégrer la ligne suivante dans le loadCompanies
-          // this.dataSourceCompanies.paginator = this.companiesPaginator;
+          this.loadCompanies();
         }
         break;
       case 'tutor-teams':
@@ -132,6 +151,11 @@ export class ConfigurationComponent implements OnInit, AfterViewInit {
       case 'semesters':
         if (!this.hlSemesters) {
           this.loadSemesters();
+        }
+        break;
+      case 'formation-centers':
+        if (!this.hlFormationCenters) {
+          this.loadFormationCenters();
         }
         break;
     }
@@ -184,7 +208,24 @@ export class ConfigurationComponent implements OnInit, AfterViewInit {
       },
       error: (err) => {
         this._snackBar.open(
-          '❌ Une erreur est survenue lors de la récupération des équipes pédagogiques',
+          '❌ Une erreur est survenue lors de la récupération des utilisateurs',
+          'Ok',
+          { duration: 2000 }
+        );
+      },
+    });
+  }
+
+  private loadCompanies() {
+    this.companyService.getAll().subscribe({
+      next: (companies) => {
+        this.dataSourceCompanies = new MatTableDataSource<Company>(companies);
+        this.dataSourceCompanies.paginator = this.companiesPaginator;
+        this.hlCompanies = true;
+      },
+      error: (err) => {
+        this._snackBar.open(
+          '❌ Une erreur est survenue lors de la récupération des entreprises',
           'Ok',
           { duration: 2000 }
         );
@@ -202,6 +243,27 @@ export class ConfigurationComponent implements OnInit, AfterViewInit {
       error: (err) => {
         this._snackBar.open(
           '❌ Une erreur est survenue lors de la récupération des semestres',
+          'Ok',
+          {
+            duration: 2000,
+          }
+        );
+      },
+    });
+  }
+
+  private loadFormationCenters() {
+    this.formationCenterService.getAll().subscribe({
+      next: (formation_center_list) => {
+        this.dataSourceFormationCenters =
+          new MatTableDataSource<FormationCenter>(formation_center_list);
+        this.hlFormationCenters = true;
+        this.dataSourceFormationCenters.paginator =
+          this.formationCenterPaginator;
+      },
+      error: (err) => {
+        this._snackBar.open(
+          '❌ Une erreur est survenue lors de la récupération des centres de formation',
           'Ok',
           {
             duration: 2000,
@@ -305,10 +367,27 @@ export class ConfigurationComponent implements OnInit, AfterViewInit {
       });
   }
 
-  public addCompany() {
-    this.dialog.open(AddCompanyPopupComponent, {
-      width: '600px',
-    });
+  public openFormationCenterPopUp() {
+    this.dialog
+      .open(AddFormationCenterPopupComponent, {
+        width: '600px',
+      })
+      .afterClosed()
+      .subscribe((shouldReload: boolean) => {
+        this.loadFormationCenters();
+      });
+  }
+
+  public openUpdateFormationCenterPopup(formation_center: FormationCenter) {
+    this.dialog
+      .open(UpdateFormationCenterPopupComponent, {
+        width: '600px',
+        data: formation_center,
+      })
+      .afterClosed()
+      .subscribe((shouldReload: boolean) => {
+        this.loadFormationCenters();
+      });
   }
   //#endregion Popups
 
@@ -402,6 +481,26 @@ export class ConfigurationComponent implements OnInit, AfterViewInit {
       });
     }
   }
+
+  public async deleteFormationCenter(id: any) {
+    const shouldDelete = await this.openConfirmDeletePopup(
+      'Souhaitez-vous vraiment supprimer ce centre de formation ?'
+    );
+    if (shouldDelete) {
+      this.formationCenterService.delete(id).subscribe({
+        next: (v) => {
+          this.loadFormationCenters();
+        },
+        error: (err) => {
+          this._snackBar.open(
+            '❌ Une erreur est survenue lors de la suppression du centre de formation',
+            'Ok',
+            { duration: 2000 }
+          );
+        },
+      });
+    }
+  }
 }
 
 export interface User {
@@ -420,47 +519,33 @@ const USERS_DATA: User[] = [
 ];
 
 export interface Company {
-  name: string;
-  companySiret: string;
-  nbEmployees: number;
-  codeCpne: string;
-  cideIdcc: string;
-  collectiveConvention: string;
-  codeNafApe: string;
-  activityArea: string;
-  phoneNumber: string;
-  mailAddress: string;
-  address: string;
-  trainingSiteName: string;
-  trainingSiteSiret: string;
-  trainingSiteAddress: string;
-  opcoName: string;
-  opcoSiret: string;
-  opcoAddress: string;
-  opcoPhoneNumber: string;
-  opcoMailAddress: string;
+  cmp_name: string;
+  cmp_siret: number;
+  cmp_employees: number;
+  cmp_cpne: string;
+  cmp_idcc: number;
+  cmp_convention: string;
+  cmp_naf_ape: string;
+  cmp_work_field: string;
+  cmp_phone: string;
+  cmp_email: string;
+  cmp_address: string;
+  cmp_internat: string;
 }
 
 const COMPANIES_DATA: Company[] = [
   {
-    name: 'Itanica',
-    companySiret: '399 826 981 00017',
-    nbEmployees: 250,
-    codeCpne: '123',
-    cideIdcc: '123',
-    collectiveConvention: '123',
-    codeNafApe: '123',
-    activityArea: '123',
-    phoneNumber: '123',
-    mailAddress: '123',
-    address: '123',
-    trainingSiteName: '123',
-    trainingSiteSiret: '123',
-    trainingSiteAddress: '123',
-    opcoName: '123',
-    opcoSiret: '123',
-    opcoAddress: '123',
-    opcoPhoneNumber: '123',
-    opcoMailAddress: '123',
+    cmp_name: 'Itanica',
+    cmp_siret: 3998269810017,
+    cmp_employees: 250,
+    cmp_cpne: '123',
+    cmp_idcc: 123,
+    cmp_convention: '123',
+    cmp_naf_ape: '123',
+    cmp_work_field: '123',
+    cmp_phone: '123',
+    cmp_email: '123',
+    cmp_address: '123',
+    cmp_internat: 'Oui',
   },
 ];

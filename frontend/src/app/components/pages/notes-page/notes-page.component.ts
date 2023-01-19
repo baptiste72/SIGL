@@ -1,58 +1,56 @@
-import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, OnInit } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FlatTreeControl } from '@angular/cdk/tree';
-import { MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
-import { AddNotePopupComponent } from '../../pop-up/add-note-popup/add-note-popup.component';
+import {
+  MatTreeFlatDataSource,
+  MatTreeFlattener,
+} from '@angular/material/tree';
+import { AddNotePopupComponent } from '../../pop-up/note/add-note-popup/add-note-popup.component';
+import { AuthService } from '@app/services';
+import { NoteService } from 'src/app/services/note/note.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { UpdateNotePopupComponent } from '../../pop-up/note/update-note-popup/update-note-popup.component';
+import { lastValueFrom, map, Observable, startWith } from 'rxjs';
+import { ConfirmDeleteComponent } from '@app/components/pop-up/confirm-delete/confirm-delete.component';
+import { User } from 'src/app/models/User';
+import { Role } from '@app/helpers';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { FormControl } from '@angular/forms';
+import { ApprenticeService } from '@app/services/apprentice/apprentice.service';
+import { Apprentice } from '@app/models/Apprentice';
 
 interface Note {
+  id: any;
   name: string;
   children?: Note[];
 }
-
-const TREE_DATA: Note[] = [
-  {
-    name: 'Semestre 5',
-    children: [{ name: '13 au 17 mai' }, { name: '27 au 15 juin' }, { name: '20 au 3 juillet' }],
-  },
-  {
-    name: 'Semestre 6',
-    children: [{ name: '13 au 17 mai' }, { name: '27 au 15 juin' }, { name: '20 au 3 juillet' }],
-  },
-  {
-    name: 'Semestre 7',
-    children: [{ name: '13 au 17 mai' }, { name: '27 au 15 juin' }, { name: '20 au 3 juillet' }],
-  },
-  {
-    name: 'Semestre 9',
-    children: [{ name: '13 au 17 mai' }, { name: '27 au 15 juin' }, { name: '20 au 3 juillet' }],
-  },
-  {
-    name: 'Semestre 9',
-    children: [{ name: '13 au 17 mai' }, { name: '27 au 15 juin' }, { name: '20 au 3 juillet' }],
-  },
-  {
-    name: 'Semestre 10',
-    children: [{ name: '13 au 17 mai' }, { name: '27 au 15 juin' }, { name: '20 au 3 juillet' }],
-  }
-];
 
 /** Flat node with expandable and level information */
 interface ExampleFlatNode {
   expandable: boolean;
   name: string;
   level: number;
+  id: string;
 }
 
 @Component({
   templateUrl: './notes-page.component.html',
   styleUrls: ['./notes-page.component.scss'],
 })
-export class NotesPageComponent {
+export class NotesPageComponent implements OnInit {
+  public isAvailable = false;
+  private notes: any;
+  public note: any;
+  public user: User;
+  readonly roleEnum = Role;
+  private userId;
+  public treeData;
   private _transformer = (node: Note, level: number) => {
     return {
       expandable: !!node.children && node.children.length > 0,
       name: node.name,
       level: level,
+      id: node.id,
     };
   };
 
@@ -71,15 +69,195 @@ export class NotesPageComponent {
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
   hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
-  constructor(public dialog: MatDialog) {
-    this.dataSource.data = TREE_DATA;
+  hasNoContent = (_: number, node: ExampleFlatNode) => node.level === 1;
+
+  myControl = new FormControl<string | Apprentice>('');
+  filteredOptions: Observable<Apprentice[]> | undefined;
+  public apprentices: Apprentice[] = [];
+
+  constructor(
+    private authService: AuthService,
+    private confirmDeleteDialogRef: MatDialogRef<ConfirmDeleteComponent>,
+    public dialog: MatDialog,
+    private noteService: NoteService,
+    private _snackBar: MatSnackBar,
+    private apprenticeService: ApprenticeService
+  ) {
+    Object.keys(this.dataSource.data).forEach((x) => {
+      this.setParent(this.dataSource.data[x], null);
+    });
+
+    this.userId = this.authService.userValue.id;
+    this.user = this.authService.userValue;
+  }
+  ngOnInit(): void {
+    // Récupérer les notes en arborescence pour l'utilisateur
+    this.treeNotes(this.userId.toString());
+    this.note = {
+      title: 'Affichage de la Note Périodique',
+      text: 'Sélectionner une note',
+      id: '',
+      email: '',
+    };
+    console.log(history.state);
+    if (history.state['id'] != undefined) {
+      this.getNote(history.state['id']);
+    }
+    this.getApprentice();
   }
 
-  openDialog() {
-    this.dialog.open(AddNotePopupComponent,
-      {
-        width: '600px'
-      }
+  private getApprentice() {
+    this.apprenticeService.getAll().subscribe({
+      next: (apprenticesData) => {
+        this.apprentices = apprenticesData;
+        this.filteredOptions = this.myControl.valueChanges.pipe(
+          startWith(''),
+          map((value) => {
+            const name =
+              typeof value === 'string'
+                ? value
+                : value?.first_name + '' + value?.last_name;
+            return name
+              ? this._filter(name as string)
+              : this.apprentices.slice();
+          })
+        );
+      },
+      error: (err) => {
+        this._snackBar.open(
+          '❌ Une erreur est survenue lors de la récupération des apprentis',
+          'Ok',
+          {
+            duration: 2000,
+          }
+        );
+      },
+    });
+  }
+
+  private _filter(name: string): Apprentice[] {
+    const filterValue = name.toLowerCase();
+
+    return this.apprentices.filter(
+      (option) =>
+        option.first_name.toLowerCase().includes(filterValue) ||
+        option.last_name.toLowerCase().includes(filterValue)
     );
+  }
+
+  displayFn(apprentice: Apprentice): string {
+    return apprentice && apprentice.first_name
+      ? apprentice.first_name + ' ' + apprentice.last_name
+      : '';
+  }
+
+  // Cette fonction parcourt l'arborescence des notes et définit les parents pour chaque noeud enfant
+  setParent(data, parent) {
+    data.parent = parent;
+    if (data.children) {
+      data.children.forEach((x) => {
+        this.setParent(x, data);
+      });
+    }
+  }
+
+  public getNote(data: any) {
+    this.isAvailable = true;
+    console.log(data);
+    this.noteService.get(data).subscribe({
+      next: (v) => {
+        this.note = v;
+        console.log(this.note);
+      },
+      error: (err) => {
+        this._snackBar.open('❌ Une erreur est survenue', 'Ok', {
+          duration: 2000,
+        });
+      },
+    });
+  }
+
+  public getNotes() {
+    this.noteService.getAll().subscribe((response) => {
+      this.notes = response;
+    });
+  }
+
+  public treeNotes(userId: string) {
+    this.noteService.treeNotes(userId).subscribe((response) => {
+      this.treeData = response;
+      this.dataSource.data = this.treeData;
+      if (response.length === 0) {
+        this.isAvailable = false;
+      }
+    });
+  }
+
+  openDialog(note) {
+    this.dialog
+      .open(AddNotePopupComponent, {
+        width: '1200px',
+        data: {
+          note: note,
+          userId: this.userId,
+        },
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        console.log(result);
+        if (result.event == 'ajout') {
+          this.getNote(result.data.id);
+        }
+        this.treeNotes(this.userId.toString());
+      });
+  }
+
+  public async openConfirmDeletePopup(content: string): Promise<boolean> {
+    this.confirmDeleteDialogRef = this.dialog.open(ConfirmDeleteComponent, {
+      width: '600px',
+    });
+
+    this.confirmDeleteDialogRef.componentInstance.content = content;
+
+    return await lastValueFrom(this.confirmDeleteDialogRef.afterClosed());
+  }
+
+  public async deleteNoteById(id: any) {
+    const shouldDelete = await this.openConfirmDeletePopup(
+      'Souhaitez-vous vraiment supprimer cet note ?'
+    );
+    if (shouldDelete) {
+      this.noteService.delete(id).subscribe({
+        next: (v) => {
+          this.isAvailable = false;
+          this._snackBar.open('✔ La note a été supprimée', 'Ok', {
+            duration: 2000,
+          });
+        },
+        error: (err) => {
+          this._snackBar.open(
+            "❌ Une erreur est survenue lors de la suppression de l'échéance",
+            'Ok',
+            { duration: 2000 }
+          );
+        },
+      });
+    }
+  }
+
+  openModifyDialog() {
+    this.dialog
+      .open(UpdateNotePopupComponent, {
+        width: '1200px',
+        data: {
+          note: this.note,
+          userId: this.userId,
+        },
+      })
+      .afterClosed()
+      .subscribe((shouldReload: boolean) => {
+        this.treeNotes(this.userId.toString());
+        this.getNote(this.note.id);
+      });
   }
 }

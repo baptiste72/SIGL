@@ -23,6 +23,7 @@ h3 {
   height: 80%;
   border-radius: 20px 20px 0px 0px;
   justify-content: space-evenly;
+  box-shadow: $box-shadow-tertiary;
   @include respond-to("small") {
     width: 50%;
   }

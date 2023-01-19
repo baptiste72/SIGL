@@ -4,6 +4,8 @@ from base.models import (
     Apprentice,
     Company,
     CompanyUser,
+    ContactCompany,
+    Opco,
     Deadline,
     FormationCenter,
     Interview,
@@ -13,6 +15,8 @@ from base.models import (
     TutorTeam,
     User,
     YearGroup,
+    Note,
+    Document,
 )
 
 
@@ -32,19 +36,73 @@ class MentorSerializer(serializers.ModelSerializer):
             "password",
             "email",
             "role",
-            "company",
+            "mt_cmp_siret",
+            "mt_phone",         
+            "mt_job_title",   
+            "mt_last_diploma",
+            "mt_former_eseo",
         )
+
 
 
 class CompanySerializer(serializers.ModelSerializer):
     class Meta:
         model = Company
         fields = (
-            "id",
-            "worded",
-            "address",
+            "cmp_siret", 
+            "cmp_address",
+            "cmp_name",
+            "cmp_employees",
+            "cmp_cpne",
+            "cmp_idcc",
+            "cmp_convention",
+            "cmp_naf_ape",
+            "cmp_work_field",
+            "cmp_phone", 
+            "cmp_email", 
+            "cmp_internat", 
         )
 
+class OpcoSerializer(serializers.ModelSerializer):
+    
+    #mentor = MentorSerializer(many=True)
+    class Meta:
+        model = Opco
+        fields = (
+            "opco_siret",
+            "opco_cmp_siret",
+            "opco_name",
+            "opco_address",
+            "opco_phone",
+            "opco_email",
+        )
+
+class ContactCompanySerializer(serializers.ModelSerializer):
+    
+    #mentor = MentorSerializer(many=True)
+    class Meta:
+        model = ContactCompany
+        fields = (
+            "ct_cmp_siret",
+            "ct_last_name",
+            "ct_first_name",
+            "ct_phone",
+            "ct_email",
+            "ct_job_title",
+            "ct_former_eseo",
+            "fi_last_name",
+            "fi_first_name",
+            "fi_phone",
+            "fi_email",
+            "fi_job_title",
+            "fi_former_eseo",
+            "sa_last_name",
+            "sa_first_name",
+            "sa_phone",
+            "sa_email",
+            "sa_job_title",
+            "sa_former_eseo",
+        )       
 
 class TutorSerializer(serializers.ModelSerializer):
     class Meta:
@@ -67,12 +125,14 @@ class FormationCenterSerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "worded",
+            "city",
+            "postal_code",
             "address",
         )
 
 
 class YearGroupSerializer(serializers.ModelSerializer):
-    beginDate = fields.DateTimeField(input_formats=["%Y-%m-%dT%H:%M:%S.%fZ"])
+    beginDate = fields.DateTimeField()
 
     class Meta:
         model = YearGroup
@@ -116,11 +176,11 @@ class InterviewSerializer(serializers.ModelSerializer):
 
 
 class DeadlineSerializer(serializers.ModelSerializer):
-    date = fields.DateField(input_formats=["%Y-%m-%dT%H:%M:%S.%fZ"])
+    date = fields.DateTimeField(input_formats=["%Y-%m-%dT%H:%M:%S.%fZ"])
 
     class Meta:
         model = Deadline
-        fields = ("name", "date", "description")
+        fields = ("id","name", "date", "description")
 
 
 class SemesterSerializer(serializers.ModelSerializer):
@@ -130,6 +190,29 @@ class SemesterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Semester
         fields = ("id", "name", "beginDate", "endDate", "yearGroup")
+
+
+class SemesterSerializerDelete(serializers.ModelSerializer):
+    class Meta:
+        model = Semester
+        fields = ("id",)
+
+
+class NoteSerializer(serializers.ModelSerializer):
+    beginDate = fields.DateTimeField()
+    endDate = fields.DateTimeField()
+    
+    class Meta:
+        model = Note
+        fields = '__all__'
+     
+class TreeNoteSerializer(serializers.ModelSerializer):
+    beginDate = fields.DateTimeField()
+    endDate = fields.DateTimeField()
+
+    class Meta:
+        model = Note
+        fields = '__all__'
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -154,6 +237,9 @@ class CompanyUserSerializer(serializers.ModelSerializer):
             "email",
             "password",
             "role",
+            "company_siret",
+            "opco_siret",
+            "contactCompany_id",
         )
 
 
@@ -181,3 +267,14 @@ class ChangePasswordSerializer(serializers.Serializer):
     def validate_new_password(self, value):
         validate_password(value)
         return value
+    
+class DocumentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Document
+        fields = (
+            "id", 
+            "name", 
+            "file_name", 
+            "user", 
+            "yearGroup",
+        )    

@@ -24,6 +24,10 @@ RUN apk add --no-cache curl libpq-dev \
  && pip install --no-cache-dir -r requirements.txt \
  && chown -R python:python .
 
+# Check server is running
+HEALTHCHECK --interval=1m --timeout=10s \
+ CMD curl --fail https://projet-sigl.fr/auth/ || exit 1
+
 # Change user to python
 USER python
 

@@ -10,7 +10,7 @@ import { DocumentsComponent } from './components/documents/documents.component';
 import { EvaluationsComponent } from './components/evaluations/evaluations.component';
 import { EventsComponent } from './components/events/events.component';
 import { DocumentsPageComponent } from './components/pages/documents-page/documents-page.component';
-import { AddNotePopupComponent } from './components/pop-up/add-note-popup/add-note-popup.component';
+import { AddNotePopupComponent } from './components/pop-up/note/add-note-popup/add-note-popup.component';
 import { ConfigurationComponent } from './components/pages/configuration/configuration.component';
 import { AddUserPopupComponent } from './components/pop-up/user/add-user-popup/add-user-popup.component';
 import { AddYearGroupPopupComponent } from './components/pop-up/year-group/add-year-group-popup/add-year-group-popup.component';
@@ -19,12 +19,8 @@ import { NotesPageComponent } from './components/pages/notes-page/notes-page.com
 import { UpdateYearGroupPopupComponent } from './components/pop-up/year-group/update-year-group-popup/update-year-group-popup/update-year-group-popup.component';
 import { UpdateSemesterPopupComponent } from './components/pop-up/semester/update-semester-popup/update-semester-popup/update-semester-popup.component';
 import { EventsPageComponent } from './components/pages/events-page/events-page.component';
-import { AddEventPopupComponent } from './components/pop-up/add-event-popup/add-event-popup.component';
-import { AddDeadlinePopupComponent } from './components/pop-up/add-deadline-popup/add-deadline-popup.component';
-import { AddCompanyPopupComponent } from './components/pop-up/company/add-company-popup/add-company-popup.component';
-import { AddSemesterPopupComponent } from './components/pop-up/semester/add-semester-popup/add-semester-popup.component';
+import { AddCompanyFormComponent } from './components/forms/add-company-form/add-company-form.component';
 
-// MODULES
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -45,11 +41,18 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
+import { AddDeadlinePopupComponent } from './components/pop-up/deadline/add-deadline-popup/add-deadline-popup.component';
+import { MatRadioModule } from '@angular/material/radio';
 import {
   NgxMatDatetimePickerModule,
   NgxMatTimepickerModule,
   NgxMatNativeDateModule,
 } from '@angular-material-components/datetime-picker';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+
+import { UpdateNotePopupComponent } from './components/pop-up/note/update-note-popup/update-note-popup.component';
+import { AddSemesterPopupComponent } from './components/pop-up/semester/add-semester-popup/add-semester-popup.component';
+import { UpdateDeadlinePopupComponent } from './components/pop-up/deadline/update-deadline-popup/update-deadline-popup.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { UpdateUserPopupComponent } from './components/pop-up/user/update-user-popup/update-user-popup/update-user-popup.component';
 import { ErrorInterceptor, JwtInterceptor } from './helpers';
@@ -57,6 +60,18 @@ import { ConfirmDeleteComponent } from './components/pop-up/confirm-delete/confi
 import { UpdateTeamPopupComponent } from './components/pop-up/tutor-team/update-team-popup/update-team-popup.component';
 import { ChangePasswordComponent } from './components/pages/change-password/change-password.component';
 import { PageNotFoundComponent } from './components/pages/page-not-found/page-not-found.component';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+registerLocaleData(localeFr);
+import { AddFormationCenterPopupComponent } from './components/pop-up/formation-center/add-formation-center-popup/add-formation-center-popup.component';
+import { UpdateFormationCenterPopupComponent } from './components/pop-up/formation-center/update-formation-center-popup/update-formation-center-popup.component';
+import { AddInterviewPopupComponent } from './components/pop-up/interview/add-interview-popup/add-interview-popup.component';
+import { AddDocumentPopupComponent } from './components/pop-up/document/add-document-popup/add-document-popup.component';
+import { MatStepperModule, MatStepper } from '@angular/material/stepper';
+import { DashboardCompanyComponent } from './components/pages/dashboard-company/dashboard-company.component';
+import { UpdateInterviewPopupComponent } from './components/pop-up/interview/update-interview-popup/update-interview-popup.component';
 
 @NgModule({
   declarations: [
@@ -74,24 +89,36 @@ import { PageNotFoundComponent } from './components/pages/page-not-found/page-no
     DocumentsPageComponent,
     NotesPageComponent,
     AddNotePopupComponent,
+    UpdateNotePopupComponent,
     ConfigurationComponent,
     AddUserPopupComponent,
     AddYearGroupPopupComponent,
     AddTeamPopupComponent,
-    EventsPageComponent,
-    AddEventPopupComponent,
+    AddInterviewPopupComponent,
     AddDeadlinePopupComponent,
-    AddCompanyPopupComponent,
+    AddCompanyFormComponent,
     AddSemesterPopupComponent,
     UpdateYearGroupPopupComponent,
     UpdateSemesterPopupComponent,
+    UpdateInterviewPopupComponent,
+    UpdateDeadlinePopupComponent,
+    AddDocumentPopupComponent,
     UpdateUserPopupComponent,
     ConfirmDeleteComponent,
     UpdateTeamPopupComponent,
     ChangePasswordComponent,
     PageNotFoundComponent,
+    AddFormationCenterPopupComponent,
+    UpdateFormationCenterPopupComponent,
+    DashboardCompanyComponent,
+    EventsPageComponent,
   ],
   imports: [
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
+    MatRadioModule,
     BrowserModule,
     AppRoutingModule,
     MatTableModule,
@@ -115,7 +142,10 @@ import { PageNotFoundComponent } from './components/pages/page-not-found/page-no
     NgxMatTimepickerModule,
     NgxMatNativeDateModule,
     MatTabsModule,
+    MatStepperModule,
+    MatCardModule,
     ReactiveFormsModule,
+    MatAutocompleteModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

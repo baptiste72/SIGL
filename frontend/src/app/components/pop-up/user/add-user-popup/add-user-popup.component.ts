@@ -19,7 +19,7 @@ export class AddUserPopupComponent implements OnInit {
   selectedRole = '';
   fromDialog!: string;
   register: any;
-  companys: Company[] = [];
+  public companies: Company[] = [];
   formationCenters: FormationCenter[] = [];
   yearGroups: YearGroup[] = [];
   readonly roleEnum = Role;
@@ -72,8 +72,8 @@ export class AddUserPopupComponent implements OnInit {
 
   private getCompany() {
     this.companyService.getAll().subscribe({
-      next: (companysData) => {
-        this.companys = companysData;
+      next: (companies) => {
+        this.companies = companies;
       },
       error: (err) => {
         this._snackBar.open(

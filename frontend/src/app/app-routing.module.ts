@@ -12,6 +12,7 @@ import { NotesPageComponent } from './components/pages/notes-page/notes-page.com
 import { PersonalInformationsComponent } from './components/pages/personal-informations/personal-informations.component';
 import { AuthGuard, Role } from './helpers';
 import { PageNotFoundComponent } from './components/pages/page-not-found/page-not-found.component';
+import { DashboardCompanyComponent } from './components/pages/dashboard-company/dashboard-company.component';
 
 const routes: Routes = [
   { path: '', component: ConnectionComponent },
@@ -29,6 +30,12 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'dashboard-company',
+    component: DashboardCompanyComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Role.COMPANY] },
+  },
+  {
     path: 'profile',
     component: PersonalInformationsComponent,
     canActivate: [AuthGuard],
@@ -42,9 +49,8 @@ const routes: Routes = [
   {
     path: 'configuration',
     component: ConfigurationComponent,
-    // FIXME: Peut être provisoirement retiré pour pouvoir créer un compte en période de dév
     canActivate: [AuthGuard],
-    //data: { roles: [Role.ADMIN, Role.COORDINATOR] },
+    // data: { roles: [Role.ADMIN, Role.COORDINATOR] },
   },
   { path: 'events', component: EventsPageComponent, canActivate: [AuthGuard] },
   // Redirection vers la page d'erreur 404 - cette route doit être la dernière du tableau

@@ -3,17 +3,44 @@ from . import views
 
 urlpatterns = [
     # apprentices
-    path("apprentices", views.get_apprentices, name="getApprentices"),
+    path("apprentices", views.ApprenticeList.as_view()),
+    path("apprentices/<int:pk>", views.ApprenticeDetail.as_view()),
     # companies
-    path("companies", views.get_company, name="getCompanies"),
-    # deadlines
-    path("deadlines", views.get_deadlines, name="getDeadlines"),
-    path("deadlines/add", views.add_deadline, name="addDeadline"),
+    path("companies", views.CompanyList.as_view()),
+    path("companies/<int:pk>", views.CompanyDetail.as_view()),
+    # opco
+    path("opco", views.OpcoList.as_view()),
+    path("opco/<int:pk>", views.OpcoDetail.as_view()),
+    # contact-company
+    path("contact-company", views.ContactCompanyList.as_view()),
+    path("contact-company/<int:pk>", views.ContactCompanyDetail.as_view()),
+    # company-user
+    path("company-user", views.CompanyUserList.as_view()),
+    path("company-user/<int:pk>", views.CompanyUserDetail.as_view()),
     # formation-centers
-    path("formation-centers", views.get_formation_centers, name="getformationCenters"),
+    path(
+        "formation-centers/<int:pk>",
+        views.FormationCenterDetail.as_view(),
+        name="formationCenters",
+    ),
+    path(
+        "formation-centers",
+        views.FormationCenterList.as_view(),
+        name="formationCenters",
+    ),
+    # notes
+    path("notes", views.NotesList.as_view()),
+    path("notes/<int:pk>", views.NotesDetail.as_view()),
+    path("notes/users/<int:pk>/", views.ApiNoteByUserId.as_view()),
+    path("notes/tree-note/<int:pk>/", views.TreeNote.as_view()),
+    # deadlines
+    path("deadlines", views.DeadlinesList.as_view()),
+    path("deadlines/<int:pk>/", views.DeadlinesDetail.as_view()),
+    path("deadlines/users/<int:pk>/", views.DeadlinesByUserId.as_view()),
     # interviews
-    path("interviews", views.get_interviews, name="getInterviews"),
-    path("interviews/add", views.add_interview, name="addInterview"),
+    path("interviews", views.InterviewList.as_view()),
+    path("interviews/<int:pk>/", views.InterviewDetail.as_view()),
+    path("interviews/users/<int:pk>/", views.InterviewsByUserId.as_view()),
     # mentors
     path("mentors", views.get_mentors, name="getMentors"),
     path("mentors/add", views.add_mentor, name="addMentor"),
@@ -22,6 +49,7 @@ urlpatterns = [
     path("semesters/add", views.add_semester, name="addSemester"),
     path("semesters/delete/<int:pk>", views.delete_semester, name="deleteSemesterById"),
     path("semesters/update", views.update_semester, name="updateSemester"),
+    path("semesters/year-groups/<int:pk>", views.SemesterByYearGroup.as_view()),
     # tutor-teams
     path("tutor-teams", views.TutorTeamList.as_view()),
     path("tutor-teams/<int:pk>", views.TutorTeamDetail.as_view()),
@@ -44,4 +72,8 @@ urlpatterns = [
         views.delete_year_group,
         name="deleteYearGroupById",
     ),
+    # documents
+    path("documents", views.DocumentList.as_view()),
+    path("documents/<int:pk>", views.DocumentDetail.as_view()),
+    path("documents/cleanup/<str:file_name>", views.cleanup),
 ]

@@ -5,11 +5,18 @@
   box-shadow: $box-shadow-secondary;
   padding: 0px;
   width: 100%;
-  @include respond-to('medium') {
-    width: 70%;
+  @include respond-to("medium") {
+    width: 95%;
   }
 }
+table {
+  max-width: 1200;
+}
 
+td.mat-column-star {
+  width: 300px;
+  margin-right: 8px;
+}
 .events-page-card-header {
   padding-top: 12px;
   box-shadow: $box-shadow-secondary;
@@ -22,4 +29,23 @@
   display: flex;
 }
 
-
+.events-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: $white;
+  width: 90%;
+  height: 80%;
+  border-radius: 20px 20px 0px 0px;
+  justify-content: space-evenly;
+  @include respond-to("small") {
+    width: 50%;
+  }
+  @include respond-to("medium") {
+    width: 40%;
+  }
+}
+.custom-calendar {
+  width: 400px;
+  height: 400px;
+}
