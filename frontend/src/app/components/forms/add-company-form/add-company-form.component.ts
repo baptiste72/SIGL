@@ -31,7 +31,7 @@ export class AddCompanyFormComponent {
   //Regex validator
   private phoneValidator = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/;
   private stringValidator =
-    /^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/;
+    /^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{1,}$/;
   private numberOnlyValidator = /^\d+$/;
 
   constructor(
@@ -41,7 +41,7 @@ export class AddCompanyFormComponent {
     private opcoService: OpcoService,
     private contactCompanyService: ContactCompanyService,
     private authService: AuthService,
-    private companyUserService: CompanyUserService,
+    private companyUserService: CompanyUserService
   ) {
     this.enterpriseForm = this._formBuilder.group({
       cmp_name: [

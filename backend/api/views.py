@@ -10,6 +10,7 @@ from authentication.models import User
 from base.utilities import Role
 from base.models import (
     Apprentice,
+    ApprenticeInfo,
     Company,
     CompanyUser,
     Deadline,
@@ -27,6 +28,7 @@ from base.models import (
 )
 
 from api.serializers import (
+    ApprenticeInfoSerializer,
     ApprenticeSerializer,
     CompanySerializer,
     ContactCompanySerializer,
@@ -357,6 +359,51 @@ class UserList(APIView):
 
         return Response(serializer.data)
 
+class ApprenticeInfoList(generics.ListCreateAPIView):
+    def get(self, request):
+        apprentice_list = ApprenticeInfo.objects.all()
+        serializer = ApprenticeInfoSerializer(apprentice_list, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = ApprenticeInfoSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class ApprenticeInfoDetail(APIView):
+    def get_object(self, pk):
+        try:
+            return ApprenticeInfo.objects.get(pk=pk)
+        except ApprenticeInfo.DoesNotExist as exc:
+            raise Http404 from exc
+
+    def get(self, request, pk):
+        apprentice = self.get_object(pk)
+        serializer = ApprenticeInfoSerializer(apprentice)
+        return Response(serializer.data)
+
+    def put(self, request, pk):
+        apprentice = self.get_object(pk)
+        serializer = ApprenticeInfoSerializer(apprentice, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        apprentice = self.get_object(pk)
+        apprentice.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class ApprenticeInfoByCompany(APIView):
+    def get(self, compapny_id):
+        apprentice_list = ApprenticeInfo.objects.filter(app_comp_id=compapny_id)
+        serializers = ApprenticeInfoSerializer(apprentice_list, many=True)
+        return Response(serializers.data)
+
 
 class CompanyDetail(APIView):
     def get_object(self, pk):
@@ -416,13 +463,13 @@ class OpcoDetail(APIView):
             raise Http404 from exc
 
     def get(self, request, pk):
-        tutor_team = self.get_object(pk)
-        serializer = OpcoSerializer(tutor_team)
+        opco = self.get_object(pk)
+        serializer = OpcoSerializer(opco)
         return Response(serializer.data)
 
     def put(self, request, pk):
-        tutor_team = self.get_object(pk)
-        serializer = OpcoSerializer(tutor_team, data=request.data)
+        opco = self.get_object(pk)
+        serializer = OpcoSerializer(opco, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -440,8 +487,29 @@ class OpcoList(generics.ListCreateAPIView):
 
 
 class ContactCompanyDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = ContactCompany.objects.all()
-    serializer_class = ContactCompanySerializer
+    def get_object(self, pk):
+        try:
+            return ContactCompany.objects.get(ct_cmp_siret=pk)
+        except ContactCompany.DoesNotExist as exc:
+            raise Http404 from exc
+
+    def get(self, request, pk):
+        contact_company = self.get_object(pk)
+        serializer = ContactCompanySerializer(contact_company)
+        return Response(serializer.data)
+
+    def put(self, request, pk):
+        contact_company = self.get_object(pk)
+        serializer = ContactCompanySerializer(contact_company, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        contact_company = self.get_object(pk)
+        contact_company.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class ContactCompanyList(generics.ListCreateAPIView):
