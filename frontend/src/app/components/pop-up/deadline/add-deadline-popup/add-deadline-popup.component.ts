@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DeadlineService } from 'src/app/services/deadline/deadline.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from '@app/services/auth/auth.service';
+import { YearGroupService } from '@app/services/year-group/year-group.service';
 
 interface deadlines {
   name: string;
@@ -15,6 +16,7 @@ interface deadlines {
 })
 export class AddDeadlinePopupComponent implements OnInit {
   js_deadline: any;
+  yearGroups: any;
   type_deadlines: deadlines[] = [
     { name: 'Rapport de synthèse S5' },
     { name: 'Rapport de synthèse S6' },
@@ -29,18 +31,24 @@ export class AddDeadlinePopupComponent implements OnInit {
     public dialogRef: MatDialogRef<AddDeadlinePopupComponent>,
     private deadlineService: DeadlineService,
     private _snackBar: MatSnackBar,
+    private yearGroupService: YearGroupService,
     @Optional() @Inject(MAT_DIALOG_DATA) public mydata: any
   ) {}
 
   fromDialog!: string;
 
   ngOnInit(): void {
+    this.yearGroupService.getAll().subscribe((yearGroups) => {
+      this.yearGroups = yearGroups;
+    });
+    console.log(this.yearGroups);
     this.fromDialog = '';
     this.js_deadline = {
       userId: this.getUserId(),
       name: '',
-      date: '',
+      date: this.mydata.date,
       description: '',
+      yearGroup: '',
     };
   }
 
@@ -52,7 +60,7 @@ export class AddDeadlinePopupComponent implements OnInit {
     this.deadlineService.add(data).subscribe({
       next: (v) => {
         this._snackBar.open('✔ Evénement créé', 'Ok', { duration: 2000 });
-        this.closeDialog();
+        this.dialogRef.close({ event: 'add', data: this.js_deadline });
       },
       error: (err) => {
         this._snackBar.open('❌ Une erreur est survenue', 'Ok', {

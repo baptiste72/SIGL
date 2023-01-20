@@ -1,10 +1,10 @@
 import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { InterviewService } from '@app/services/interview/interview.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Semester } from '@app/models/Semester';
 import { SemesterService } from '@app/services/semester/semester.service';
 import { ApprenticeService } from '@app/services/apprentice/apprentice.service';
+import { InterviewService } from '@app/services/interview/interview.service';
 
 interface Attendees {
   name: string;

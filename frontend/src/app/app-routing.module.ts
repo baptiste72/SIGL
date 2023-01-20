@@ -45,7 +45,11 @@ const routes: Routes = [
     component: DocumentsPageComponent,
     canActivate: [AuthGuard],
   },
-  { path: 'notes', component: NotesPageComponent, canActivate: [AuthGuard] },
+  {
+    path: 'notes',
+    component: NotesPageComponent,
+    canActivate: [AuthGuard],
+  },
   {
     path: 'configuration',
     component: ConfigurationComponent,

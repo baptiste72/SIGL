@@ -1,4 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AddInterviewPopupComponent } from '../../pop-up/interview/add-interview-popup/add-interview-popup.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -11,11 +17,12 @@ import { Interview } from '@app/models/Interview';
 import { UpdateInterviewPopupComponent } from '../../pop-up/interview/update-interview-popup/update-interview-popup.component';
 import { UpdateDeadlinePopupComponent } from '@app/components/pop-up/deadline/update-deadline-popup/update-deadline-popup.component';
 import { AuthService } from '@app/services/auth/auth.service';
-import { lastValueFrom } from 'rxjs';
+import { lastValueFrom, Subject } from 'rxjs';
 import { startOfDay } from 'date-fns';
 import { CalendarEvent, DAYS_OF_WEEK, CalendarView } from 'angular-calendar';
 import { ConfirmDeleteComponent } from '@app/components/pop-up/confirm-delete/confirm-delete.component';
 import { InterviewService } from '@app/services/interview/interview.service';
+import { YearGroupService } from '@app/services/year-group/year-group.service';
 
 const colors: any = {
   red: {
@@ -33,15 +40,18 @@ const colors: any = {
 };
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   templateUrl: './events-page.component.html',
   styleUrls: ['./events-page.component.scss'],
 })
 export class EventsPageComponent implements OnInit {
+  refresh = new Subject<void>();
   interviews: any;
   deadlines: any;
   dialogRef: any;
   private userId: number;
-
+  private role: any;
   view: CalendarView = CalendarView.Month;
   locale: string = 'fr';
 
@@ -67,6 +77,7 @@ export class EventsPageComponent implements OnInit {
     'Description',
     'update',
   ];
+  yearGroups: any;
   dataSourceDeadlines: any;
   dataSourceInterviews: any;
   selectedInterviewDates: { date: Date; id: number }[] = [];
@@ -87,16 +98,21 @@ export class EventsPageComponent implements OnInit {
     private interviewService: InterviewService,
     private deadlineService: DeadlineService,
     private _snackBar: MatSnackBar,
-    private confirmDeleteDialogRef: MatDialogRef<ConfirmDeleteComponent>
+    private confirmDeleteDialogRef: MatDialogRef<ConfirmDeleteComponent>,
+    private yearGroupService: YearGroupService
   ) {
     this.userId = this.authService.userValue.id;
+    this.role = this.authService.userValue.role;
   }
 
   ngOnInit(): void {
-    console.log('page events');
     //this.getInterviewDates(this.userId);
     //this.getInterviews(this.userId);
-    //this.getDeadlines(this.userId);
+    this.yearGroupService.getAll().subscribe((yearGroups) => {
+      this.yearGroups = yearGroups;
+    });
+    this.getDeadlines(this.userId);
+    this.refresh.next();
   }
 
   public async openConfirmDeletePopup(content: string): Promise<boolean> {
@@ -145,36 +161,155 @@ export class EventsPageComponent implements OnInit {
     });
   }
 
-  private getDeadlines(userId: number) {
-    this.deadlineService.getAllByUserId(userId).subscribe({
-      next: (v) => {
-        this.deadlines = v;
-        this.dataSourceDeadlines = new MatTableDataSource<Deadline>(
-          this.deadlines
-        );
-        this.dataSourceDeadlines.paginator = this.deadlinesPaginator;
-      },
-      error: (err) => {
-        this._snackBar.open(
-          '❌ Une erreur est survenue lors de la récupération des Deadlines',
-          'Ok',
-          { duration: 2000 }
-        );
-      },
+  getYearGroupName(id: number) {
+    let yearGroupName = '';
+    this.yearGroups.forEach((yearGroup) => {
+      if (yearGroup.id === id) {
+        yearGroupName = yearGroup.worded;
+      }
     });
+    return yearGroupName;
   }
 
-  addEvent() {
+  private calendarTreatementDeadlines(deadlines) {
+    for (let deadline of deadlines) {
+      let date = new Date(deadline.date);
+      let description = deadline.description;
+      let promotion = this.getYearGroupName(deadline.yearGroup);
+      let event = {
+        start: startOfDay(date),
+        title:
+          `${deadline.name} - ${promotion}` +
+          (description ? ` : ${description}` : ''),
+        color: colors.red,
+        meta: {
+          deadline,
+        },
+      };
+      this.events.push(event);
+    }
+  }
+
+  private pushDeadline(deadline) {
+    let date = new Date(deadline.date);
+    let description = deadline.description;
+    let promotion = deadline.yearGroup;
+    let event = {
+      start: startOfDay(date),
+      title: `${deadline.name} ${promotion} : ${description}`,
+      color: colors.red,
+      meta: {
+        deadline,
+      },
+    };
+    this.events.push(event);
+  }
+
+  private getDeadlines(userId: number) {
+    if (this.role === 'APPRENTICE') {
+      this.deadlineService.getAllByUserId(userId).subscribe({
+        next: (v) => {
+          this.deadlines = v;
+          this.calendarTreatementDeadlines(this.deadlines);
+          this.refresh.next();
+        },
+        error: (err) => {
+          this._snackBar.open(
+            '❌ Une erreur est survenue lors de la récupération des Deadlines',
+            'Ok',
+            { duration: 2000 }
+          );
+        },
+      });
+    } else if (this.role === 'COORDINATOR' || this.role === 'ADMIN') {
+      this.deadlineService.getAll().subscribe({
+        next: (v) => {
+          this.deadlines = v;
+          this.calendarTreatementDeadlines(this.deadlines);
+          this.refresh.next();
+        },
+        error: (err) => {
+          this._snackBar.open(
+            '❌ Une erreur est survenue lors de la récupération des Deadlines',
+            'Ok',
+            { duration: 2000 }
+          );
+        },
+      });
+    }
+  }
+
+  private refreshDeadlines(userId: number) {
+    if (this.role === 'APPRENTICE') {
+      this.deadlineService.getAllByUserId(userId).subscribe({
+        next: (v) => {
+          this.deadlines = v;
+          this.events = [
+            {
+              start: startOfDay(new Date()),
+              title: "Aujourd'hui",
+              color: colors.yellow,
+            },
+          ];
+          this.calendarTreatementDeadlines(this.deadlines);
+          this.refresh.next();
+        },
+        error: (err) => {
+          this._snackBar.open(
+            '❌ Une erreur est survenue lors de la récupération des Deadlines',
+            'Ok',
+            { duration: 2000 }
+          );
+        },
+      });
+    } else if (this.role === 'COORDINATOR' || this.role === 'ADMIN') {
+      this.deadlineService.getAll().subscribe({
+        next: (v) => {
+          this.deadlines = v;
+          this.events = [
+            {
+              start: startOfDay(new Date()),
+              title: "Aujourd'hui",
+              color: colors.yellow,
+            },
+          ];
+          this.calendarTreatementDeadlines(this.deadlines);
+          this.refresh.next();
+        },
+        error: (err) => {
+          this._snackBar.open(
+            '❌ Une erreur est survenue lors de la récupération des Deadlines',
+            'Ok',
+            { duration: 2000 }
+          );
+        },
+      });
+    }
+  }
+
+  openCreateEventDialog(event: any) {
+    if (this.role === 'APPRENTICE') {
+      this.addEvent(event);
+    } else if (this.role === 'COORDINATOR' || this.role === 'ADMIN') {
+      this.addDeadline(event);
+    }
+  }
+
+  addEvent(event: any) {
     this.dialog
       .open(AddInterviewPopupComponent, {
         width: '600px',
         data: {
           userId: this.userId,
+          date: event.day.date,
         },
       })
       .afterClosed()
-      .subscribe((shouldReload: boolean) => {
-        this.getInterviews(this.userId);
+      .subscribe((result) => {
+        if (result.event === 'add') {
+          this.pushDeadline(result.data);
+          this.refresh.next();
+        }
       });
   }
 
@@ -188,8 +323,11 @@ export class EventsPageComponent implements OnInit {
         },
       })
       .afterClosed()
-      .subscribe((shouldReload: boolean) => {
-        this.getInterviews(this.userId);
+      .subscribe((result) => {
+        if (result.event === 'add') {
+          this.pushDeadline(result.data);
+          this.refresh.next();
+        }
       });
   }
 
@@ -213,26 +351,6 @@ export class EventsPageComponent implements OnInit {
     }
   }
 
-  public async deleteDeadlineById(id: any) {
-    const shouldDelete = await this.openConfirmDeletePopup(
-      'Souhaitez-vous vraiment supprimer cet échéance ?'
-    );
-    if (shouldDelete) {
-      this.interviewService.delete(id).subscribe({
-        next: (v) => {
-          this.getDeadlines(this.userId);
-        },
-        error: (err) => {
-          this._snackBar.open(
-            "❌ Une erreur est survenue lors de la suppression de l'échéance",
-            'Ok',
-            { duration: 2000 }
-          );
-        },
-      });
-    }
-  }
-
   openModifyDeadline(deadline: any) {
     this.dialog
       .open(UpdateDeadlinePopupComponent, {
@@ -243,18 +361,30 @@ export class EventsPageComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((shouldReload: boolean) => {
-        this.getDeadlines(this.userId);
+        this.refreshDeadlines(this.userId);
       });
   }
 
-  addDeadline() {
+  onEventClicked(deadline) {
+    let deadlineData = deadline.meta.deadline;
+    this.openModifyDeadline(deadlineData);
+  }
+
+  addDeadline(deadline: any) {
     this.dialog
       .open(AddDeadlinePopupComponent, {
         width: '600px',
+        data: {
+          userId: this.userId,
+          date: deadline.day.date,
+        },
       })
       .afterClosed()
-      .subscribe((shouldReload: boolean) => {
-        this.getDeadlines(this.userId);
+      .subscribe((result) => {
+        if (result.event === 'add') {
+          this.pushDeadline(result.data);
+          this.refresh.next();
+        }
       });
   }
 }

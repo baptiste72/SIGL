@@ -4,6 +4,18 @@
 
 <div mat-dialog-content class="dialog-content">
   <div class="div-input">
+    <h3>Promotion</h3>
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>Choisissez une promotion</mat-label>
+      <mat-select required [(ngModel)]="js_deadline.yearGroup">
+        <mat-option *ngFor="let yearGroup of yearGroups" [value]="yearGroup.id">
+          {{ yearGroup.worded }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="div-input">
     <h3>Livrable</h3>
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Choisissez un livrable</mat-label>
@@ -66,5 +78,12 @@
   <button mat-button class="green bold" (click)="updateDeadline(js_deadline)">
     MODIFIER
   </button>
-  <button mat-button class="red bold" (click)="closeDialog()">ANNULER</button>
+  <button
+    mat-button
+    class="red bold"
+    (click)="deleteDeadlineById(js_deadline.id)"
+  >
+    SUPPRIMER
+  </button>
+  <button mat-button class="grey bold" (click)="closeDialog()">ANNULER</button>
 </div>

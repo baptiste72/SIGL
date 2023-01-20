@@ -41,6 +41,7 @@
             Mois Suivant
           </button>
         </div>
+        <br />
         <div class="row text-center">
           <div class="col-md-4">
             <h3>
@@ -50,10 +51,14 @@
               }}
             </h3>
           </div>
+
           <mwl-calendar-month-view
             [locale]="locale"
             [viewDate]="viewDate"
             [events]="events"
+            [refresh]="refresh"
+            (eventClicked)="onEventClicked($event.event)"
+            (dayClicked)="openCreateEventDialog($event)"
           >
           </mwl-calendar-month-view>
         </div>
