@@ -20,6 +20,8 @@ import { UpdateYearGroupPopupComponent } from './components/pop-up/year-group/up
 import { UpdateSemesterPopupComponent } from './components/pop-up/semester/update-semester-popup/update-semester-popup/update-semester-popup.component';
 import { EventsPageComponent } from './components/pages/events-page/events-page.component';
 import { AddCompanyFormComponent } from './components/forms/add-company-form/add-company-form.component';
+import { AddApprenticeFormComponent } from './components/forms/add-apprentice-form/add-apprentice-form.component';
+import { AddMentorFormComponent } from './components/forms/add-mentor-form/add-mentor-form.component';
 
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -72,6 +74,7 @@ import { AddDocumentPopupComponent } from './components/pop-up/document/add-docu
 import { MatStepperModule, MatStepper } from '@angular/material/stepper';
 import { DashboardCompanyComponent } from './components/Dashboard/dashboard-company/dashboard-company.component';
 import { UpdateInterviewPopupComponent } from './components/pop-up/interview/update-interview-popup/update-interview-popup.component';
+import { AddApprenticePopupComponent } from './components/pop-up/apprentice/add-apprentice-popup/add-apprentice-popup.component';
 import { DashboardAdminComponent } from './components/Dashboard/dashboard-admin/dashboard-admin.component';
 import { ProfileComponent } from './components/profile/profile/profile.component';
 import { DashboardPedagoComponent } from './components/Dashboard/dashboard-pedago/dashboard-pedago.component';
@@ -99,7 +102,10 @@ import { DashboardPedagoComponent } from './components/Dashboard/dashboard-pedag
     AddTeamPopupComponent,
     AddInterviewPopupComponent,
     AddDeadlinePopupComponent,
+    AddApprenticePopupComponent,
     AddCompanyFormComponent,
+    AddApprenticeFormComponent,
+    AddMentorFormComponent,
     AddSemesterPopupComponent,
     UpdateYearGroupPopupComponent,
     UpdateSemesterPopupComponent,

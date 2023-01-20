@@ -12,6 +12,8 @@ import { CompanyUser } from '@app/models/CompanyUser';
 import { Role } from '@app/helpers';
 import { CompanyUserService } from '@app/services/company-user/company-user.service';
 import { AuthService } from '@app/services';
+import { AddApprenticePopupComponent } from '@app/components/pop-up/apprentice/add-apprentice-popup/add-apprentice-popup.component';
+import { ApprenticeInfo } from '@app/models/ApprenticeInfo';
 
 @Component({
   templateUrl: './dashboard-company.component.html',
@@ -23,6 +25,8 @@ export class DashboardCompanyComponent {
   private hlCompanies = false;
   compUser: CompanyUser;
 
+  public dataSourceApprentices: MatTableDataSource<ApprenticeInfo>;
+  @ViewChild('apprenticePaginator') ApprenticePaginator!: MatPaginator;
 
   constructor(
     public dialog: MatDialog,
@@ -33,6 +37,8 @@ export class DashboardCompanyComponent {
     private companyUserService: CompanyUserService,
     private _snackBar: MatSnackBar
   ) {
+    this.dataSourceApprentices = new MatTableDataSource<ApprenticeInfo>();
+
 
     this.compUser = new CompanyUser(
       999,
@@ -50,10 +56,19 @@ export class DashboardCompanyComponent {
     switch ($event.tab.textLabel) {
       case 'companies':
         if (!this.hlCompanies) {
-        //this.loadCompany();
-        break;
+          //this.loadCompany();
+          break;
         }
     }
   }
-}
 
+
+
+  // const APPRENTICES_DATA: ApprenticeInfo[] = [
+  //   { app_last_name: 'Mathilde', app_first_name: 'RENAUD', app_job_title: 'Apprenti', app_phone: './' },
+  //   { app_last_name: 'Mathilde', app_first_name: 'RENAUD', app_job_title: 'Apprenti', app_phone: './' },
+  //   { app_last_name: 'Mathilde', app_first_name: 'RENAUD', app_job_title: 'Apprenti', app_phone: './' },
+  //   { app_last_name: 'Mathilde', app_first_name: 'RENAUD', app_job_title: 'Apprenti', app_phone: './' },
+  //   { app_last_name: 'Mathilde', app_first_name: 'RENAUD', app_job_title: 'Apprenti', app_phone: './' },
+  // ];
+}
