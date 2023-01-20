@@ -1,36 +1,3 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="5" failures="2" errors="0" time="36.204">
-  <testsuite name="test/launch-browser.spec.ts" errors="0" failures="0" skipped="0" timestamp="2023-01-20T08:28:19" time="4.433" tests="1">
-    <testcase classname="Launch Browser-Page en prod" name="Launch Browser-Page en prod" time="0.006">
-    </testcase>
-  </testsuite>
-  <testsuite name="test/connexion.spec.ts" errors="0" failures="0" skipped="0" timestamp="2023-01-20T08:28:19" time="5.702" tests="2">
-    <testcase classname="Connexion User-Devrait connecter l&apos;utilisateur" name="Connexion User-Devrait connecter l&apos;utilisateur" time="0.837">
-    </testcase>
-    <testcase classname="Connexion User-Devrait déconnecter l&apos;utilisateur" name="Connexion User-Devrait déconnecter l&apos;utilisateur" time="0.063">
-    </testcase>
-  </testsuite>
-  <testsuite name="test/apprentice/apprentice.spec.ts" errors="0" failures="2" skipped="0" timestamp="2023-01-20T08:28:19" time="35.658" tests="2">
-    <testcase classname="Tests apprentis-Devrait connecter l&apos;utilisateur" name="Tests apprentis-Devrait connecter l&apos;utilisateur" time="0.094">
-      <failure>Error: expect(received).toBe(expected) // Object.is equality
-
-Expected: &quot;https://projet-sigl.fr/dashboard-admin&quot;
-Received: &quot;https://projet-sigl.fr/&quot;
-    at Object.&lt;anonymous&gt; (/sigl/test/apprentice/apprentice.spec.ts:25:32)</failure>
-    </testcase>
-    <testcase classname="Tests apprentis-Devrait déconnecter l&apos;utilisateur" name="Tests apprentis-Devrait déconnecter l&apos;utilisateur" time="30.005">
-      <failure>TimeoutError: page.click: Timeout 30000ms exceeded.
-=========================== logs ===========================
-waiting for locator(&apos;body &gt; app-root &gt; ng-component &gt; app-navigation &gt; mat-drawer-container &gt; mat-drawer &gt; div &gt; div &gt; a:nth-child(8)&apos;)
-============================================================page.click: Timeout 30000ms exceeded.
-=========================== logs ===========================
-waiting for locator(&apos;body &gt; app-root &gt; ng-component &gt; app-navigation &gt; mat-drawer-container &gt; mat-drawer &gt; div &gt; div &gt; a:nth-child(8)&apos;)
-============================================================
-    at Object.&lt;anonymous&gt; (/sigl/test/apprentice/apprentice.spec.ts:33:18)
-    at Object.asyncJestTest (/sigl/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:106:37)
-    at /sigl/node_modules/jest-jasmine2/build/queueRunner.js:45:12
-    at mapper (/sigl/node_modules/jest-jasmine2/build/queueRunner.js:28:19)
-    at /sigl/node_modules/jest-jasmine2/build/queueRunner.js:75:41</failure>
-    </testcase>
-  </testsuite>
+<testsuites name="jest tests" tests="0" failures="0" errors="0" time="1.09">
 </testsuites>
