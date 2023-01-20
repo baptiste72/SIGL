@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from authentication.models import User
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class FormationCenter(models.Model):
@@ -185,3 +186,5 @@ class Evaluations(models.Model):
     yearGroup = models.ForeignKey(
         YearGroup, related_name="evaluation_yearGroup", on_delete=models.CASCADE, null=True
     )
+    note = models.IntegerField(validators=[MinValueValidator(0),
+                                       MaxValueValidator(20)], null=True)

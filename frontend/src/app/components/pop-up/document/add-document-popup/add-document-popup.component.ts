@@ -79,7 +79,7 @@ export class AddDocumentPopupComponent implements OnInit {
         },
         error: (err) => {
           this._snackBar.open(
-            '❌ Une erreur est survenue lors de l ajout du document',
+            "❌ Une erreur est survenue lors de l'ajout du document",
             'Ok',
             {
               duration: 2000,

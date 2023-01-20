@@ -1,24 +1,10 @@
 from django.contrib.auth.password_validation import validate_password
-from rest_framework import serializers, fields
-from base.models import (
-    Apprentice,
-    Company,
-    CompanyUser,
-    ContactCompany,
-    Opco,
-    Deadline,
-    FormationCenter,
-    Interview,
-    Mentor,
-    Semester,
-    Tutor,
-    TutorTeam,
-    User,
-    YearGroup,
-    Note,
-    Document,
-    Evaluations,
-)
+from rest_framework import fields, serializers
+
+from base.models import (Apprentice, Company, CompanyUser, ContactCompany,
+                         Deadline, Document, Evaluations, FormationCenter,
+                         Interview, Mentor, Note, Opco, Semester, Tutor,
+                         TutorTeam, User, YearGroup)
 
 
 class TutorTeamSerializer(serializers.ModelSerializer):
@@ -292,4 +278,5 @@ class EvaluationSerializer(serializers.ModelSerializer):
             "type",
             "user",
             "yearGroup",
+            "note",
     )

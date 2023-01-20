@@ -1,6 +1,7 @@
 from authentication.models import User
 from base.models import YearGroup
 
+
 # class permettant d'aider à la récupération des documents
 class DocumentHelper():
     def getAllDocuments(serializers):

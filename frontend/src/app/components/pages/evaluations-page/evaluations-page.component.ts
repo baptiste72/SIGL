@@ -1,7 +1,7 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {MatPaginator} from '@angular/material/paginator';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import {MatTableDataSource} from '@angular/material/table';
+import { MatTableDataSource } from '@angular/material/table';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmDeleteComponent } from '@app/components/pop-up/confirm-delete/confirm-delete.component';
 import { Evaluation } from '@app/models/Evaluation';
@@ -9,13 +9,16 @@ import { User } from '@app/models/User';
 import { AuthService } from '@app/services';
 import { lastValueFrom } from 'rxjs';
 import { EvaluationService } from '@app/services/evaluation/evaluation.service';
+import { AddEvaluationPopupComponent } from '@app/components/pop-up/evaluation/add-evaluation-popup/add-evaluation-popup.component';
+import { Role } from '@app/helpers';
 
 @Component({
   templateUrl: './evaluations-page.component.html',
-  styleUrls: ['./evaluations-page.component.scss']
+  styleUrls: ['./evaluations-page.component.scss'],
 })
 export class EvaluationsPageComponent implements OnInit {
   public user: User;
+  readonly roleEnum = Role;
   displayedColumns: string[] = [
     'name',
     'modify-time',
@@ -41,6 +44,17 @@ export class EvaluationsPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.getEvaluations();
+  }
+
+  openAddEvaluationPopup() {
+    this.dialog
+      .open(AddEvaluationPopupComponent, {
+        width: '600px',
+      })
+      .afterClosed()
+      .subscribe((shouldReload: boolean) => {
+        this.getEvaluations();
+      });
   }
 
   private getEvaluations() {
@@ -105,4 +119,3 @@ export class EvaluationsPageComponent implements OnInit {
     return await lastValueFrom(this.confirmDeleteDialogRef.afterClosed());
   }
 }
-

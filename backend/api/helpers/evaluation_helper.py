@@ -1,6 +1,7 @@
 from authentication.models import User
 from base.models import YearGroup
 
+
 # class permettant d'aider à la récupération des livrables
 class EvaluationHelper():
     def getAllEvaluations(serializers):
@@ -31,6 +32,7 @@ class EvaluationHelper():
                 "modification_date":serializers.data[data]["modification_date"],
                 "status":serializers.data[data]["status"],
                 "type":serializers.data[data]["type"],
+                "note": serializers.data[data]["note"],
                 "user": user,
                 "yearGroup": yearGroup
             }

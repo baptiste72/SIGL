@@ -76,6 +76,7 @@ import { EvaluationsPageComponent } from './components/pages/evaluations-page/ev
 import { DashboardAdminComponent } from './components/Dashboard/dashboard-admin/dashboard-admin.component';
 import { ProfileComponent } from './components/profile/profile/profile.component';
 import { DashboardPedagoComponent } from './components/Dashboard/dashboard-pedago/dashboard-pedago.component';
+import { AddEvaluationPopupComponent } from './components/pop-up/evaluation/add-evaluation-popup/add-evaluation-popup.component';
 
 @NgModule({
   declarations: [
@@ -120,6 +121,7 @@ import { DashboardPedagoComponent } from './components/Dashboard/dashboard-pedag
     DashboardAdminComponent,
     ProfileComponent,
     DashboardPedagoComponent,
+    AddEvaluationPopupComponent,
   ],
   imports: [
     CalendarModule.forRoot({
@@ -153,7 +155,7 @@ import { DashboardPedagoComponent } from './components/Dashboard/dashboard-pedag
     MatStepperModule,
     MatCardModule,
     ReactiveFormsModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

@@ -1,62 +1,37 @@
 import os
-from django.http import FileResponse, Http404
-from rest_framework.response import Response
-from rest_framework.decorators import api_view
-from rest_framework.views import APIView
-from rest_framework import status, generics
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.parsers import MultiPartParser, FormParser
-from api.helpers.evaluation_helper import EvaluationHelper
-from authentication.models import User
-from base.utilities import Role
-from base.models import (
-    Apprentice,
-    Company,
-    CompanyUser,
-    Deadline,
-    Evaluations,
-    FormationCenter,
-    Interview,
-    Mentor,
-    Semester,
-    Tutor,
-    TutorTeam,
-    YearGroup,
-    Note,
-    Document,
-    Opco,
-    ContactCompany,
-)
 
-from api.serializers import (
-    ApprenticeSerializer,
-    CompanySerializer,
-    ContactCompanySerializer,
-    OpcoSerializer,
-    DeadlineSerializer,
-    FormationCenterSerializer,
-    InterviewSerializer,
-    MentorSerializer,
-    SemesterSerializer,
-    NoteSerializer,
-    TreeNoteSerializer,
-    TutorSerializer,
-    TutorTeamSerializer,
-    UserSerializer,
-    YearGroupSerializer,
-    ChangePasswordSerializer,
-    RegisterUserSerializer,
-    ApprenticeRoleSerializer,
-    DocumentSerializer,
-    CompanyUserSerializer,
-    EvaluationSerializer,
-)
-from api.helpers.tutor_team_helper import TutorTeamHelper
-from api.helpers.password_helper import PasswordHelper
+from django.http import FileResponse, Http404
+from rest_framework import generics, status
+from rest_framework.decorators import api_view
+from rest_framework.parsers import FormParser, MultiPartParser
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
 from api.helpers.data_treatement import DataTreatement
-from api.helpers.sftp_helper import SftpHelper
-from api.helpers.semester_helper import SemesterHelper
 from api.helpers.document_helper import DocumentHelper
+from api.helpers.evaluation_helper import EvaluationHelper
+from api.helpers.password_helper import PasswordHelper
+from api.helpers.semester_helper import SemesterHelper
+from api.helpers.sftp_helper import SftpHelper
+from api.helpers.tutor_team_helper import TutorTeamHelper
+from api.serializers import (ApprenticeRoleSerializer, ApprenticeSerializer,
+                             ChangePasswordSerializer, CompanySerializer,
+                             CompanyUserSerializer, ContactCompanySerializer,
+                             DeadlineSerializer, DocumentSerializer,
+                             EvaluationSerializer, FormationCenterSerializer,
+                             InterviewSerializer, MentorSerializer,
+                             NoteSerializer, OpcoSerializer,
+                             RegisterUserSerializer, SemesterSerializer,
+                             TreeNoteSerializer, TutorSerializer,
+                             TutorTeamSerializer, UserSerializer,
+                             YearGroupSerializer)
+from authentication.models import User
+from base.models import (Apprentice, Company, CompanyUser, ContactCompany,
+                         Deadline, Document, Evaluations, FormationCenter,
+                         Interview, Mentor, Note, Opco, Semester, Tutor,
+                         TutorTeam, YearGroup)
+from base.utilities import Role
 
 
 @api_view(["GET"])
@@ -532,6 +507,7 @@ class DocumentList(APIView):
         return Response(response)
 
     def post(self, request, *args, **kwargs):
+        print(request.data)
         serializer = DocumentSerializer(data=request.data)
         if serializer.is_valid():
             file = request.FILES["file"]
@@ -575,6 +551,7 @@ class DocumentDetail(APIView):
         document.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+
 class EvaluationList(APIView):
     parser_classes = (MultiPartParser, FormParser)
 
@@ -585,6 +562,7 @@ class EvaluationList(APIView):
         return Response(response)
 
     def post(self, request, *args, **kwargs):
+        print(request.data)
         serializer = EvaluationSerializer(data=request.data)
         if serializer.is_valid():
             file = request.FILES["file"]
@@ -594,6 +572,7 @@ class EvaluationList(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class EvaluationDetail(APIView):
     parser_classes = (MultiPartParser, FormParser)
