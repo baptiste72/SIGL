@@ -12,6 +12,7 @@ import { CompanyUser } from '@app/models/CompanyUser';
 import { Role } from '@app/helpers';
 import { CompanyUserService } from '@app/services/company-user/company-user.service';
 import { AuthService } from '@app/services';
+import { AddApprenticePopupComponent } from '@app/components/pop-up/apprentice/add-apprentice-popup/add-apprentice-popup.component';
 
 @Component({
   templateUrl: './dashboard-company.component.html',
@@ -52,5 +53,16 @@ export class DashboardCompanyComponent {
           break;
         }
     }
+  }
+
+  public openUserPopup() {
+    this.dialog
+      .open(AddApprenticePopupComponent, {
+        width: '600px',
+      })
+      .afterClosed()
+      .subscribe((shouldReload: boolean) => {
+        //this.loadApprentices();
+      });
   }
 }

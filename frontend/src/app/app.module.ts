@@ -72,6 +72,7 @@ import { AddDocumentPopupComponent } from './components/pop-up/document/add-docu
 import { MatStepperModule, MatStepper } from '@angular/material/stepper';
 import { DashboardCompanyComponent } from './components/pages/dashboard-company/dashboard-company.component';
 import { UpdateInterviewPopupComponent } from './components/pop-up/interview/update-interview-popup/update-interview-popup.component';
+import { AddApprenticePopupComponent } from './components/pop-up/apprentice/add-apprentice-popup/add-apprentice-popup.component';
 
 @NgModule({
   declarations: [
@@ -96,6 +97,7 @@ import { UpdateInterviewPopupComponent } from './components/pop-up/interview/upd
     AddTeamPopupComponent,
     AddInterviewPopupComponent,
     AddDeadlinePopupComponent,
+    AddApprenticePopupComponent,
     AddCompanyFormComponent,
     AddApprenticeFormComponent,
     AddMentorFormComponent,
