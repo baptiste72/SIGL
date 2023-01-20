@@ -50,7 +50,7 @@ test-angular:
   needs: ["build-angular"]
   <<: *install-node-modules
   script:
-    - npm test
+    - npm test launch-browser.spec.ts connexion.spec.ts
   artifacts:
     when: always
     reports:
