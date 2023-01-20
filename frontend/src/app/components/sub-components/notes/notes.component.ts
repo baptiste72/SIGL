@@ -1,4 +1,10 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import {
@@ -33,7 +39,7 @@ interface ExampleFlatNode {
 @Component({
   selector: 'app-notes',
   templateUrl: './notes.component.html',
-  styleUrls: ['./notes.component.scss']
+  styleUrls: ['./notes.component.scss'],
 })
 export class NotesComponent implements OnInit, OnChanges {
   @Input() apprenticeId = '';
@@ -70,8 +76,6 @@ export class NotesComponent implements OnInit, OnChanges {
   hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
   hasNoContent = (_: number, node: ExampleFlatNode) => node.level === 1;
 
-
-
   constructor(
     private authService: AuthService,
     private confirmDeleteDialogRef: MatDialogRef<ConfirmDeleteComponent>,
@@ -101,7 +105,6 @@ export class NotesComponent implements OnInit, OnChanges {
     if (history.state['id'] != undefined) {
       this.getNote(history.state['id']);
     }
-
   }
 
   ngOnChanges(changes: SimpleChanges) {
