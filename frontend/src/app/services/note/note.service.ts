@@ -37,7 +37,7 @@ export class NoteService {
     return this.http.get<Note[]>(`${environment.apiUrl}/${this.urlPrefix}`);
   }
 
-  public treeNotes(userId: number): Observable<any> {
+  public treeNotes(userId: string): Observable<any> {
     return this.http.get<any>(
       `${environment.apiUrl}/${this.urlPrefix}/tree-note/${userId}/`
     );

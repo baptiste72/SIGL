@@ -78,11 +78,13 @@ deploy-to-prod:
         && rm -rf sigl
         && git clone git@gitlab.com:baptiste72/sigl.git
         && cd sigl/docker/prod
-        && echo -e "DJANGO_DB=${DJANGO_DB}\n
+        && echo -e "DJANGO_SUPERUSER_EMAIL=${DJANGO_SUPERUSER_EMAIL}\n
+                    DJANGO_SUPERUSER_PASSWORD=${DJANGO_SUPERUSER_PASSWORD}\n
+                    DJANGO_DB=${DJANGO_DB}\n
                     DJANGO_USER=${DJANGO_USER}\n
                     DJANGO_PASSWORD=${DJANGO_PASSWORD}\n
                     DJANGO_HOST=${DJANGO_HOST}\n
-                    DJANGO_PORT=${DJANGO_PORT}" > .env
+                    DJANGO_PORT=${DJANGO_PORT}" | tr -d ' ' > .env
         && docker compose down
         && docker system prune -af
         && docker volume prune -f

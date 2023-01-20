@@ -389,12 +389,6 @@ export class ConfigurationComponent implements OnInit, AfterViewInit {
         this.loadFormationCenters();
       });
   }
-
-  public addCompany() {
-    this.dialog.open(AddCompanyFormComponent, {
-      width: '600px',
-    });
-  }
   //#endregion Popups
 
   // Suppresions

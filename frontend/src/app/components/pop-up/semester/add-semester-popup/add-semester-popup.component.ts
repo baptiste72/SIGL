@@ -4,6 +4,7 @@ import { YearGroupService } from 'src/app/services/year-group/year-group.service
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { YearGroup } from 'src/app/models/YearGroup';
 import { SemesterService } from 'src/app/services/semester/semester.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 interface Semester {
   name: string;
@@ -15,32 +16,27 @@ interface Semester {
   styleUrls: ['./add-semester-popup.component.scss'],
 })
 export class AddSemesterPopupComponent implements OnInit {
-  yearGroups: YearGroup[] = [];
-  register: any;
-
-  public semesters: Semester[] = [
-    { name: 'Semestre S5' },
-    { name: 'Semestre S6' },
-    { name: 'Semestre S7' },
-    { name: 'Semestre S8' },
-    { name: 'Semestre S9' },
-  ];
+  public yearGroups: YearGroup[] = [];
+  public addSemesterForm: FormGroup;
+  public submitted: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<AddSemesterPopupComponent>,
     private yearGroupService: YearGroupService,
     private semesterService: SemesterService,
-    private _snackBar: MatSnackBar
-  ) {}
+    private _snackBar: MatSnackBar,
+    private formBuilder: FormBuilder
+  ) {
+    this.addSemesterForm = this.formBuilder.group({
+      name: ['', Validators.required],
+      beginDate: ['', Validators.required],
+      endDate: ['', Validators.required],
+      yearGroup: ['', Validators.required]
+    });
+  }
 
   ngOnInit(): void {
     this.getYearGroup();
-    this.register = {
-      name: '',
-      beginDate: '',
-      endDate: '',
-      yearGroup: '',
-    };
   }
 
   closeDialog() {
@@ -64,8 +60,10 @@ export class AddSemesterPopupComponent implements OnInit {
     });
   }
 
-  addSemester(data: any) {
-    this.semesterService.add(data).subscribe({
+  addSemester() {
+    this.submitted = true;
+    if (this.addSemesterForm.valid) {
+    this.semesterService.add(this.addSemesterForm.value).subscribe({
       next: (v) => {
         this._snackBar.open('✔ Semestre ajoutée', 'Ok', { duration: 2000 });
         this.closeDialog();
@@ -80,5 +78,6 @@ export class AddSemesterPopupComponent implements OnInit {
         );
       },
     });
+    }
   }
 }

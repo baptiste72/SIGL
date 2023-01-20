@@ -8,6 +8,7 @@ import { Apprentice } from 'src/app/models/Apprentice';
 import { Tutor } from 'src/app/models/Tutor';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TutorTeamService } from 'src/app/services/tutor-team/tutor-team.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-add-team-popup',
@@ -15,11 +16,12 @@ import { TutorTeamService } from 'src/app/services/tutor-team/tutor-team.service
   styleUrls: ['./add-team-popup.component.scss'],
 })
 export class AddTeamPopupComponent implements OnInit {
-  register: any;
+  public addTeamForm: FormGroup;
+  public submitted: boolean = false;
 
-  apprentices: Apprentice[] = [];
-  tutors: Tutor[] = [];
-  mentors: Mentor[] = [];
+  public apprentices: Apprentice[] = [];
+  public tutors: Tutor[] = [];
+  public mentors: Mentor[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<AddTeamPopupComponent>,
@@ -27,18 +29,20 @@ export class AddTeamPopupComponent implements OnInit {
     private tutorService: TutorService,
     private apprenticeService: ApprenticeService,
     private tutorTeamService: TutorTeamService,
-    private _snackBar: MatSnackBar
-  ) {}
+    private _snackBar: MatSnackBar,
+    private formBuilder: FormBuilder
+  ) {
+      this.addTeamForm = this.formBuilder.group({
+      apprentice: ['', Validators.required],
+      tutor: ['', Validators.required],
+      mentor: ['', Validators.required]
+    });
+  }
 
   ngOnInit(): void {
     this.getApprentice();
     this.getMentor();
     this.getTutor();
-    this.register = {
-      mentor: '',
-      tutor: '',
-      apprentice: '',
-    };
   }
 
   closeDialog() {
@@ -96,8 +100,10 @@ export class AddTeamPopupComponent implements OnInit {
     });
   }
 
-  addTutorTeam(data: any) {
-    this.tutorTeamService.add(data).subscribe({
+  addTutorTeam() {
+    this.submitted = true;
+    if (this.addTeamForm.valid) {
+    this.tutorTeamService.add(this.addTeamForm.value).subscribe({
       next: (v) => {
         this._snackBar.open('Equipe pédagohique ajoutée', 'Ok', {
           duration: 2000,
@@ -114,5 +120,6 @@ export class AddTeamPopupComponent implements OnInit {
         );
       },
     });
+    }
   }
 }

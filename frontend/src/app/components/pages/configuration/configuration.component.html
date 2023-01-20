@@ -1,5 +1,6 @@
 <app-navigation>
   <mat-tab-group
+    class="configuration-tab-group"
     animationDuration="0ms"
     (selectedTabChange)="onTabChange($event)"
   >
@@ -125,15 +126,6 @@
           </mat-card-header>
 
           <mat-card-content>
-            <div class="conf-actions-btns">
-              <button
-                mat-raised-button
-                class="btn_primary bg-green"
-                (click)="addCompany()"
-              >
-                AJOUT ENTREPRISE
-              </button>
-            </div>
 
             <div>
               <table mat-table [dataSource]="dataSourceCompanies">

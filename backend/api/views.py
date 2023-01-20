@@ -53,6 +53,7 @@ from api.helpers.password_helper import PasswordHelper
 from api.helpers.data_treatement import DataTreatement
 from api.helpers.sftp_helper import SftpHelper
 from api.helpers.semester_helper import SemesterHelper
+from api.helpers.document_helper import DocumentHelper
 
 
 @api_view(["GET"])
@@ -524,7 +525,8 @@ class DocumentList(APIView):
     def get(self, request):
         document_list = Document.objects.all()
         serializers = DocumentSerializer(document_list, many=True)
-        return Response(serializers.data)
+        response = DocumentHelper.getAllDocuments(serializers)
+        return Response(response)
 
     def post(self, request, *args, **kwargs):
         serializer = DocumentSerializer(data=request.data)

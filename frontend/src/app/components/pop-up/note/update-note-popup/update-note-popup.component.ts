@@ -14,26 +14,24 @@ import { Note } from '@app/models/Note';
   styleUrls: ['./update-note-popup.component.scss'],
 })
 export class UpdateNotePopupComponent implements OnInit {
-  jsonNote: any;
-  fromPage!: string;
-  fromDialog!: string;
   public userId: number;
-  public noteForm: FormGroup;
   public semesters: Semester[] = [];
   public note: Note;
+  public updateNoteForm: FormGroup;
+  public submitted: boolean = false;
 
   constructor(
     private noteService: NoteService,
     public dialogRef: MatDialogRef<UpdateNotePopupComponent>,
-    @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
     private _snackBar: MatSnackBar,
     private semesterService: SemesterService,
     private apprenticeService: ApprenticeService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.userId = data.userId;
     this.note = data.note;
-    this.noteForm = this.formBuilder.group({
+    this.updateNoteForm = this.formBuilder.group({
       title: [this.note.title, Validators.required],
       semester: [this.note.semester, Validators.required],
       beginDate: [this.note.beginDate, Validators.required],
@@ -53,22 +51,10 @@ export class UpdateNotePopupComponent implements OnInit {
     });
   }
 
-  public updateNote(data: any) {
-    this.noteService.update(data, data.id).subscribe({
-      next: (v) => {
-        this._snackBar.open('✔ Note créé', 'Ok', { duration: 2000 });
-        this.closeDialog();
-      },
-      error: (err) => {
-        this._snackBar.open('❌ Une erreur est survenue', 'Ok', {
-          duration: 2000,
-        });
-      },
-    });
-  }
-
-  public submitNote() {
-    this.noteService.update(this.noteForm.value, this.note.id).subscribe({
+  public updateNote() {
+    this.submitted = true;
+    if (this.updateNoteForm.valid) {
+    this.noteService.update(this.updateNoteForm.value, this.note.id).subscribe({
       next: (v) => {
         this._snackBar.open('✔ Note modifiée', 'Ok', { duration: 2000 });
         this.closeDialog();
@@ -79,9 +65,10 @@ export class UpdateNotePopupComponent implements OnInit {
         });
       },
     });
+    }
   }
 
   closeDialog() {
-    this.dialogRef.close({ event: 'close', data: this.fromDialog });
+    this.dialogRef.close({ event: 'close' });
   }
 }

@@ -1,24 +1,54 @@
-import { Component } from '@angular/core';
-
-export interface Section {
-  name: string;
-  link: string;
-}
+import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { DocumentPdf } from '@app/models/DocumentPdf';
+import { DocumentService } from '@app/services/document/document.service';
 
 @Component({
   selector: 'app-documents',
   templateUrl: './documents.component.html',
   styleUrls: ['./documents.component.scss'],
 })
-export class DocumentsComponent {
-  constructor() {}
+export class DocumentsComponent implements OnInit {
+  public documents: DocumentPdf[] = [];
 
-  documents: Section[] = [
-    { name: 'Dates clés', link: './documents' },
-    { name: 'Calendrier 2022-2023', link: './documents' },
-    { name: 'Acquisition compétences', link: './documents' },
-    { name: 'Grille évaluation S6', link: './documents' },
-    { name: 'Grille évaluation S7', link: './documents' },
-    { name: 'Grille évaluation S8', link: './documents' },
-  ];
+  constructor(
+    private documentService: DocumentService,
+    private _snackBar: MatSnackBar
+  ) {}
+
+  ngOnInit(): void {
+    this.getDocuments();
+  }
+
+  private getDocuments() {
+    this.documentService.getAll().subscribe({
+      next: (documents) => {
+        this.documents = documents;
+      },
+      error: (err) => {
+        this._snackBar.open(
+          '❌ Une erreur est survenue lors de la récupération des documents',
+          'Ok',
+          { duration: 2000 }
+        );
+      },
+    });
+  }
+
+  downloadDocument(id: number, file_name: string) {
+    this.documentService.getById(id).subscribe({
+      next: (document) => {
+        const url = window.URL.createObjectURL(document);
+        window.open(url);
+        this.documentService.cleanup(file_name).subscribe();
+      },
+      error: (err) => {
+        this._snackBar.open(
+          '❌ Une erreur est survenue lors de la récupération des documents',
+          'Ok',
+          { duration: 2000 }
+        );
+      },
+    });
+  }
 }
