@@ -24,11 +24,27 @@ describe('Tests apprentis', () => {
       await page.click('button[type="submit"]');
       await page.waitForNavigation();
       expect(await page.url()).toBe("https://projet-sigl.fr/dashboard");
+      const dashboardName = await (await page.locator('.body > app-root > ng-component > app-navigation > mat-drawer-container > mat-drawer-content > div.navigation-content > div > h1')).innerText();
+      expect(dashboardName).toMatch("Dashboard Apprenti");
 
       const text = await (await page.locator('.profile')).innerText();
       // console.log(text);
-      expect(text.match("Alexandre NIZERY"));
+      expect(text).toMatch("Alexandre NIZERY");
     })
+
+    // test("Devrait connecter l'utilisateur", async () => {
+    //   const user = 'alexandre.nizery@reseau.eseo.fr'
+    //   const password = 'oHO98*s1mPli'
+    //   await page.fill('input[type="email"]', user);
+    //   await page.fill('input[name="password"]', password);
+    //   await page.click('button[type="submit"]');
+    //   await page.waitForNavigation();
+    //   expect(await page.url()).toBe("https://projet-sigl.fr/dashboard");
+    //
+    //   const text = await (await page.locator('.body > app-root > ng-component > app-navigation > mat-drawer-container > mat-drawer-content > div.navigation-content > div > h1')).innerText();
+    //   // console.log(text);
+    //   expect(text.match("Alexandre NIZERY"));
+    // })
 
     test("Devrait déconnecter l'utilisateur", async () => {
       await page.click('body > app-root > ng-component > app-navigation > mat-drawer-container > mat-drawer > div > div > a:nth-child(7)')
