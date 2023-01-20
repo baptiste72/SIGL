@@ -389,7 +389,6 @@ export class ConfigurationComponent implements OnInit, AfterViewInit {
         this.loadFormationCenters();
       });
   }
-
   //#endregion Popups
 
   // Suppresions

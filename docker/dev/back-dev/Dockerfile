@@ -3,7 +3,7 @@ FROM python:alpine
 
 # Add metadata
 LABEL description="Set up Django for development" \
-      version="2.0"
+      version="3.0"
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1

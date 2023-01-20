@@ -1,57 +1,89 @@
 <div class="dialog-header bg-purple">
   <h2 mat-dialog-title>Ajout d'un semestre</h2>
 </div>
-<div mat-dialog-content class="dialog-content">
-  <div class="div-input">
-    <h3>Nom</h3>
-    <mat-form-field class="full-width" appearance="fill">
-      <mat-label>Choisissez un semestre</mat-label>
-      <mat-select required [(ngModel)]="register.name">
-        <mat-option *ngFor="let semester of semesters" [value]="semester.name">
-          {{ semester.name }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
 
-  <div class="div-input">
-    <h3>Période</h3>
-    <mat-form-field class="full-width" appearance="fill">
-      <mat-label>Entrez une période</mat-label>
-      <mat-date-range-input [rangePicker]="picker">
+<form
+  class="connection-form"
+  [formGroup]="addSemesterForm"
+  (ngSubmit)="addSemester()"
+>
+  <div mat-dialog-content class="dialog-content">
+    <div class="div-input">
+      <h3>Nom</h3>
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Semestre 1</mat-label>
         <input
-          [(ngModel)]="register.beginDate"
-          matStartDate
-          placeholder="Date de début"
+          type="text"
+          matInput
+          formControlName="name"
         />
-        <input
-          [(ngModel)]="register.endDate"
-          matEndDate
-          placeholder="Date de fin"
-        />
-      </mat-date-range-input>
-      <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-date-range-picker #picker></mat-date-range-picker>
-    </mat-form-field>
-  </div>
+        <mat-error
+          *ngIf="submitted && addSemesterForm.hasError('required', 'name')"
+        >
+          Merci de renseigner un nom
+        </mat-error>
+      </mat-form-field>
+    </div>
 
-  <div class="div-input">
-    <h3>Promotion</h3>
-    <mat-form-field class="full-width" appearance="fill">
-      <mat-label>Choisissez une promotion associée</mat-label>
-      <mat-select required [(ngModel)]="register.yearGroup">
-        <mat-option *ngFor="let yearGroup of yearGroups" [value]="yearGroup.id">
-          {{ yearGroup.worded }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+    <div class="div-input">
+      <h3>Période</h3>
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Entrez une période</mat-label>
+        <mat-date-range-input [rangePicker]="picker">
+          <input
+            matStartDate
+            placeholder="Date de début"
+            formControlName="beginDate"
+          />
+          <input
+            matEndDate
+            placeholder="Date de fin"
+            formControlName="endDate"
+          />
+        </mat-date-range-input>
+        <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+        <mat-error
+          *ngIf="
+            submitted &&
+            addSemesterForm.hasError('required', 'endDate') &&
+            addSemesterForm.hasError('required', 'beginDate')
+          "
+        >
+          Merci de renseigner une date de début et une date de fin
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="div-input">
+      <h3>Promotion</h3>
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Choisissez une promotion associée</mat-label>
+        <mat-select
+          required
+          formControlName="yearGroup"
+        >
+          <mat-option
+            *ngFor="let yearGroup of yearGroups"
+            [value]="yearGroup.id"
+          >
+            {{ yearGroup.worded }}
+          </mat-option>
+        </mat-select>
+        <mat-error
+          *ngIf="submitted && addSemesterForm.hasError('required', 'yearGroup')"
+        >
+          Merci de renseigner une promotion
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <mat-divider></mat-divider>
+    <div mat-dialog-actions align="end">
+      <button mat-button class="green bold">AJOUTER</button>
+      <button mat-button class="red bold" (click)="closeDialog()">
+        ANNULER
+      </button>
+    </div>
   </div>
-  <mat-divider></mat-divider>
-  <div mat-dialog-actions align="end">
-    <button mat-button class="green bold" (click)="addSemester(register)">
-      AJOUTER
-    </button>
-    <button mat-button class="red bold" (click)="closeDialog()">ANNULER</button>
-  </div>
-</div>
+</form>

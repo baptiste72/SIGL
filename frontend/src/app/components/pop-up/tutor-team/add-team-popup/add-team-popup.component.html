@@ -1,19 +1,26 @@
 <div class="dialog-header bg-purple">
   <h2 mat-dialog-title>Ajout d'une équipe pédagogique</h2>
 </div>
+
+<form [formGroup]="addTeamForm"
+  (ngSubmit)="addTutorTeam()"
+>
 <div mat-dialog-content class="dialog-content">
   <div class="div-input">
     <h3>Apprenti</h3>
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Choisissez un apprenti</mat-label>
-      <mat-select required [(ngModel)]="register.apprentice">
-        <mat-option
-          *ngFor="let apprentice of apprentices"
-          [value]="apprentice.id"
-        >
+      <mat-select required
+      formControlName="apprentice">
+        <mat-option *ngFor="let apprentice of apprentices" [value]="apprentice.id">
           {{ apprentice.first_name }} {{ apprentice.last_name }}
         </mat-option>
       </mat-select>
+      <mat-error
+      *ngIf="submitted && addTeamForm.hasError('required', 'apprentice')"
+    >
+      Merci de sélectionner un apprenti
+    </mat-error>
     </mat-form-field>
   </div>
 
@@ -21,11 +28,17 @@
     <h3>Tuteur pédagogique</h3>
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Choisissez un tuteur pédagogique</mat-label>
-      <mat-select required [(ngModel)]="register.tutor">
+      <mat-select required
+      formControlName="tutor">
         <mat-option *ngFor="let tutor of tutors" [value]="tutor.id">
           {{ tutor.first_name }} {{ tutor.last_name }}
         </mat-option>
       </mat-select>
+      <mat-error
+      *ngIf="submitted && addTeamForm.hasError('required', 'tutor')"
+    >
+      Merci de sélectionner un tuteur
+    </mat-error>
     </mat-form-field>
   </div>
 
@@ -33,18 +46,23 @@
     <h3>Maître d'apprentissage</h3>
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Choisissez un maître d'apprentissage</mat-label>
-      <mat-select required [(ngModel)]="register.mentor">
+      <mat-select required
+      formControlName="mentor">
         <mat-option *ngFor="let mentor of mentors" [value]="mentor.id">
           {{ mentor.first_name }} {{ mentor.last_name }}
         </mat-option>
       </mat-select>
+      <mat-error
+      *ngIf="submitted && addTeamForm.hasError('required', 'mentor')"
+    >
+      Merci de sélectionner un maître d'apprentissage
+    </mat-error>
     </mat-form-field>
   </div>
 </div>
 <mat-divider></mat-divider>
 <div mat-dialog-actions align="end">
-  <button mat-button class="green bold" (click)="addTutorTeam(register)">
-    AJOUTER
-  </button>
+  <button mat-button class="green bold">AJOUTER</button>
   <button mat-button class="red bold" (click)="closeDialog()">ANNULER</button>
 </div>
+</form>

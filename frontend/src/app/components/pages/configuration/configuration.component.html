@@ -1,5 +1,6 @@
 <app-navigation>
   <mat-tab-group
+    class="configuration-tab-group"
     animationDuration="0ms"
     (selectedTabChange)="onTabChange($event)"
   >
@@ -125,6 +126,7 @@
           </mat-card-header>
 
           <mat-card-content>
+
             <div>
               <table mat-table [dataSource]="dataSourceCompanies">
                 <!-- Name Column -->
