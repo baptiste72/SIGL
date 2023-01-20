@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { NotesComponent } from './notes.component';
+import { NotesMinimalComponent } from './notes-minimal.component';
 
 describe('NotesComponent', () => {
-  let component: NotesComponent;
-  let fixture: ComponentFixture<NotesComponent>;
+  let component: NotesMinimalComponent;
+  let fixture: ComponentFixture<NotesMinimalComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [NotesComponent],
+      declarations: [NotesMinimalComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(NotesComponent);
+    fixture = TestBed.createComponent(NotesMinimalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

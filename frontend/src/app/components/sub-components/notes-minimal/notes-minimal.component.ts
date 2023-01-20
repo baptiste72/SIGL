@@ -9,11 +9,11 @@ export interface Section {
 }
 
 @Component({
-  selector: 'app-notes',
-  templateUrl: './notes.component.html',
-  styleUrls: ['./notes.component.scss'],
+  selector: 'app-notes-minimal',
+  templateUrl: './notes-minimal.component.html',
+  styleUrls: ['./notes-minimal.component.scss'],
 })
-export class NotesComponent implements OnInit {
+export class NotesMinimalComponent implements OnInit {
   notes: any;
   constructor(
     private router: Router,
