@@ -57,7 +57,7 @@
             [viewDate]="viewDate"
             [events]="events"
             [refresh]="refresh"
-            (eventClicked)="onEventClicked($event.event)"
+            (eventClicked)="openModifyEventDialog($event.event)"
             (dayClicked)="openCreateEventDialog($event)"
           >
           </mwl-calendar-month-view>

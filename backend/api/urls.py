@@ -51,6 +51,7 @@ urlpatterns = [
     path("semesters/update", views.update_semester, name="updateSemester"),
     path("semesters/year-groups/<int:pk>", views.SemesterByYearGroup.as_view()),
     # tutor-teams
+    path("tutor-teams-by-apprentice-id/<int:pk>", views.TutorTeamByApprenticeId.as_view()),
     path("tutor-teams", views.TutorTeamList.as_view()),
     path("tutor-teams/<int:pk>", views.TutorTeamDetail.as_view()),
     # tutors
