@@ -17,13 +17,13 @@ import { Interview } from '@app/models/Interview';
 import { UpdateInterviewPopupComponent } from '../../pop-up/interview/update-interview-popup/update-interview-popup.component';
 import { UpdateDeadlinePopupComponent } from '@app/components/pop-up/deadline/update-deadline-popup/update-deadline-popup.component';
 import { AuthService } from '@app/services/auth/auth.service';
-import { lastValueFrom, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { startOfDay } from 'date-fns';
 import { CalendarEvent, DAYS_OF_WEEK, CalendarView } from 'angular-calendar';
-import { ConfirmDeleteComponent } from '@app/components/pop-up/confirm-delete/confirm-delete.component';
 import { InterviewService } from '@app/services/interview/interview.service';
 import { YearGroupService } from '@app/services/year-group/year-group.service';
-
+import { ViewDeadlinePopupComponent } from '@app/components/pop-up/deadline/view-deadline-popup/view-deadline-popup.component';
+import { UserService } from '@app/services/user/user.service';
 const colors: any = {
   red: {
     primary: '#ad2121',
@@ -98,7 +98,7 @@ export class EventsPageComponent implements OnInit {
     private interviewService: InterviewService,
     private deadlineService: DeadlineService,
     private _snackBar: MatSnackBar,
-    private confirmDeleteDialogRef: MatDialogRef<ConfirmDeleteComponent>,
+    private userService: UserService,
     private yearGroupService: YearGroupService
   ) {
     this.userId = this.authService.userValue.id;
@@ -107,22 +107,12 @@ export class EventsPageComponent implements OnInit {
 
   ngOnInit(): void {
     //this.getInterviewDates(this.userId);
-    //this.getInterviews(this.userId);
+    this.getInterviews(this.userId);
     this.yearGroupService.getAll().subscribe((yearGroups) => {
       this.yearGroups = yearGroups;
     });
     this.getDeadlines(this.userId);
     this.refresh.next();
-  }
-
-  public async openConfirmDeletePopup(content: string): Promise<boolean> {
-    this.confirmDeleteDialogRef = this.dialog.open(ConfirmDeleteComponent, {
-      width: '600px',
-    });
-
-    this.confirmDeleteDialogRef.componentInstance.content = content;
-
-    return await lastValueFrom(this.confirmDeleteDialogRef.afterClosed());
   }
 
   interviewsDates: Date[] = [];
@@ -146,14 +136,17 @@ export class EventsPageComponent implements OnInit {
     this.interviewService.getAllByUserId(userId).subscribe({
       next: (interviews) => {
         this.interviews = interviews;
+        this.calendarTreatementInterviews(interviews);
         this.dataSourceInterviews = new MatTableDataSource<Interview>(
           this.interviews
         );
         this.dataSourceInterviews.paginator = this.interviewsPaginator;
+        console.log(this.interviews);
+        this.refresh.next();
       },
       error: (err) => {
         this._snackBar.open(
-          '❌ Une erreur est survenue lors de la récupération des semestres',
+          '❌ Une erreur est survenue lors de la récupération des Entretiens',
           'Ok',
           { duration: 2000 }
         );
@@ -169,6 +162,57 @@ export class EventsPageComponent implements OnInit {
       }
     });
     return yearGroupName;
+  }
+
+  private calendarTreatementInterviews(interviews) {
+    for (let interview of interviews) {
+      if (interview.attendees.length == 1) {
+        this.userService.getById(interview.attendees[0]).subscribe((user) => {
+          let date = new Date(interview.date);
+          let description = interview.description;
+          let attendee1FirstName = user.first_name;
+          let attendee1LastName = user.last_name;
+          let event = {
+            start: startOfDay(date),
+            title:
+              `${interview.name} - ${attendee1FirstName} ${attendee1LastName}` +
+              (description ? ` : ${description}` : ''),
+            color: colors.blue,
+            meta: {
+              interview,
+            },
+          };
+          this.events.push(event);
+          this.refresh.next();
+        });
+      }
+      if (interview.attendees.length == 2) {
+        this.userService.getById(interview.attendees[0]).subscribe((user1) => {
+          let attendee1FirstName = user1.first_name;
+          let attendee1LastName = user1.last_name;
+          this.userService
+            .getById(interview.attendees[1])
+            .subscribe((user2) => {
+              let attendee2FirstName = user2.first_name;
+              let attendee2LastName = user2.last_name;
+              let date = new Date(interview.date);
+              let description = interview.description;
+              let event = {
+                start: startOfDay(date),
+                title:
+                  `${interview.name} - ${attendee1FirstName} ${attendee1LastName} & ${attendee2FirstName} ${attendee2LastName}` +
+                  (description ? ` : ${description}` : ''),
+                color: colors.blue,
+                meta: {
+                  interview,
+                },
+              };
+              this.events.push(event);
+              this.refresh.next();
+            });
+        });
+      }
+    }
   }
 
   private calendarTreatementDeadlines(deadlines) {
@@ -239,7 +283,7 @@ export class EventsPageComponent implements OnInit {
     }
   }
 
-  private refreshDeadlines(userId: number) {
+  private refreshAll(userId: number) {
     if (this.role === 'APPRENTICE') {
       this.deadlineService.getAllByUserId(userId).subscribe({
         next: (v) => {
@@ -257,6 +301,25 @@ export class EventsPageComponent implements OnInit {
         error: (err) => {
           this._snackBar.open(
             '❌ Une erreur est survenue lors de la récupération des Deadlines',
+            'Ok',
+            { duration: 2000 }
+          );
+        },
+      });
+      this.interviewService.getAllByUserId(userId).subscribe({
+        next: (interviews) => {
+          this.interviews = interviews;
+          this.calendarTreatementInterviews(interviews);
+          this.dataSourceInterviews = new MatTableDataSource<Interview>(
+            this.interviews
+          );
+          this.dataSourceInterviews.paginator = this.interviewsPaginator;
+          console.log(this.interviews);
+          this.refresh.next();
+        },
+        error: (err) => {
+          this._snackBar.open(
+            '❌ Une erreur est survenue lors de la récupération des Entretiens',
             'Ok',
             { duration: 2000 }
           );
@@ -295,6 +358,40 @@ export class EventsPageComponent implements OnInit {
     }
   }
 
+  openModifyEventDialog(event: any) {
+    if (event.color.primary === '#ad2121') {
+      if (this.role === 'APPRENTICE') {
+        this.viewDeadline(event);
+      } else if (this.role === 'COORDINATOR' || this.role === 'ADMIN') {
+        this.openUpdateDeadline(event);
+      }
+    } else if (event.color.primary === '#1e90ff') {
+      if (this.role === 'APPRENTICE') {
+        console.log(event);
+        this.openUpdateInterview(event.meta.interview);
+      } else if (this.role === 'COORDINATOR' || this.role === 'ADMIN') {
+        this.openUpdateInterview(event.meta.interview);
+      }
+    }
+  }
+
+  viewDeadline(event: any) {
+    if (event.meta) {
+      this.dialog
+        .open(ViewDeadlinePopupComponent, {
+          width: '600px',
+          data: {
+            userId: this.userId,
+            deadline: event,
+          },
+        })
+        .afterClosed()
+        .subscribe((result) => {
+          this.refresh.next();
+        });
+    }
+  }
+
   addEvent(event: any) {
     this.dialog
       .open(AddInterviewPopupComponent, {
@@ -306,10 +403,7 @@ export class EventsPageComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((result) => {
-        if (result.event === 'add') {
-          this.pushDeadline(result.data);
-          this.refresh.next();
-        }
+        this.refreshAll(this.userId);
       });
   }
 
@@ -324,34 +418,11 @@ export class EventsPageComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((result) => {
-        if (result.event === 'add') {
-          this.pushDeadline(result.data);
-          this.refresh.next();
-        }
+        this.refreshAll(this.userId);
       });
   }
 
-  public async deleteInterviewById(id: any) {
-    const shouldDelete = await this.openConfirmDeletePopup(
-      'Souhaitez-vous vraiment supprimer cet évènement ?'
-    );
-    if (shouldDelete) {
-      this.interviewService.delete(id).subscribe({
-        next: (v) => {
-          this.getInterviews(this.userId);
-        },
-        error: (err) => {
-          this._snackBar.open(
-            "❌ Une erreur est survenue lors de la suppression de l'évènement",
-            'Ok',
-            { duration: 2000 }
-          );
-        },
-      });
-    }
-  }
-
-  openModifyDeadline(deadline: any) {
+  openUpdateDeadline(deadline: any) {
     this.dialog
       .open(UpdateDeadlinePopupComponent, {
         width: '600px',
@@ -361,13 +432,13 @@ export class EventsPageComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((shouldReload: boolean) => {
-        this.refreshDeadlines(this.userId);
+        this.refreshAll(this.userId);
       });
   }
 
   onEventClicked(deadline) {
     let deadlineData = deadline.meta.deadline;
-    this.openModifyDeadline(deadlineData);
+    this.openUpdateDeadline(deadlineData);
   }
 
   addDeadline(deadline: any) {

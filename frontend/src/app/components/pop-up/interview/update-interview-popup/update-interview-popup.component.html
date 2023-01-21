@@ -16,7 +16,7 @@
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Choisissez un semestre</mat-label>
       <mat-select required [(ngModel)]="interview.semester">
-        <mat-option *ngFor="let semester of semesters" [value]="semester.name">
+        <mat-option *ngFor="let semester of semesters" [value]="semester.id">
           {{ semester.name }}
         </mat-option>
       </mat-select>
@@ -63,9 +63,27 @@
     <h3>Invités</h3>
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Choisisez les invités</mat-label>
-      <mat-select required [(ngModel)]="interview.guest">
+      <mat-select required [(ngModel)]="interview.attendees">
         <mat-option *ngFor="let guest of guests" [value]="guest.name">
-          {{ guest.name }}
+          {{ guest.name }} :
+          <ng-container *ngIf="guest.name === 'Equipe tutorale'">
+            <p>
+              {{ this.tutorTeam.mentor.first_name }}
+              {{ this.tutorTeam.mentor.last_name }}
+            </p>
+            <p>
+              {{ this.tutorTeam.tutor.first_name }}
+              {{ this.tutorTeam.tutor.last_name }}
+            </p>
+          </ng-container>
+          <span *ngIf="guest.name === 'Maitre d\'apprentissage'">
+            {{ this.tutorTeam.mentor.first_name }}
+            {{ this.tutorTeam.mentor.last_name }}</span
+          >
+          <span *ngIf="guest.name === 'tuteur pédagogique'">
+            {{ this.tutorTeam.tutor.first_name }}
+            {{ this.tutorTeam.tutor.last_name }}</span
+          >
         </mat-option>
       </mat-select>
     </mat-form-field>
@@ -87,7 +105,14 @@
 <mat-divider></mat-divider>
 <div mat-dialog-actions align="end">
   <button mat-button class="green bold" (click)="updateInterview(interview)">
-    CREER
+    MODIFIER
   </button>
-  <button mat-button class="red bold" (click)="closeDialog()">ANNULER</button>
+  <button
+    mat-button
+    class="red bold"
+    (click)="deleteInterviewById(interview.id)"
+  >
+    SUPPRIMER
+  </button>
+  <button mat-button class="grey bold" (click)="closeDialog()">ANNULER</button>
 </div>

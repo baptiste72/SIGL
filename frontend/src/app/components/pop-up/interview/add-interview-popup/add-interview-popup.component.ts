@@ -5,6 +5,8 @@ import { Semester } from '@app/models/Semester';
 import { SemesterService } from '@app/services/semester/semester.service';
 import { ApprenticeService } from '@app/services/apprentice/apprentice.service';
 import { InterviewService } from '@app/services/interview/interview.service';
+import { TutorTeamService } from '@app/services/tutor-team/tutor-team.service';
+import { UserService } from '@app/services/user/user.service';
 
 interface Attendees {
   name: string;
@@ -17,33 +19,52 @@ interface Attendees {
 })
 export class AddInterviewPopupComponent implements OnInit {
   interview: any;
+  tutorTeam: any;
   public semesters: Semester[] = [];
   guests: Attendees[] = [
     { name: 'Equipe tutorale' },
     { name: "Maitre d'apprentissage" },
-    { name: 'tuteur pédaogique' },
+    { name: 'tuteur pédagogique' },
   ];
 
   constructor(
     public dialogRef: MatDialogRef<AddInterviewPopupComponent>,
     private interviewService: InterviewService,
+    private tutorTeamService: TutorTeamService,
     private apprenticeService: ApprenticeService,
+    private userService: UserService,
     private semesterService: SemesterService,
     private _snackBar: MatSnackBar,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.interview = {
-      userId: data.userId,
+      apprentice: data.userId,
       name: '',
       date: '',
       first_hour: '',
       last_hour: '',
       description: '',
       semester: ' ',
+      attendees: '',
     };
   }
 
   ngOnInit(): void {
+    this.tutorTeamService.getByApprentice(this.data.userId).subscribe({
+      next: (tutorTeam) => {
+        this.tutorTeam = tutorTeam;
+        this.userService.getById(this.tutorTeam.tutor).subscribe((tutor) => {
+          this.tutorTeam.tutor = tutor;
+        });
+        this.userService.getById(this.tutorTeam.mentor).subscribe((mentor) => {
+          this.tutorTeam.mentor = mentor;
+        });
+      },
+      error: (err) => {
+        console.log(err);
+        this.errorTutor();
+      },
+    });
     this.apprenticeService.getById(this.data.userId).subscribe((apprentice) => {
       this.semesterService
         .getAllByYearGroup(apprentice.yearGroup.id)
@@ -54,6 +75,15 @@ export class AddInterviewPopupComponent implements OnInit {
   }
 
   public addinterview(data: any) {
+    if (data.attendees == 'Equipe tutorale') {
+      data.attendees = [this.tutorTeam.mentor.id, this.tutorTeam.tutor.id];
+    }
+    if (data.attendees == "Maitre d'apprentissage") {
+      data.attendees = [this.tutorTeam.mentor.id];
+    }
+    if (data.attendees == 'tuteur pédagogique') {
+      data.attendees = [this.tutorTeam.tutor.id];
+    }
     this.interviewService.add(data).subscribe({
       next: (v) => {
         this._snackBar.open('✔ Evénement créé', 'Ok', { duration: 2000 });
@@ -65,6 +95,17 @@ export class AddInterviewPopupComponent implements OnInit {
         });
       },
     });
+  }
+
+  public errorTutor() {
+    this._snackBar.open(
+      "❌ Une erreur est survenue pas d'équipe pédagogique",
+      'Ok',
+      {
+        duration: 2000,
+      }
+    );
+    this.closeDialog();
   }
 
   closeDialog() {
