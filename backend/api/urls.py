@@ -49,11 +49,9 @@ urlpatterns = [
     path("mentors", views.get_mentors, name="getMentors"),
     path("mentors/add", views.add_mentor, name="addMentor"),
     # semesters
-    path("semesters", views.get_semesters, name="getSemesters"),
-    path("semesters/add", views.add_semester, name="addSemester"),
-    path("semesters/delete/<int:pk>", views.delete_semester, name="deleteSemesterById"),
-    path("semesters/update", views.update_semester, name="updateSemester"),
     path("semesters/year-groups/<int:pk>", views.SemesterByYearGroup.as_view()),
+    path("semesters", views.SemesterList.as_view()),
+    path("semesters/<int:pk>", views.SemesterDetail.as_view()),
     # tutor-teams
     path("tutor-teams", views.TutorTeamList.as_view()),
     path("tutor-teams/<int:pk>", views.TutorTeamDetail.as_view()),
@@ -68,14 +66,16 @@ urlpatterns = [
         include("django_rest_passwordreset.urls"),
     ),
     # year-groups
-    path("year-group", views.get_year_groups, name="getYearGroups"),
-    path("year-group/add", views.add_year_group, name="addYearGroup"),
-    path("year-group/update", views.update_year_group, name="updateYearGroup"),
-    path(
-        "year-group/delete/<int:pk>",
-        views.delete_year_group,
-        name="deleteYearGroupById",
-    ),
+    # path("year-group", views.get_year_groups, name="getYearGroups"),
+    # path("year-group/add", views.add_year_group, name="addYearGroup"),
+    # path("year-group/update", views.update_year_group, name="updateYearGroup"),
+    # path(
+    #     "year-group/delete/<int:pk>",
+    #     views.delete_year_group,
+    #     name="deleteYearGroupById",
+    # ),
+    path("year-group", views.YearGroupList.as_view()),
+    path("year-group/<int:pk>", views.YearGroupDetail.as_view()),
     # documents
     path("documents", views.DocumentList.as_view()),
     path("documents/<int:pk>", views.DocumentDetail.as_view()),

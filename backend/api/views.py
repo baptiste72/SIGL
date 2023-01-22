@@ -211,11 +211,14 @@ def update_year_group(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(["GET"])
-def get_semesters(request):
-    semester_list = Semester.objects.all()
-    serializers = SemesterSerializer(semester_list, many=True)
-    return Response(serializers.data)
+class YearGroupList(generics.ListCreateAPIView):
+    queryset = YearGroup.objects.all()
+    serializer_class = YearGroupSerializer
+
+
+class YearGroupDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = YearGroup.objects.all()
+    serializer_class = YearGroupSerializer
 
 
 class SemesterByYearGroup(APIView):
@@ -225,35 +228,14 @@ class SemesterByYearGroup(APIView):
         return Response(serializers.data)
 
 
-@api_view(["POST"])
-def add_semester(request):
-    serializer = SemesterSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class SemesterList(generics.ListCreateAPIView):
+    queryset = Semester.objects.all()
+    serializer_class = SemesterSerializer
 
 
-@api_view(["DELETE"])
-def delete_semester(request, pk):
-    semester = Semester.objects.get(id=pk)
-    semester.delete()
-    return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-@api_view(["POST"])
-def update_semester(request):
-    semester = Semester.objects.get(pk=request.data.get("id"))
-    semester.name = request.data.get("name")
-    semester.beginDate = request.data.get("beginDate")
-    semester.endDate = request.data.get("endDate")
-    year_group = YearGroup.objects.get(pk=request.data.get("yearGroup"))
-    semester.year_group = year_group
-    serializer = SemesterSerializer(semester, data=request.data)
-    if serializer.is_valid():
-        semester.save()
-        return Response(serializer.data)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class SemesterDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Semester.objects.all()
+    serializer_class = SemesterSerializer
 
 
 class FormationCenterList(APIView):
@@ -487,9 +469,9 @@ class ApprenticeInfoValidate(APIView):
                 }
 
                 # Sauvegarde l'utilisateur en base
-                apprenticeSerializer = ApprenticeRoleSerializer(data=apprentice_data)
-                apprenticeSerializer.is_valid(raise_exception=True)
-                apprenticeSerializer.save()
+                apprentice_serializer = ApprenticeRoleSerializer(data=apprentice_data)
+                apprentice_serializer.is_valid(raise_exception=True)
+                apprentice_serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

@@ -20,6 +20,15 @@ export class AddSemesterPopupComponent implements OnInit {
   public addSemesterForm: FormGroup;
   public submitted: boolean = false;
 
+  public semesters: Semester[] = [
+    { name: 'Semestre S5' },
+    { name: 'Semestre S6' },
+    { name: 'Semestre S7' },
+    { name: 'Semestre S8' },
+    { name: 'Semestre S9' },
+    { name: 'Semestre S10' },
+  ];
+
   constructor(
     public dialogRef: MatDialogRef<AddSemesterPopupComponent>,
     private yearGroupService: YearGroupService,
@@ -31,7 +40,7 @@ export class AddSemesterPopupComponent implements OnInit {
       name: ['', Validators.required],
       beginDate: ['', Validators.required],
       endDate: ['', Validators.required],
-      yearGroup: ['', Validators.required]
+      yearGroup: ['', Validators.required],
     });
   }
 
@@ -63,21 +72,21 @@ export class AddSemesterPopupComponent implements OnInit {
   addSemester() {
     this.submitted = true;
     if (this.addSemesterForm.valid) {
-    this.semesterService.add(this.addSemesterForm.value).subscribe({
-      next: (v) => {
-        this._snackBar.open('✔ Semestre ajoutée', 'Ok', { duration: 2000 });
-        this.closeDialog();
-      },
-      error: (err) => {
-        this._snackBar.open(
-          "❌ Une erreur est survenue lors de l'ajout du semestre",
-          'Ok',
-          {
-            duration: 2000,
-          }
-        );
-      },
-    });
+      this.semesterService.add(this.addSemesterForm.value).subscribe({
+        next: (v) => {
+          this._snackBar.open('✔ Semestre ajoutée', 'Ok', { duration: 2000 });
+          this.closeDialog();
+        },
+        error: (err) => {
+          this._snackBar.open(
+            "❌ Une erreur est survenue lors de l'ajout du semestre",
+            'Ok',
+            {
+              duration: 2000,
+            }
+          );
+        },
+      });
     }
   }
 }
