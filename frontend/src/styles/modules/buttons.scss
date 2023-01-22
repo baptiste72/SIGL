@@ -5,13 +5,13 @@ button {
 }
 
 .btn_primary {
-  color: $white;
+  color: $white !important;
   border: none;
-  cursor: pointer;
-  border-radius: 44px;
-  padding: 12px 40px;
+  border-radius: 44px !important;
+  padding: 12px 40px !important;
   margin-top: 30px;
-  }
+  font-weight: normal !important;
+}
 
 .btn_secondary {
   color: $white;
@@ -23,10 +23,10 @@ button {
   background: linear-gradient(120deg, $purple, $blue);
   background-size: 200% 100%;
   background-position: 100% 0;
-  transition: background-position .5s;
+  transition: background-position 0.5s;
   box-shadow: $box-shadow-primary;
-  }
+}
 
-  .btn_secondary:hover {
-    background-position: 0 0;
-  }
+.btn_secondary:hover {
+  background-position: 0 0;
+}
