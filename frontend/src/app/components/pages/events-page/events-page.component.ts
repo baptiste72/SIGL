@@ -141,7 +141,6 @@ export class EventsPageComponent implements OnInit {
           this.interviews
         );
         this.dataSourceInterviews.paginator = this.interviewsPaginator;
-        console.log(this.interviews);
         this.refresh.next();
       },
       error: (err) => {
@@ -314,7 +313,6 @@ export class EventsPageComponent implements OnInit {
             this.interviews
           );
           this.dataSourceInterviews.paginator = this.interviewsPaginator;
-          console.log(this.interviews);
           this.refresh.next();
         },
         error: (err) => {
@@ -367,7 +365,6 @@ export class EventsPageComponent implements OnInit {
       }
     } else if (event.color.primary === '#1e90ff') {
       if (this.role === 'APPRENTICE') {
-        console.log(event);
         this.openUpdateInterview(event.meta.interview);
       } else if (this.role === 'COORDINATOR' || this.role === 'ADMIN') {
         this.openUpdateInterview(event.meta.interview);

@@ -449,7 +449,26 @@ class ContactCompanyList(generics.ListCreateAPIView):
     queryset = ContactCompany.objects.all()
     serializer_class = ContactCompanySerializer
 
+class TutorTeamByTutorId(APIView):
+    def get(self, request, pk):
+        try:
+            tutor_team = TutorTeam.objects.get(tutor_id=pk)
+        except TutorTeam.DoesNotExist as exc:
+            raise Http404 from exc
 
+        serializer = TutorTeamSerializer(tutor_team)
+        return Response(serializer.data)
+
+class TutorTeamByMentorId(APIView):
+    def get(self, request, pk):
+        try:
+            tutor_team = TutorTeam.objects.get(mentor_id=pk)
+        except TutorTeam.DoesNotExist as exc:
+            raise Http404 from exc
+
+        serializer = TutorTeamSerializer(tutor_team)
+        return Response(serializer.data)
+    
 class TutorTeamByApprenticeId(APIView):
     def get(self, request, pk):
         try:

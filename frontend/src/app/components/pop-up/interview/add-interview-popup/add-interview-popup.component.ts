@@ -7,6 +7,8 @@ import { ApprenticeService } from '@app/services/apprentice/apprentice.service';
 import { InterviewService } from '@app/services/interview/interview.service';
 import { TutorTeamService } from '@app/services/tutor-team/tutor-team.service';
 import { UserService } from '@app/services/user/user.service';
+import * as moment from 'moment';
+import { NgForm, FormControl, Validators } from '@angular/forms';
 
 interface Attendees {
   name: string;
@@ -40,14 +42,18 @@ export class AddInterviewPopupComponent implements OnInit {
     this.interview = {
       apprentice: data.userId,
       name: '',
-      date: '',
-      first_hour: '',
-      last_hour: '',
+      date: this.data.date,
+      first_hour: moment().format('HH:mm'),
+      last_hour: moment().add(2, 'hours').format('HH:mm'),
       description: '',
       semester: ' ',
       attendees: '',
     };
   }
+
+  firstHourControl = new FormControl('', [
+    Validators.pattern(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/),
+  ]);
 
   ngOnInit(): void {
     this.tutorTeamService.getByApprentice(this.data.userId).subscribe({
@@ -74,6 +80,12 @@ export class AddInterviewPopupComponent implements OnInit {
     });
   }
 
+  submitForm(form: NgForm) {
+    if (form.invalid) {
+      return;
+    }
+    this.addinterview(form);
+  }
   public addinterview(data: any) {
     if (data.attendees == 'Equipe tutorale') {
       data.attendees = [this.tutorTeam.mentor.id, this.tutorTeam.tutor.id];

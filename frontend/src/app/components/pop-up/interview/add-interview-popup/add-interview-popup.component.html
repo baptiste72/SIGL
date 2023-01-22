@@ -43,19 +43,12 @@
     <h3>Heures de l'événement</h3>
     <mat-form-field appearance="fill">
       <mat-label>8:00</mat-label>
-      <mat-icon matPrefix>schedule</mat-icon>
       <input required [(ngModel)]="interview.first_hour" matInput type="text" />
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>11:00</mat-label>
-      <input
-        required
-        [(ngModel)]="interview.last_hour"
-        matInput
-        type="text"
-        class="hour-container"
-      />
+      <input required [(ngModel)]="interview.last_hour" matInput type="text" />
     </mat-form-field>
   </div>
 

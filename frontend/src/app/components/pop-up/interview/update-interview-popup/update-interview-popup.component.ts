@@ -61,6 +61,7 @@ export class UpdateInterviewPopupComponent implements OnInit {
         });
         this.userService.getById(this.tutorTeam.mentor).subscribe((mentor) => {
           this.tutorTeam.mentor = mentor;
+          this.treatementTutorTeam(this.interview.attendees);
         });
       },
       error: (err) => {
@@ -119,6 +120,28 @@ export class UpdateInterviewPopupComponent implements OnInit {
     }
   }
 
+  getAttendeeRole(attendeeId: number): string {
+    if (attendeeId === this.tutorTeam.mentor.id) {
+      return this.tutorTeam.mentor.role;
+    } else if (attendeeId === this.tutorTeam.tutor.id) {
+      return this.tutorTeam.tutor.role;
+    }
+    return 'test';
+  }
+
+  treatementTutorTeam(attendes: any) {
+    if (attendes.length > 1) {
+      this.interview.attendees = 'Equipe tutorale';
+    } else if (attendes.length === 1) {
+      let role = this.getAttendeeRole(attendes[0]);
+
+      if (role === 'TUTOR') {
+        this.interview.attendees = 'tuteur pédagogique';
+      } else if (role === 'MENTOR') {
+        this.interview.attendees = "Maitre d'apprentissage";
+      }
+    }
+  }
   public updateInterview(interview: any) {
     if (interview.attendees === 'Equipe tutorale') {
       interview.attendees = [this.tutorTeam.mentor.id, this.tutorTeam.tutor.id];
