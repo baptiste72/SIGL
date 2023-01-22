@@ -6,11 +6,13 @@ import { AddDocumentPopupComponent } from '../../pop-up/document/add-document-po
 import { DocumentService } from 'src/app/services/document/document.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmDeleteComponent } from '@app/components/pop-up/confirm-delete/confirm-delete.component';
-import { lastValueFrom } from 'rxjs';
+import { lastValueFrom, Observable } from 'rxjs';
 import { DocumentPdf } from '@app/models/DocumentPdf';
 import { AuthService } from '@app/services';
 import { Role } from '@app/helpers';
 import { User } from '@app/models/User';
+import { Apprentice } from '@app/models/Apprentice';
+import { ApprenticeService } from '@app/services/apprentice/apprentice.service';
 
 @Component({
   templateUrl: './documents-page.component.html',
@@ -35,7 +37,8 @@ export class DocumentsPageComponent implements AfterViewInit, OnInit {
     private documentService: DocumentService,
     private _snackBar: MatSnackBar,
     private confirmDeleteDialogRef: MatDialogRef<ConfirmDeleteComponent>,
-    private authService: AuthService
+    private authService: AuthService,
+    private apprenticeService: ApprenticeService
   ) {
     this.dataSource = new MatTableDataSource<DocumentPdf>();
     this.user = this.authService.userValue;
@@ -61,18 +64,35 @@ export class DocumentsPageComponent implements AfterViewInit, OnInit {
   }
 
   private getDocuments() {
-    this.documentService.getAll().subscribe({
-      next: (documents) => {
-        this.dataSource = new MatTableDataSource<DocumentPdf>(documents);
-      },
-      error: (err) => {
-        this._snackBar.open(
-          '❌ Une erreur est survenue lors de la récupération des documents',
-          'Ok',
-          { duration: 2000 }
-        );
-      },
-    });
+    if (this.user.role == this.roleEnum.APPRENTICE) {
+      this.apprenticeService.getById(this.user.id).subscribe((apprentice) => {
+        this.documentService.getByYearGroup(apprentice.yearGroup.id).subscribe({
+          next: (documents) => {
+            this.dataSource = new MatTableDataSource<DocumentPdf>(documents);
+          },
+          error: (err) => {
+            this._snackBar.open(
+              '❌ Une erreur est survenue lors de la récupération des documents',
+              'Ok',
+              { duration: 2000 }
+            );
+          },
+        });
+      });
+    } else {
+      this.documentService.getAll().subscribe({
+        next: (documents) => {
+          this.dataSource = new MatTableDataSource<DocumentPdf>(documents);
+        },
+        error: (err) => {
+          this._snackBar.open(
+            '❌ Une erreur est survenue lors de la récupération des documents',
+            'Ok',
+            { duration: 2000 }
+          );
+        },
+      });
+    }
   }
 
   downloadDocument(id: number, file_name: string) {

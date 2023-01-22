@@ -1,28 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { User } from '@app/models/User';
 import { AuthService } from '@app/services/auth/auth.service';
 import { EvaluationService } from '@app/services/evaluation/evaluation.service';
-import { YearGroup } from 'src/app/models/YearGroup';
-import { YearGroupService } from 'src/app/services/year-group/year-group.service';
-import { ApprenticeService } from '@app/services/apprentice/apprentice.service';
+import { Evaluation } from '@app/models/Evaluation';
 
 @Component({
-  selector: 'app-add-evaluation-popup',
-  templateUrl: './add-evaluation-popup.component.html',
-  styleUrls: ['./add-evaluation-popup.component.scss'],
+  selector: 'app-update-evaluation-popup',
+  templateUrl: './update-evaluation-popup.component.html',
+  styleUrls: ['./update-evaluation-popup.component.scss'],
 })
-export class AddEvaluationPopupComponent {
+export class UpdateEvaluationPopupComponent {
   public user: User;
-  public owner: User;
   public selectedFile: any = null;
   private formData = new FormData();
   private file_name: any;
-  public addEvaluationForm: FormGroup;
+  public updateEvaluationForm: FormGroup;
   public submitted: boolean = false;
-  public yearGroup: YearGroup;
 
   public status: any[] = [
     { name: 'Brouillon', value: 'Brouillon' },
@@ -59,21 +55,17 @@ export class AddEvaluationPopupComponent {
   ];
 
   constructor(
-    public dialogRef: MatDialogRef<AddEvaluationPopupComponent>,
-    private yearGroupService: YearGroupService,
+    public dialogRef: MatDialogRef<UpdateEvaluationPopupComponent>,
     private evaluationService: EvaluationService,
-    private apprenticeService: ApprenticeService,
     private _snackBar: MatSnackBar,
     private authService: AuthService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    @Inject(MAT_DIALOG_DATA) public data: Evaluation
   ) {
     this.user = this.authService.userValue;
-    this.owner = this.authService.userValue;
-    this.yearGroup = this.getYearGroupUser();
-    this.addEvaluationForm = this.formBuilder.group({
-      status: ['', Validators.required],
-      type: ['', Validators.required],
-      pdf: ['', Validators.required],
+    this.updateEvaluationForm = this.formBuilder.group({
+      status: [this.data.status, Validators.required],
+      type: [this.data.type, Validators.required],
     });
   }
 
@@ -81,36 +73,25 @@ export class AddEvaluationPopupComponent {
     this.dialogRef.close({ event: 'close' });
   }
 
-  private getYearGroupUser() {
-    this.apprenticeService.getById(this.user.id).subscribe((apprentice) => {
-      this.yearGroup = apprentice.yearGroup;
-      });
-      return this.yearGroup;
-  }
-
-  addEvaluation() {
+  updateEvaluation() {
     this.submitted = true;
-    if (this.addEvaluationForm.valid) {
-      this.formData.append('file', this.selectedFile);
+    if (this.updateEvaluationForm.valid) {
       this.formData.append('file_name', this.file_name);
       this.formData.append('modification_date', new Date().toISOString());
-      this.formData.append('status', this.addEvaluationForm.value.status);
-      this.formData.append('type', this.addEvaluationForm.value.type);
+      this.formData.append('status', this.updateEvaluationForm.value.status);
+      this.formData.append('type', this.updateEvaluationForm.value.type);
       this.formData.append('user', this.user.id.toString());
-      this.formData.append('owner', this.owner.id.toString());
-      this.formData.append('yearGroup', this.yearGroup.id.toString());
-      this.formData.append('link', this.addEvaluationForm.value.link);
-      this.evaluationService.add(this.formData).subscribe({
+      this.evaluationService.update(this.formData, this.data.id).subscribe({
         next: (v) => {
-          this._snackBar.open('✔ Livrable ajouté', 'Ok', { duration: 2000 });
+          this._snackBar.open('✔ Livrable modifié', 'Ok', { duration: 2000 });
           this.closeDialog();
         },
         error: (err) => {
           this._snackBar.open(
-            "❌ Une erreur est survenue lors de l'ajout du livrable. Un fichier du même nom existe déjà, veuillez ajouter un fichier avec un nom unique",
+            '❌ Une erreur est survenue lors de la modification du livrable',
             'Ok',
             {
-              duration: 5000,
+              duration: 2000,
             }
           );
         },

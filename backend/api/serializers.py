@@ -277,6 +277,7 @@ class EvaluationSerializer(serializers.ModelSerializer):
             "status",
             "type",
             "user",
+            "owner",
             "yearGroup",
             "note",
     )

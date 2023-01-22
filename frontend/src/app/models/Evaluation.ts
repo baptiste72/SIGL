@@ -9,6 +9,7 @@ export class Evaluation {
   type: string;
   note: number;
   user: User;
+  owner: User;
   yearGroup: YearGroup;
 
   constructor(
@@ -19,6 +20,7 @@ export class Evaluation {
     type: string,
     note: number,
     user: User,
+    owner: User,
     yearGroup: YearGroup,
   ) {
     this.id = id;
@@ -28,6 +30,7 @@ export class Evaluation {
     this.type = type;
     this.note = note;
     this.user = user;
+    this.owner = owner;
     this.yearGroup = yearGroup;
   }
 }

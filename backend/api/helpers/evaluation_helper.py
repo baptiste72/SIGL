@@ -10,11 +10,18 @@ class EvaluationHelper():
         for data in range(len(serializers.data)):
             # récupération des clées étrangères
             user_id = serializers.data[data]["user"]
+            owner_id = serializers.data[data]["owner"]
             yearGroup_id = serializers.data[data]["yearGroup"]
 
             # récupération des données liées aux clées étrangères
             user = (
                 User.objects.filter(pk=user_id)
+                .values("id", "first_name", "last_name", "email")
+                .first()
+            )
+            
+            owner = (
+                User.objects.filter(pk=owner_id)
                 .values("id", "first_name", "last_name", "email")
                 .first()
             )
@@ -34,6 +41,7 @@ class EvaluationHelper():
                 "type":serializers.data[data]["type"],
                 "note": serializers.data[data]["note"],
                 "user": user,
+                "owner": owner,
                 "yearGroup": yearGroup
             }
 

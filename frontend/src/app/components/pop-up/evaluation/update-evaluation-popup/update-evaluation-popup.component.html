@@ -1,8 +1,8 @@
 <div class="dialog-header bg-blue">
-  <h2 mat-dialog-title>Ajout d'un livrable</h2>
+  <h2 mat-dialog-title>Modification d'un livrable</h2>
 </div>
 
-<form [formGroup]="addEvaluationForm" (ngSubmit)="addEvaluation()">
+<form [formGroup]="updateEvaluationForm" (ngSubmit)="updateEvaluation()">
   <div mat-dialog-content class="dialog-content">
     <div class="div-input">
       <h3>Type de livrable</h3>
@@ -28,27 +28,9 @@
       </mat-form-field>
     </div>
 
-    <button type="button" mat-raised-button (click)="fileInput.click()">
-      Sélectionnez un fichier PDF :
-    </button>
-    <input
-      hidden
-      (change)="onFileSelected($event)"
-      #fileInput
-      type="file"
-      accept=".pdf"
-      formControlName="pdf"
-    />
-    <span>{{ selectedFile?.name }}</span>
-    <mat-error
-      *ngIf="submitted && addEvaluationForm.hasError('required', 'pdf')"
-    >
-      Merci de renseigner un livrable
-    </mat-error>
-
     <mat-divider></mat-divider>
     <div mat-dialog-actions align="end">
-      <button mat-button class="green bold">AJOUTER</button>
+      <button mat-button class="green bold">MODIFIER</button>
       <button mat-button class="red bold" (click)="closeDialog()">
         ANNULER
       </button>

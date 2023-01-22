@@ -11,6 +11,7 @@ import { lastValueFrom } from 'rxjs';
 import { EvaluationService } from '@app/services/evaluation/evaluation.service';
 import { AddEvaluationPopupComponent } from '@app/components/pop-up/evaluation/add-evaluation-popup/add-evaluation-popup.component';
 import { Role } from '@app/helpers';
+import { UpdateEvaluationPopupComponent } from '@app/components/pop-up/evaluation/update-evaluation-popup/update-evaluation-popup.component';
 
 @Component({
   templateUrl: './evaluations-page.component.html',
@@ -25,6 +26,8 @@ export class EvaluationsPageComponent implements OnInit {
     'modify-by',
     'status',
     'evaluation-name',
+    'owner',
+    'promotion',
     'note',
     'link',
   ];
@@ -57,19 +60,46 @@ export class EvaluationsPageComponent implements OnInit {
       });
   }
 
+  openUpdateEvaluationPopup(evaluation: any) {
+    this.dialog
+      .open(UpdateEvaluationPopupComponent, {
+        width: '600px',
+        data: evaluation,
+      })
+      .afterClosed()
+      .subscribe((shouldReload: boolean) => {
+        this.getEvaluations();
+      });
+  }
+
   private getEvaluations() {
-    this.evaluationService.getAll().subscribe({
-      next: (evaluations) => {
-        this.dataSource = new MatTableDataSource<Evaluation>(evaluations);
-      },
-      error: (err) => {
-        this._snackBar.open(
-          '❌ Une erreur est survenue lors de la récupération des livrables',
-          'Ok',
-          { duration: 2000 }
-        );
-      },
-    });
+    if (this.user.role == this.roleEnum.APPRENTICE) {
+      this.evaluationService.getByOwner(this.user.id).subscribe({
+        next: (evaluations) => {
+          this.dataSource = new MatTableDataSource<Evaluation>(evaluations);
+        },
+        error: (err) => {
+          this._snackBar.open(
+            '❌ Une erreur est survenue lors de la récupération des livrables',
+            'Ok',
+            { duration: 2000 }
+          );
+        },
+      });
+    } else {
+      this.evaluationService.getAll().subscribe({
+        next: (evaluations) => {
+          this.dataSource = new MatTableDataSource<Evaluation>(evaluations);
+        },
+        error: (err) => {
+          this._snackBar.open(
+            '❌ Une erreur est survenue lors de la récupération des livrables',
+            'Ok',
+            { duration: 2000 }
+          );
+        },
+      });
+    }
   }
 
   downloadEvaluation(id: number, file_name: string) {

@@ -552,6 +552,15 @@ class DocumentDetail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+class DocumentByYearGroup(APIView):
+    parser_classes = (MultiPartParser, FormParser)
+
+    def get(self, request, pk):
+        document_list = Document.objects.all().filter(yearGroup=pk)
+        serializers = DocumentSerializer(document_list, many=True)
+        response = DocumentHelper.getAllDocuments(serializers)
+        return Response(response)
+
 class EvaluationList(APIView):
     parser_classes = (MultiPartParser, FormParser)
 
@@ -562,7 +571,6 @@ class EvaluationList(APIView):
         return Response(response)
 
     def post(self, request, *args, **kwargs):
-        print(request.data)
         serializer = EvaluationSerializer(data=request.data)
         if serializer.is_valid():
             file = request.FILES["file"]
@@ -577,7 +585,7 @@ class EvaluationList(APIView):
 class EvaluationDetail(APIView):
     parser_classes = (MultiPartParser, FormParser)
 
-    def get_object(self, pk):
+    def get_object(self, pk, *args, **kwargs):
         try:
             return Evaluations.objects.get(pk=pk)
         except Evaluations.DoesNotExist as exc:
@@ -605,6 +613,30 @@ class EvaluationDetail(APIView):
             pass
         evaluation.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+    def put(self, request, pk):
+        evaluation = self.get_object(pk, Evaluations)
+        evaluation.type = request.data.get("type")
+        evaluation.status = request.data.get("status")
+        evaluation.yeargroup = request.data.get("yeargroup")
+        evaluation.user = User.objects.get(pk=request.data.get("user"))
+        print(evaluation.user)
+        serializer = EvaluationSerializer(evaluation, data=request.data)
+        if serializer.is_valid():
+            evaluation.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class EvaluationByOwner(APIView):
+    parser_classes = (MultiPartParser, FormParser)
+
+    def get(self, request, pk):
+        evaluation_list = Evaluations.objects.all().filter(owner=pk)
+        serializers = EvaluationSerializer(evaluation_list, many=True)
+        response = EvaluationHelper.getAllEvaluations(serializers)
+        return Response(response)
+
 
 @api_view(["DELETE"])
 def cleanup(request, file_name):

@@ -77,6 +77,7 @@ import { DashboardAdminComponent } from './components/Dashboard/dashboard-admin/
 import { ProfileComponent } from './components/profile/profile/profile.component';
 import { DashboardPedagoComponent } from './components/Dashboard/dashboard-pedago/dashboard-pedago.component';
 import { AddEvaluationPopupComponent } from './components/pop-up/evaluation/add-evaluation-popup/add-evaluation-popup.component';
+import { UpdateEvaluationPopupComponent } from './components/pop-up/evaluation/update-evaluation-popup/update-evaluation-popup.component';
 
 @NgModule({
   declarations: [
@@ -122,6 +123,7 @@ import { AddEvaluationPopupComponent } from './components/pop-up/evaluation/add-
     ProfileComponent,
     DashboardPedagoComponent,
     AddEvaluationPopupComponent,
+    UpdateEvaluationPopupComponent,
   ],
   imports: [
     CalendarModule.forRoot({
