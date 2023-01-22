@@ -2,6 +2,7 @@ import os
 from django.http import FileResponse, Http404
 from django.conf import settings
 from django.core.mail import send_mail
+from django.utils import timezone
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
@@ -461,6 +462,34 @@ class ApprenticeInfoValidate(APIView):
                 # to:
                 [user.email],
             )
+            if serializer.data["app_is_validate"]:
+                # On détermine la promotion du futur apprenti
+                apprentice_year_group = YearGroup.objects.filter(
+                    beginDate__year=timezone.now().year
+                ).first()
+
+                apprentice_info = request.data["apprenticeInfo"]
+                apprentice_email = (
+                    apprentice_info["app_first_name"]
+                    + "."
+                    + apprentice_info["app_last_name"]
+                    + "@reseau.eseo.fr"
+                ).lower()
+
+                # Dictionnaire de données
+                apprentice_data = {
+                    "last_name": apprentice_info["app_last_name"],
+                    "first_name": apprentice_info["app_first_name"],
+                    "password": "Champ non vide",
+                    "email": apprentice_email,
+                    "role": Role.APPRENTICE.value,
+                    "yearGroup": apprentice_year_group.id,
+                }
+
+                # Sauvegarde l'utilisateur en base
+                apprenticeSerializer = ApprenticeRoleSerializer(data=apprentice_data)
+                apprenticeSerializer.is_valid(raise_exception=True)
+                apprenticeSerializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
