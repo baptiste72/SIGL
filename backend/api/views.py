@@ -455,7 +455,7 @@ class OpcoList(generics.ListCreateAPIView):
     serializer_class = OpcoSerializer
 
 
-class ContactCompanyDetail(generics.RetrieveUpdateDestroyAPIView):
+class ContactCompanyDetail(APIView):
     def get_object(self, pk):
         try:
             return ContactCompany.objects.get(ct_cmp_siret=pk)
