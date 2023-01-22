@@ -1,7 +1,7 @@
-<app-navigation>
+<!-- <app-navigation>
   <div class="navigation-content">
-    <div class="full-width"><h1>Dashboard Entreprise</h1></div>
-    <!--     AJOUTER Partie ajout apprenti / maitre d'apprentissage, reutiliser l'onglet User
+    <div class="full-width"><h1>Dashboard Entreprise</h1></div> -->
+<!--     AJOUTER Partie ajout apprenti / maitre d'apprentissage, reutiliser l'onglet User
     <mat-tab label="users">
       <ng-template mat-tab-label>
         <mat-icon>groups</mat-icon>
@@ -101,60 +101,59 @@
       </div>
     </mat-tab> -->
 
-    <!-- ENTREPRISES -->
-    <!-- <app-add-company-form></app-add-company-form>
+<!-- ENTREPRISES -->
+<!-- <app-add-company-form></app-add-company-form>
     </div>
 </app-navigation> -->
 
-    <app-navigation>
-      <mat-tab-group
-        animationDuration="0ms"
-        (selectedTabChange)="onTabChange($event)"
-      >
-        <!-- ENTREPRISE -->
-        <mat-tab label="companies">
-          <ng-template mat-tab-label>
-            <mat-icon>apartment</mat-icon>
-            Informations Entreprise
-          </ng-template>
-          <div class="navigation-content margin-bottom-50">
-            <mat-card class="configuration-page-card">
-              <mat-card-content>
-                <app-add-company-form></app-add-company-form>
-              </mat-card-content>
-            </mat-card>
-          </div>
-        </mat-tab>
+<app-navigation>
+  <mat-tab-group
+    animationDuration="0ms"
+    (selectedTabChange)="onTabChange($event)"
+  >
+    <!-- ENTREPRISE -->
+    <mat-tab label="companies">
+      <ng-template mat-tab-label>
+        <mat-icon>apartment</mat-icon>
+        Informations Entreprise
+      </ng-template>
+      <div class="navigation-content margin-bottom-50">
+        <mat-card class="configuration-page-card">
+          <mat-card-content>
+            <app-add-company-form></app-add-company-form>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </mat-tab>
 
-        <!-- APPRENTI -->
-        <mat-tab label="apprentices">
-          <ng-template mat-tab-label>
-            <mat-icon>groups</mat-icon>
-            Informations Apprenti
-          </ng-template>
-          <div class="navigation-content margin-bottom-50">
-            <mat-card class="configuration-page-card">
-              <mat-card-content>
-                <app-add-apprentice-form></app-add-apprentice-form>
-              </mat-card-content>
-            </mat-card>
-          </div>
-        </mat-tab>
+    <!-- APPRENTI -->
+    <mat-tab label="apprentices">
+      <ng-template mat-tab-label>
+        <mat-icon>groups</mat-icon>
+        Informations Apprenti
+      </ng-template>
+      <div class="navigation-content margin-bottom-50">
+        <mat-card class="configuration-page-card">
+          <mat-card-content>
+            <app-add-apprentice-form></app-add-apprentice-form>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </mat-tab>
 
-        <!-- MAITRE D'APPRENTISSAGE -->
-        <mat-tab label="mentors">
-          <ng-template mat-tab-label>
-            <mat-icon>groups</mat-icon>
-            Informations Maître d'apprentissage
-          </ng-template>
-          <div class="navigation-content margin-bottom-50">
-            <mat-card class="configuration-page-card">
-              <mat-card-content>
-                <app-add-mentor-form></app-add-mentor-form>
-              </mat-card-content>
-            </mat-card>
-          </div>
-        </mat-tab>
-      </mat-tab-group>
-    </app-navigation></div
-></app-navigation>
+    <!-- MAITRE D'APPRENTISSAGE -->
+    <mat-tab label="mentors">
+      <ng-template mat-tab-label>
+        <mat-icon>groups</mat-icon>
+        Informations Maître d'apprentissage
+      </ng-template>
+      <div class="navigation-content margin-bottom-50">
+        <mat-card class="configuration-page-card">
+          <mat-card-content>
+            <app-add-mentor-form></app-add-mentor-form>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</app-navigation>

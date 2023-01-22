@@ -126,7 +126,6 @@
           </mat-card-header>
 
           <mat-card-content>
-
             <div>
               <table mat-table [dataSource]="dataSourceCompanies">
                 <!-- Name Column -->
@@ -601,6 +600,129 @@
                 [pageSizeOptions]="[5, 10, 20]"
                 showFirstLastButtons
                 #formationCenterPaginator
+              >
+              </mat-paginator>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </mat-tab>
+    <!-- MISSIONS -->
+    <mat-tab label="missions">
+      <ng-template mat-tab-label>
+        <mat-icon>work</mat-icon>
+        Missions
+      </ng-template>
+      <div class="navigation-content margin-bottom-50">
+        <mat-card class="configuration-page-card">
+          <mat-card-header class="configuration-page-card-header">
+            <mat-card-title class="conf-page-card-title">
+              <mat-icon
+                aria-hidden="false"
+                aria-label="configuration icon"
+                fontIcon="work"
+              ></mat-icon>
+              MISSIONS
+            </mat-card-title>
+          </mat-card-header>
+
+          <mat-card-content>
+            <div>
+              <table
+                mat-table
+                [dataSource]="dataSourceMissions"
+                matSort
+                #missionSort="matSort"
+              >
+                <ng-container matColumnDef="app_first_name">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Prénom
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.app_first_name }}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="app_last_name">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Nom</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.app_last_name }}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="app_comp_name">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Entreprise
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.app_comp_name }}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="app_job_title">
+                  <th mat-header-cell *matHeaderCellDef>Intitulé du poste</th>
+                  <th></th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.app_job_title }}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="app_is_validate">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Statut
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    <mat-icon
+                      *ngIf="element.app_is_validate"
+                      class="conf-edit-icons"
+                      aria-hidden="false"
+                      fontIcon="verified"
+                    ></mat-icon>
+                    <mat-icon
+                      *ngIf="!element.app_is_validate"
+                      aria-hidden="false"
+                      class="conf-delete-icons"
+                      fontIcon="feedback"
+                    ></mat-icon>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="action">
+                  <th mat-header-cell *matHeaderCellDef>Action</th>
+                  <td mat-cell *matCellDef="let element">
+                    <button (click)="openUpdateFormationCenterPopup(element)">
+                      <mat-icon
+                        class="conf-edit-icons"
+                        aria-hidden="false"
+                        aria-label="documents icon"
+                        fontIcon="edit"
+                      ></mat-icon>
+                    </button>
+                    <button (click)="deleteFormationCenter(element.id)">
+                      <mat-icon
+                        class="conf-delete-icons"
+                        aria-hidden="false"
+                        aria-label="documents icon"
+                        fontIcon="close"
+                      ></mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+
+                <tr
+                  mat-header-row
+                  *matHeaderRowDef="displayedColumnsMissions"
+                ></tr>
+                <tr
+                  mat-row
+                  *matRowDef="let row; columns: displayedColumnsMissions"
+                ></tr>
+              </table>
+
+              <mat-paginator
+                [pageSizeOptions]="[5, 10, 20]"
+                showFirstLastButtons
+                #missionPaginator
               >
               </mat-paginator>
             </div>

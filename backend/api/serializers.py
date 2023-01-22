@@ -17,6 +17,7 @@ from base.models import (
     YearGroup,
     Note,
     Document,
+    ApprenticeInfo,
 )
 
 
@@ -37,19 +38,18 @@ class MentorSerializer(serializers.ModelSerializer):
             "email",
             "role",
             "mt_cmp_siret",
-            "mt_phone",         
-            "mt_job_title",   
+            "mt_phone",
+            "mt_job_title",
             "mt_last_diploma",
             "mt_former_eseo",
         )
-
 
 
 class CompanySerializer(serializers.ModelSerializer):
     class Meta:
         model = Company
         fields = (
-            "cmp_siret", 
+            "cmp_siret",
             "cmp_address",
             "cmp_name",
             "cmp_employees",
@@ -58,14 +58,15 @@ class CompanySerializer(serializers.ModelSerializer):
             "cmp_convention",
             "cmp_naf_ape",
             "cmp_work_field",
-            "cmp_phone", 
-            "cmp_email", 
-            "cmp_internat", 
+            "cmp_phone",
+            "cmp_email",
+            "cmp_internat",
         )
 
+
 class OpcoSerializer(serializers.ModelSerializer):
-    
-    #mentor = MentorSerializer(many=True)
+
+    # mentor = MentorSerializer(many=True)
     class Meta:
         model = Opco
         fields = (
@@ -77,9 +78,10 @@ class OpcoSerializer(serializers.ModelSerializer):
             "opco_email",
         )
 
+
 class ContactCompanySerializer(serializers.ModelSerializer):
-    
-    #mentor = MentorSerializer(many=True)
+
+    # mentor = MentorSerializer(many=True)
     class Meta:
         model = ContactCompany
         fields = (
@@ -102,7 +104,8 @@ class ContactCompanySerializer(serializers.ModelSerializer):
             "sa_email",
             "sa_job_title",
             "sa_former_eseo",
-        )       
+        )
+
 
 class TutorSerializer(serializers.ModelSerializer):
     class Meta:
@@ -180,7 +183,7 @@ class DeadlineSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Deadline
-        fields = ("id","name", "date", "description")
+        fields = ("id", "name", "date", "description")
 
 
 class SemesterSerializer(serializers.ModelSerializer):
@@ -201,18 +204,19 @@ class SemesterSerializerDelete(serializers.ModelSerializer):
 class NoteSerializer(serializers.ModelSerializer):
     beginDate = fields.DateTimeField()
     endDate = fields.DateTimeField()
-    
+
     class Meta:
         model = Note
-        fields = '__all__'
-     
+        fields = "__all__"
+
+
 class TreeNoteSerializer(serializers.ModelSerializer):
     beginDate = fields.DateTimeField()
     endDate = fields.DateTimeField()
 
     class Meta:
         model = Note
-        fields = '__all__'
+        fields = "__all__"
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -243,6 +247,25 @@ class CompanyUserSerializer(serializers.ModelSerializer):
         )
 
 
+class ApprenticeInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ApprenticeInfo
+        fields = (
+            "id",
+            "app_last_name",
+            "app_first_name",
+            "app_job_title",
+            "app_description",
+            "app_phone",
+            "app_collective_convention",
+            "app_working_hours",
+            "app_comp_name",
+            "app_siret",
+            "app_location",
+            "app_is_validate",
+        )
+
+
 class RegisterUserSerializer(serializers.ModelSerializer):
     # pylint: disable=duplicate-code
     class Meta:
@@ -267,14 +290,15 @@ class ChangePasswordSerializer(serializers.Serializer):
     def validate_new_password(self, value):
         validate_password(value)
         return value
-    
+
+
 class DocumentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Document
         fields = (
-            "id", 
-            "name", 
-            "file_name", 
-            "user", 
+            "id",
+            "name",
+            "file_name",
+            "user",
             "yearGroup",
-        )    
+        )

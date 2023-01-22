@@ -31,11 +31,11 @@ class Company(models.Model):
     cmp_work_field = models.CharField(max_length=200)
     cmp_phone = models.CharField(max_length=50)
     cmp_email = models.EmailField(max_length=200)
-    cmp_internat = models.CharField(max_length=20,default = "Non")
+    cmp_internat = models.CharField(max_length=20, default="Non")
 
 
 class Opco(models.Model):
-    opco_siret = models.CharField(max_length=200,primary_key=True)
+    opco_siret = models.CharField(max_length=200, primary_key=True)
     opco_cmp_siret = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)
     opco_name = models.CharField(max_length=200)
     opco_address = models.CharField(max_length=200)
@@ -48,24 +48,24 @@ class Opco(models.Model):
 
 class ContactCompany(models.Model):
     ct_cmp_siret = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)
-    ct_last_name  = models.CharField(max_length=200,default = "")
-    ct_first_name = models.CharField(max_length=200,default = "")
-    ct_phone      = models.CharField(max_length=200,default = "")
-    ct_email      = models.EmailField(max_length=200,default = "")
-    ct_job_title  = models.CharField(max_length=200,default = "")
-    ct_former_eseo = models.CharField(max_length=200,default = "")
-    fi_last_name  = models.CharField(max_length=200,default = "")
-    fi_first_name = models.CharField(max_length=200,default = "")
-    fi_phone      = models.CharField(max_length=200,default = "")
-    fi_email      = models.EmailField(max_length=200,default = "")
-    fi_job_title  = models.CharField(max_length=200,default = "")
-    fi_former_eseo = models.CharField(max_length=200,default = "")
-    sa_last_name  = models.CharField(max_length=200,default = "")
-    sa_first_name = models.CharField(max_length=200,default = "")
-    sa_phone      = models.CharField(max_length=200,default = "")
-    sa_email      = models.EmailField(max_length=200,default = "")
-    sa_job_title  = models.CharField(max_length=200,default = "")
-    sa_former_eseo = models.CharField(max_length=200,default = "")
+    ct_last_name = models.CharField(max_length=200, default="")
+    ct_first_name = models.CharField(max_length=200, default="")
+    ct_phone = models.CharField(max_length=200, default="")
+    ct_email = models.EmailField(max_length=200, default="")
+    ct_job_title = models.CharField(max_length=200, default="")
+    ct_former_eseo = models.CharField(max_length=200, default="")
+    fi_last_name = models.CharField(max_length=200, default="")
+    fi_first_name = models.CharField(max_length=200, default="")
+    fi_phone = models.CharField(max_length=200, default="")
+    fi_email = models.EmailField(max_length=200, default="")
+    fi_job_title = models.CharField(max_length=200, default="")
+    fi_former_eseo = models.CharField(max_length=200, default="")
+    sa_last_name = models.CharField(max_length=200, default="")
+    sa_first_name = models.CharField(max_length=200, default="")
+    sa_phone = models.CharField(max_length=200, default="")
+    sa_email = models.EmailField(max_length=200, default="")
+    sa_job_title = models.CharField(max_length=200, default="")
+    sa_former_eseo = models.CharField(max_length=200, default="")
 
     def __str__(self):
         return self.name
@@ -73,12 +73,14 @@ class ContactCompany(models.Model):
 
 class Mentor(User):
     # table des maîtres d'apprentissage
-    mt_cmp_siret = models.ForeignKey(Company, related_name="Mentor", on_delete=models.CASCADE, null=True)
-    mt_phone       = models.CharField(max_length=200, default="")
-    mt_job_title   = models.CharField(max_length=200, default="")
+    mt_cmp_siret = models.ForeignKey(
+        Company, related_name="Mentor", on_delete=models.CASCADE, null=True
+    )
+    mt_phone = models.CharField(max_length=200, default="")
+    mt_job_title = models.CharField(max_length=200, default="")
     mt_last_diploma = models.CharField(max_length=200, default="")
     mt_former_eseo = models.CharField(max_length=200, default="")
-    
+
     def __str__(self):
         return self.name
 
@@ -110,9 +112,14 @@ class ApprenticeInfo(models.Model):
     app_comp_name = models.CharField(max_length=200)
     app_siret = models.CharField(max_length=200)
     app_location = models.CharField(max_length=200)
-    app_comp_id = models.ForeignKey(
-        Company, on_delete=models.CASCADE, null=True
+    app_comp_id = (
+        models.ForeignKey(
+            Company,
+            on_delete=models.CASCADE,
+            null=True,
+        ),
     )
+    app_is_validate = models.BooleanField(default=False)
 
 
 class Apprentice(User):

@@ -24,6 +24,7 @@ from base.models import (
     Document,
     Opco,
     ContactCompany,
+    ApprenticeInfo,
 )
 
 from api.serializers import (
@@ -47,6 +48,7 @@ from api.serializers import (
     ApprenticeRoleSerializer,
     DocumentSerializer,
     CompanyUserSerializer,
+    ApprenticeInfoSerializer,
 )
 from api.helpers.tutor_team_helper import TutorTeamHelper
 from api.helpers.password_helper import PasswordHelper
@@ -406,6 +408,16 @@ class CompanyUserDetail(generics.RetrieveUpdateDestroyAPIView):
 class CompanyUserList(generics.ListCreateAPIView):
     queryset = CompanyUser.objects.all()
     serializer_class = CompanyUserSerializer
+
+
+class ApprenticeInfoList(generics.ListCreateAPIView):
+    queryset = ApprenticeInfo.objects.all()
+    serializer_class = ApprenticeInfoSerializer
+
+
+class ApprenticeInfoDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ApprenticeInfo.objects.all()
+    serializer_class = ApprenticeInfoSerializer
 
 
 class OpcoDetail(APIView):

@@ -151,6 +151,7 @@ import { SelectApprenticeComponent } from './components/sub-components/select-ap
     MatSelectModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatSortModule,
     FormsModule,
     MatSnackBarModule,
     MatSortModule,
@@ -161,7 +162,7 @@ import { SelectApprenticeComponent } from './components/sub-components/select-ap
     MatStepperModule,
     MatCardModule,
     ReactiveFormsModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
