@@ -16,11 +16,15 @@
 @import "/src/styles/modules/dialogs.scss";
 
 /* COMPONENTS */
-@import "/src/app/components/documents/documents.component.scss";
-@import "/src/app/components/evaluations/evaluations.component.scss";
-@import "/src/app/components/notes/notes.component.scss";
-@import "/src/app/components/navigation/navigation.component.scss";
-@import "/src/app/components/events/events.component.scss";
+
+/* SUB COMPONENTS */
+@import "/src/app/components/sub-components/notes/notes.component.scss";
+@import "/src/app/components/sub-components/notes-minimal/notes-minimal.component.scss";
+@import "/src/app/components/sub-components/evaluations/evaluations.component.scss";
+@import "/src/app/components/sub-components/documents/documents.component.scss";
+@import "/src/app/components/sub-components/navigation/navigation.component.scss";
+@import "/src/app/components/sub-components/events/events.component.scss";
+@import "/src/app/components/sub-components/select-apprentice/select-apprentice.component.scss";
 
 /* PAGES */
 @import "/src/app/components/pages/connection/connection.component.scss";
