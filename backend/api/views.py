@@ -439,7 +439,7 @@ class ApprenticeInfoValidate(APIView):
         )
         if serializer.is_valid():
             serializer.save()
-            validateStr = "validé" if serializer.data["app_is_validate"] else "refusé"
+            validate_str = "validé" if serializer.data["app_is_validate"] else "refusé"
             send_mail(
                 # title:
                 "[Projet SIGL] Statut de validation de mission - "
@@ -452,7 +452,7 @@ class ApprenticeInfoValidate(APIView):
                 + " "
                 + serializer.data["app_last_name"]
                 + " a été "
-                + validateStr
+                + validate_str
                 + ".\n\nCommentaire du coordinateur d'alternance :\n\n"
                 + request.data["comment"]
                 + "\n\nCordialement,\nL'équipe SIGL.",
