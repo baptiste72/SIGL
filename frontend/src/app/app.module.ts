@@ -80,6 +80,8 @@ import { DashboardPedagoComponent } from './components/Dashboard/dashboard-pedag
 import { NotesComponent } from './components/sub-components/notes/notes.component';
 import { NotesMinimalComponent } from './components/sub-components/notes-minimal/notes-minimal.component';
 import { SelectApprenticeComponent } from './components/sub-components/select-apprentice/select-apprentice.component';
+import { ValidateMissionPopupComponent } from './components/pop-up/apprentice/mission/validate-mission-popup/validate-mission-popup.component';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -128,6 +130,7 @@ import { SelectApprenticeComponent } from './components/sub-components/select-ap
     DashboardPedagoComponent,
     NotesComponent,
     SelectApprenticeComponent,
+    ValidateMissionPopupComponent,
   ],
   imports: [
     CalendarModule.forRoot({
@@ -152,6 +155,7 @@ import { SelectApprenticeComponent } from './components/sub-components/select-ap
     MatDatepickerModule,
     MatNativeDateModule,
     MatSortModule,
+    MatButtonModule,
     FormsModule,
     MatSnackBarModule,
     MatSortModule,

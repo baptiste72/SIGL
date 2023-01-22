@@ -17,9 +17,16 @@
 
 .dialog-header {
   padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  h2 {
+    color: $white !important;
+  }
 }
 
-.dialog-header h2{
+.dialog-header-close-btn {
   color: $white !important;
 }
 
@@ -34,4 +41,3 @@
 .mat-form-field {
   margin-bottom: 20px;
 }
-

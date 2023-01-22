@@ -36,4 +36,14 @@ export class ApprenticeInfoService {
       apprenticeInfo
     );
   }
+
+  public validateMission(
+    apprenticeInfo: ApprenticeInfo,
+    comment: string
+  ): Observable<ApprenticeInfo> {
+    return this.http.put<ApprenticeInfo>(
+      `${environment.apiUrl}/${this.urlPrefix}/validate/${apprenticeInfo.id}`,
+      { apprenticeInfo: apprenticeInfo, comment: comment }
+    );
+  }
 }

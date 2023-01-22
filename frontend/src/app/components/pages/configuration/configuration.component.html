@@ -688,23 +688,10 @@
                 </ng-container>
 
                 <ng-container matColumnDef="action">
-                  <th mat-header-cell *matHeaderCellDef>Action</th>
+                  <th mat-header-cell *matHeaderCellDef>Vérifier</th>
                   <td mat-cell *matCellDef="let element">
-                    <button (click)="openUpdateFormationCenterPopup(element)">
-                      <mat-icon
-                        class="conf-edit-icons"
-                        aria-hidden="false"
-                        aria-label="documents icon"
-                        fontIcon="edit"
-                      ></mat-icon>
-                    </button>
-                    <button (click)="deleteFormationCenter(element.id)">
-                      <mat-icon
-                        class="conf-delete-icons"
-                        aria-hidden="false"
-                        aria-label="documents icon"
-                        fontIcon="close"
-                      ></mat-icon>
+                    <button (click)="openMissionPopup(element)">
+                      <mat-icon fontIcon="visibility"></mat-icon>
                     </button>
                   </td>
                 </ng-container>

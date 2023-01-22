@@ -1,5 +1,7 @@
 import os
 from django.http import FileResponse, Http404
+from django.conf import settings
+from django.core.mail import send_mail
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
@@ -418,6 +420,49 @@ class ApprenticeInfoList(generics.ListCreateAPIView):
 class ApprenticeInfoDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = ApprenticeInfo.objects.all()
     serializer_class = ApprenticeInfoSerializer
+
+
+class ApprenticeInfoValidate(APIView):
+    def get_object(self, pk):
+        try:
+            return ApprenticeInfo.objects.get(pk=pk)
+        except ApprenticeInfo.DoesNotExist as exc:
+            raise Http404 from exc
+
+    def put(self, request, pk):
+        apprentice_info = self.get_object(pk)
+        company_user = CompanyUser.objects.get(company_siret=apprentice_info.app_siret)
+
+        user = User.objects.get(pk=company_user.id)
+        serializer = ApprenticeInfoSerializer(
+            apprentice_info, data=request.data["apprenticeInfo"]
+        )
+        if serializer.is_valid():
+            serializer.save()
+            validateStr = "validé" if serializer.data["app_is_validate"] else "refusé"
+            send_mail(
+                # title:
+                "[Projet SIGL] Statut de validation de mission - "
+                + serializer.data["app_first_name"]
+                + " "
+                + serializer.data["app_last_name"],
+                # message:
+                "Bonjour,\n\nLa mission de l'apprenti "
+                + serializer.data["app_first_name"]
+                + " "
+                + serializer.data["app_last_name"]
+                + " a été "
+                + validateStr
+                + ".\n\nCommentaire du coordinateur d'alternance :\n\n"
+                + request.data["comment"]
+                + "\n\nCordialement,\nL'équipe SIGL.",
+                # from:
+                settings.EMAIL_HOST_USER,
+                # to:
+                [user.email],
+            )
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class OpcoDetail(APIView):

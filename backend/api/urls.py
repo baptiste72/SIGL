@@ -31,6 +31,7 @@ urlpatterns = [
     # apprentice-info
     path("apprentice-infos", views.ApprenticeInfoList.as_view()),
     path("apprentice-infos/<int:pk>", views.ApprenticeInfoDetail.as_view()),
+    path("apprentice-infos/validate/<int:pk>", views.ApprenticeInfoValidate.as_view()),
     # notes
     path("notes", views.NotesList.as_view()),
     path("notes/<int:pk>", views.NotesDetail.as_view()),

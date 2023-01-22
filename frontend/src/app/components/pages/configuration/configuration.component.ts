@@ -31,6 +31,7 @@ import { ApprenticeInfoService } from '@app/services/apprentice-info/apprentice-
 import { MatSort } from '@angular/material/sort';
 import { Company } from '@app/models/Company';
 import { User } from '@app/models/User';
+import { ValidateMissionPopupComponent } from '@app/components/pop-up/apprentice/mission/validate-mission-popup/validate-mission-popup.component';
 
 @Component({
   templateUrl: './configuration.component.html',
@@ -426,11 +427,23 @@ export class ConfigurationComponent implements OnInit, AfterViewInit {
       });
   }
 
-  public openUpdateFormationCenterPopup(formation_center: FormationCenter) {
+  public openUpdateFormationCenterPopup(formationCenter: FormationCenter) {
     this.dialog
       .open(UpdateFormationCenterPopupComponent, {
         width: '600px',
-        data: formation_center,
+        data: formationCenter,
+      })
+      .afterClosed()
+      .subscribe((shouldReload: boolean) => {
+        this.loadFormationCenters();
+      });
+  }
+
+  public openMissionPopup(mission: ApprenticeInfo) {
+    this.dialog
+      .open(ValidateMissionPopupComponent, {
+        width: '1200px',
+        data: mission,
       })
       .afterClosed()
       .subscribe((shouldReload: boolean) => {
