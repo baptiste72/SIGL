@@ -1,0 +1,14 @@
+@import "/src/styles/helpers/constants.scss";
+
+.mentor-form-card {
+  box-shadow: $box-shadow-secondary;
+  padding: 0px;
+  overflow-y: initial !important;
+}
+
+.mentor-formfield-card {
+  box-shadow: $box-shadow-secondary;
+  padding: 25px;
+  max-height: 80vh;
+  overflow: scroll;
+}

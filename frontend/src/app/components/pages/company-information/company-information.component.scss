@@ -1,0 +1,45 @@
+@import "/src/styles/helpers/constants.scss";
+@import "/src/styles/helpers/mixins.scss";
+
+.company-information-page-card {
+  box-shadow: $box-shadow-secondary;
+  padding: 0px;
+  width: 100%;
+}
+
+.company-information-page-card-header {
+  padding-top: 12px;
+  box-shadow: $box-shadow-secondary;
+  background: $blue-violet-gradient;
+  color: $white;
+  justify-content: center;
+}
+
+.conf-page-card-title {
+  display: flex;
+}
+
+.conf-actions-btns {
+  display: flex;
+  width: 100%;
+  margin-left: 30px;
+  @include respond-to("medium") {
+    width: 50%;
+  }
+}
+
+.conf-edit-icons {
+  color: $green;
+}
+
+.mat-tab-labels {
+  justify-content: center;
+}
+
+.mat-tab-label-container {
+  margin: 20px 0px;
+}
+
+.mat-tab-header {
+  border: none;
+}

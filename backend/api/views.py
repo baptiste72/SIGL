@@ -58,20 +58,20 @@ from api.helpers.semester_helper import SemesterHelper
 from api.helpers.document_helper import DocumentHelper
 
 
-@api_view(["GET"])
-def get_mentors(request):
-    mentor_list = Mentor.objects.all()
-    serializers = MentorSerializer(mentor_list, many=True)
-    return Response(serializers.data)
+class MentorList(generics.ListCreateAPIView):
+    queryset = Mentor.objects.all()
+    serializer_class = MentorSerializer
 
 
-@api_view(["POST"])
-def add_mentor(request):
-    serializer = MentorSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class MentorDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Mentor.objects.all()
+    serializer_class = MentorSerializer
+
+class MentorByCompany(APIView):
+    def get(self, request, pk):
+        mentor_list = Mentor.objects.filter(mt_cmp_siret=pk)
+        serializers = MentorSerializer(mentor_list, many=True)
+        return Response(serializers.data)
 
 
 @api_view(["GET"])
@@ -360,47 +360,16 @@ class UserList(APIView):
         return Response(serializer.data)
 
 class ApprenticeInfoList(generics.ListCreateAPIView):
-    def get(self, request):
-        apprentice_list = ApprenticeInfo.objects.all()
-        serializer = ApprenticeInfoSerializer(apprentice_list, many=True)
-        return Response(serializer.data)
+    queryset = ApprenticeInfo.objects.all()
+    serializer_class = ApprenticeInfoSerializer
 
-    def post(self, request):
-        serializer = ApprenticeInfoSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-class ApprenticeInfoDetail(APIView):
-    def get_object(self, pk):
-        try:
-            return ApprenticeInfo.objects.get(pk=pk)
-        except ApprenticeInfo.DoesNotExist as exc:
-            raise Http404 from exc
-
-    def get(self, request, pk):
-        apprentice = self.get_object(pk)
-        serializer = ApprenticeInfoSerializer(apprentice)
-        return Response(serializer.data)
-
-    def put(self, request, pk):
-        apprentice = self.get_object(pk)
-        serializer = ApprenticeInfoSerializer(apprentice, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, pk):
-        apprentice = self.get_object(pk)
-        apprentice.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
+class ApprenticeInfoDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ApprenticeInfo.objects.all()
+    serializer_class = ApprenticeInfoSerializer
 
 class ApprenticeInfoByCompany(APIView):
-    def get(self, compapny_id):
-        apprentice_list = ApprenticeInfo.objects.filter(app_comp_id=compapny_id)
+    def get(self, request, pk):
+        apprentice_list = ApprenticeInfo.objects.filter(app_siret=pk)
         serializers = ApprenticeInfoSerializer(apprentice_list, many=True)
         return Response(serializers.data)
 

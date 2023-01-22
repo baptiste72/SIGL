@@ -1,90 +1,97 @@
 import { Component, Inject } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MentorService } from '@app/services/mentor/mentor.service';
-import { ApprenticeService } from '@app/services/apprentice/apprentice.service';
+import { ApprenticeInfoService } from '@app/services/apprentice-info/apprentice-info.service';
+import { ApprenticeInfo } from '@app/models/ApprenticeInfo';
+import { CompanyUser } from '@app/models/CompanyUser';
+import { CompanyUserService } from '@app/services/company-user/company-user.service';
+import { RegexService } from '@app/services/regex/regex.service';
 
 @Component({
   selector: 'app-add-apprentice-popup',
   templateUrl: './add-apprentice-popup.component.html',
   styleUrls: ['./add-apprentice-popup.component.scss'],
 })
-export class AddApprenticePopupComponent {
+export class AddApprenticeInfoPopupComponent {
   apprenticeForm: FormGroup;
   fromDialog!: string;
 
-  //Regex validator
-  private phoneValidator = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/;
-  private stringValidator =
-    /^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/;
-  private numberOnlyValidator = /^\d+$/;
-
   constructor(
-    public dialogRef: MatDialogRef<AddApprenticePopupComponent>,
-    private apprenticeService: ApprenticeService,
+    public dialogRef: MatDialogRef<AddApprenticeInfoPopupComponent>,
+    private apprenticeInfoService: ApprenticeInfoService,
     private _snackBar: MatSnackBar,
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    private regexService: RegexService,
+    @Inject(MAT_DIALOG_DATA) public data: CompanyUser
   ) {
     this.apprenticeForm = this._formBuilder.group({
       app_last_name: [
-        'heck',
-        [Validators.required, Validators.pattern(this.stringValidator)],
+        '',
+        [
+          Validators.required,
+          Validators.pattern(this.regexService.stringValidator()),
+        ],
       ],
       app_first_name: [
-        'jojo',
-        [Validators.required, Validators.pattern(this.stringValidator)],
+        '',
+        [
+          Validators.required,
+          Validators.pattern(this.regexService.stringValidator()),
+        ],
       ],
       app_job_title: [
-        'boss',
-        [Validators.required, Validators.pattern(this.stringValidator)],
+        '',
+        [
+          Validators.required,
+          Validators.pattern(this.regexService.stringValidator()),
+        ],
       ],
-      app_description: ['oui', Validators.required],
+      app_description: ['', Validators.required],
       app_phone: [
-        '666',
+        '',
         [
           Validators.required,
           Validators.minLength(10),
-          Validators.pattern(this.phoneValidator),
+          Validators.pattern(this.regexService.phoneValidator()),
         ],
       ],
-      app_collective_convention: ['123', Validators.required],
+      app_collective_convention: ['', Validators.required],
       app_working_hours: [
-        '35',
-        [Validators.required, Validators.pattern(this.numberOnlyValidator)],
+        '',
+        [
+          Validators.required,
+          Validators.pattern(this.regexService.numberOnlyValidator()),
+        ],
       ],
-      app_comp_name: [''],
-      app_siret: [''],
-      app_location: [''],
+      app_comp_name: [null],
+      app_siret: [
+        data.company_siret,
+        [
+          Validators.required,
+          Validators.pattern(this.regexService.numberOnlyValidator()),
+        ],
+      ],
+      app_location: [null],
     });
   }
 
-  public addApprentice(data: any) {
-    this.apprenticeService.add(data).subscribe({
+  public addApprentice(data: ApprenticeInfo) {
+    this.apprenticeInfoService.add(data).subscribe({
       next: (v) => {
-        this.displaySnackBar("✔ Données de l'apprenti enregistrées ");
+        console.log('TOTO');
+        this._snackBar.open("✔ Données de l'apprenti enregistrées ");
         this.closeDialog();
       },
       error: (err) => {
-        this.displaySnackBar('❌ Une erreur est survenue');
+        console.log(err);
+        console.log(data);
+        this._snackBar.open('❌ Une erreur est survenue');
       },
     });
   }
-
   public closeDialog() {
     this.dialogRef.close({ event: 'close', data: this.fromDialog });
-  }
-
-  private displaySnackBar(msg: string) {
-    this._snackBar.open(msg, 'Ok', { duration: 2000 });
-  }
-
-  //For tests
-  public sendJSON(data: any) {
-    console.log(data);
-  }
-  public printFormValidity(form: FormGroup) {
-    console.log('Is the form invalid :', form.invalid);
   }
 }

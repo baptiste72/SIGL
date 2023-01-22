@@ -1,24 +1,24 @@
-<mat-card class="mentor-form-card">
-  <mat-card-header class="mentor-form-card-header">
-    <mat-card-title class="mentor-form-card-title">
+<mat-card class="mat-dialog-container">
+  <mat-card-header class="dialog-header bg-green">
+    <mat-card-title class="mat-dialog-title">
       Informations du maître d'apprentissage
     </mat-card-title>
   </mat-card-header>
-  <mat-card class="mentor-formfield-card">
+  <mat-card class="mat-dialog-card">
     <form [formGroup]="mentorForm">
       <div class="div-input">
         <h3>NOM</h3>
         <mat-form-field class="full-width" appearance="fill">
-          <input type="text" matInput formControlName="mt_last_name" />
+          <input type="text" matInput formControlName="last_name" />
           <mat-hint
             >Il s'agit du NOM de la personne qui va assurer l'encadrement
             opérationnel de l'apprenti(e) en entreprise.</mat-hint
           >
           <mat-error
             *ngIf="
-              mentorForm.get('mt_last_name')?.invalid &&
-              (mentorForm.get('mt_last_name')?.dirty ||
-                mentorForm.get('mt_last_name')?.touched)
+              mentorForm.get('last_name')?.invalid &&
+              (mentorForm.get('last_name')?.dirty ||
+                mentorForm.get('last_name')?.touched)
             "
           >
             Nom du MA requis</mat-error
@@ -29,16 +29,16 @@
       <div class="div-input">
         <h3>Prénom</h3>
         <mat-form-field class="full-width" appearance="fill">
-          <input type="text" matInput formControlName="mt_first_name" />
+          <input type="text" matInput formControlName="first_name" />
           <mat-hint
             >Il s'agit du PRÉNOM de la personne qui va assurer l'encadrement
             opérationnel de l'apprenti(e) en entreprise.</mat-hint
           >
           <mat-error
             *ngIf="
-              mentorForm.get('mt_first_name')?.invalid &&
-              (mentorForm.get('mt_first_name')?.dirty ||
-                mentorForm.get('mt_first_name')?.touched)
+              mentorForm.get('first_name')?.invalid &&
+              (mentorForm.get('first_name')?.dirty ||
+                mentorForm.get('first_name')?.touched)
             "
           >
             Prénom du MA requis</mat-error
@@ -69,16 +69,16 @@
       <div class="div-input">
         <h3>Addresse Email</h3>
         <mat-form-field class="full-width" appearance="fill">
-          <input type="text" matInput formControlName="mt_email" />
+          <input type="text" matInput formControlName="email" />
           <mat-hint
             >Il s'agit de l'E-MAIL de la personne qui va assurer l'encadrement
             opérationnel de l'apprenti(e) en entreprise.</mat-hint
           >
           <mat-error
             *ngIf="
-              mentorForm.get('mt_email')?.invalid &&
-              (mentorForm.get('mt_email')?.dirty ||
-                mentorForm.get('mt_email')?.touched)
+              mentorForm.get('email')?.invalid &&
+              (mentorForm.get('email')?.dirty ||
+                mentorForm.get('email')?.touched)
             "
           >
             Adresse email du MA requis</mat-error
@@ -134,7 +134,7 @@
           formControlName="mt_former_eseo"
         >
           <mat-radio-button
-            class="radio-btn"
+            class="form-radio-btn"
             *ngFor="let response of isFormerESEO"
             [value]="response"
           >

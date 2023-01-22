@@ -100,6 +100,7 @@ class YearGroup(models.Model):
 
 
 class ApprenticeInfo(models.Model):
+    # table des infos de l'apprenti (missions)
     app_last_name = models.CharField(max_length=200)
     app_first_name = models.CharField(max_length=200)
     app_job_title = models.CharField(max_length=200)
@@ -107,12 +108,9 @@ class ApprenticeInfo(models.Model):
     app_phone = models.CharField(max_length=20)
     app_collective_convention = models.CharField(max_length=200)
     app_working_hours = models.CharField(max_length=10)
-    app_comp_name = models.CharField(max_length=200)
+    app_comp_name = models.CharField(max_length=200, null=True)
+    app_location = models.CharField(max_length=200, null=True)
     app_siret = models.CharField(max_length=200)
-    app_location = models.CharField(max_length=200)
-    app_comp_id = models.ForeignKey(
-        Company, on_delete=models.CASCADE, null=True
-    )
 
 
 class Apprentice(User):
