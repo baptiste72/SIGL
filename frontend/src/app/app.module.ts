@@ -87,6 +87,7 @@ import { NotesMinimalComponent } from './components/sub-components/notes-minimal
 import { SelectApprenticeComponent } from './components/sub-components/select-apprentice/select-apprentice.component';
 import { ValidateMissionPopupComponent } from './components/pop-up/apprentice/mission/validate-mission-popup/validate-mission-popup.component';
 import { MatButtonModule } from '@angular/material/button';
+import { DetailsCompanyPopupComponent } from './components/pop-up/company/details-company-popup/details-company-popup.component';
 
 @NgModule({
   declarations: [
@@ -141,6 +142,7 @@ import { MatButtonModule } from '@angular/material/button';
     NotesComponent,
     SelectApprenticeComponent,
     ValidateMissionPopupComponent,
+    DetailsCompanyPopupComponent,
   ],
   imports: [
     CalendarModule.forRoot({

@@ -6,7 +6,7 @@ urlpatterns = [
     # apprentices
     path("apprentices", views.ApprenticeList.as_view()),
     path("apprentices/<int:pk>", views.ApprenticeDetail.as_view()),
-    # apprentice-infos
+    # apprentice-info
     path("apprentice-info", views.ApprenticeInfoList.as_view()),
     path("apprentice-info/<int:pk>", views.ApprenticeInfoDetail.as_view()),
     path("apprentice-info/company/<int:pk>", views.ApprenticeInfoByCompany.as_view()),
@@ -34,9 +34,9 @@ urlpatterns = [
         name="formationCenters",
     ),
     # apprentice-info
-    path("apprentice-infos", views.ApprenticeInfoList.as_view()),
-    path("apprentice-infos/<int:pk>", views.ApprenticeInfoDetail.as_view()),
-    path("apprentice-infos/validate/<int:pk>", views.ApprenticeInfoValidate.as_view()),
+    path("apprentice-info", views.ApprenticeInfoList.as_view()),
+    path("apprentice-info/<int:pk>", views.ApprenticeInfoDetail.as_view()),
+    path("apprentice-info/validate/<int:pk>", views.ApprenticeInfoValidate.as_view()),
     # notes
     path("notes", views.NotesList.as_view()),
     path("notes/<int:pk>", views.NotesDetail.as_view()),
@@ -71,15 +71,6 @@ urlpatterns = [
         "users/password-reset/",
         include("django_rest_passwordreset.urls"),
     ),
-    # year-groups
-    # path("year-group", views.get_year_groups, name="getYearGroups"),
-    # path("year-group/add", views.add_year_group, name="addYearGroup"),
-    # path("year-group/update", views.update_year_group, name="updateYearGroup"),
-    # path(
-    #     "year-group/delete/<int:pk>",
-    #     views.delete_year_group,
-    #     name="deleteYearGroupById",
-    # ),
     path("year-group", views.YearGroupList.as_view()),
     path("year-group/<int:pk>", views.YearGroupDetail.as_view()),
     # documents
@@ -87,7 +78,6 @@ urlpatterns = [
     path("documents/<int:pk>", views.DocumentDetail.as_view()),
     path("documents/cleanup/<str:file_name>", views.cleanup),
     path("documents/year-group/<int:pk>", views.DocumentByYearGroup.as_view()),
-    
     # livrables
     path("evaluations", views.EvaluationList.as_view()),
     path("evaluations/<int:pk>", views.EvaluationDetail.as_view()),

@@ -31,9 +31,8 @@ import { CompanyService } from '@app/services/company/company.service';
 import { ApprenticeInfo } from '@app/models/ApprenticeInfo';
 import { ApprenticeInfoService } from '@app/services/apprentice-info/apprentice-info.service';
 import { MatSort } from '@angular/material/sort';
-import { Company } from '@app/models/Company';
-import { User } from '@app/models/User';
 import { ValidateMissionPopupComponent } from '@app/components/pop-up/apprentice/mission/validate-mission-popup/validate-mission-popup.component';
+import { DetailsCompanyPopupComponent } from '@app/components/pop-up/company/details-company-popup/details-company-popup.component';
 
 @Component({
   templateUrl: './configuration.component.html',
@@ -73,6 +72,7 @@ export class ConfigurationComponent implements OnInit, AfterViewInit {
     'companySiret',
     'nbEmployees',
     'codeCpne',
+    'details',
   ];
   public dataSourceCompanies: MatTableDataSource<Company>;
   @ViewChild('companiesPaginator') companiesPaginator!: MatPaginator;
@@ -446,6 +446,18 @@ export class ConfigurationComponent implements OnInit, AfterViewInit {
       .open(ValidateMissionPopupComponent, {
         width: '1200px',
         data: mission,
+      })
+      .afterClosed()
+      .subscribe((shouldReload: boolean) => {
+        this.loadFormationCenters();
+      });
+  }
+
+  public openDetailsPopup(company: Company) {
+    this.dialog
+      .open(DetailsCompanyPopupComponent, {
+        width: '1000px',
+        data: company,
       })
       .afterClosed()
       .subscribe((shouldReload: boolean) => {
