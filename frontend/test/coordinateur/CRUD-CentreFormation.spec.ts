@@ -123,7 +123,7 @@ describe('Tests - Coordinateur - CRUD CentreFormation', () => {
       // Vérification de la suppression du centre de formation
       let delCF = 0;
       try {
-        await page.click('xpath=/html/body/app-root/ng-component/app-navigation/mat-drawer-container/mat-drawer-content/mat-tab-group/div/mat-tab-body[6]/div/div/mat-card/mat-card-content/div[2]/table/tbody/tr/td[5]/button[2]');
+        await page.click('xpath=/html/body/app-root/ng-component/app-navigation/mat-drawer-container/mat-drawer-content/mat-tab-group/div/mat-tab-body[6]/div/div/mat-card/mat-card-content/div[2]/table/tbody/tr/td[5]/button[2]', { timeout: 2000 });
         delCF = 0;
       } catch (e) { delCF = 1; }
       expect(delCF).toBe(1);
