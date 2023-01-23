@@ -35,7 +35,6 @@ export class AuthService {
       })
       .pipe(
         map((user) => {
-          // Enregistre les informations de l'utilisateur ainsi que le JWT Token dans le localStorage
           localStorage.setItem('user', JSON.stringify(user));
           this.userSubject.next(user);
           return user;
@@ -62,10 +61,18 @@ export class AuthService {
   }
 
   public microsoftGetUser(flow: any): Observable<any> {
-    return this.http.post<any>(
-      `${environment.apiUrl}/${this.urlPrefix}/microsoft/user`,
-      flow,
-      { withCredentials: true }
-    );
+    return this.http
+      .post<any>(
+        `${environment.apiUrl}/${this.urlPrefix}/microsoft/user`,
+        flow,
+        { withCredentials: true }
+      )
+      .pipe(
+        map((user) => {
+          localStorage.setItem('user', JSON.stringify(user));
+          this.userSubject.next(user);
+          return user;
+        })
+      );
   }
 }
