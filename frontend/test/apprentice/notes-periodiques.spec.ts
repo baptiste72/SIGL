@@ -1,18 +1,23 @@
 import { Browser, BrowserContext, Page, chromium } from 'playwright';
+import { saveVideo } from 'playwright-video'
 
 describe('Tests - Apprentis -  notes periodiques', () => {
 
     let browser: Browser;
     let context: BrowserContext;
     let page: Page;
+    let capture;
 
     beforeAll(async () => {
       browser = await chromium.launch({
         headless: true,
         executablePath: '/usr/bin/chromium-browser'
       });
-      context = await browser.newContext()
+
+      context = await browser.newContext();
       page = await context.newPage();
+      capture = await saveVideo(page, 'recording.mp4')
+
       await page.goto("https://projet-sigl.fr/")
       const user = 'alexandre.nizery@reseau.eseo.fr'
       const password = 'oHO98*s1mPli'
@@ -97,106 +102,116 @@ describe('Tests - Apprentis -  notes periodiques', () => {
 
       // Midification de la note
       // Click sur le bouton du menu amenenant aux notes
-      await page.click('body > app-root > ng-component > app-navigation > mat-drawer-container > mat-drawer > div > div > a:nth-child(3)');
+      await page.click('xpath=/html/body/app-root/ng-component/app-navigation/mat-drawer-container/mat-drawer/div/div/a[3]');
       expect(await page.url()).toBe("https://projet-sigl.fr/notes");
-      wait(3000);
+      await page.waitForTimeout(500);
 
       // Clique sur le menu déroulant du semestre en cours
-      await page.click('body > app-root > ng-component > app-navigation > mat-drawer-container > mat-drawer-content > div.navigation-content > mat-card > mat-card-content > div.tree-div > mat-tree > mat-tree-node > button');
-      wait(1500);
+      await page.click('xpath=/html/body/app-root/ng-component/app-navigation/mat-drawer-container/mat-drawer-content/div[2]/mat-card/mat-card-content/div[1]/mat-tree/mat-tree-node/button');
+      await page.waitForTimeout(500);
 
       // Clique sur la note à modifier
-      await page.click('body > app-root > ng-component > app-navigation > mat-drawer-container > mat-drawer-content > div.navigation-content > mat-card > mat-card-content > div.tree-div > mat-tree > mat-tree-node:nth-child(2) > button');
-      wait(1500);
+      await page.click('xpath=/html/body/app-root/ng-component/app-navigation/mat-drawer-container/mat-drawer-content/div[2]/mat-card/mat-card-content/div[1]/mat-tree/mat-tree-node[2]/button');
+      await page.waitForTimeout(500);
 
       // Clique sur le bouton "Modifier la note"
-      await page.click('body > app-root > ng-component > app-navigation > mat-drawer-container > mat-drawer-content > div.navigation-content > mat-card > mat-card-content > div.note-card-div > div > div > button.btn-modify-note.green.ng-star-inserted');
-      wait(1500);
+      await page.locator('xpath=/html/body/app-root/ng-component/app-navigation/mat-drawer-container/mat-drawer-content/div[2]/mat-card/mat-card-content/div[2]/div/div/button[1]').click();
 
       // Remplissage du formulaire avec les nouvelles données
       // Nom de la note
-      const nom_note = await (await page.locator('body > app-root > ng-component > app-navigation > mat-drawer-container > mat-drawer-content > div.navigation-content > mat-card > mat-card-content > div.tree-div > mat-tree > mat-tree-node:nth-child(2) > button')).innerText();
-      console.log(nom_note);
-      await page.keyboard.down('Shift');
-      for (let i = 0; i < nom_note.length; i++)
-        await page.keyboard.press('ArrowLeft');
-      await page.keyboard.up('Shift');
+      await page.waitForTimeout(2000);
+      await page.keyboard.press('Control+A');
       await page.keyboard.press('Backspace');
-      wait(500);
       await page.keyboard.type(nouveau_nom_note);
-      // await input.keyboard.press('Delete');
-      // await input.fill(nouveau_nom_note);
-      // await page.locator('#mat-input-2').fill(nouveau_nom_note);
-      // wait(500);
 
-      wait(1500);
+      // Partie déroulante semestre
+      await page.waitForSelector('mat-select');
+      await page.locator('mat-select').click();
+      await page.waitForTimeout(1500);
+      // Click sur le dropdown menu - option
+      await page.waitForSelector('mat-option');
+      await page.locator('mat-option').click();
 
       // Switch sur la partie date
-      await page.fill('#mat-date-range-input-1 > div > div:nth-child(1) > input', nouveau_date_debut);
-      await page.fill('#mat-date-range-input-1 > div > div.mat-date-range-input-wrapper.mat-date-range-input-end-wrapper > input', nouveau_date_fin);
-      wait(1500);
+      await page.keyboard.press('Tab');
+      await page.keyboard.type(nouveau_date_debut);
+      await page.keyboard.press('Tab');
+      await page.keyboard.type(nouveau_date_fin);
+      await page.waitForTimeout(1500);
 
       // Switch sur la partie description
       await page.keyboard.press('Tab');
-      await page.keyboard.press('Control+KeyA');
-      await page.keyboard.down('Delete');
+      await page.keyboard.press('Tab');
+      await page.keyboard.press('Control+A');
+      await page.keyboard.press('Backspace');
       await page.keyboard.type(nouveau_description_note);
-      wait(1500);
 
       // Validation de la modification de la note
-      await page.click('#mat-mdc-dialog-1 > div > div > app-add-note-popup > form > div.mat-mdc-dialog-actions.mdc-dialog__actions.mat-mdc-dialog-actions-align-end > button.green.bold', {force: true});
-      wait(3000);
+      await page.click('xpath=/html/body/div[2]/div[2]/div/mat-dialog-container/div/div/app-add-note-popup/form/div[2]/button[1]');
+      await page.waitForTimeout(1500);
 
       // Clique sur le menu déroulant du semestre en cours
-      await page.locator('body > app-root > ng-component > app-navigation > mat-drawer-container > mat-drawer-content > div.navigation-content > mat-card > mat-card-content > div.tree-div > mat-tree > mat-tree-node > button');
-      wait(3000);
+      await page.click('xpath=/html/body/app-root/ng-component/app-navigation/mat-drawer-container/mat-drawer-content/div[2]/mat-card/mat-card-content/div[1]/mat-tree/mat-tree-node/button');
+      await page.waitForTimeout(1500);
 
       // Vérification du nom de la note
-      await page.waitForSelector('body > app-root > ng-component > app-navigation > mat-drawer-container > mat-drawer-content > div.navigation-content > mat-card > mat-card-content > div.tree-div > mat-tree > mat-tree-node:nth-child(2) > button');
-      const nom_reel_note_verif = await ( await page.locator('body > app-root > ng-component > app-navigation > mat-drawer-container > mat-drawer-content > div.navigation-content > mat-card > mat-card-content > div.tree-div > mat-tree > mat-tree-node:nth-child(2) > button')).innerText();
+      await page.waitForSelector('xpath=/html/body/app-root/ng-component/app-navigation/mat-drawer-container/mat-drawer-content/div[2]/mat-card/mat-card-content/div[1]/mat-tree/mat-tree-node[2]/button');
+      const nom_reel_note_verif = await ( await page.locator('xpath=/html/body/app-root/ng-component/app-navigation/mat-drawer-container/mat-drawer-content/div[2]/mat-card/mat-card-content/div[1]/mat-tree/mat-tree-node[2]/button')).innerText();
       expect(nom_reel_note_verif).toBe(nouveau_nom_note);
 
       // Click sur le bouton du menu amenenant à l'accueil
-      await page.click('body > app-root > ng-component > app-navigation > mat-drawer-container > mat-drawer > div > div > a:nth-child(1)');
-      wait(3000);
+      await page.waitForTimeout(1000);
+      await page.click('xpath=/html/body/app-root/ng-component/app-navigation/mat-drawer-container/mat-drawer/div/div/a[1]');
       expect(await page.url()).toBe("https://projet-sigl.fr/dashboard");
     })
 
-    // test("Devrait pouvoir supprimer une note périodique", async () => {
-    //   // Suppression de la note
-    //   // Click sur le bouton du menu amenenant aux notes
-    //   await page.goto("https://projet-sigl.fr/notes", { waitUntil: 'networkidle' });
-    //   expect(await page.url()).toBe("https://projet-sigl.fr/notes");
-    //
-    //   // Clique sur le menu déroulant du semestre en cours
-    //   await page.waitForSelector('body > app-root > ng-component > app-navigation > mat-drawer-container > mat-drawer-content > div.navigation-content > mat-card > mat-card-content > div.tree-div > mat-tree > mat-tree-node > button');
-    //   await page.locator('body > app-root > ng-component > app-navigation > mat-drawer-container > mat-drawer-content > div.navigation-content > mat-card > mat-card-content > div.tree-div > mat-tree > mat-tree-node > button').click();
-    //   wait(3000);
-    //
-    //   // Clique sur la note éditée à vérifier
-    //   await page.locator('body > app-root > ng-component > app-navigation > mat-drawer-container > mat-drawer-content > div.navigation-content > mat-card > mat-card-content > div.tree-div > mat-tree > mat-tree-node:nth-child(2)').click();
-    //   wait(3000);
-    //
-    //   // Clique sur le bouton supprimer de la note
-    //   await page.waitForSelector('body > app-root > ng-component > app-navigation > mat-drawer-container > mat-drawer-content > div.navigation-content > mat-card > mat-card-content > div.note-card-div > div > div > button.btn-delete-note.red.ng-star-inserted');
-    //   await page.locator('body > app-root > ng-component > app-navigation > mat-drawer-container > mat-drawer-content > div.navigation-content > mat-card > mat-card-content > div.note-card-div > div > div > button.btn-delete-note.red.ng-star-inserted').click();
-    //   wait(2000);
-    //
-    //   // Clique sur le bouton de confirmation de la suppression
-    //   await page.waitForSelector('#mat-mdc-dialog-0 > div > div > app-confirm-delete > div.mat-mdc-dialog-actions.mdc-dialog__actions.mat-mdc-dialog-actions-align-end > button.green.bold');
-    //   await page.locator('#mat-mdc-dialog-0 > div > div > app-confirm-delete > div.mat-mdc-dialog-actions.mdc-dialog__actions.mat-mdc-dialog-actions-align-end > button.green.bold').click();
-    //   await page.click('#mat-mdc-dialog-0 > div > div > app-confirm-delete > div.mat-mdc-dialog-actions.mdc-dialog__actions.mat-mdc-dialog-actions-align-end > button.green.bold');
-    //
-    //   wait(3000);
-    //
-    //   // Vérification de la suppression de la note
-    //   const element = await page.locator('body > app-root > ng-component > app-navigation > mat-drawer-container > mat-drawer-content > div.navigation-content > mat-card > mat-card-content > div.tree-div > mat-tree > mat-tree-node:nth-child(2) > button');
-    //   expect(element).not.toBeTruthy();
-    // })
+    test("Devrait pouvoir supprimer une note périodique", async () => {
+      // Suppression de la note
+      // Click sur le bouton du menu amenenant aux notes
+      await page.waitForTimeout(1000);
+      await page.click('xpath=/html/body/app-root/ng-component/app-navigation/mat-drawer-container/mat-drawer/div/div/a[3]');
+      expect(await page.url()).toBe("https://projet-sigl.fr/notes");
+      await page.waitForTimeout(1000);
+
+      // Clique sur le menu déroulant du semestre en cours
+      await page.click('xpath=/html/body/app-root/ng-component/app-navigation/mat-drawer-container/mat-drawer-content/div[2]/mat-card/mat-card-content/div[1]/mat-tree/mat-tree-node/button');
+      await page.waitForTimeout(1000);
+
+      // Clique sur la note à supprimer
+      await page.click('xpath=/html/body/app-root/ng-component/app-navigation/mat-drawer-container/mat-drawer-content/div[2]/mat-card/mat-card-content/div[1]/mat-tree/mat-tree-node[2]/button');
+      await page.waitForTimeout(1000);
+
+      // Clique sur le bouton supprimer de la note
+      await page.click('xpath=/html/body/app-root/ng-component/app-navigation/mat-drawer-container/mat-drawer-content/div[2]/mat-card/mat-card-content/div[2]/div/div/button[2]');
+      await page.waitForTimeout(1000);
+
+      // Clique sur le bouton de confirmation de la suppression
+      await page.click('xpath=/html/body/div[2]/div[2]/div/mat-dialog-container/div/div/app-confirm-delete/div[3]/button[1]');
+      await page.waitForTimeout(1000);
+
+      // Clique sur le bouton de l'accueil
+      await page.click('xpath=/html/body/app-root/ng-component/app-navigation/mat-drawer-container/mat-drawer/div/div/a[1]');
+      await page.waitForTimeout(1000);
+
+      // Retour sur la page de Notes
+      await page.click('xpath=/html/body/app-root/ng-component/app-navigation/mat-drawer-container/mat-drawer/div/div/a[3]');
+      await page.waitForTimeout(1000);
+
+      // Clique sur le menu déroulant du semestre en cours
+      let elemDel = 0;
+      try {
+        await page.click('xpath=/html/body/app-root/ng-component/app-navigation/mat-drawer-container/mat-drawer-content/div[2]/mat-card/mat-card-content/div[1]/mat-tree/mat-tree-node/button');
+        elemDel = 0;
+      } catch (e) { elemDel = 1; }
+
+      await page.waitForTimeout(1000);
+      expect(elemDel).toBe(1);
+    })
 
     afterAll(async () => {
+      await capture.stop();
       await page.click('body > app-root > ng-component > app-navigation > mat-drawer-container > mat-drawer > div > div > a:nth-child(7)')
-      await page.waitForNavigation();
+      await page.waitForTimeout(1000);
       expect(await page.url()).toBe("https://projet-sigl.fr/login");
       await page.close()
       await context.close()
