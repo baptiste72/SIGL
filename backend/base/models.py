@@ -1,5 +1,7 @@
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.utils import timezone
+
 from authentication.models import User
 
 
@@ -128,7 +130,7 @@ class TutorTeam(models.Model):
 class Document(models.Model):
     # tables des documents pédagogiques
     name = models.CharField(max_length=200)
-    file_name = models.CharField(max_length=200)
+    file_name = models.CharField(max_length=200, unique=True)
     user = models.ForeignKey(
         User, related_name="user", on_delete=models.CASCADE, null=True
     )
@@ -173,3 +175,20 @@ class Note(models.Model):
     semester = models.ForeignKey(
         Semester, related_name="note", on_delete=models.CASCADE
     )
+
+class Evaluations(models.Model):
+    file_name = models.CharField(max_length=200, unique=True)
+    modification_date = models.DateTimeField()
+    status = models.CharField(max_length=10)
+    type = models.CharField(max_length=50)
+    user = models.ForeignKey(
+        User, related_name="evaluation_user", on_delete=models.CASCADE, null=True
+    )
+    owner = models.ForeignKey(
+        User, related_name="owner", on_delete=models.CASCADE, null=True
+    )
+    yearGroup = models.ForeignKey(
+        YearGroup, related_name="evaluation_yearGroup", on_delete=models.CASCADE, null=True
+    )
+    note = models.IntegerField(validators=[MinValueValidator(0),
+                                       MaxValueValidator(20)], null=True)

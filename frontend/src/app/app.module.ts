@@ -71,9 +71,12 @@ import { AddDocumentPopupComponent } from './components/pop-up/document/add-docu
 import { MatStepperModule, MatStepper } from '@angular/material/stepper';
 import { DashboardCompanyComponent } from './components/Dashboard/dashboard-company/dashboard-company.component';
 import { UpdateInterviewPopupComponent } from './components/pop-up/interview/update-interview-popup/update-interview-popup.component';
+import { EvaluationsPageComponent } from './components/pages/evaluations-page/evaluations-page.component';
 import { DashboardAdminComponent } from './components/Dashboard/dashboard-admin/dashboard-admin.component';
 import { ProfileComponent } from './components/sub-components/profile/profile.component';
 import { DashboardPedagoComponent } from './components/Dashboard/dashboard-pedago/dashboard-pedago.component';
+import { AddEvaluationPopupComponent } from './components/pop-up/evaluation/add-evaluation-popup/add-evaluation-popup.component';
+import { UpdateEvaluationPopupComponent } from './components/pop-up/evaluation/update-evaluation-popup/update-evaluation-popup.component';
 import { NotesComponent } from './components/sub-components/notes/notes.component';
 import { NotesMinimalComponent } from './components/sub-components/notes-minimal/notes-minimal.component';
 import { SelectApprenticeComponent } from './components/sub-components/select-apprentice/select-apprentice.component';
@@ -117,9 +120,12 @@ import { SelectApprenticeComponent } from './components/sub-components/select-ap
     UpdateFormationCenterPopupComponent,
     DashboardCompanyComponent,
     EventsPageComponent,
+    EvaluationsPageComponent,
     DashboardAdminComponent,
     ProfileComponent,
     DashboardPedagoComponent,
+    AddEvaluationPopupComponent,
+    UpdateEvaluationPopupComponent,
     NotesComponent,
     SelectApprenticeComponent,
   ],
@@ -155,7 +161,7 @@ import { SelectApprenticeComponent } from './components/sub-components/select-ap
     MatStepperModule,
     MatCardModule,
     ReactiveFormsModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

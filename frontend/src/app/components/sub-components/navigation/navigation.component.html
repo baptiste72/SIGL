@@ -30,15 +30,32 @@
         </div></a
       >
       <!-- NOTES PERIODIQUES -->
-      <a routerLink="/notes" *ngIf="user.role !== roleEnum.COMPANY"
+      <a
+        routerLink="/notes"
+        *ngIf="
+          user.role !== roleEnum.COMPANY &&
+          user.role !== roleEnum.MENTOR &&
+          user.role !== roleEnum.TUTOR
+        "
         ><div><mat-icon matPrefix>edit_note</mat-icon>Notes Périodiques</div></a
       >
-      <!-- LIVRABLES -->
-      <a routerLink="/documents" *ngIf="user.role !== roleEnum.COMPANY"
+      <a
+        routerLink="/evaluations"
+        *ngIf="
+          user.role !== roleEnum.COMPANY &&
+          user.role !== roleEnum.MENTOR &&
+          user.role !== roleEnum.TUTOR
+        "
         ><div><mat-icon matPrefix>co_present</mat-icon>Livrables</div></a
       >
       <!-- EVENEMENTS -->
-      <a routerLink="/events" *ngIf="user.role !== roleEnum.COMPANY"
+      <a
+        routerLink="/events"
+        *ngIf="
+          user.role !== roleEnum.COMPANY &&
+          user.role !== roleEnum.MENTOR &&
+          user.role !== roleEnum.TUTOR
+        "
         ><div><mat-icon matPrefix>calendar_month</mat-icon>Évènements</div></a
       >
       <!-- PROFILE -->

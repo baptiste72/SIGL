@@ -1,20 +1,20 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { DocumentPdf } from '@app/models/DocumentPdf';
+import { Evaluation } from '@app/models/Evaluation';
 import { Observable } from 'rxjs/internal/Observable';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
-export class DocumentService {
-  private urlPrefix = 'api/v1/documents';
-  private urlYearGroup = 'year-group';
+export class EvaluationService {
+  private urlPrefix = 'api/v1/evaluations';
+  private urlOwner = 'owner';
 
   constructor(private http: HttpClient) {}
 
-  public getAll(): Observable<DocumentPdf[]> {
-    return this.http.get<DocumentPdf[]>(
+  public getAll(): Observable<Evaluation[]> {
+    return this.http.get<Evaluation[]>(
       `${environment.apiUrl}/${this.urlPrefix}`
     );
   }
@@ -25,9 +25,8 @@ export class DocumentService {
     });
   }
 
-  public getByYearGroup(id: number): Observable<DocumentPdf[]> {
-    return this.http.get<DocumentPdf[]>(
-      `${environment.apiUrl}/${this.urlPrefix}/${this.urlYearGroup}/${id}`
+  public getByOwner(id: number): Observable<Evaluation[]> {
+    return this.http.get<Evaluation[]>(`${environment.apiUrl}/${this.urlPrefix}/${this.urlOwner}/${id}`
     );
   }
 
@@ -45,6 +44,13 @@ export class DocumentService {
   public cleanup(file_name: string): Observable<any> {
     return this.http.delete(
       `${environment.apiUrl}/${this.urlPrefix}/cleanup/${file_name}`
+    );
+  }
+
+  public update(formData: FormData, id: number): Observable<FormData> {
+    return this.http.put<FormData>(
+      `${environment.apiUrl}/${this.urlPrefix}/${id}`,
+      formData
     );
   }
 }

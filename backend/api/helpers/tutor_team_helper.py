@@ -1,4 +1,5 @@
-from base.models import Mentor, Apprentice, Tutor
+from base.models import Apprentice, Mentor, Tutor
+
 
 # class permettant d'aider à la récupération des équipes tutorales
 class TutorTeamHelper:
