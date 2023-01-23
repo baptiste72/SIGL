@@ -6,7 +6,6 @@ import {
 } from '@angular/material/dialog';
 import { InterviewService } from '@app/services/interview/interview.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Interview } from '@app/models/Interview';
 import { ApprenticeService } from '@app/services/apprentice/apprentice.service';
 import { TutorTeamService } from '@app/services/tutor-team/tutor-team.service';
 import { UserService } from '@app/services/user/user.service';
@@ -24,8 +23,8 @@ interface Attendees {
   styleUrls: ['./update-interview-popup.component.scss'],
 })
 export class UpdateInterviewPopupComponent implements OnInit {
-  interview: any;
-  tutorTeam: any;
+  public interview: any;
+  public tutorTeam: any;
 
   public semesters: Semester[] = [];
   guests: Attendees[] = [
@@ -33,7 +32,6 @@ export class UpdateInterviewPopupComponent implements OnInit {
     { name: "Maitre d'apprentissage" },
     { name: 'tuteur pédagogique' },
   ];
-  test: any;
   constructor(
     public dialogRef: MatDialogRef<UpdateInterviewPopupComponent>,
     private interviewService: InterviewService,
@@ -47,10 +45,7 @@ export class UpdateInterviewPopupComponent implements OnInit {
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
-  fromDialog!: string;
-
   ngOnInit(): void {
-    this.test = '';
     this.interview = this.data.interview;
     console.log(this.interview);
     this.tutorTeamService.getByApprentice(this.data.userId).subscribe({
@@ -66,7 +61,7 @@ export class UpdateInterviewPopupComponent implements OnInit {
       },
       error: (err) => {
         console.log(err);
-        this.errorTutor();
+        this.errorTutorTeam();
       },
     });
     this.apprenticeService.getById(this.data.userId).subscribe((apprentice) => {
@@ -78,7 +73,7 @@ export class UpdateInterviewPopupComponent implements OnInit {
     });
   }
 
-  public errorTutor() {
+  public errorTutorTeam() {
     this._snackBar.open(
       "❌ Une erreur est survenue pas d'équipe pédagogique",
       'Ok',
@@ -126,7 +121,7 @@ export class UpdateInterviewPopupComponent implements OnInit {
     } else if (attendeeId === this.tutorTeam.tutor.id) {
       return this.tutorTeam.tutor.role;
     }
-    return 'test';
+    return '';
   }
 
   treatementTutorTeam(attendes: any) {
@@ -145,11 +140,9 @@ export class UpdateInterviewPopupComponent implements OnInit {
   public updateInterview(interview: any) {
     if (interview.attendees === 'Equipe tutorale') {
       interview.attendees = [this.tutorTeam.mentor.id, this.tutorTeam.tutor.id];
-    }
-    if (interview.attendees === "Maitre d'apprentissage") {
+    } else if (interview.attendees === "Maitre d'apprentissage") {
       interview.attendees = [this.tutorTeam.mentor.id];
-    }
-    if (interview.attendees === 'tuteur pédagogique') {
+    } else if (interview.attendees === 'tuteur pédagogique') {
       interview.attendees = [this.tutorTeam.tutor.id];
     }
     this.interviewService.update(interview, interview.id).subscribe({
@@ -165,6 +158,6 @@ export class UpdateInterviewPopupComponent implements OnInit {
     });
   }
   closeDialog() {
-    this.dialogRef.close({ event: 'close', data: this.fromDialog });
+    this.dialogRef.close({ event: 'close', data: this.interview });
   }
 }

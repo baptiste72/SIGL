@@ -5,7 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from '@app/services/auth/auth.service';
 import { YearGroupService } from '@app/services/year-group/year-group.service';
 
-interface deadlines {
+interface inputDeadlines {
   name: string;
 }
 
@@ -15,9 +15,9 @@ interface deadlines {
   styleUrls: ['./add-deadline-popup.component.scss'],
 })
 export class AddDeadlinePopupComponent implements OnInit {
-  js_deadline: any;
-  yearGroups: any;
-  type_deadlines: deadlines[] = [
+  public js_deadline: any;
+  public yearGroups: any;
+  public type_deadlines: inputDeadlines[] = [
     { name: 'Rapport de synthèse S5' },
     { name: 'Rapport de synthèse S6' },
     { name: 'Rapport de synthèse S7' },
@@ -35,14 +35,10 @@ export class AddDeadlinePopupComponent implements OnInit {
     @Optional() @Inject(MAT_DIALOG_DATA) public mydata: any
   ) {}
 
-  fromDialog!: string;
-
   ngOnInit(): void {
     this.yearGroupService.getAll().subscribe((yearGroups) => {
       this.yearGroups = yearGroups;
     });
-    console.log(this.yearGroups);
-    this.fromDialog = '';
     this.js_deadline = {
       userId: this.getUserId(),
       name: '',
@@ -70,6 +66,6 @@ export class AddDeadlinePopupComponent implements OnInit {
     });
   }
   closeDialog() {
-    this.dialogRef.close({ event: 'close', data: this.fromDialog });
+    this.dialogRef.close({ event: 'close', data: this.js_deadline });
   }
 }

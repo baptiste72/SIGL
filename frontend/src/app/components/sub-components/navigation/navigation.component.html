@@ -33,6 +33,7 @@
       <a routerLink="/notes" *ngIf="user.role !== roleEnum.COMPANY"
         ><div><mat-icon matPrefix>edit_note</mat-icon>Notes Périodiques</div></a
       >
+      <!-- LIVRABLES -->
       <a routerLink="/documents" *ngIf="user.role !== roleEnum.COMPANY"
         ><div><mat-icon matPrefix>co_present</mat-icon>Livrables</div></a
       >

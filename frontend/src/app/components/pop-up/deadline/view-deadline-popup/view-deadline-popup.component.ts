@@ -13,9 +13,9 @@ import * as moment from 'moment';
   styleUrls: ['./view-deadline-popup.component.scss'],
 })
 export class ViewDeadlinePopupComponent implements OnInit {
-  js_deadline: any;
-  yearGroups: any;
-  deadlineFrenchFormat: any;
+  public js_deadline: any;
+  public yearGroups: any;
+  public deadlineFrenchFormat: any;
 
   constructor(
     public dialogRef: MatDialogRef<ViewDeadlinePopupComponent>,
@@ -23,14 +23,12 @@ export class ViewDeadlinePopupComponent implements OnInit {
     public dialog: MatDialog,
     @Optional() @Inject(MAT_DIALOG_DATA) public mydata: any
   ) {}
-  fromDialog!: string;
 
   ngOnInit(): void {
     console.log(this.mydata);
     this.yearGroupService.getAll().subscribe((yearGroups) => {
       this.yearGroups = yearGroups;
     });
-    this.fromDialog = '';
     this.js_deadline = this.mydata.deadline.meta.deadline;
     this.deadlineFrenchFormat = moment(this.js_deadline.date)
       .locale('fr')
@@ -38,6 +36,6 @@ export class ViewDeadlinePopupComponent implements OnInit {
   }
 
   closeDialog() {
-    this.dialogRef.close({ deadline: 'close', data: this.fromDialog });
+    this.dialogRef.close({ deadline: 'close', data: this.js_deadline });
   }
 }

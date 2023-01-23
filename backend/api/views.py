@@ -455,7 +455,6 @@ class TutorTeamByTutorId(APIView):
             tutor_team = TutorTeam.objects.get(tutor_id=pk)
         except TutorTeam.DoesNotExist as exc:
             raise Http404 from exc
-
         serializer = TutorTeamSerializer(tutor_team)
         return Response(serializer.data)
 
@@ -465,7 +464,6 @@ class TutorTeamByMentorId(APIView):
             tutor_team = TutorTeam.objects.get(mentor_id=pk)
         except TutorTeam.DoesNotExist as exc:
             raise Http404 from exc
-
         serializer = TutorTeamSerializer(tutor_team)
         return Response(serializer.data)
     
@@ -474,7 +472,6 @@ class TutorTeamByApprenticeId(APIView):
         try:
             tutor_team = TutorTeam.objects.get(apprentice_id=pk)
         except TutorTeam.DoesNotExist as exc:
-            print("loose")
             raise Http404 from exc
 
         serializer = TutorTeamSerializer(tutor_team)

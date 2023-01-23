@@ -5,13 +5,12 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { AddInterviewPopupComponent } from '../../pop-up/interview/add-interview-popup/add-interview-popup.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AddDeadlinePopupComponent } from '../../pop-up/deadline/add-deadline-popup/add-deadline-popup.component';
 import { DeadlineService } from 'src/app/services/deadline/deadline.service';
 import { MatTableDataSource } from '@angular/material/table';
-import { Deadline } from '@app/models/Deadline';
 import { MatPaginator } from '@angular/material/paginator';
 import { Interview } from '@app/models/Interview';
 import { UpdateInterviewPopupComponent } from '../../pop-up/interview/update-interview-popup/update-interview-popup.component';
@@ -46,10 +45,9 @@ const colors: any = {
   styleUrls: ['./events-page.component.scss'],
 })
 export class EventsPageComponent implements OnInit {
-  refresh = new Subject<void>();
-  interviews: any;
-  deadlines: any;
-  dialogRef: any;
+  public refresh = new Subject<void>();
+  private interviews: any;
+  private deadlines: any;
   private userId: number;
   private role: any;
   view: CalendarView = CalendarView.Month;
@@ -106,7 +104,6 @@ export class EventsPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //this.getInterviewDates(this.userId);
     this.getInterviews(this.userId);
     this.yearGroupService.getAll().subscribe((yearGroups) => {
       this.yearGroups = yearGroups;
@@ -117,21 +114,7 @@ export class EventsPageComponent implements OnInit {
 
   interviewsDates: Date[] = [];
 
-  private getInterviewDates(userId: number) {
-    this.interviewService.getAllByUserId(userId).subscribe({
-      next: (interviews) => {
-        this.interviewsDates = interviews.map((interview) => interview.date);
-      },
-      error: (err) => {
-        this._snackBar.open(
-          '❌ Une erreur est survenue lors de la récupération des entretiens',
-          'Ok',
-          { duration: 2000 }
-        );
-      },
-    });
-  }
-
+  //récupère les interviews et affiche les données
   private getInterviews(userId: number) {
     this.interviewService.getAllByUserId(userId).subscribe({
       next: (interviews) => {
@@ -251,8 +234,8 @@ export class EventsPageComponent implements OnInit {
   private getDeadlines(userId: number) {
     if (this.role === 'APPRENTICE') {
       this.deadlineService.getAllByUserId(userId).subscribe({
-        next: (v) => {
-          this.deadlines = v;
+        next: (deadline) => {
+          this.deadlines = deadline;
           this.calendarTreatementDeadlines(this.deadlines);
           this.refresh.next();
         },
@@ -282,11 +265,12 @@ export class EventsPageComponent implements OnInit {
     }
   }
 
+  //refresh l'ensemble des données du calendrier
   private refreshAll(userId: number) {
     if (this.role === 'APPRENTICE') {
       this.deadlineService.getAllByUserId(userId).subscribe({
-        next: (v) => {
-          this.deadlines = v;
+        next: (deadlines) => {
+          this.deadlines = deadlines;
           this.events = [
             {
               start: startOfDay(new Date()),
@@ -325,8 +309,8 @@ export class EventsPageComponent implements OnInit {
       });
     } else if (this.role === 'COORDINATOR' || this.role === 'ADMIN') {
       this.deadlineService.getAll().subscribe({
-        next: (v) => {
-          this.deadlines = v;
+        next: (deadlines) => {
+          this.deadlines = deadlines;
           this.events = [
             {
               start: startOfDay(new Date()),
@@ -389,13 +373,14 @@ export class EventsPageComponent implements OnInit {
     }
   }
 
+  //ouvre la pop up de création de rendez-vous
   addEvent(event: any) {
     this.dialog
       .open(AddInterviewPopupComponent, {
         width: '600px',
         data: {
           userId: this.userId,
-          date: event.day.date,
+          date: event.day.date, //valeur pop up du calendrier
         },
       })
       .afterClosed()

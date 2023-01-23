@@ -10,13 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { YearGroupService } from '@app/services/year-group/year-group.service';
 import { ConfirmDeleteComponent } from '../../confirm-delete/confirm-delete.component';
 
-interface Semester {
-  name: string;
-}
-interface Guest {
-  name: string;
-}
-interface deadlines {
+interface inputDeadlines {
   name: string;
 }
 
@@ -26,8 +20,8 @@ interface deadlines {
   styleUrls: ['./update-deadline-popup.component.scss'],
 })
 export class UpdateDeadlinePopupComponent implements OnInit {
-  js_deadline: any;
-  yearGroups: any;
+  public js_deadline: any;
+  public yearGroups: any;
 
   constructor(
     public dialogRef: MatDialogRef<UpdateDeadlinePopupComponent>,
@@ -39,8 +33,7 @@ export class UpdateDeadlinePopupComponent implements OnInit {
     @Optional() @Inject(MAT_DIALOG_DATA) public mydata: any
   ) {}
 
-  fromDialog!: string;
-  type_deadlines: deadlines[] = [
+  type_deadlines: inputDeadlines[] = [
     { name: 'Rapport de synthèse S5' },
     { name: 'Rapport de synthèse S6' },
     { name: 'Rapport de synthèse S7' },
@@ -52,7 +45,6 @@ export class UpdateDeadlinePopupComponent implements OnInit {
     this.yearGroupService.getAll().subscribe((yearGroups) => {
       this.yearGroups = yearGroups;
     });
-    this.fromDialog = '';
     this.js_deadline = this.mydata.dataKey;
   }
 
@@ -68,7 +60,7 @@ export class UpdateDeadlinePopupComponent implements OnInit {
 
   public async deleteDeadlineById(id: any) {
     const shouldDelete = await this.openConfirmDeletePopup(
-      'Souhaitez-vous vraiment supprimer cet échéance ?'
+      'Souhaitez-vous vraiment supprimer cette événement ?'
     );
     if (shouldDelete) {
       this.deadlineService.delete(id).subscribe({
@@ -78,7 +70,7 @@ export class UpdateDeadlinePopupComponent implements OnInit {
         },
         error: (err) => {
           this._snackBar.open(
-            "❌ Une erreur est survenue lors de la suppression de l'échéance",
+            "❌ Une erreur est survenue lors de la suppression de l'événement",
             'Ok',
             { duration: 2000 }
           );
@@ -104,6 +96,6 @@ export class UpdateDeadlinePopupComponent implements OnInit {
     });
   }
   closeDialog() {
-    this.dialogRef.close({ deadline: 'close', data: this.fromDialog });
+    this.dialogRef.close({ deadline: 'close', data: this.js_deadline });
   }
 }
