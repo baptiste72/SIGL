@@ -1,12 +1,10 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AuthService } from 'src/app/services/auth/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApprenticeInfoService } from '@app/services/apprentice-info/apprentice-info.service';
 import { ApprenticeInfo } from '@app/models/ApprenticeInfo';
 import { CompanyUser } from '@app/models/CompanyUser';
-import { CompanyUserService } from '@app/services/company-user/company-user.service';
 import { RegexService } from '@app/services/regex/regex.service';
 
 @Component({
@@ -15,8 +13,7 @@ import { RegexService } from '@app/services/regex/regex.service';
   styleUrls: ['./add-apprentice-popup.component.scss'],
 })
 export class AddApprenticeInfoPopupComponent {
-  apprenticeForm: FormGroup;
-  fromDialog!: string;
+  public apprenticeForm: FormGroup;
 
   constructor(
     public dialogRef: MatDialogRef<AddApprenticeInfoPopupComponent>,
@@ -92,6 +89,6 @@ export class AddApprenticeInfoPopupComponent {
     });
   }
   public closeDialog() {
-    this.dialogRef.close({ event: 'close', data: this.fromDialog });
+    this.dialogRef.close({ event: 'close' });
   }
 }

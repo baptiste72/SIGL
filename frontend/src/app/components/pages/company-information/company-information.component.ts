@@ -26,7 +26,7 @@ export class CompanyInformationComponent implements AfterViewInit {
   // Détermine si l'onglet concerné a déjà été chargé
   private hlApprentices = false;
   private hlMentors = false;
-  compUser: CompanyUser;
+  public compUser: CompanyUser;
 
   public displayedColumnsApprentice: string[] = [
     'app_first_name',
@@ -151,7 +151,7 @@ export class CompanyInformationComponent implements AfterViewInit {
   public openApprenticePopup(compUser: any) {
     this.dialog
       .open(AddApprenticeInfoPopupComponent, {
-        width: '600px',
+        width: '1000px',
         data: compUser,
       })
       .afterClosed()
@@ -164,7 +164,7 @@ export class CompanyInformationComponent implements AfterViewInit {
   public openUpdateApprenticeInfoPopup(user: any) {
     this.dialog
       .open(UpdateApprenticeInfoPopupComponent, {
-        width: '600px',
+        width: '1000px',
         data: user,
       })
       .afterClosed()
@@ -176,7 +176,7 @@ export class CompanyInformationComponent implements AfterViewInit {
   public openMentorPopup(compUser: any) {
     this.dialog
       .open(AddMentorPopupComponent, {
-        width: '600px',
+        width: '1000px',
         data: compUser,
       })
       .afterClosed()
@@ -188,7 +188,7 @@ export class CompanyInformationComponent implements AfterViewInit {
   public openUpdateMentorPopup(user: any) {
     this.dialog
       .open(UpdateMentorPopupComponent, {
-        width: '600px',
+        width: '1000px',
         data: user,
       })
       .afterClosed()

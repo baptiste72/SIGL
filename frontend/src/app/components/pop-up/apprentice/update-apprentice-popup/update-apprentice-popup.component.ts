@@ -1,6 +1,6 @@
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { ApprenticeInfo } from '@app/models/ApprenticeInfo';
 import { ApprenticeInfoService } from '@app/services/apprentice-info/apprentice-info.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -12,9 +12,7 @@ import { RegexService } from '@app/services/regex/regex.service';
   styleUrls: ['./update-apprentice-popup.component.scss'],
 })
 export class UpdateApprenticeInfoPopupComponent {
-  fromPage!: string;
-  fromDialog!: string;
-  apprenticeForm: FormGroup;
+  public apprenticeForm: FormGroup;
 
   constructor(
     public dialogRef: MatDialogRef<UpdateApprenticeInfoPopupComponent>,
@@ -28,15 +26,24 @@ export class UpdateApprenticeInfoPopupComponent {
       id: data.id,
       app_last_name: [
         data.app_last_name,
-        [Validators.required, Validators.pattern(this.regexService.stringValidator())],
+        [
+          Validators.required,
+          Validators.pattern(this.regexService.stringValidator()),
+        ],
       ],
       app_first_name: [
         data.app_first_name,
-        [Validators.required, Validators.pattern(this.regexService.stringValidator())],
+        [
+          Validators.required,
+          Validators.pattern(this.regexService.stringValidator()),
+        ],
       ],
       app_job_title: [
         data.app_job_title,
-        [Validators.required, Validators.pattern(this.regexService.stringValidator())],
+        [
+          Validators.required,
+          Validators.pattern(this.regexService.stringValidator()),
+        ],
       ],
       app_description: ['oui', Validators.required],
       app_phone: [
@@ -53,19 +60,25 @@ export class UpdateApprenticeInfoPopupComponent {
       ],
       app_working_hours: [
         data.app_working_hours,
-        [Validators.required, Validators.pattern(this.regexService.numberOnlyValidator())],
+        [
+          Validators.required,
+          Validators.pattern(this.regexService.numberOnlyValidator()),
+        ],
       ],
       app_comp_name: [data.app_comp_name],
       app_siret: [
         data.app_siret,
-        [Validators.required, Validators.pattern(this.regexService.numberOnlyValidator())],
+        [
+          Validators.required,
+          Validators.pattern(this.regexService.numberOnlyValidator()),
+        ],
       ],
       app_location: [data.app_location],
     });
   }
 
   closeDialog() {
-    this.dialogRef.close({ event: 'close', data: this.fromDialog });
+    this.dialogRef.close({ event: 'close' });
   }
 
   updateApprentice(data: any) {

@@ -6,9 +6,9 @@ urlpatterns = [
     path("apprentices", views.ApprenticeList.as_view()),
     path("apprentices/<int:pk>", views.ApprenticeDetail.as_view()),
     # apprentice-infos
-    path("apprentice-infos", views.ApprenticeInfoList.as_view()),
-    path("apprentice-infos/<int:pk>", views.ApprenticeInfoDetail.as_view()),
-    path("apprentice-infos/company/<int:pk>", views.ApprenticeInfoByCompany.as_view()),
+    path("apprentice-info", views.ApprenticeInfoList.as_view()),
+    path("apprentice-info/<int:pk>", views.ApprenticeInfoDetail.as_view()),
+    path("apprentice-info/company/<int:pk>", views.ApprenticeInfoByCompany.as_view()),
     # companies
     path("companies", views.CompanyList.as_view()),
     path("companies/<int:pk>", views.CompanyDetail.as_view()),

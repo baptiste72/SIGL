@@ -1,7 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AuthService } from 'src/app/services/auth/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Mentor } from '@app/models/Mentor';
 import { UserService } from '@app/services';
@@ -14,9 +13,8 @@ import { RegexService } from '@app/services/regex/regex.service';
   styleUrls: ['./add-mentor-popup.component.scss'],
 })
 export class AddMentorPopupComponent {
-  mentorForm: FormGroup;
-  isFormerESEO: string[] = ['Oui', 'Non'];
-  fromDialog!: string;
+  public mentorForm: FormGroup;
+  public isFormerESEO: string[] = ['Oui', 'Non'];
 
   constructor(
     public dialogRef: MatDialogRef<AddMentorPopupComponent>,
@@ -81,6 +79,6 @@ export class AddMentorPopupComponent {
     });
   }
   public closeDialog() {
-    this.dialogRef.close({ event: 'close', data: this.fromDialog });
+    this.dialogRef.close({ event: 'close' });
   }
 }

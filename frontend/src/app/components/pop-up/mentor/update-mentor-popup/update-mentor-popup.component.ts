@@ -12,10 +12,8 @@ import { RegexService } from '@app/services/regex/regex.service';
   styleUrls: ['./update-mentor-popup.component.scss'],
 })
 export class UpdateMentorPopupComponent {
-  fromPage!: string;
-  fromDialog!: string;
-  mentorForm: FormGroup;
-  isFormerESEO: string[] = ['Oui', 'Non'];
+  public mentorForm: FormGroup;
+  public isFormerESEO: string[] = ['Oui', 'Non'];
 
   constructor(
     public dialogRef: MatDialogRef<UpdateMentorPopupComponent>,
@@ -68,7 +66,7 @@ export class UpdateMentorPopupComponent {
   }
 
   closeDialog() {
-    this.dialogRef.close({ event: 'close', data: this.fromDialog });
+    this.dialogRef.close({ event: 'close' });
   }
 
   updateMentor(data: any) {

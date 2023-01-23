@@ -19,17 +19,17 @@ import { RegexService } from '@app/services/regex/regex.service';
   styleUrls: ['./add-company-form.component.scss'],
 })
 export class AddCompanyFormComponent {
-  enterpriseForm: FormGroup;
-  opcoForm: FormGroup;
-  contactForm: FormGroup;
-  hlCompany = false;
-  hlOpco = false;
-  hlContact = false;
+  public enterpriseForm: FormGroup;
+  public opcoForm: FormGroup;
+  public contactForm: FormGroup;
+  public compUser: CompanyUser;
+  private hlCompany = false;
+  private hlOpco = false;
+  private hlContact = false;
 
-  isFormerESEO: string[] = ['Oui', 'Non'];
-  stageInternat: string[] = ['Lu et approuvé'];
-  isOptional = false;
-  compUser: CompanyUser;
+  public isFormerESEO: string[] = ['Oui', 'Non'];
+  public stageInternat: string[] = ['Lu et approuvé'];
+  public isOptional = false;
 
   //Regex validator
   constructor(

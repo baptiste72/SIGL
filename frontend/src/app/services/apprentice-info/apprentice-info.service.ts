@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ApprenticeInfoService {
-  private urlPrefix = 'api/v1/apprentice-infos';
+  private urlPrefix = 'api/v1/apprentice-info';
 
   constructor(private http: HttpClient) {}
 
