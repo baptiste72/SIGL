@@ -84,7 +84,8 @@ class ApprenticeDetail(generics.RetrieveUpdateDestroyAPIView):
 
 class DeadlinesByUserId(APIView):
     def get(self, request, pk):
-        deadline_list = Deadline.objects.filter(apprentice_id=pk)
+        year_group = Apprentice.objects.get(pk=pk).yearGroup
+        deadline_list = Deadline.objects.filter(yearGroup=year_group)
         serializers = DeadlineSerializer(deadline_list, many=True)
         return Response(serializers.data)
 
@@ -460,6 +461,33 @@ class ContactCompanyList(generics.ListCreateAPIView):
     queryset = ContactCompany.objects.all()
     serializer_class = ContactCompanySerializer
 
+class TutorTeamByTutorId(APIView):
+    def get(self, request, pk):
+        try:
+            tutor_team = TutorTeam.objects.get(tutor_id=pk)
+        except TutorTeam.DoesNotExist as exc:
+            raise Http404 from exc
+        serializer = TutorTeamSerializer(tutor_team)
+        return Response(serializer.data)
+
+class TutorTeamByMentorId(APIView):
+    def get(self, request, pk):
+        try:
+            tutor_team = TutorTeam.objects.get(mentor_id=pk)
+        except TutorTeam.DoesNotExist as exc:
+            raise Http404 from exc
+        serializer = TutorTeamSerializer(tutor_team)
+        return Response(serializer.data)
+    
+class TutorTeamByApprenticeId(APIView):
+    def get(self, request, pk):
+        try:
+            tutor_team = TutorTeam.objects.get(apprentice_id=pk)
+        except TutorTeam.DoesNotExist as exc:
+            raise Http404 from exc
+
+        serializer = TutorTeamSerializer(tutor_team)
+        return Response(serializer.data)
 
 class TutorTeamDetail(APIView):
     def get_object(self, pk):
