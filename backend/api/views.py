@@ -349,23 +349,6 @@ class UserList(APIView):
         return Response(serializer.data)
 
 
-class ApprenticeInfoList(generics.ListCreateAPIView):
-    queryset = ApprenticeInfo.objects.all()
-    serializer_class = ApprenticeInfoSerializer
-
-
-class ApprenticeInfoDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = ApprenticeInfo.objects.all()
-    serializer_class = ApprenticeInfoSerializer
-
-
-class ApprenticeInfoByCompany(APIView):
-    def get(self, request, pk):
-        apprentice_list = ApprenticeInfo.objects.filter(app_siret=pk)
-        serializers = ApprenticeInfoSerializer(apprentice_list, many=True)
-        return Response(serializers.data)
-
-
 class CompanyDetail(APIView):
     def get_object(self, pk):
         try:
@@ -414,6 +397,13 @@ class CompanyUserDetail(generics.RetrieveUpdateDestroyAPIView):
 class CompanyUserList(generics.ListCreateAPIView):
     queryset = CompanyUser.objects.all()
     serializer_class = CompanyUserSerializer
+
+
+class ApprenticeInfoByCompany(APIView):
+    def get(self, request, pk):
+        apprentice_list = ApprenticeInfo.objects.filter(app_siret=pk)
+        serializers = ApprenticeInfoSerializer(apprentice_list, many=True)
+        return Response(serializers.data)
 
 
 class ApprenticeInfoList(generics.ListCreateAPIView):
@@ -558,6 +548,7 @@ class ContactCompanyList(generics.ListCreateAPIView):
     queryset = ContactCompany.objects.all()
     serializer_class = ContactCompanySerializer
 
+
 class TutorTeamByTutorId(APIView):
     def get(self, request, pk):
         try:
@@ -567,6 +558,7 @@ class TutorTeamByTutorId(APIView):
         serializer = TutorTeamSerializer(tutor_team)
         return Response(serializer.data)
 
+
 class TutorTeamByMentorId(APIView):
     def get(self, request, pk):
         try:
@@ -575,7 +567,8 @@ class TutorTeamByMentorId(APIView):
             raise Http404 from exc
         serializer = TutorTeamSerializer(tutor_team)
         return Response(serializer.data)
-    
+
+
 class TutorTeamByApprenticeId(APIView):
     def get(self, request, pk):
         try:
@@ -585,6 +578,7 @@ class TutorTeamByApprenticeId(APIView):
 
         serializer = TutorTeamSerializer(tutor_team)
         return Response(serializer.data)
+
 
 class TutorTeamDetail(APIView):
     def get_object(self, pk):

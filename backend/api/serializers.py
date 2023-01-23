@@ -105,24 +105,6 @@ class ContactCompanySerializer(serializers.ModelSerializer):
         )
 
 
-class ApprenticeInfoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ApprenticeInfo
-        fields = (
-            "id",
-            "app_last_name",
-            "app_first_name",
-            "app_job_title",
-            "app_description",
-            "app_phone",
-            "app_collective_convention",
-            "app_working_hours",
-            "app_comp_name",
-            "app_siret",
-            "app_location",
-        )
-
-
 class TutorSerializer(serializers.ModelSerializer):
     class Meta:
         # pylint: disable=duplicate-code
@@ -199,7 +181,7 @@ class DeadlineSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Deadline
-        fields = ("id","name", "date", "description", "yearGroup")
+        fields = ("id", "name", "date", "description", "yearGroup")
 
 
 class SemesterSerializer(serializers.ModelSerializer):
