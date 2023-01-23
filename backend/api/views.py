@@ -8,14 +8,15 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from api.helpers.data_treatement import DataTreatement
-from api.helpers.document_helper import DocumentHelper
-from api.helpers.evaluation_helper import EvaluationHelper
 from api.helpers.password_helper import PasswordHelper
 from api.helpers.semester_helper import SemesterHelper
+from api.helpers.document_helper import DocumentHelper
+from api.helpers.evaluation_helper import EvaluationHelper
+from api.helpers.data_treatement import DataTreatement
 from api.helpers.sftp_helper import SftpHelper
 from api.helpers.tutor_team_helper import TutorTeamHelper
-from api.serializers import (ApprenticeRoleSerializer, ApprenticeSerializer,
+from api.serializers import (ApprenticeInfoSerializer,
+                             ApprenticeRoleSerializer, ApprenticeSerializer,
                              ChangePasswordSerializer, CompanySerializer,
                              CompanyUserSerializer, ContactCompanySerializer,
                              DeadlineSerializer, DocumentSerializer,
@@ -27,27 +28,27 @@ from api.serializers import (ApprenticeRoleSerializer, ApprenticeSerializer,
                              TutorTeamSerializer, UserSerializer,
                              YearGroupSerializer)
 from authentication.models import User
-from base.models import (Apprentice, Company, CompanyUser, ContactCompany,
-                         Deadline, Document, Evaluations, FormationCenter,
-                         Interview, Mentor, Note, Opco, Semester, Tutor,
-                         TutorTeam, YearGroup)
+from base.models import (Apprentice, ApprenticeInfo, Company, CompanyUser,
+                         ContactCompany, Deadline, Document, Evaluations,
+                         FormationCenter, Interview, Mentor, Note, Opco,
+                         Semester, Tutor, TutorTeam, YearGroup)
 from base.utilities import Role
 
 
-@api_view(["GET"])
-def get_mentors(request):
-    mentor_list = Mentor.objects.all()
-    serializers = MentorSerializer(mentor_list, many=True)
-    return Response(serializers.data)
+class MentorList(generics.ListCreateAPIView):
+    queryset = Mentor.objects.all()
+    serializer_class = MentorSerializer
 
 
-@api_view(["POST"])
-def add_mentor(request):
-    serializer = MentorSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class MentorDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Mentor.objects.all()
+    serializer_class = MentorSerializer
+
+class MentorByCompany(APIView):
+    def get(self, request, pk):
+        mentor_list = Mentor.objects.filter(mt_cmp_siret=pk)
+        serializers = MentorSerializer(mentor_list, many=True)
+        return Response(serializers.data)
 
 
 @api_view(["GET"])
@@ -83,7 +84,8 @@ class ApprenticeDetail(generics.RetrieveUpdateDestroyAPIView):
 
 class DeadlinesByUserId(APIView):
     def get(self, request, pk):
-        deadline_list = Deadline.objects.filter(apprentice_id=pk)
+        year_group = Apprentice.objects.get(pk=pk).yearGroup
+        deadline_list = Deadline.objects.filter(yearGroup=year_group)
         serializers = DeadlineSerializer(deadline_list, many=True)
         return Response(serializers.data)
 
@@ -333,6 +335,20 @@ class UserList(APIView):
 
         return Response(serializer.data)
 
+class ApprenticeInfoList(generics.ListCreateAPIView):
+    queryset = ApprenticeInfo.objects.all()
+    serializer_class = ApprenticeInfoSerializer
+
+class ApprenticeInfoDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ApprenticeInfo.objects.all()
+    serializer_class = ApprenticeInfoSerializer
+
+class ApprenticeInfoByCompany(APIView):
+    def get(self, request, pk):
+        apprentice_list = ApprenticeInfo.objects.filter(app_siret=pk)
+        serializers = ApprenticeInfoSerializer(apprentice_list, many=True)
+        return Response(serializers.data)
+
 
 class CompanyDetail(APIView):
     def get_object(self, pk):
@@ -392,13 +408,13 @@ class OpcoDetail(APIView):
             raise Http404 from exc
 
     def get(self, request, pk):
-        tutor_team = self.get_object(pk)
-        serializer = OpcoSerializer(tutor_team)
+        opco = self.get_object(pk)
+        serializer = OpcoSerializer(opco)
         return Response(serializer.data)
 
     def put(self, request, pk):
-        tutor_team = self.get_object(pk)
-        serializer = OpcoSerializer(tutor_team, data=request.data)
+        opco = self.get_object(pk)
+        serializer = OpcoSerializer(opco, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -415,15 +431,63 @@ class OpcoList(generics.ListCreateAPIView):
     serializer_class = OpcoSerializer
 
 
-class ContactCompanyDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = ContactCompany.objects.all()
-    serializer_class = ContactCompanySerializer
+class ContactCompanyDetail(APIView):
+    def get_object(self, pk):
+        try:
+            return ContactCompany.objects.get(ct_cmp_siret=pk)
+        except ContactCompany.DoesNotExist as exc:
+            raise Http404 from exc
+
+    def get(self, request, pk):
+        contact_company = self.get_object(pk)
+        serializer = ContactCompanySerializer(contact_company)
+        return Response(serializer.data)
+
+    def put(self, request, pk):
+        contact_company = self.get_object(pk)
+        serializer = ContactCompanySerializer(contact_company, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        contact_company = self.get_object(pk)
+        contact_company.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class ContactCompanyList(generics.ListCreateAPIView):
     queryset = ContactCompany.objects.all()
     serializer_class = ContactCompanySerializer
 
+class TutorTeamByTutorId(APIView):
+    def get(self, request, pk):
+        try:
+            tutor_team = TutorTeam.objects.get(tutor_id=pk)
+        except TutorTeam.DoesNotExist as exc:
+            raise Http404 from exc
+        serializer = TutorTeamSerializer(tutor_team)
+        return Response(serializer.data)
+
+class TutorTeamByMentorId(APIView):
+    def get(self, request, pk):
+        try:
+            tutor_team = TutorTeam.objects.get(mentor_id=pk)
+        except TutorTeam.DoesNotExist as exc:
+            raise Http404 from exc
+        serializer = TutorTeamSerializer(tutor_team)
+        return Response(serializer.data)
+    
+class TutorTeamByApprenticeId(APIView):
+    def get(self, request, pk):
+        try:
+            tutor_team = TutorTeam.objects.get(apprentice_id=pk)
+        except TutorTeam.DoesNotExist as exc:
+            raise Http404 from exc
+
+        serializer = TutorTeamSerializer(tutor_team)
+        return Response(serializer.data)
 
 class TutorTeamDetail(APIView):
     def get_object(self, pk):

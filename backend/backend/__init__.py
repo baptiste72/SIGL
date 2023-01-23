@@ -151,7 +151,7 @@ MICROSOFT_GRAPH = {
     "AUTH_TENANT": "common",
     "GRAPH_USER_SCOPES": "User.Read Mail.Read Mail.Send",
     "WEB_FORMATTED_GRAPH_USER_SCOPES": "User.Read+Mail.Read+Mail.Send",
-    "REDIRECT": "http://localhost",
+    "REDIRECT": "http://localhost:4200",
 }
 
 REST_FRAMEWORK = {

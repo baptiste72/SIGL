@@ -1,9 +1,10 @@
 export class ContactCompany {
-  ct_cmp_siret: number;
+  ct_cmp_siret: string;
   ct_last_name: string;
   ct_first_name: string;
   ct_phone: string;
   ct_email: string;
+  ct_job_title: string;
   ct_former_eseo: string;
   fi_last_name: string;
   fi_first_name: string;
@@ -18,11 +19,12 @@ export class ContactCompany {
   sa_job_title: string;
   sa_former_eseo: string;
   constructor(
-    ct_cmp_siret: number,
+    ct_cmp_siret: string,
     ct_last_name: string,
     ct_first_name: string,
     ct_phone: string,
     ct_email: string,
+    ct_job_title: string,
     ct_former_eseo: string,
     fi_last_name: string,
     fi_first_name: string,
@@ -42,6 +44,7 @@ export class ContactCompany {
     this.ct_first_name = ct_first_name;
     this.ct_phone = ct_phone;
     this.ct_email = ct_email;
+    this.ct_job_title = ct_job_title;
     this.ct_former_eseo = ct_former_eseo;
     this.fi_last_name = fi_last_name;
     this.fi_first_name = fi_first_name;

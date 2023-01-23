@@ -1,0 +1,12 @@
+.right-align {
+  text-align: right;
+}
+
+.hour-container .mat-form-field + .mat-form-field {
+  margin-left: 10px;
+}
+
+input.right-align::-webkit-outer-spin-button,
+input.right-align::-webkit-inner-spin-button {
+  display: none;
+}

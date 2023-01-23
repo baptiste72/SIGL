@@ -1,14 +1,14 @@
 export class Opco {
-  opco_cmp_siret: number;
+  opco_cmp_siret: string;
   opco_name: string;
-  opco_siret: number;
+  opco_siret: string;
   opco_address: string;
   opco_phone: string;
   opco_email: string;
   constructor(
-    opco_cmp_siret: number,
+    opco_cmp_siret: string,
     opco_name: string,
-    opco_siret: number,
+    opco_siret: string,
     opco_address: string,
     opco_phone: string,
     opco_email: string,
