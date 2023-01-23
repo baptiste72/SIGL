@@ -1,7 +1,7 @@
 import { Browser, BrowserContext, Page, chromium } from 'playwright';
 import { saveVideo } from 'playwright-video'
 
-describe('Tests - Coordinateur - CRUD CentreFormation', () => {
+describe('Tests - Coordinateur - CRUD Semestres', () => {
 
     let browser: Browser;
     let context: BrowserContext;
