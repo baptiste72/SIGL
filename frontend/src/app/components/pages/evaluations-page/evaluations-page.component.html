@@ -18,6 +18,7 @@
             mat-raised-button
             class="btn_primary bg-purple"
             (click)="openAddEvaluationPopup()"
+            *ngIf="user.role === roleEnum.APPRENTICE"
           >
             AJOUT LIVRABLE
           </button>
