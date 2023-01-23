@@ -79,10 +79,10 @@ export class AddDocumentPopupComponent implements OnInit {
         },
         error: (err) => {
           this._snackBar.open(
-            '❌ Une erreur est survenue lors de l ajout du document',
+            "❌ Une erreur est survenue lors de l'ajout du document. Un fichier du même nom existe déjà, veuillez ajouter un fichier avec un nom unique",
             'Ok',
             {
-              duration: 2000,
+              duration: 5000,
             }
           );
         },

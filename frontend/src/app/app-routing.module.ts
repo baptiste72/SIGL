@@ -12,9 +12,11 @@ import { NotesPageComponent } from './components/pages/notes-page/notes-page.com
 import { PersonalInformationsComponent } from './components/pages/personal-informations/personal-informations.component';
 import { AuthGuard, Role } from './helpers';
 import { PageNotFoundComponent } from './components/pages/page-not-found/page-not-found.component';
+import { EvaluationsPageComponent } from './components/pages/evaluations-page/evaluations-page.component';
 import { DashboardCompanyComponent } from './components/Dashboard/dashboard-company/dashboard-company.component';
 import { DashboardAdminComponent } from './components/Dashboard/dashboard-admin/dashboard-admin.component';
 import { DashboardPedagoComponent } from './components/Dashboard/dashboard-pedago/dashboard-pedago.component';
+import { CompanyInformationComponent } from './components/pages/company-information/company-information.component';
 
 const routes: Routes = [
   { path: '', component: ConnectionComponent },
@@ -51,6 +53,12 @@ const routes: Routes = [
     data: { roles: [Role.MENTOR, Role.TUTOR] },
   },
   {
+    path: 'company-information',
+    component: CompanyInformationComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Role.COMPANY] },
+  },
+  {
     path: 'profile',
     component: PersonalInformationsComponent,
     canActivate: [AuthGuard],
@@ -58,6 +66,11 @@ const routes: Routes = [
   {
     path: 'documents',
     component: DocumentsPageComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'evaluations',
+    component: EvaluationsPageComponent,
     canActivate: [AuthGuard],
   },
   { path: 'notes', component: NotesPageComponent, canActivate: [AuthGuard] },

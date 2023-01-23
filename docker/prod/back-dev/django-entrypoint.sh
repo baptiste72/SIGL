@@ -4,6 +4,7 @@ set -euo pipefail
 
 python manage.py makemigrations
 python manage.py migrate
-gunicorn backend.wsgi.application --workers 3
+python manage.py createsuperuser --noinput
+gunicorn backend.wsgi --bind 0.0.0.0:8000 --workers 3
 
 exec "$@"

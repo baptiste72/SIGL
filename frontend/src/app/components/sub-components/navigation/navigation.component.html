@@ -1,0 +1,114 @@
+<mat-drawer-container class="example-container" autosize>
+  <mat-drawer #drawer class="sidenav" mode="side" [(opened)]="opened">
+    <img class="logo-eseo" src="assets/images/logo-eseo.png" alt="logo ESEO" />
+    <div class="ul-navigation">
+      <!-- DASHBOARDS -->
+      <a routerLink="/dashboard" *ngIf="user.role === roleEnum.APPRENTICE"
+        ><div><mat-icon matPrefix>home</mat-icon>Journal de formation</div></a
+      >
+      <a routerLink="/dashboard-company" *ngIf="user.role === roleEnum.COMPANY"
+        ><div><mat-icon matPrefix>home</mat-icon>Dashboard</div></a
+      >
+      <a
+        routerLink="/dashboard-admin"
+        *ngIf="
+          user.role === roleEnum.ADMIN || user.role === roleEnum.COORDINATOR
+        "
+        ><div><mat-icon matPrefix>home</mat-icon>Dashboard</div></a
+      >
+      <a
+        routerLink="/dashboard-pedago"
+        *ngIf="user.role === roleEnum.MENTOR || user.role === roleEnum.TUTOR"
+        ><div><mat-icon matPrefix>home</mat-icon>Dashboard</div></a
+      >
+
+      <!-- COMPANY INFORMATION -->
+      <a
+        routerLink="/company-information"
+        *ngIf="user.role === roleEnum.COMPANY"
+        ><div>
+          <mat-icon matPrefix>home</mat-icon>Informations Entreprise
+        </div></a
+      >
+      <!-- DOCUMENTS -->
+      <a routerLink="/documents" *ngIf="user.role !== roleEnum.COMPANY"
+        ><div>
+          <mat-icon matPrefix>description</mat-icon>Docs Pédagogiques
+        </div></a
+      >
+      <!-- NOTES PERIODIQUES -->
+      <a
+        routerLink="/notes"
+        *ngIf="
+          user.role !== roleEnum.COMPANY &&
+          user.role !== roleEnum.MENTOR &&
+          user.role !== roleEnum.TUTOR
+        "
+        ><div><mat-icon matPrefix>edit_note</mat-icon>Notes Périodiques</div></a
+      >
+      <a
+        routerLink="/evaluations"
+        *ngIf="
+          user.role !== roleEnum.COMPANY &&
+          user.role !== roleEnum.MENTOR &&
+          user.role !== roleEnum.TUTOR
+        "
+        ><div><mat-icon matPrefix>co_present</mat-icon>Livrables</div></a
+      >
+      <!-- EVENEMENTS -->
+      <a
+        routerLink="/events"
+        *ngIf="
+          user.role !== roleEnum.COMPANY &&
+          user.role !== roleEnum.MENTOR &&
+          user.role !== roleEnum.TUTOR
+        "
+        ><div><mat-icon matPrefix>calendar_month</mat-icon>Évènements</div></a
+      >
+      <!-- PROFILE -->
+      <a routerLink="/profile"
+        ><div><mat-icon matPrefix>account_circle</mat-icon>Mon compte</div></a
+      >
+      <!-- CONFIGURATION -->
+      <a
+        routerLink="/configuration"
+        *ngIf="
+          user.role === roleEnum.ADMIN || user.role === roleEnum.COORDINATOR
+        "
+        ><div><mat-icon matPrefix>settings</mat-icon>Configuration</div></a
+      >
+      <a (click)="logout()"
+        ><div><mat-icon matPrefix>cancel</mat-icon>Déconnexion</div></a
+      >
+    </div>
+  </mat-drawer>
+
+  <mat-drawer-content>
+    <div>
+      <div class="ul-topbar">
+        <button type="button" mat-button (click)="drawer.toggle()">
+          <mat-icon matPrefix>menu</mat-icon>
+        </button>
+
+        <div class="topbar-right">
+          <div class="profile" routerLink="/profile">
+            <mat-icon matPrefix>person</mat-icon>{{ user.first_name }}
+            {{ user.last_name }}
+          </div>
+          <div class="divider"></div>
+          <mat-icon
+            matPrefix
+            routerLink="/configuration"
+            *ngIf="
+              user.role === roleEnum.ADMIN || user.role === roleEnum.COORDINATOR
+            "
+            >settings</mat-icon
+          >
+          <mat-icon matPrefix>notifications</mat-icon>
+          <mat-icon matPrefix (click)="logout()">cancel</mat-icon>
+        </div>
+      </div>
+    </div>
+    <ng-content></ng-content>
+  </mat-drawer-content>
+</mat-drawer-container>

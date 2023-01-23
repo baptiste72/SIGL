@@ -24,6 +24,11 @@ export class TutorTeamService {
     );
   }
 
+  public getByApprentice(id: number): Observable<TutorTeam> {
+    return this.http.get<TutorTeam>(
+      `${environment.apiUrl}/${this.urlPrefix}-by-apprentice-id/${id}`
+    );
+  }
   public add(tutorTeam: TutorTeam): Observable<TutorTeam> {
     return this.http.post<TutorTeam>(
       `${environment.apiUrl}/${this.urlPrefix}`,

@@ -1,75 +1,54 @@
 import os
-from django.http import FileResponse, Http404
-from rest_framework.response import Response
-from rest_framework.decorators import api_view
-from rest_framework.views import APIView
-from rest_framework import status, generics
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.parsers import MultiPartParser, FormParser
-from authentication.models import User
-from base.utilities import Role
-from base.models import (
-    Apprentice,
-    Company,
-    CompanyUser,
-    Deadline,
-    FormationCenter,
-    Interview,
-    Mentor,
-    Semester,
-    Tutor,
-    TutorTeam,
-    YearGroup,
-    Note,
-    Document,
-    Opco,
-    ContactCompany,
-)
 
-from api.serializers import (
-    ApprenticeSerializer,
-    CompanySerializer,
-    ContactCompanySerializer,
-    OpcoSerializer,
-    DeadlineSerializer,
-    FormationCenterSerializer,
-    InterviewSerializer,
-    MentorSerializer,
-    SemesterSerializer,
-    NoteSerializer,
-    TreeNoteSerializer,
-    TutorSerializer,
-    TutorTeamSerializer,
-    UserSerializer,
-    YearGroupSerializer,
-    ChangePasswordSerializer,
-    RegisterUserSerializer,
-    ApprenticeRoleSerializer,
-    DocumentSerializer,
-    CompanyUserSerializer,
-)
-from api.helpers.tutor_team_helper import TutorTeamHelper
+from django.http import FileResponse, Http404
+from rest_framework import generics, status
+from rest_framework.decorators import api_view
+from rest_framework.parsers import FormParser, MultiPartParser
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
 from api.helpers.password_helper import PasswordHelper
-from api.helpers.data_treatement import DataTreatement
-from api.helpers.sftp_helper import SftpHelper
 from api.helpers.semester_helper import SemesterHelper
 from api.helpers.document_helper import DocumentHelper
+from api.helpers.evaluation_helper import EvaluationHelper
+from api.helpers.data_treatement import DataTreatement
+from api.helpers.sftp_helper import SftpHelper
+from api.helpers.tutor_team_helper import TutorTeamHelper
+from api.serializers import (ApprenticeInfoSerializer,
+                             ApprenticeRoleSerializer, ApprenticeSerializer,
+                             ChangePasswordSerializer, CompanySerializer,
+                             CompanyUserSerializer, ContactCompanySerializer,
+                             DeadlineSerializer, DocumentSerializer,
+                             EvaluationSerializer, FormationCenterSerializer,
+                             InterviewSerializer, MentorSerializer,
+                             NoteSerializer, OpcoSerializer,
+                             RegisterUserSerializer, SemesterSerializer,
+                             TreeNoteSerializer, TutorSerializer,
+                             TutorTeamSerializer, UserSerializer,
+                             YearGroupSerializer)
+from authentication.models import User
+from base.models import (Apprentice, ApprenticeInfo, Company, CompanyUser,
+                         ContactCompany, Deadline, Document, Evaluations,
+                         FormationCenter, Interview, Mentor, Note, Opco,
+                         Semester, Tutor, TutorTeam, YearGroup)
+from base.utilities import Role
 
 
-@api_view(["GET"])
-def get_mentors(request):
-    mentor_list = Mentor.objects.all()
-    serializers = MentorSerializer(mentor_list, many=True)
-    return Response(serializers.data)
+class MentorList(generics.ListCreateAPIView):
+    queryset = Mentor.objects.all()
+    serializer_class = MentorSerializer
 
 
-@api_view(["POST"])
-def add_mentor(request):
-    serializer = MentorSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class MentorDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Mentor.objects.all()
+    serializer_class = MentorSerializer
+
+class MentorByCompany(APIView):
+    def get(self, request, pk):
+        mentor_list = Mentor.objects.filter(mt_cmp_siret=pk)
+        serializers = MentorSerializer(mentor_list, many=True)
+        return Response(serializers.data)
 
 
 @api_view(["GET"])
@@ -105,7 +84,8 @@ class ApprenticeDetail(generics.RetrieveUpdateDestroyAPIView):
 
 class DeadlinesByUserId(APIView):
     def get(self, request, pk):
-        deadline_list = Deadline.objects.filter(apprentice_id=pk)
+        year_group = Apprentice.objects.get(pk=pk).yearGroup
+        deadline_list = Deadline.objects.filter(yearGroup=year_group)
         serializers = DeadlineSerializer(deadline_list, many=True)
         return Response(serializers.data)
 
@@ -284,7 +264,6 @@ class FormationCenterDetail(APIView):
         formation_center.postal_code = request.data.get("postal_code")
         formation_center.address = request.data.get("address")
         serializer = FormationCenterSerializer(formation_center, data=request.data)
-        print(request.data)
         if serializer.is_valid():
             formation_center.save()
             return Response(serializer.data)
@@ -320,7 +299,6 @@ class UserDetail(APIView):
         user.last_name = request.data.get("last_name")
         user.email = request.data.get("email")
         serializer = UserSerializer(user, data=request.data)
-        print(request.data)
         if serializer.is_valid():
             user.save()
             return Response(serializer.data)
@@ -356,6 +334,20 @@ class UserList(APIView):
         serializer.save()
 
         return Response(serializer.data)
+
+class ApprenticeInfoList(generics.ListCreateAPIView):
+    queryset = ApprenticeInfo.objects.all()
+    serializer_class = ApprenticeInfoSerializer
+
+class ApprenticeInfoDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ApprenticeInfo.objects.all()
+    serializer_class = ApprenticeInfoSerializer
+
+class ApprenticeInfoByCompany(APIView):
+    def get(self, request, pk):
+        apprentice_list = ApprenticeInfo.objects.filter(app_siret=pk)
+        serializers = ApprenticeInfoSerializer(apprentice_list, many=True)
+        return Response(serializers.data)
 
 
 class CompanyDetail(APIView):
@@ -416,13 +408,13 @@ class OpcoDetail(APIView):
             raise Http404 from exc
 
     def get(self, request, pk):
-        tutor_team = self.get_object(pk)
-        serializer = OpcoSerializer(tutor_team)
+        opco = self.get_object(pk)
+        serializer = OpcoSerializer(opco)
         return Response(serializer.data)
 
     def put(self, request, pk):
-        tutor_team = self.get_object(pk)
-        serializer = OpcoSerializer(tutor_team, data=request.data)
+        opco = self.get_object(pk)
+        serializer = OpcoSerializer(opco, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -439,15 +431,63 @@ class OpcoList(generics.ListCreateAPIView):
     serializer_class = OpcoSerializer
 
 
-class ContactCompanyDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = ContactCompany.objects.all()
-    serializer_class = ContactCompanySerializer
+class ContactCompanyDetail(APIView):
+    def get_object(self, pk):
+        try:
+            return ContactCompany.objects.get(ct_cmp_siret=pk)
+        except ContactCompany.DoesNotExist as exc:
+            raise Http404 from exc
+
+    def get(self, request, pk):
+        contact_company = self.get_object(pk)
+        serializer = ContactCompanySerializer(contact_company)
+        return Response(serializer.data)
+
+    def put(self, request, pk):
+        contact_company = self.get_object(pk)
+        serializer = ContactCompanySerializer(contact_company, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        contact_company = self.get_object(pk)
+        contact_company.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class ContactCompanyList(generics.ListCreateAPIView):
     queryset = ContactCompany.objects.all()
     serializer_class = ContactCompanySerializer
 
+class TutorTeamByTutorId(APIView):
+    def get(self, request, pk):
+        try:
+            tutor_team = TutorTeam.objects.get(tutor_id=pk)
+        except TutorTeam.DoesNotExist as exc:
+            raise Http404 from exc
+        serializer = TutorTeamSerializer(tutor_team)
+        return Response(serializer.data)
+
+class TutorTeamByMentorId(APIView):
+    def get(self, request, pk):
+        try:
+            tutor_team = TutorTeam.objects.get(mentor_id=pk)
+        except TutorTeam.DoesNotExist as exc:
+            raise Http404 from exc
+        serializer = TutorTeamSerializer(tutor_team)
+        return Response(serializer.data)
+    
+class TutorTeamByApprenticeId(APIView):
+    def get(self, request, pk):
+        try:
+            tutor_team = TutorTeam.objects.get(apprentice_id=pk)
+        except TutorTeam.DoesNotExist as exc:
+            raise Http404 from exc
+
+        serializer = TutorTeamSerializer(tutor_team)
+        return Response(serializer.data)
 
 class TutorTeamDetail(APIView):
     def get_object(self, pk):
@@ -571,6 +611,91 @@ class DocumentDetail(APIView):
             pass
         document.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class DocumentByYearGroup(APIView):
+    parser_classes = (MultiPartParser, FormParser)
+
+    def get(self, request, pk):
+        document_list = Document.objects.all().filter(yearGroup=pk)
+        serializers = DocumentSerializer(document_list, many=True)
+        response = DocumentHelper.getAllDocuments(serializers)
+        return Response(response)
+
+class EvaluationList(APIView):
+    parser_classes = (MultiPartParser, FormParser)
+
+    def get(self, request):
+        evaluation_list = Evaluations.objects.all()
+        serializers = EvaluationSerializer(evaluation_list, many=True)
+        response = EvaluationHelper.getAllEvaluations(serializers)
+        return Response(response)
+
+    def post(self, request, *args, **kwargs):
+        serializer = EvaluationSerializer(data=request.data)
+        if serializer.is_valid():
+            file = request.FILES["file"]
+            sftp, ssh = SftpHelper.sftp_open_connection()
+            sftp.putfo(file, "/datastore/" + request.data["file_name"])
+            SftpHelper.sftp_close_connection(sftp, ssh)
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class EvaluationDetail(APIView):
+    parser_classes = (MultiPartParser, FormParser)
+
+    def get_object(self, pk, *args, **kwargs):
+        try:
+            return Evaluations.objects.get(pk=pk)
+        except Evaluations.DoesNotExist as exc:
+            raise Http404 from exc
+
+    def get(self, request, pk):
+        evaluation = self.get_object(pk)
+        serializer = EvaluationSerializer(evaluation)
+        sftp, ssh = SftpHelper.sftp_open_connection()
+        file_name = serializer.data["file_name"]
+        with open(file_name, "wb") as file_write:
+            sftp.getfo("/datastore/" + file_name, file_write)
+        # pylint: disable=consider-using-with
+        file_read = open(file_name, "rb")
+        SftpHelper.sftp_close_connection(sftp, ssh)
+        return FileResponse(file_read, content_type="application/pdf")
+
+    def delete(self, request, pk):
+        evaluation = self.get_object(pk)
+        try:
+            sftp, ssh = SftpHelper.sftp_open_connection()
+            sftp.remove("/datastore/" + evaluation.file_name)
+            SftpHelper.sftp_close_connection(sftp, ssh)
+        except:  # pylint: disable=bare-except
+            pass
+        evaluation.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    
+    def put(self, request, pk):
+        evaluation = self.get_object(pk, Evaluations)
+        evaluation.type = request.data.get("type")
+        evaluation.status = request.data.get("status")
+        evaluation.yeargroup = request.data.get("yeargroup")
+        evaluation.user = User.objects.get(pk=request.data.get("user"))
+        serializer = EvaluationSerializer(evaluation, data=request.data)
+        if serializer.is_valid():
+            evaluation.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class EvaluationByOwner(APIView):
+    parser_classes = (MultiPartParser, FormParser)
+
+    def get(self, request, pk):
+        evaluation_list = Evaluations.objects.all().filter(owner=pk)
+        serializers = EvaluationSerializer(evaluation_list, many=True)
+        response = EvaluationHelper.getAllEvaluations(serializers)
+        return Response(response)
 
 
 @api_view(["DELETE"])

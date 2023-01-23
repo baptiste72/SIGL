@@ -1,6 +1,6 @@
 export class Company {
   cmp_name: string;
-  cmp_siret: number;
+  cmp_siret: string;
   cmp_employees: number;
   cmp_cpne: string;
   cmp_idcc: number;
@@ -14,7 +14,7 @@ export class Company {
 
   constructor(
     cmp_name: string,
-    cmp_siret: number,
+    cmp_siret: string,
     cmp_employees: number,
     cmp_cpne: string,
     cmp_idcc: number,

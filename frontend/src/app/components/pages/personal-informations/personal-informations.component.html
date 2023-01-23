@@ -16,11 +16,7 @@
         <h2>Mes informations</h2>
         <p>Ces informations ont été renseignées lors de votre inscription.</p>
         <ul>
-          <li>Civilité : Mme</li>
-          <li>Promotion : Noether</li>
-          <li>Date de naissance : 15/05/2000</li>
-          <li>Email : mathilde.renaud@reseau.eseo.fr</li>
-          <li>Téléphone : 06 28 40 52 58</li>
+          <li>Email : {{ user.email }}</li>
         </ul>
         <a class="personal-action-btn" (click)="changePassword()">
           <mat-icon

@@ -3,12 +3,11 @@ import { ConnectionComponent } from './components/pages/connection/connection.co
 import { ForgotPasswordComponent } from './components/pages/forgot-password/forgot-password.component';
 import { NewPasswordComponent } from './components/pages/new-password/new-password.component';
 import { DashboardApprenticeComponent } from './components/Dashboard/dashboard-apprentice/dashboard-apprentice.component';
-import { NavigationComponent } from './components/navigation/navigation.component';
-import { NotesComponent } from './components/notes/notes.component';
+import { NavigationComponent } from './components/sub-components/navigation/navigation.component';
 import { PersonalInformationsComponent } from './components/pages/personal-informations/personal-informations.component';
-import { DocumentsComponent } from './components/documents/documents.component';
-import { EvaluationsComponent } from './components/evaluations/evaluations.component';
-import { EventsComponent } from './components/events/events.component';
+import { DocumentsComponent } from './components/sub-components/documents/documents.component';
+import { EvaluationsComponent } from './components/sub-components/evaluations/evaluations.component';
+import { EventsComponent } from './components/sub-components/events/events.component';
 import { DocumentsPageComponent } from './components/pages/documents-page/documents-page.component';
 import { AddNotePopupComponent } from './components/pop-up/note/add-note-popup/add-note-popup.component';
 import { ConfigurationComponent } from './components/pages/configuration/configuration.component';
@@ -72,9 +71,21 @@ import { AddDocumentPopupComponent } from './components/pop-up/document/add-docu
 import { MatStepperModule, MatStepper } from '@angular/material/stepper';
 import { DashboardCompanyComponent } from './components/Dashboard/dashboard-company/dashboard-company.component';
 import { UpdateInterviewPopupComponent } from './components/pop-up/interview/update-interview-popup/update-interview-popup.component';
+import { AddApprenticeInfoPopupComponent } from './components/pop-up/apprentice/add-apprentice-popup/add-apprentice-popup.component';
+import { CompanyInformationComponent } from './components/pages/company-information/company-information.component';
+import { AddMentorPopupComponent } from './components/pop-up/mentor/add-mentor-popup/add-mentor-popup.component';
+import { UpdateMentorPopupComponent } from './components/pop-up/mentor/update-mentor-popup/update-mentor-popup.component';
+import { UpdateApprenticeInfoPopupComponent } from './components/pop-up/apprentice/update-apprentice-popup/update-apprentice-popup.component';
+import { EvaluationsPageComponent } from './components/pages/evaluations-page/evaluations-page.component';
 import { DashboardAdminComponent } from './components/Dashboard/dashboard-admin/dashboard-admin.component';
-import { ProfileComponent } from './components/profile/profile/profile.component';
+import { ProfileComponent } from './components/sub-components/profile/profile.component';
 import { DashboardPedagoComponent } from './components/Dashboard/dashboard-pedago/dashboard-pedago.component';
+import { ViewDeadlinePopupComponent } from './components/pop-up/deadline/view-deadline-popup/view-deadline-popup.component';
+import { AddEvaluationPopupComponent } from './components/pop-up/evaluation/add-evaluation-popup/add-evaluation-popup.component';
+import { UpdateEvaluationPopupComponent } from './components/pop-up/evaluation/update-evaluation-popup/update-evaluation-popup.component';
+import { NotesComponent } from './components/sub-components/notes/notes.component';
+import { NotesMinimalComponent } from './components/sub-components/notes-minimal/notes-minimal.component';
+import { SelectApprenticeComponent } from './components/sub-components/select-apprentice/select-apprentice.component';
 
 @NgModule({
   declarations: [
@@ -84,7 +95,7 @@ import { DashboardPedagoComponent } from './components/Dashboard/dashboard-pedag
     NewPasswordComponent,
     DashboardApprenticeComponent,
     NavigationComponent,
-    NotesComponent,
+    NotesMinimalComponent,
     PersonalInformationsComponent,
     DocumentsComponent,
     EvaluationsComponent,
@@ -93,12 +104,14 @@ import { DashboardPedagoComponent } from './components/Dashboard/dashboard-pedag
     NotesPageComponent,
     AddNotePopupComponent,
     UpdateNotePopupComponent,
+    ViewDeadlinePopupComponent,
     ConfigurationComponent,
     AddUserPopupComponent,
     AddYearGroupPopupComponent,
     AddTeamPopupComponent,
     AddInterviewPopupComponent,
     AddDeadlinePopupComponent,
+    AddApprenticeInfoPopupComponent,
     AddCompanyFormComponent,
     AddSemesterPopupComponent,
     UpdateYearGroupPopupComponent,
@@ -115,9 +128,18 @@ import { DashboardPedagoComponent } from './components/Dashboard/dashboard-pedag
     UpdateFormationCenterPopupComponent,
     DashboardCompanyComponent,
     EventsPageComponent,
+    EvaluationsPageComponent,
     DashboardAdminComponent,
     ProfileComponent,
     DashboardPedagoComponent,
+    CompanyInformationComponent,
+    AddMentorPopupComponent,
+    UpdateMentorPopupComponent,
+    UpdateApprenticeInfoPopupComponent,
+    AddEvaluationPopupComponent,
+    UpdateEvaluationPopupComponent,
+    NotesComponent,
+    SelectApprenticeComponent,
   ],
   imports: [
     CalendarModule.forRoot({
@@ -151,7 +173,7 @@ import { DashboardPedagoComponent } from './components/Dashboard/dashboard-pedag
     MatStepperModule,
     MatCardModule,
     ReactiveFormsModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

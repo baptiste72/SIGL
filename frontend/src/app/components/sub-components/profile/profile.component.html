@@ -1,0 +1,20 @@
+<mat-card class="personal-card">
+  <mat-card-header class="personal-card-header">
+    <mat-card-title class="personal-card-title"
+      >Informations personnelles</mat-card-title
+    >
+  </mat-card-header>
+  <mat-card-content class="personal-card-content">
+    <div class="personal-title">
+      <div mat-card-avatar class="personal-avatar"></div>
+      <h1 class="personal-name">
+        {{ apprentice.first_name }} {{ apprentice.last_name }}
+      </h1>
+    </div>
+    <h2>Informations</h2>
+    <ul>
+      <li>Promotion : {{ apprentice.yearGroup.worded }}</li>
+      <li>Email : {{ apprentice.email }}</li>
+    </ul>
+  </mat-card-content>
+</mat-card>

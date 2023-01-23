@@ -51,30 +51,17 @@ export class ConnectionComponent implements OnInit {
       });
 
       this.authService.microsoftGetUser(flow).subscribe({
-        next: (user) => {
-          const displayName = user.displayName.split(' ');
-          // TODO: Récupérer le rôle pour les utilisateurs connectés avec Microsoft
-          // Faire l'association avec un utilisateur déjà stocké en base
-          // Reprendre ce système d'authentification
-          let retrievedUser: User = new User(
-            user.id,
-            displayName[1],
-            displayName[0],
-            user.mail,
-            Role.UNKNOWN
-          );
-          localStorage.setItem('user', JSON.stringify(retrievedUser));
-          this.router.navigate(['dashboard']);
-          this._snackBar.open('✔ Connexion via Microsoft réussie', 'Ok', {
+        next: (user: User) => {
+          this.redirectHomepage(user);
+          this._snackBar.open('✔ Connexion réussie', 'Ok', {
             duration: 2000,
           });
         },
         error: (err) => {
-          this._snackBar.open(
-            '❌ Échec de la récupération des informations utilisateur',
-            'Ok',
-            { duration: 2000 }
-          );
+          this._snackBar.open('❌ Utilisateur non inscrit.', 'Ok', {
+            duration: 2000,
+          });
+          sessionStorage.removeItem('microsoftFlow');
         },
       });
     }
@@ -97,7 +84,6 @@ export class ConnectionComponent implements OnInit {
       this.router.navigate(['/dashboard-pedago']);
     }
   }
-
 
   public firstConnection() {
     this.router.navigate(['/forgot-password'], {
