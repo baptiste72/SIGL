@@ -1,0 +1,198 @@
+<app-navigation>
+  <mat-tab-group
+    animationDuration="0ms"
+    (selectedTabChange)="onTabChange($event)"
+  >
+    <!-- ENTREPRISE -->
+    <mat-tab label="companies">
+      <ng-template mat-tab-label>
+        <mat-icon>apartment</mat-icon>
+        Informations Entreprise
+      </ng-template>
+      <mat-card class="company-information-page-card">
+        <mat-card-content>
+          <app-add-company-form></app-add-company-form>
+        </mat-card-content>
+      </mat-card>
+    </mat-tab>
+
+    <!-- APPRENTI -->
+    <mat-tab label="apprentices">
+      <ng-template mat-tab-label>
+        <mat-icon>groups</mat-icon>
+        Informations Apprenti
+      </ng-template>
+      <mat-card class="mat-dialog-page-card">
+        <mat-card-header class="mat-dialog-card-header">
+          <mat-card-title class="apprentice-form-card-title">
+            Apprentis
+          </mat-card-title>
+        </mat-card-header>
+        <div class="navigation-content margin-bottom-50">
+          <mat-card-content>
+            <div class="conf-actions-btns">
+              <button
+                mat-raised-button
+                class="btn_primary bg-green"
+                (click)="openApprenticePopup(this.compUser)"
+              >
+                AJOUT APPRENTI
+              </button>
+            </div>
+          </mat-card-content>
+        </div>
+        <div>
+          <table mat-table [dataSource]="dataSourceApprentices">
+            <ng-container matColumnDef="app_first_name">
+              <th mat-header-cell *matHeaderCellDef>Prénom</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.app_first_name }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="app_last_name">
+              <th mat-header-cell *matHeaderCellDef>Nom</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.app_last_name }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="app_job_title">
+              <th mat-header-cell *matHeaderCellDef>Intitulé du poste</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.app_job_title }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="app_phone">
+              <th mat-header-cell *matHeaderCellDef>Numéro de téléphone</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.app_phone }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="update">
+              <th mat-header-cell *matHeaderCellDef>Modifications</th>
+              <td mat-cell *matCellDef="let element">
+                <button (click)="openUpdateApprenticeInfoPopup(element)">
+                  <mat-icon
+                    class="conf-edit-icons"
+                    aria-hidden="false"
+                    aria-label="documents icon"
+                    fontIcon="edit"
+                  ></mat-icon>
+                </button>
+              </td>
+            </ng-container>
+            <tr
+              mat-header-row
+              *matHeaderRowDef="displayedColumnsApprentice"
+            ></tr>
+            <tr
+              mat-row
+              *matRowDef="let row; columns: displayedColumnsApprentice"
+            ></tr>
+          </table>
+
+          <mat-paginator
+            [pageSizeOptions]="[5, 10, 20]"
+            showFirstLastButtons
+            #apprenticePaginator
+          >
+          </mat-paginator>
+        </div>
+      </mat-card>
+    </mat-tab>
+
+    <!-- MAITRE D'APPRENTISSAGE -->
+    <mat-tab label="mentors">
+      <ng-template mat-tab-label>
+        <mat-icon>groups</mat-icon>
+        Informations Maître d'apprentissage
+      </ng-template>
+      <mat-card class="mat-dialog-page-card">
+        <mat-card-content>
+          <mat-card-header class="mat-dialog-card-header">
+            <mat-card-title class="mentor-form-card-title">
+              Maitre d'apprentissage
+            </mat-card-title>
+          </mat-card-header>
+          <div class="navigation-content margin-bottom-50">
+            <mat-card-content>
+              <div class="conf-actions-btns">
+                <button
+                  mat-raised-button
+                  class="btn_primary bg-green"
+                  (click)="openMentorPopup(this.compUser)"
+                >
+                  AJOUT MAITRE D'APPRENTISSAGE
+                </button>
+              </div>
+            </mat-card-content>
+          </div>
+          <div>
+            <table mat-table [dataSource]="dataSourceMentors">
+              <ng-container matColumnDef="first_name">
+                <th mat-header-cell *matHeaderCellDef>Prénom</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.first_name }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="last_name">
+                <th mat-header-cell *matHeaderCellDef>Nom</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.last_name }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="mt_job_title">
+                <th mat-header-cell *matHeaderCellDef>Intitulé du poste</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.mt_job_title }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="mt_phone">
+                <th mat-header-cell *matHeaderCellDef>Numéro de téléphone</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.mt_phone }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="update">
+                <th mat-header-cell *matHeaderCellDef>Modifications</th>
+                <td mat-cell *matCellDef="let element">
+                  <button (click)="openUpdateMentorPopup(element)">
+                    <mat-icon
+                      class="conf-edit-icons"
+                      aria-hidden="false"
+                      aria-label="documents icon"
+                      fontIcon="edit"
+                    ></mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+
+              <tr
+                mat-header-row
+                *matHeaderRowDef="displayedColumnsMentors"
+              ></tr>
+              <tr
+                mat-row
+                *matRowDef="let row; columns: displayedColumnsMentors"
+              ></tr>
+            </table>
+
+            <mat-paginator
+              [pageSizeOptions]="[5, 10, 20]"
+              showFirstLastButtons
+              #mentorPaginator
+            >
+            </mat-paginator>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </mat-tab>
+  </mat-tab-group>
+</app-navigation>

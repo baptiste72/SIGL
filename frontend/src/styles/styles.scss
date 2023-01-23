@@ -36,6 +36,7 @@
 @import "/src/app/components/pages/notes-page/notes-page.component.scss";
 @import "/src/app/components/pages/configuration/configuration.component.scss";
 @import "/src/app/components/pages/events-page/events-page.component.scss";
+@import "/src/app/components/pages/evaluations-page/evaluations-page.component.scss";
 
 /* DASHBOARD */
 @import "/src/app/components/Dashboard/dashboard-admin/dashboard-admin.component.scss";
@@ -48,5 +49,10 @@
 @import "/src/app/components/pop-up/year-group/update-year-group-popup/update-year-group-popup/update-year-group-popup.component.scss";
 @import "/src/app/components/pop-up/note/add-note-popup/add-note-popup.component.scss";
 @import "/src/app/components/pop-up/note/update-note-popup/update-note-popup.component.scss";
+@import "/src/app/components/pop-up/apprentice/add-apprentice-popup/add-apprentice-popup.component.scss";
+@import "/src/app/components/pop-up/apprentice/update-apprentice-popup/update-apprentice-popup.component.scss";
+@import "/src/app/components/pop-up/mentor/add-mentor-popup/add-mentor-popup.component.scss";
+@import "/src/app/components/pop-up/mentor/update-mentor-popup/update-mentor-popup.component.scss";
+
 /* FORM */
 @import "/src/app/components/forms/add-company-form/add-company-form.component.scss";

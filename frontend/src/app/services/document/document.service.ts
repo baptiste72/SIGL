@@ -9,17 +9,26 @@ import { environment } from 'src/environments/environment';
 })
 export class DocumentService {
   private urlPrefix = 'api/v1/documents';
+  private urlYearGroup = 'year-group';
 
   constructor(private http: HttpClient) {}
 
   public getAll(): Observable<DocumentPdf[]> {
-    return this.http.get<DocumentPdf[]>(`${environment.apiUrl}/${this.urlPrefix}`);
+    return this.http.get<DocumentPdf[]>(
+      `${environment.apiUrl}/${this.urlPrefix}`
+    );
   }
 
   public getById(id: number) {
     return this.http.get<any>(`${environment.apiUrl}/${this.urlPrefix}/${id}`, {
       responseType: 'blob' as 'json',
     });
+  }
+
+  public getByYearGroup(id: number): Observable<DocumentPdf[]> {
+    return this.http.get<DocumentPdf[]>(
+      `${environment.apiUrl}/${this.urlPrefix}/${this.urlYearGroup}/${id}`
+    );
   }
 
   public add(formData: FormData): Observable<FormData> {

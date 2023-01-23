@@ -16,9 +16,22 @@ export class MentorService {
     return this.http.get<Mentor[]>(`${environment.apiUrl}/${this.urlPrefix}`);
   }
 
+  public getAllByCompany(siret: string): Observable<Mentor[]> {
+    return this.http.get<Mentor[]>(
+      `${environment.apiUrl}/${this.urlPrefix}/company/${siret}`
+    );
+  }
+
   public add(mentor: Mentor): Observable<Mentor> {
     return this.http.post<Mentor>(
-      `${environment.apiUrl}/${this.urlPrefix}/add`,
+      `${environment.apiUrl}/${this.urlPrefix}`,
+      mentor
+    );
+  }
+
+  public update(mentor: Mentor): Observable<Mentor> {
+    return this.http.put<Mentor>(
+      `${environment.apiUrl}/${this.urlPrefix}/${mentor.id}`,
       mentor
     );
   }

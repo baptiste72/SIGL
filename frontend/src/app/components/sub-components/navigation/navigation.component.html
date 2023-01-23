@@ -7,9 +7,7 @@
         ><div><mat-icon matPrefix>home</mat-icon>Journal de formation</div></a
       >
       <a routerLink="/dashboard-company" *ngIf="user.role === roleEnum.COMPANY"
-        ><div>
-          <mat-icon matPrefix>home</mat-icon>Informations Entreprise
-        </div></a
+        ><div><mat-icon matPrefix>home</mat-icon>Dashboard</div></a
       >
       <a
         routerLink="/dashboard-admin"
@@ -23,6 +21,15 @@
         *ngIf="user.role === roleEnum.MENTOR || user.role === roleEnum.TUTOR"
         ><div><mat-icon matPrefix>home</mat-icon>Dashboard</div></a
       >
+
+      <!-- COMPANY INFORMATION -->
+      <a
+        routerLink="/company-information"
+        *ngIf="user.role === roleEnum.COMPANY"
+        ><div>
+          <mat-icon matPrefix>home</mat-icon>Informations Entreprise
+        </div></a
+      >
       <!-- DOCUMENTS -->
       <a routerLink="/documents" *ngIf="user.role !== roleEnum.COMPANY"
         ><div>
@@ -30,15 +37,32 @@
         </div></a
       >
       <!-- NOTES PERIODIQUES -->
-      <a routerLink="/notes" *ngIf="user.role !== roleEnum.COMPANY"
+      <a
+        routerLink="/notes"
+        *ngIf="
+          user.role !== roleEnum.COMPANY &&
+          user.role !== roleEnum.MENTOR &&
+          user.role !== roleEnum.TUTOR
+        "
         ><div><mat-icon matPrefix>edit_note</mat-icon>Notes Périodiques</div></a
       >
-      <!-- LIVRABLES -->
-      <a routerLink="/documents" *ngIf="user.role !== roleEnum.COMPANY"
+      <a
+        routerLink="/evaluations"
+        *ngIf="
+          user.role !== roleEnum.COMPANY &&
+          user.role !== roleEnum.MENTOR &&
+          user.role !== roleEnum.TUTOR
+        "
         ><div><mat-icon matPrefix>co_present</mat-icon>Livrables</div></a
       >
       <!-- EVENEMENTS -->
-      <a routerLink="/events" *ngIf="user.role !== roleEnum.COMPANY"
+      <a
+        routerLink="/events"
+        *ngIf="
+          user.role !== roleEnum.COMPANY &&
+          user.role !== roleEnum.MENTOR &&
+          user.role !== roleEnum.TUTOR
+        "
         ><div><mat-icon matPrefix>calendar_month</mat-icon>Évènements</div></a
       >
       <!-- PROFILE -->

@@ -1,10 +1,15 @@
-from django.urls import path, include
+from django.urls import include, path
+
 from . import views
 
 urlpatterns = [
     # apprentices
     path("apprentices", views.ApprenticeList.as_view()),
     path("apprentices/<int:pk>", views.ApprenticeDetail.as_view()),
+    # apprentice-infos
+    path("apprentice-info", views.ApprenticeInfoList.as_view()),
+    path("apprentice-info/<int:pk>", views.ApprenticeInfoDetail.as_view()),
+    path("apprentice-info/company/<int:pk>", views.ApprenticeInfoByCompany.as_view()),
     # companies
     path("companies", views.CompanyList.as_view()),
     path("companies/<int:pk>", views.CompanyDetail.as_view()),
@@ -42,8 +47,9 @@ urlpatterns = [
     path("interviews/<int:pk>/", views.InterviewDetail.as_view()),
     path("interviews/users/<int:pk>/", views.InterviewsByUserId.as_view()),
     # mentors
-    path("mentors", views.get_mentors, name="getMentors"),
-    path("mentors/add", views.add_mentor, name="addMentor"),
+    path("mentors", views.MentorList.as_view()),
+    path("mentors/<int:pk>", views.MentorDetail.as_view()),
+    path("mentors/company/<int:pk>", views.MentorByCompany.as_view()),
     # semesters
     path("semesters", views.get_semesters, name="getSemesters"),
     path("semesters/add", views.add_semester, name="addSemester"),
@@ -79,4 +85,11 @@ urlpatterns = [
     path("documents", views.DocumentList.as_view()),
     path("documents/<int:pk>", views.DocumentDetail.as_view()),
     path("documents/cleanup/<str:file_name>", views.cleanup),
+    path("documents/year-group/<int:pk>", views.DocumentByYearGroup.as_view()),
+    
+    # livrables
+    path("evaluations", views.EvaluationList.as_view()),
+    path("evaluations/<int:pk>", views.EvaluationDetail.as_view()),
+    path("evaluations/owner/<int:pk>", views.EvaluationByOwner.as_view()),
+    path("evaluations/cleanup/<str:file_name>", views.cleanup),
 ]

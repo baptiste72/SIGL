@@ -13,6 +13,8 @@ import { SemesterService } from 'src/app/services/semester/semester.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { YearGroup } from 'src/app/models/YearGroup';
 import { Semester } from 'src/app/models/Semester';
+import { Company } from '@app/models/Company';
+import { User } from '@app/models/User';
 import { UpdateSemesterPopupComponent } from '../../pop-up/semester/update-semester-popup/update-semester-popup/update-semester-popup.component';
 import { TutorTeamService } from 'src/app/services/tutor-team/tutor-team.service';
 import { TutorTeam } from 'src/app/models/TutorTeam';
@@ -502,50 +504,3 @@ export class ConfigurationComponent implements OnInit, AfterViewInit {
     }
   }
 }
-
-export interface User {
-  name: string;
-  surname: string;
-  role: string;
-  update: string;
-}
-
-const USERS_DATA: User[] = [
-  { name: 'Mathilde', surname: 'RENAUD', role: 'Apprenti', update: './' },
-  { name: 'Hugo', surname: 'TANNIOU', role: 'Apprenti', update: './' },
-  { name: 'Joël', surname: 'HECKMANN', role: 'Apprenti', update: './' },
-  { name: 'Tristan', surname: 'BAHUAUD', role: 'Apprenti', update: './' },
-  { name: 'Thomas', surname: 'DHUICQ', role: 'Apprenti', update: './' },
-];
-
-export interface Company {
-  cmp_name: string;
-  cmp_siret: number;
-  cmp_employees: number;
-  cmp_cpne: string;
-  cmp_idcc: number;
-  cmp_convention: string;
-  cmp_naf_ape: string;
-  cmp_work_field: string;
-  cmp_phone: string;
-  cmp_email: string;
-  cmp_address: string;
-  cmp_internat: string;
-}
-
-const COMPANIES_DATA: Company[] = [
-  {
-    cmp_name: 'Itanica',
-    cmp_siret: 3998269810017,
-    cmp_employees: 250,
-    cmp_cpne: '123',
-    cmp_idcc: 123,
-    cmp_convention: '123',
-    cmp_naf_ape: '123',
-    cmp_work_field: '123',
-    cmp_phone: '123',
-    cmp_email: '123',
-    cmp_address: '123',
-    cmp_internat: 'Oui',
-  },
-];

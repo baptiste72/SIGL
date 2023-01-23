@@ -1,5 +1,7 @@
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.utils import timezone
+
 from authentication.models import User
 
 
@@ -33,6 +35,7 @@ class Company(models.Model):
     cmp_email = models.EmailField(max_length=200)
     cmp_internat = models.CharField(max_length=20,default = "Non")
 
+
 class Opco(models.Model):
     opco_siret = models.CharField(max_length=200,primary_key=True)
     opco_cmp_siret = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)
@@ -43,6 +46,7 @@ class Opco(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class ContactCompany(models.Model):
     ct_cmp_siret = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)
@@ -68,6 +72,7 @@ class ContactCompany(models.Model):
     def __str__(self):
         return self.name
 
+
 class Mentor(User):
     # table des maîtres d'apprentissage
     mt_cmp_siret = models.ForeignKey(Company, related_name="Mentor", on_delete=models.CASCADE, null=True)
@@ -89,16 +94,34 @@ class CompanyUser(User):
     def __str__(self):
         return self.name
 
+
 class YearGroup(models.Model):
     # tables des promotions
     worded = models.CharField(max_length=200)
     beginDate = models.DateTimeField(default=timezone.now)
 
 
+class ApprenticeInfo(models.Model):
+    # table des infos de l'apprenti (missions)
+    app_last_name = models.CharField(max_length=200)
+    app_first_name = models.CharField(max_length=200)
+    app_job_title = models.CharField(max_length=200)
+    app_description = models.CharField(max_length=1000)
+    app_phone = models.CharField(max_length=20)
+    app_collective_convention = models.CharField(max_length=200)
+    app_working_hours = models.CharField(max_length=10)
+    app_comp_name = models.CharField(max_length=200, null=True)
+    app_location = models.CharField(max_length=200, null=True)
+    app_siret = models.CharField(max_length=200)
+
+
 class Apprentice(User):
     # table des apprentis
     yearGroup = models.ForeignKey(
         YearGroup, related_name="Apprentice", on_delete=models.CASCADE, null=True
+    )
+    apprentice_info = models.ForeignKey(
+        ApprenticeInfo, on_delete=models.CASCADE, null=True
     )
 
 
@@ -128,7 +151,7 @@ class TutorTeam(models.Model):
 class Document(models.Model):
     # tables des documents pédagogiques
     name = models.CharField(max_length=200)
-    file_name = models.CharField(max_length=200)
+    file_name = models.CharField(max_length=200, unique=True)
     user = models.ForeignKey(
         User, related_name="user", on_delete=models.CASCADE, null=True
     )
@@ -173,3 +196,20 @@ class Note(models.Model):
     semester = models.ForeignKey(
         Semester, related_name="note", on_delete=models.CASCADE
     )
+
+class Evaluations(models.Model):
+    file_name = models.CharField(max_length=200, unique=True)
+    modification_date = models.DateTimeField()
+    status = models.CharField(max_length=10)
+    type = models.CharField(max_length=50)
+    user = models.ForeignKey(
+        User, related_name="evaluation_user", on_delete=models.CASCADE, null=True
+    )
+    owner = models.ForeignKey(
+        User, related_name="owner", on_delete=models.CASCADE, null=True
+    )
+    yearGroup = models.ForeignKey(
+        YearGroup, related_name="evaluation_yearGroup", on_delete=models.CASCADE, null=True
+    )
+    note = models.IntegerField(validators=[MinValueValidator(0),
+                                       MaxValueValidator(20)], null=True)

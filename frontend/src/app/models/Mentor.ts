@@ -2,7 +2,7 @@ import { Role } from '@app/helpers';
 import { User } from './User';
 
 export class Mentor extends User {
-  mt_cmp_siret: number;
+  mt_cmp_siret: string;
   mt_job_title: string;
   mt_last_diploma: string;
   mt_former_eseo: string;
@@ -13,7 +13,7 @@ export class Mentor extends User {
     lastName: string,
     email: string,
     role: Role,
-    mt_cmp_siret: number,
+    mt_cmp_siret: string,
     mt_job_title: string,
     mt_last_diploma: string,
     mt_former_eseo: string,
