@@ -5,58 +5,15 @@ from rest_framework import generics, status
 from rest_framework.decorators import api_view
 from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.parsers import MultiPartParser, FormParser
-from authentication.models import User
-from base.utilities import Role
-from base.models import (
-    Apprentice,
-    ApprenticeInfo,
-    Company,
-    CompanyUser,
-    Deadline,
-    FormationCenter,
-    Interview,
-    Mentor,
-    Semester,
-    Tutor,
-    TutorTeam,
-    YearGroup,
-    Note,
-    Document,
-    Opco,
-    ContactCompany,
-)
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from api.serializers import (
-    ApprenticeSerializer,
-    CompanySerializer,
-    ContactCompanySerializer,
-    OpcoSerializer,
-    DeadlineSerializer,
-    FormationCenterSerializer,
-    InterviewSerializer,
-    MentorSerializer,
-    SemesterSerializer,
-    NoteSerializer,
-    TreeNoteSerializer,
-    TutorSerializer,
-    TutorTeamSerializer,
-    UserSerializer,
-    YearGroupSerializer,
-    ChangePasswordSerializer,
-    RegisterUserSerializer,
-    ApprenticeRoleSerializer,
-    DocumentSerializer,
-    CompanyUserSerializer,
-)
-from api.helpers.tutor_team_helper import TutorTeamHelper
 from api.helpers.password_helper import PasswordHelper
 from api.helpers.semester_helper import SemesterHelper
 from api.helpers.sftp_helper import SftpHelper
 from api.helpers.tutor_team_helper import TutorTeamHelper
-from api.serializers import (ApprenticeRoleSerializer, ApprenticeSerializer,
+from api.serializers import (ApprenticeInfoSerializer,
+                             ApprenticeRoleSerializer, ApprenticeSerializer,
                              ChangePasswordSerializer, CompanySerializer,
                              CompanyUserSerializer, ContactCompanySerializer,
                              DeadlineSerializer, DocumentSerializer,
@@ -68,10 +25,10 @@ from api.serializers import (ApprenticeRoleSerializer, ApprenticeSerializer,
                              TutorTeamSerializer, UserSerializer,
                              YearGroupSerializer)
 from authentication.models import User
-from base.models import (Apprentice, Company, CompanyUser, ContactCompany,
-                         Deadline, Document, Evaluations, FormationCenter,
-                         Interview, Mentor, Note, Opco, Semester, Tutor,
-                         TutorTeam, YearGroup)
+from base.models import (Apprentice, ApprenticeInfo, Company, CompanyUser,
+                         ContactCompany, Deadline, Document, Evaluations,
+                         FormationCenter, Interview, Mentor, Note, Opco,
+                         Semester, Tutor, TutorTeam, YearGroup)
 from base.utilities import Role
 
 
