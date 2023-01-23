@@ -46,10 +46,10 @@ const colors: any = {
 })
 export class EventsPageComponent implements OnInit {
   public refresh = new Subject<void>();
-  private interviews: any;
-  private deadlines: any;
-  private userId: number;
-  private role: any;
+  public interviews: any;
+  public deadlines: any;
+  public userId: number;
+  public role: any;
   view: CalendarView = CalendarView.Month;
   locale: string = 'fr';
 

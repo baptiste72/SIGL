@@ -45,7 +45,8 @@ export class UpdateDeadlinePopupComponent implements OnInit {
     this.yearGroupService.getAll().subscribe((yearGroups) => {
       this.yearGroups = yearGroups;
     });
-    this.js_deadline = this.mydata.dataKey;
+    this.js_deadline = this.mydata.dataKey.meta.deadline;
+    console.log(this.js_deadline);
   }
 
   public async openConfirmDeletePopup(content: string): Promise<boolean> {
@@ -95,6 +96,7 @@ export class UpdateDeadlinePopupComponent implements OnInit {
       },
     });
   }
+
   closeDialog() {
     this.dialogRef.close({ deadline: 'close', data: this.js_deadline });
   }
