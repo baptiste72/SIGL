@@ -80,6 +80,7 @@ import { UpdateEvaluationPopupComponent } from './components/pop-up/evaluation/u
 import { NotesComponent } from './components/sub-components/notes/notes.component';
 import { NotesMinimalComponent } from './components/sub-components/notes-minimal/notes-minimal.component';
 import { SelectApprenticeComponent } from './components/sub-components/select-apprentice/select-apprentice.component';
+import { NoteEvaluationPopupComponent } from './components/pop-up/evaluation/note-evaluation-popup/note-evaluation-popup.component';
 
 @NgModule({
   declarations: [
@@ -128,6 +129,7 @@ import { SelectApprenticeComponent } from './components/sub-components/select-ap
     UpdateEvaluationPopupComponent,
     NotesComponent,
     SelectApprenticeComponent,
+    NoteEvaluationPopupComponent,
   ],
   imports: [
     CalendarModule.forRoot({
