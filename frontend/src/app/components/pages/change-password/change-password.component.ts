@@ -44,9 +44,13 @@ export class ChangePasswordComponent {
           });
         },
         error: (err) => {
-          this._snackBar.open('❌ Ancien mot de passe incorrect.', 'Ok', {
-            duration: 2000,
-          });
+          this._snackBar.open(
+            '❌ Ancien mot de passe incorrect ou nouveau mot de passe invalide (trop peu sécurisé).',
+            'Ok',
+            {
+              duration: 2000,
+            }
+          );
         },
       });
   }

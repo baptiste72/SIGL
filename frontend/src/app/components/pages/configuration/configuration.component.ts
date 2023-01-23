@@ -12,6 +12,8 @@ import { SemesterService } from 'src/app/services/semester/semester.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { YearGroup } from 'src/app/models/YearGroup';
 import { Semester } from 'src/app/models/Semester';
+import { Company } from '@app/models/Company';
+import { User } from '@app/models/User';
 import { UpdateSemesterPopupComponent } from '../../pop-up/semester/update-semester-popup/update-semester-popup/update-semester-popup.component';
 import { TutorTeamService } from 'src/app/services/tutor-team/tutor-team.service';
 import { TutorTeam } from 'src/app/models/TutorTeam';

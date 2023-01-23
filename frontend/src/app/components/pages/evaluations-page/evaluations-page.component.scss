@@ -1,0 +1,20 @@
+@import "/src/styles/helpers/constants.scss";
+@import "/src/styles/helpers/mixins.scss";
+
+.evals-card {
+  box-shadow: $box-shadow-secondary;
+  padding: 0px;
+  width: 100%;
+}
+
+.evals-card-header {
+  margin-bottom: 10px;
+  box-shadow: $box-shadow-secondary;
+  background-color: $purple;
+  color: $white;
+  justify-content: center;
+}
+
+.evals-card-title {
+  display: flex;
+}

@@ -13,12 +13,15 @@
   <mat-card-content>
     <mat-list>
       <mat-list-item *ngFor="let document of documents" class="documents-item">
-        <a class="documents-link" (click)="downloadDocument(document.id, document.file_name)">
-        <mat-icon mat-list-icon class="documents-icon">folder</mat-icon>
-        <div mat-line class="documents-name">
-            {{document.name}}
-        </div>
-      </a>
+        <a
+          class="documents-link"
+          (click)="downloadDocument(document.id, document.file_name)"
+        >
+          <mat-icon mat-list-icon class="documents-icon">folder</mat-icon>
+          <div mat-line class="documents-name">
+            {{ document.name }}
+          </div>
+        </a>
       </mat-list-item>
     </mat-list>
   </mat-card-content>

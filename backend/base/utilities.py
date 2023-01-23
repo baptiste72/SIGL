@@ -18,3 +18,8 @@ class Role(Enum):
     COMPANY = "COMPANY"
     COORDINATOR = "COORDINATOR"
     ADMIN = "ADMIN"
+
+class Status(Enum):
+    VALIDE = "Validé"
+    DRAFT = "Brouillon"
+    SUBMIT = "Déposé"

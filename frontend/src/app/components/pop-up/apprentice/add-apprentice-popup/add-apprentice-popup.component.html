@@ -1,10 +1,10 @@
-<mat-card class="apprentice-form-card">
-  <mat-card-header class="apprentice-form-card-header">
-    <mat-card-title class="apprentice-form-card-title">
+<mat-card class="mat-dialog-container">
+  <mat-card-header class="dialog-header bg-green">
+    <mat-card-title class="mat-dialog-title">
       Informations de l'apprenti
     </mat-card-title>
   </mat-card-header>
-  <mat-card class="apprentice-formfield-card">
+  <mat-card class="mat-dialog-card">
     <form [formGroup]="apprenticeForm">
       <div class="div-input">
         <h3>NOM</h3>
@@ -182,7 +182,8 @@
           mat-button
           type="submit"
           class="green bold"
-          (click)="sendJSON(apprenticeForm)"
+          (click)="addApprentice(apprenticeForm.value)"
+          [disabled]="apprenticeForm.invalid"
         >
           SAUVEGARDER
         </button>

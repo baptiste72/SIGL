@@ -42,9 +42,13 @@ export class NewPasswordComponent {
           });
         },
         error: (err) => {
-          this._snackBar.open('❌ Token incorrect', 'Ok', {
-            duration: 2000,
-          });
+          this._snackBar.open(
+            '❌ Token ou mot de passe invalide (trop peu sécurisé).',
+            'Ok',
+            {
+              duration: 2000,
+            }
+          );
         },
       });
   }

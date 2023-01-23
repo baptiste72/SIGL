@@ -1,5 +1,7 @@
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.utils import timezone
+
 from authentication.models import User
 
 
@@ -102,6 +104,7 @@ class YearGroup(models.Model):
 
 
 class ApprenticeInfo(models.Model):
+    # table des infos de l'apprenti (missions)
     app_last_name = models.CharField(max_length=200)
     app_first_name = models.CharField(max_length=200)
     app_job_title = models.CharField(max_length=200)
@@ -109,16 +112,9 @@ class ApprenticeInfo(models.Model):
     app_phone = models.CharField(max_length=20)
     app_collective_convention = models.CharField(max_length=200)
     app_working_hours = models.CharField(max_length=10)
-    app_comp_name = models.CharField(max_length=200)
+    app_comp_name = models.CharField(max_length=200, null=True)
+    app_location = models.CharField(max_length=200, null=True)
     app_siret = models.CharField(max_length=200)
-    app_location = models.CharField(max_length=200)
-    app_comp_id = (
-        models.ForeignKey(
-            Company,
-            on_delete=models.CASCADE,
-            null=True,
-        ),
-    )
     app_is_validate = models.BooleanField(default=False)
 
 
@@ -158,7 +154,7 @@ class TutorTeam(models.Model):
 class Document(models.Model):
     # tables des documents pédagogiques
     name = models.CharField(max_length=200)
-    file_name = models.CharField(max_length=200)
+    file_name = models.CharField(max_length=200, unique=True)
     user = models.ForeignKey(
         User, related_name="user", on_delete=models.CASCADE, null=True
     )
@@ -202,4 +198,26 @@ class Note(models.Model):
     )
     semester = models.ForeignKey(
         Semester, related_name="note", on_delete=models.CASCADE
+    )
+
+
+class Evaluations(models.Model):
+    file_name = models.CharField(max_length=200, unique=True)
+    modification_date = models.DateTimeField()
+    status = models.CharField(max_length=10)
+    type = models.CharField(max_length=50)
+    user = models.ForeignKey(
+        User, related_name="evaluation_user", on_delete=models.CASCADE, null=True
+    )
+    owner = models.ForeignKey(
+        User, related_name="owner", on_delete=models.CASCADE, null=True
+    )
+    yearGroup = models.ForeignKey(
+        YearGroup,
+        related_name="evaluation_yearGroup",
+        on_delete=models.CASCADE,
+        null=True,
+    )
+    note = models.IntegerField(
+        validators=[MinValueValidator(0), MaxValueValidator(20)], null=True
     )

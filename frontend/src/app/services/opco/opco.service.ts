@@ -23,9 +23,14 @@ export class OpcoService {
     );
   }
 
-  public getById(id: number): Observable<Opco> {
-    return this.http.get<Opco>(
-      `${environment.apiUrl}/${this.urlPrefix}/${id}`
+  public update(opco: Opco): Observable<Opco> {
+    return this.http.put<Opco>(
+      `${environment.apiUrl}/${this.urlPrefix}/${opco.opco_siret}`,
+      opco
     );
+  }
+
+  public getById(id: string): Observable<Opco> {
+    return this.http.get<Opco>(`${environment.apiUrl}/${this.urlPrefix}/${id}`);
   }
 }

@@ -1,5 +1,6 @@
 from base.models import Semester
 
+
 # class permettant d'aider à la récupération des équipes tutorales
 class SemesterHelper:
     def getSemestersNames(serializers):

@@ -18,18 +18,14 @@ export class CompanyUserService {
     );
   }
 
-  public add(
-    user: CompanyUser
-  ): Observable<CompanyUser> {
+  public add(user: CompanyUser): Observable<CompanyUser> {
     return this.http.post<CompanyUser>(
       `${environment.apiUrl}/${this.urlPrefix}`,
       user
     );
   }
 
-  public update(
-    user: CompanyUser
-  ): Observable<CompanyUser> {
+  public update(user: CompanyUser): Observable<CompanyUser> {
     return this.http.put<CompanyUser>(
       `${environment.apiUrl}/${this.urlPrefix}/${user.id}`,
       user

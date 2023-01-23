@@ -39,7 +39,6 @@ class LoginView(APIView):
 
 
 class LogoutView(APIView):
-    # permission_classes = [IsAuthenticated]
     authentication_classes = [BasicAuthentication]
 
     def get(self, request):
@@ -64,4 +63,15 @@ class MicrosoftGetUser(APIView):
         result = get_token_from_code(request)
         # Get the user's profile from graph_helper.py script
         user = get_user(result["access_token"])
-        return Response(user)
+
+        try:
+            user_from_database = User.objects.filter(email=user["mail"]).first()
+        except User.DoesNotExist as exc:
+            raise AuthenticationFailed("Invalid credentials, please try again") from exc
+
+        token = Token.objects.get_or_create(user=user_from_database)[0].key
+
+        user_from_database.token = token
+        serializer = UserSerializer(user_from_database)
+
+        return Response(serializer.data)

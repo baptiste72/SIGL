@@ -18,16 +18,24 @@ export class ApprenticeInfoService {
     );
   }
 
+  public getById(id: number): Observable<ApprenticeInfo> {
+    return this.http.get<ApprenticeInfo>(
+      `${environment.apiUrl}/${this.urlPrefix}/${id}`
+    );
+  }
+
+  public getAllByCompany(siret: string): Observable<ApprenticeInfo[]> {
+    return this.http.get<ApprenticeInfo[]>(
+      `${environment.apiUrl}/${this.urlPrefix}/company/${siret}`
+    );
+  }
+
   public add(apprenticeInfo: ApprenticeInfo) {
     return this.http.post<ApprenticeInfo>(
       `${environment.apiUrl}/${this.urlPrefix}`,
       apprenticeInfo,
       { withCredentials: true }
     );
-  }
-
-  public delete(id: number): Observable<any> {
-    return this.http.delete(`${environment.apiUrl}/${this.urlPrefix}/${id}`);
   }
 
   public update(apprenticeInfo: ApprenticeInfo): Observable<ApprenticeInfo> {

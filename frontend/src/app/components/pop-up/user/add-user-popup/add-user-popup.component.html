@@ -1,17 +1,18 @@
 <div class="dialog-header bg-green">
   <h2 mat-dialog-title>Ajout d'un utilisateur</h2>
 </div>
-<div mat-dialog-content class="dialog-content">
-  <div class="div-input">
-    <h3>Rôle</h3>
-    <mat-form-field class="full-width" appearance="fill">
-      <mat-label>Choisissez un rôle</mat-label>
-      <mat-select required [(ngModel)]="register.role">
-        <mat-option *ngFor="let role of roles" [value]="role.value">
-          {{ role.name }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+
+  <div mat-dialog-content class="dialog-content">
+    <div class="div-input">
+      <h3>Rôle</h3>
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Choisissez un rôle</mat-label>
+        <mat-select required [(ngModel)]="register.role">
+          <mat-option *ngFor="let role of roles" [value]="role.value">
+            {{ role.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
   </div>
 
   <div class="div-input" *ngIf="register.role === roleEnum.APPRENTICE">
