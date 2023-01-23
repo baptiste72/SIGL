@@ -1,7 +1,8 @@
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import fields, serializers
 
-from base.models import (Apprentice, Company, CompanyUser, ContactCompany,
+from base.models import (Apprentice,    ApprenticeInfo,
+ Company, CompanyUser, ContactCompany,
                          Deadline, Document, Evaluations, FormationCenter,
                          Interview, Mentor, Note, Opco, Semester, Tutor,
                          TutorTeam, User, YearGroup)
@@ -52,7 +53,6 @@ class CompanySerializer(serializers.ModelSerializer):
 
 class OpcoSerializer(serializers.ModelSerializer):
     
-    #mentor = MentorSerializer(many=True)
     class Meta:
         model = Opco
         fields = (
@@ -66,7 +66,6 @@ class OpcoSerializer(serializers.ModelSerializer):
 
 class ContactCompanySerializer(serializers.ModelSerializer):
     
-    #mentor = MentorSerializer(many=True)
     class Meta:
         model = ContactCompany
         fields = (
@@ -89,7 +88,25 @@ class ContactCompanySerializer(serializers.ModelSerializer):
             "sa_email",
             "sa_job_title",
             "sa_former_eseo",
-        )       
+        )     
+
+class ApprenticeInfoSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = ApprenticeInfo
+        fields = (
+            "id",
+            "app_last_name",
+            "app_first_name",
+            "app_job_title",
+            "app_description",
+            "app_phone",
+            "app_collective_convention",
+            "app_working_hours",
+            "app_comp_name",
+            "app_siret",
+            "app_location",
+        )   
 
 class TutorSerializer(serializers.ModelSerializer):
     class Meta:

@@ -23,4 +23,11 @@ export class ApprenticeService {
       `${environment.apiUrl}/${this.urlPrefix}/${id}`
     );
   }
+
+  public add(apprentice: Apprentice) {
+    return this.http.post<Apprentice>(
+      `${environment.apiUrl}/${this.urlPrefix}`,
+      apprentice
+    );
+  }
 }

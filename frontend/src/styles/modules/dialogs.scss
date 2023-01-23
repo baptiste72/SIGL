@@ -13,14 +13,29 @@
 
 .mat-dialog-title {
   margin: 0px !important;
+  color: $white;
 }
 
 .dialog-header {
   padding: 15px 20px;
 }
 
-.dialog-header h2{
+.dialog-header h2 {
   color: $white !important;
+}
+.mat-dialog-card-header {
+  padding-top: 12px;
+  box-shadow: $box-shadow-secondary;
+  background: $blue-violet-gradient;
+  color: $white;
+  justify-content: center;
+}
+
+.mat-dialog-card {
+  box-shadow: $box-shadow-secondary;
+  padding: 25px;
+  max-height: 80vh;
+  overflow: scroll;
 }
 
 .dialog-content {
@@ -34,4 +49,3 @@
 .mat-form-field {
   margin-bottom: 20px;
 }
-

@@ -71,6 +71,11 @@ import { AddDocumentPopupComponent } from './components/pop-up/document/add-docu
 import { MatStepperModule, MatStepper } from '@angular/material/stepper';
 import { DashboardCompanyComponent } from './components/Dashboard/dashboard-company/dashboard-company.component';
 import { UpdateInterviewPopupComponent } from './components/pop-up/interview/update-interview-popup/update-interview-popup.component';
+import { AddApprenticeInfoPopupComponent } from './components/pop-up/apprentice/add-apprentice-popup/add-apprentice-popup.component';
+import { CompanyInformationComponent } from './components/pages/company-information/company-information.component';
+import { AddMentorPopupComponent } from './components/pop-up/mentor/add-mentor-popup/add-mentor-popup.component';
+import { UpdateMentorPopupComponent } from './components/pop-up/mentor/update-mentor-popup/update-mentor-popup.component';
+import { UpdateApprenticeInfoPopupComponent } from './components/pop-up/apprentice/update-apprentice-popup/update-apprentice-popup.component';
 import { EvaluationsPageComponent } from './components/pages/evaluations-page/evaluations-page.component';
 import { DashboardAdminComponent } from './components/Dashboard/dashboard-admin/dashboard-admin.component';
 import { ProfileComponent } from './components/sub-components/profile/profile.component';
@@ -104,6 +109,7 @@ import { SelectApprenticeComponent } from './components/sub-components/select-ap
     AddTeamPopupComponent,
     AddInterviewPopupComponent,
     AddDeadlinePopupComponent,
+    AddApprenticeInfoPopupComponent,
     AddCompanyFormComponent,
     AddSemesterPopupComponent,
     UpdateYearGroupPopupComponent,
@@ -124,6 +130,10 @@ import { SelectApprenticeComponent } from './components/sub-components/select-ap
     DashboardAdminComponent,
     ProfileComponent,
     DashboardPedagoComponent,
+    CompanyInformationComponent,
+    AddMentorPopupComponent,
+    UpdateMentorPopupComponent,
+    UpdateApprenticeInfoPopupComponent,
     AddEvaluationPopupComponent,
     UpdateEvaluationPopupComponent,
     NotesComponent,

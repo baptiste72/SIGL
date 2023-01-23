@@ -16,6 +16,7 @@ import { EvaluationsPageComponent } from './components/pages/evaluations-page/ev
 import { DashboardCompanyComponent } from './components/Dashboard/dashboard-company/dashboard-company.component';
 import { DashboardAdminComponent } from './components/Dashboard/dashboard-admin/dashboard-admin.component';
 import { DashboardPedagoComponent } from './components/Dashboard/dashboard-pedago/dashboard-pedago.component';
+import { CompanyInformationComponent } from './components/pages/company-information/company-information.component';
 
 const routes: Routes = [
   { path: '', component: ConnectionComponent },
@@ -50,6 +51,12 @@ const routes: Routes = [
     component: DashboardPedagoComponent,
     canActivate: [AuthGuard],
     data: { roles: [Role.MENTOR, Role.TUTOR] },
+  },
+  {
+    path: 'company-information',
+    component: CompanyInformationComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Role.COMPANY] },
   },
   {
     path: 'profile',

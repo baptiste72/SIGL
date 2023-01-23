@@ -23,7 +23,14 @@ export class ContactCompanyService {
     );
   }
 
-  public getById(id: number): Observable<ContactCompany> {
+  public update(contact: ContactCompany): Observable<ContactCompany> {
+    return this.http.put<ContactCompany>(
+      `${environment.apiUrl}/${this.urlPrefix}/${contact.ct_cmp_siret}`,
+      contact
+    );
+  }
+
+  public getById(id: string): Observable<ContactCompany> {
     return this.http.get<ContactCompany>(
       `${environment.apiUrl}/${this.urlPrefix}/${id}`
     );
