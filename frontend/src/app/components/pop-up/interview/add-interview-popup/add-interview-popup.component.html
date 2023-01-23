@@ -40,22 +40,15 @@
   </div>
 
   <div class="hour-container">
-    <h3>Heures de l'événement</h3>
+    <h3>Horaires de l'événement</h3>
     <mat-form-field appearance="fill">
       <mat-label>8:00</mat-label>
-      <mat-icon matPrefix>schedule</mat-icon>
       <input required [(ngModel)]="interview.first_hour" matInput type="text" />
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>11:00</mat-label>
-      <input
-        required
-        [(ngModel)]="interview.last_hour"
-        matInput
-        type="text"
-        class="hour-container"
-      />
+      <input required [(ngModel)]="interview.last_hour" matInput type="text" />
     </mat-form-field>
   </div>
 
@@ -63,9 +56,27 @@
     <h3>Invités</h3>
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Choisisez les invités</mat-label>
-      <mat-select required [(ngModel)]="interview.guest">
+      <mat-select required [(ngModel)]="interview.attendees">
         <mat-option *ngFor="let guest of guests" [value]="guest.name">
-          {{ guest.name }}
+          {{ guest.name }} :
+          <ng-container *ngIf="guest.name === 'Equipe tutorale'">
+            <p>
+              {{ this.tutorTeam.mentor.first_name }}
+              {{ this.tutorTeam.mentor.last_name }}
+            </p>
+            <p>
+              {{ this.tutorTeam.tutor.first_name }}
+              {{ this.tutorTeam.tutor.last_name }}
+            </p>
+          </ng-container>
+          <span *ngIf="guest.name === 'Maitre d\'apprentissage'">
+            {{ this.tutorTeam.mentor.first_name }}
+            {{ this.tutorTeam.mentor.last_name }}</span
+          >
+          <span *ngIf="guest.name === 'tuteur pédagogique'">
+            {{ this.tutorTeam.tutor.first_name }}
+            {{ this.tutorTeam.tutor.last_name }}</span
+          >
         </mat-option>
       </mat-select>
     </mat-form-field>

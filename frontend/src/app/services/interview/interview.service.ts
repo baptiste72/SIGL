@@ -47,7 +47,7 @@ export class InterviewService {
 
   public update(interview: Interview, id: number): Observable<Interview> {
     return this.http.put<Interview>(
-      `${environment.apiUrl}/${this.urlPrefix}/${id}`,
+      `${environment.apiUrl}/${this.urlPrefix}/${id}/`,
       interview
     );
   }

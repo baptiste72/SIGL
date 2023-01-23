@@ -80,6 +80,7 @@ import { EvaluationsPageComponent } from './components/pages/evaluations-page/ev
 import { DashboardAdminComponent } from './components/Dashboard/dashboard-admin/dashboard-admin.component';
 import { ProfileComponent } from './components/sub-components/profile/profile.component';
 import { DashboardPedagoComponent } from './components/Dashboard/dashboard-pedago/dashboard-pedago.component';
+import { ViewDeadlinePopupComponent } from './components/pop-up/deadline/view-deadline-popup/view-deadline-popup.component';
 import { AddEvaluationPopupComponent } from './components/pop-up/evaluation/add-evaluation-popup/add-evaluation-popup.component';
 import { UpdateEvaluationPopupComponent } from './components/pop-up/evaluation/update-evaluation-popup/update-evaluation-popup.component';
 import { NotesComponent } from './components/sub-components/notes/notes.component';
@@ -106,6 +107,7 @@ import { DetailsCompanyPopupComponent } from './components/pop-up/company/detail
     NotesPageComponent,
     AddNotePopupComponent,
     UpdateNotePopupComponent,
+    ViewDeadlinePopupComponent,
     ConfigurationComponent,
     AddUserPopupComponent,
     AddYearGroupPopupComponent,

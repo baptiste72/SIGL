@@ -199,7 +199,7 @@ class DeadlineSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Deadline
-        fields = ("id", "name", "date", "description")
+        fields = ("id","name", "date", "description", "yearGroup")
 
 
 class SemesterSerializer(serializers.ModelSerializer):

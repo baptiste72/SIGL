@@ -59,6 +59,9 @@ urlpatterns = [
     path("semesters", views.SemesterList.as_view()),
     path("semesters/<int:pk>", views.SemesterDetail.as_view()),
     # tutor-teams
+    path("tutor-teams-by-tutor-id/<int:pk>", views.TutorTeamByTutorId.as_view()),
+    path("tutor-teams-by-mentor-id/<int:pk>", views.TutorTeamByMentorId.as_view()),
+    path("tutor-teams-by-apprentice-id/<int:pk>", views.TutorTeamByApprenticeId.as_view()),
     path("tutor-teams", views.TutorTeamList.as_view()),
     path("tutor-teams/<int:pk>", views.TutorTeamDetail.as_view()),
     # tutors

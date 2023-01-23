@@ -1,30 +1,156 @@
-<mat-card class="events-card">
-  <mat-card-header class="events-card-header">
-    <mat-card-title class="events-card-title">
+<mat-card class="events-page-card">
+  <mat-card-header class="events-page-card-header">
+    <mat-card-title class="events-page-card-title">
       <mat-icon
         aria-hidden="false"
         aria-label="events icon"
         fontIcon="calendar_month"
       ></mat-icon>
-      ÉVENEMENTS
+      Rendez-vous pédagogique
     </mat-card-title>
   </mat-card-header>
-
   <mat-card-content>
+    <div class="configuration-actions-btns2">
+      <button
+        style="margin-left: 25px"
+        class="btn_primary bg-green"
+        mwlCalendarPreviousView
+        [view]="view"
+        [(viewDate)]="viewDate"
+      >
+        Mois précédent
+      </button>
+      <button
+        style="margin-left: 25px"
+        class="btn_primary bg-green"
+        mwlCalendarToday
+        [(viewDate)]="viewDate"
+      >
+        Aujourd'hui
+      </button>
+
+      <button
+        style="margin-left: 25px"
+        class="btn_primary bg-green"
+        mwlCalendarNextView
+        [view]="view"
+        [(viewDate)]="viewDate"
+      >
+        Mois Suivant
+      </button>
+    </div>
+
     <div class="row text-center">
       <div class="col-md-4">
         <h3>
           {{
-            viewDate | calendarDate : view + "ViewTitle" : locale : weekStartsOn
+            viewDate
+              | calendarDate : view + "ViewTitle" : locale : weekStartsOn
           }}
         </h3>
       </div>
+
       <mwl-calendar-month-view
         [locale]="locale"
         [viewDate]="viewDate"
         [events]="events"
+        [refresh]="refresh"
+        (eventClicked)="openModifyEventDialog($event.event)"
+        (dayClicked)="openCreateEventDialog($event)"
       >
       </mwl-calendar-month-view>
+    </div>
+    <div class="container"></div>
+    <div
+      class="table-recap-events"
+      [ngStyle]="{ display: 'inline-block' }"
+      style="float: center"
+    >
+      <table
+        mat-table
+        [dataSource]="dataSourceInterviews"
+        [multiTemplateDataRows]="true"
+      >
+        <ng-container matColumnDef="Name">
+          <th mat-header-cell *matHeaderCellDef>Rendez-vous</th>
+          <td class="mat-column-star" mat-cell *matCellDef="let element">
+            {{ element.name }}
+          </td>
+        </ng-container>
+
+        <!-- Date time Column -->
+        <ng-container matColumnDef="Date">
+          <th mat-header-cell *matHeaderCellDef>Date</th>
+          <td class="mat-column-star" mat-cell *matCellDef="let element">
+            {{ element.date | date }}
+          </td>
+        </ng-container>
+        <!-- First_hour Column -->
+        <ng-container matColumnDef="First_hour">
+          <th mat-header-cell *matHeaderCellDef>Début</th>
+          <td class="mat-column-star" mat-cell *matCellDef="let element">
+            {{ element.first_hour }}h
+          </td>
+        </ng-container>
+        <!-- last_hour Column -->
+        <ng-container matColumnDef="Last_hour">
+          <th mat-header-cell *matHeaderCellDef>Fin</th>
+          <td class="mat-column-star" mat-cell *matCellDef="let element">
+            {{ element.last_hour }}h
+          </td>
+        </ng-container>
+        <!-- Description By Column -->
+        <ng-container matColumnDef="Description">
+          <th mat-header-cell *matHeaderCellDef>Description</th>
+          <td class="mat-column-star" mat-cell *matCellDef="let element">
+            {{ element.description.substring(0, 15) }}...
+          </td>
+        </ng-container>
+        <!-- Guest Column -->
+        <ng-container matColumnDef="Guest">
+          <th mat-header-cell *matHeaderCellDef>Invités</th>
+          <td class="mat-column-star" mat-cell *matCellDef="let element">
+            {{ element.attendees }}
+          </td>
+        </ng-container>
+        <!-- Semester Column -->
+        <ng-container matColumnDef="Semester">
+          <th mat-header-cell *matHeaderCellDef>Semestre</th>
+          <td class="mat-column-star" mat-cell *matCellDef="let element">
+            {{ element.semester }}
+          </td>
+        </ng-container>
+        <!-- update Link Column -->
+        <ng-container matColumnDef="update">
+          <th mat-header-cell *matHeaderCellDef>Modifications</th>
+          <td mat-cell *matCellDef="let element">
+            <mat-icon
+              (click)="openUpdateInterview(element)"
+              class="conf-edit-icons"
+              aria-hidden="false"
+              aria-label="documents icon"
+              fontIcon="edit"
+            ></mat-icon>
+          </td>
+        </ng-container>
+
+        <tr
+          mat-header-row
+          *matHeaderRowDef="displayedColumnsInterviews"
+        ></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: displayedColumnsInterviews"
+        ></tr>
+      </table>
+
+      <mat-paginator
+        #interviewsPaginator="matPaginator"
+        [pageSizeOptions]="[5, 10, 20]"
+        showFirstLastButtons
+        aria-label="Select page of periodic elements"
+      >
+      </mat-paginator>
     </div>
   </mat-card-content>
 </mat-card>

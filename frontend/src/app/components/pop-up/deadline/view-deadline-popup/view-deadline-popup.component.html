@@ -1,0 +1,14 @@
+<div class="dialog-header bg-red text-center">
+  <h2 mat-dialog-title>Échéance</h2>
+</div>
+<br />
+<div class="deadline-card text-center">
+  <h3>{{ js_deadline.name }}</h3>
+  <p>à rendre avant le {{ deadlineFrenchFormat | date : "dd MMMM y" }}</p>
+  <p>description : {{ js_deadline.description }}</p>
+
+  <mat-divider></mat-divider>
+  <div class="button-container" mat-dialog-actions align="end">
+    <button mat-button class="grey bold" (click)="closeDialog()">RETOUR</button>
+  </div>
+</div>

@@ -17,3 +17,11 @@
   display: flex;
 }
 
+.table-recap-events {
+  display: contents !important;
+  table {
+    overflow-y: scroll;
+    display: inline-block;
+  }
+}
+

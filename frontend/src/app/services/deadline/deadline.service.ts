@@ -36,7 +36,7 @@ export class DeadlineService {
 
   public update(deadline: Deadline, id: number): Observable<Deadline> {
     return this.http.put<Deadline>(
-      `${environment.apiUrl}/${this.urlPrefix}/${id}`,
+      `${environment.apiUrl}/${this.urlPrefix}/${id}/`,
       deadline
     );
   }
