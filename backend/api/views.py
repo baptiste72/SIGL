@@ -12,6 +12,7 @@ from api.helpers.password_helper import PasswordHelper
 from api.helpers.semester_helper import SemesterHelper
 from api.helpers.document_helper import DocumentHelper
 from api.helpers.evaluation_helper import EvaluationHelper
+from api.helpers.data_treatement import DataTreatement
 from api.helpers.sftp_helper import SftpHelper
 from api.helpers.tutor_team_helper import TutorTeamHelper
 from api.serializers import (ApprenticeInfoSerializer,
