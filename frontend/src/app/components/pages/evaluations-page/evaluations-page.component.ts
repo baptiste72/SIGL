@@ -20,7 +20,7 @@ import { UpdateEvaluationPopupComponent } from '@app/components/pop-up/evaluatio
 export class EvaluationsPageComponent implements OnInit {
   public user: User;
   readonly roleEnum = Role;
-  displayedColumns: string[] = [
+  public displayedColumns: string[] = [
     'name',
     'modify-time',
     'modify-by',
@@ -49,7 +49,7 @@ export class EvaluationsPageComponent implements OnInit {
     this.getEvaluations();
   }
 
-  openAddEvaluationPopup() {
+  public openAddEvaluationPopup() {
     this.dialog
       .open(AddEvaluationPopupComponent, {
         width: '600px',
@@ -60,7 +60,7 @@ export class EvaluationsPageComponent implements OnInit {
       });
   }
 
-  openUpdateEvaluationPopup(evaluation: any) {
+  public openUpdateEvaluationPopup(evaluation: any) {
     this.dialog
       .open(UpdateEvaluationPopupComponent, {
         width: '600px',
@@ -102,7 +102,7 @@ export class EvaluationsPageComponent implements OnInit {
     }
   }
 
-  downloadEvaluation(id: number, file_name: string) {
+  public downloadEvaluation(id: number, file_name: string) {
     this.evaluationService.getById(id).subscribe({
       next: (evaluation) => {
         const url = window.URL.createObjectURL(evaluation);

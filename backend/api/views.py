@@ -262,7 +262,6 @@ class FormationCenterDetail(APIView):
         formation_center.postal_code = request.data.get("postal_code")
         formation_center.address = request.data.get("address")
         serializer = FormationCenterSerializer(formation_center, data=request.data)
-        print(request.data)
         if serializer.is_valid():
             formation_center.save()
             return Response(serializer.data)
@@ -298,7 +297,6 @@ class UserDetail(APIView):
         user.last_name = request.data.get("last_name")
         user.email = request.data.get("email")
         serializer = UserSerializer(user, data=request.data)
-        print(request.data)
         if serializer.is_valid():
             user.save()
             return Response(serializer.data)
@@ -507,7 +505,6 @@ class DocumentList(APIView):
         return Response(response)
 
     def post(self, request, *args, **kwargs):
-        print(request.data)
         serializer = DocumentSerializer(data=request.data)
         if serializer.is_valid():
             file = request.FILES["file"]
@@ -620,7 +617,6 @@ class EvaluationDetail(APIView):
         evaluation.status = request.data.get("status")
         evaluation.yeargroup = request.data.get("yeargroup")
         evaluation.user = User.objects.get(pk=request.data.get("user"))
-        print(evaluation.user)
         serializer = EvaluationSerializer(evaluation, data=request.data)
         if serializer.is_valid():
             evaluation.save()

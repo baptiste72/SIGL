@@ -88,7 +88,7 @@ export class AddEvaluationPopupComponent {
       return this.yearGroup;
   }
 
-  addEvaluation() {
+  public addEvaluation() {
     this.submitted = true;
     if (this.addEvaluationForm.valid) {
       this.formData.append('file', this.selectedFile);
@@ -118,7 +118,7 @@ export class AddEvaluationPopupComponent {
     }
   }
 
-  onFileSelected(event: any): void {
+  public onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0] ?? null;
     this.file_name = this.selectedFile.name;
   }

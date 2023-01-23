@@ -73,7 +73,7 @@ export class UpdateEvaluationPopupComponent {
     this.dialogRef.close({ event: 'close' });
   }
 
-  updateEvaluation() {
+  public updateEvaluation() {
     this.submitted = true;
     if (this.updateEvaluationForm.valid) {
       this.formData.append('file_name', this.file_name);
@@ -99,7 +99,7 @@ export class UpdateEvaluationPopupComponent {
     }
   }
 
-  onFileSelected(event: any): void {
+  public onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0] ?? null;
     this.file_name = this.selectedFile.name;
   }
