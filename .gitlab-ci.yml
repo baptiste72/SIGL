@@ -84,7 +84,7 @@ deploy-to-prod:
                     DJANGO_USER=${DJANGO_USER}\n
                     DJANGO_PASSWORD=${DJANGO_PASSWORD}\n
                     DJANGO_HOST=${DJANGO_HOST}\n
-                    DJANGO_PORT=${DJANGO_PORT}" | tr -d ' ' > .env
+                    DJANGO_PORT=${DJANGO_PORT}" | tr -d " " > .env
         && docker compose down
         && docker system prune -af
         && docker volume prune -f
