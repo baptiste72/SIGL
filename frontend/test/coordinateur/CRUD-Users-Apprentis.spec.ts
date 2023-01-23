@@ -34,9 +34,9 @@ describe('Tests - Coordinateur - CRUD User Apprentis', () => {
     })
 
     test("Devrait créer un User avec le rôle apprenti", async () => {
-      let nom_user = 'MENARD';
-      let prenom_user = 'Simon';
-      let email_user = 'simon.menard@reseau.eseo.fr';
+      let nom_user = 'NIZERY';
+      let prenom_user = 'alexandre';
+      let email_user = 'alexandre.nizery@reseau.eseo.fr';
 
       // Clique sur le bouton du menu de configuration
       await page.click('xpath=/html/body/app-root/ng-component/app-navigation/mat-drawer-container/mat-drawer/div/div/a[7]');
@@ -92,9 +92,9 @@ describe('Tests - Coordinateur - CRUD User Apprentis', () => {
 
     test("Devrait modifier un User avec le rôle apprenti", async () => {
       let user_to_modify = 'MENARD';
-      let nom_user = 'MENARDA';
-      let prenom_user = 'Simonna';
-      let email_user = 'simon.menard@reseau.eseo.fr';
+      let nom_user = 'NIZERYAL';
+      let prenom_user = 'Alexandrie';
+      let email_user = 'alexandre.nizery@reseau.eseo.fr';
       // Tableau qui boucle sur les utilisateurs jusqu'à trouvé celui à modifier
       let elem;
       let rows = await page.locator('tbody > tr');
@@ -136,7 +136,7 @@ describe('Tests - Coordinateur - CRUD User Apprentis', () => {
     })
 
     test("Devrait supprimer un user", async () => {
-      let user_to_delete = 'MENARDA';
+      let user_to_delete = 'NIZERYAL';
       let rows = await page.locator('tbody > tr');
       for(let i = 0; i <= await rows.count(); i++) {
         const row = await rows.nth(i);
