@@ -1,0 +1,23 @@
+@import "/src/styles/helpers/constants.scss";
+
+.mission-recap {
+  display: flex;
+  align-items: center;
+  margin: 1rem 0;
+
+  .left,
+  .right {
+    width: 50%;
+  }
+
+  .mission-field {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+}
+
+.validation-decision > * {
+  margin-right: 0.5rem;
+  margin-bottom: 2rem;
+}

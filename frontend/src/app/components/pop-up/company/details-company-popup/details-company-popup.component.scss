@@ -1,0 +1,18 @@
+@import "/src/styles/helpers/constants.scss";
+
+.details-recap {
+  display: flex;
+  align-items: center;
+  margin: 1rem 0;
+
+  .left,
+  .right {
+    width: 50%;
+  }
+
+  .details-field {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+}

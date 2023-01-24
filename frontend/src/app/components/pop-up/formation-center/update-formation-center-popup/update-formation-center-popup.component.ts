@@ -37,7 +37,7 @@ export class UpdateFormationCenterPopupComponent {
     this.submitted = true;
     if (this.updateFormationCenterForm.valid) {
       this.formationCenterService
-        .update(this.updateFormationCenterForm.value)
+        .update(this.updateFormationCenterForm.value, this.data.id)
         .subscribe({
           next: (v) => {
             this._snackBar.open('✔ Centre de formation modifiée', 'Ok', {

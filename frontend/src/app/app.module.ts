@@ -86,6 +86,9 @@ import { UpdateEvaluationPopupComponent } from './components/pop-up/evaluation/u
 import { NotesComponent } from './components/sub-components/notes/notes.component';
 import { NotesMinimalComponent } from './components/sub-components/notes-minimal/notes-minimal.component';
 import { SelectApprenticeComponent } from './components/sub-components/select-apprentice/select-apprentice.component';
+import { ValidateMissionPopupComponent } from './components/pop-up/apprentice/mission/validate-mission-popup/validate-mission-popup.component';
+import { MatButtonModule } from '@angular/material/button';
+import { DetailsCompanyPopupComponent } from './components/pop-up/company/details-company-popup/details-company-popup.component';
 
 @NgModule({
   declarations: [
@@ -140,6 +143,8 @@ import { SelectApprenticeComponent } from './components/sub-components/select-ap
     UpdateEvaluationPopupComponent,
     NotesComponent,
     SelectApprenticeComponent,
+    ValidateMissionPopupComponent,
+    DetailsCompanyPopupComponent,
   ],
   imports: [
     CalendarModule.forRoot({
@@ -163,6 +168,8 @@ import { SelectApprenticeComponent } from './components/sub-components/select-ap
     MatSelectModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatSortModule,
+    MatButtonModule,
     FormsModule,
     MatSnackBarModule,
     MatSortModule,

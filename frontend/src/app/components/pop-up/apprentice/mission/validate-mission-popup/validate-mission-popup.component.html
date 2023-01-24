@@ -1,0 +1,68 @@
+<div class="dialog-header bg-red">
+  <h2 mat-dialog-title>Validation de mission</h2>
+  <button mat-icon-button mat-dialog-close class="dialog-header-close-btn">
+    <mat-icon fontIcon="close"></mat-icon>
+  </button>
+</div>
+
+<div mat-dialog-content class="dialog-content">
+  <h3>Récapitulatif</h3>
+  <div class="mission-recap">
+    <div class="left">
+      <div class="mission-field">
+        <mat-icon fontIcon="person"></mat-icon>
+        {{ data.app_first_name }} {{ data.app_last_name }}
+      </div>
+      <div class="mission-field">
+        <mat-icon fontIcon="apartment"></mat-icon>
+        {{ data.app_comp_name }}
+      </div>
+      <div class="mission-field">
+        <mat-icon fontIcon="work"></mat-icon>
+        {{ data.app_job_title }}
+      </div>
+    </div>
+    <div class="right">
+      <div class="mission-field">
+        <mat-icon fontIcon="place"></mat-icon>
+        {{ data.app_location }}
+      </div>
+      <div class="mission-field">
+        <mat-icon fontIcon="schedule"></mat-icon>
+        {{ data.app_working_hours }}
+      </div>
+      <div class="mission-field">
+        <mat-icon fontIcon="design_services"></mat-icon>
+        {{ data.app_collective_convention }}
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h4>Description de la mission</h4>
+    <p>{{ data.app_description }}</p>
+  </div>
+
+  <form (ngSubmit)="submitValidation($event, comment)">
+    <h4>Verdict sur la mission</h4>
+    <mat-form-field class="example-full-width">
+      <mat-label>Ajouter un éventuel commentaire</mat-label>
+      <textarea
+        matInput
+        name="comment"
+        [(ngModel)]="comment"
+        placeholder="Un email sera envoyé au détenteur du compte entreprise."
+      ></textarea>
+    </mat-form-field>
+    <div class="validation-decision">
+      <button mat-stroked-button class="conf-edit-icons" name="accept">
+        <mat-icon fontIcon="verified"></mat-icon>
+        Accepter
+      </button>
+      <button mat-stroked-button class="conf-delete-icons" name="reject">
+        <mat-icon fontIcon="block"></mat-icon>
+        Rejeter
+      </button>
+    </div>
+  </form>
+</div>

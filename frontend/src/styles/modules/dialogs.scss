@@ -18,11 +18,19 @@
 
 .dialog-header {
   padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  h2 {
+    color: $white !important;
+  }
 }
 
-.dialog-header h2 {
+.dialog-header-close-btn {
   color: $white !important;
 }
+
 .mat-dialog-card-header {
   padding-top: 12px;
   box-shadow: $box-shadow-secondary;

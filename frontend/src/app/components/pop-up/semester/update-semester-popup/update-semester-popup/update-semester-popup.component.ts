@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { YearGroup } from 'src/app/models/YearGroup';
 import { SemesterService } from 'src/app/services/semester/semester.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Semester } from '@app/models/Semester';
 
 @Component({
   selector: 'app-update-semester-popup',
@@ -22,13 +23,13 @@ export class UpdateSemesterPopupComponent implements OnInit {
     private semesterService: SemesterService,
     private _snackBar: MatSnackBar,
     private formBuilder: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: Semester
   ) {
     this.updateSemesterForm = this.formBuilder.group({
       name: [this.data.name, Validators.required],
       beginDate: [this.data.beginDate, Validators.required],
       endDate: [this.data.endDate, Validators.required],
-      yearGroup: [this.data.yearGroup, Validators.required]
+      yearGroup: [this.data.yearGroup, Validators.required],
     });
   }
 
@@ -60,21 +61,23 @@ export class UpdateSemesterPopupComponent implements OnInit {
   updateSemester() {
     this.submitted = true;
     if (this.updateSemesterForm.valid) {
-    this.semesterService.update(this.updateSemesterForm.value).subscribe({
-      next: (v) => {
-        this._snackBar.open('✔ Semestre modifié', 'Ok', { duration: 2000 });
-        this.closeDialog();
-      },
-      error: (err) => {
-        this._snackBar.open(
-          '❌ Une erreur est survenue lors de la modification du semestre',
-          'Ok',
-          {
-            duration: 2000,
-          }
-        );
-      },
-    });
+      this.semesterService
+        .update(this.updateSemesterForm.value, this.data.id)
+        .subscribe({
+          next: (v) => {
+            this._snackBar.open('✔ Semestre modifié', 'Ok', { duration: 2000 });
+            this.closeDialog();
+          },
+          error: (err) => {
+            this._snackBar.open(
+              '❌ Une erreur est survenue lors de la modification du semestre',
+              'Ok',
+              {
+                duration: 2000,
+              }
+            );
+          },
+        });
     }
   }
 }
