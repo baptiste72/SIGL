@@ -71,9 +71,10 @@ h3 {
   border: none;
   background: none;
   cursor: pointer;
-}
-.btn-microsoft img {
-  max-height: 45px;
+
+  img {
+    max-height: 45px;
+  }
 }
 
 .reset-password-field {

@@ -30,10 +30,11 @@ export class ApprenticeInfoService {
     );
   }
 
-  public add(apprentice: ApprenticeInfo): Observable<ApprenticeInfo> {
+  public add(apprenticeInfo: ApprenticeInfo) {
     return this.http.post<ApprenticeInfo>(
       `${environment.apiUrl}/${this.urlPrefix}`,
-      apprentice
+      apprenticeInfo,
+      { withCredentials: true }
     );
   }
 
@@ -41,6 +42,16 @@ export class ApprenticeInfoService {
     return this.http.put<ApprenticeInfo>(
       `${environment.apiUrl}/${this.urlPrefix}/${apprenticeInfo.id}`,
       apprenticeInfo
+    );
+  }
+
+  public validateMission(
+    apprenticeInfo: ApprenticeInfo,
+    comment: string
+  ): Observable<ApprenticeInfo> {
+    return this.http.put<ApprenticeInfo>(
+      `${environment.apiUrl}/${this.urlPrefix}/validate/${apprenticeInfo.id}`,
+      { apprenticeInfo: apprenticeInfo, comment: comment }
     );
   }
 }

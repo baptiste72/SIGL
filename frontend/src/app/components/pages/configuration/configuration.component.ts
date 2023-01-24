@@ -6,7 +6,6 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AddYearGroupPopupComponent } from '../../pop-up/year-group/add-year-group-popup/add-year-group-popup.component';
 import { UpdateYearGroupPopupComponent } from '../../pop-up/year-group/update-year-group-popup/update-year-group-popup/update-year-group-popup.component';
 import { AddTeamPopupComponent } from '../../pop-up/tutor-team/add-team-popup/add-team-popup.component';
-import { AddCompanyFormComponent } from '../../forms/add-company-form/add-company-form.component';
 import { AddSemesterPopupComponent } from '../../pop-up/semester/add-semester-popup/add-semester-popup.component';
 import { YearGroupService } from 'src/app/services/year-group/year-group.service';
 import { SemesterService } from 'src/app/services/semester/semester.service';
@@ -29,6 +28,11 @@ import { FormationCenter } from 'src/app/models/FormationCenter';
 import { UpdateFormationCenterPopupComponent } from '@app/components/pop-up/formation-center/update-formation-center-popup/update-formation-center-popup.component';
 import { AddFormationCenterPopupComponent } from '@app/components/pop-up/formation-center/add-formation-center-popup/add-formation-center-popup.component';
 import { CompanyService } from '@app/services/company/company.service';
+import { ApprenticeInfo } from '@app/models/ApprenticeInfo';
+import { ApprenticeInfoService } from '@app/services/apprentice-info/apprentice-info.service';
+import { MatSort } from '@angular/material/sort';
+import { ValidateMissionPopupComponent } from '@app/components/pop-up/apprentice/mission/validate-mission-popup/validate-mission-popup.component';
+import { DetailsCompanyPopupComponent } from '@app/components/pop-up/company/details-company-popup/details-company-popup.component';
 
 @Component({
   templateUrl: './configuration.component.html',
@@ -42,6 +46,7 @@ export class ConfigurationComponent implements OnInit, AfterViewInit {
   private hlYearGroups = false;
   private hlSemesters = false;
   private hlFormationCenters = false;
+  private hlMissions = false;
 
   public displayedColumnsUsers: string[] = [
     'first_name',
@@ -67,6 +72,7 @@ export class ConfigurationComponent implements OnInit, AfterViewInit {
     'companySiret',
     'nbEmployees',
     'codeCpne',
+    'details',
   ];
   public dataSourceCompanies: MatTableDataSource<Company>;
   @ViewChild('companiesPaginator') companiesPaginator!: MatPaginator;
@@ -95,6 +101,19 @@ export class ConfigurationComponent implements OnInit, AfterViewInit {
   @ViewChild('formationCenterPaginator')
   formationCenterPaginator!: MatPaginator;
 
+  public displayedColumnsMissions: string[] = [
+    'app_first_name',
+    'app_last_name',
+    'app_comp_name',
+    'app_job_title',
+    'app_is_validate',
+    'action',
+  ];
+  public dataSourceMissions: MatTableDataSource<ApprenticeInfo>;
+  @ViewChild('missionPaginator')
+  missionPaginator!: MatPaginator;
+  @ViewChild('missionSort') missionSort = new MatSort();
+
   ngOnInit(): void {
     // On charge le premier onglet
     this.loadUsers();
@@ -107,6 +126,7 @@ export class ConfigurationComponent implements OnInit, AfterViewInit {
     this.dataSourceYearGroups.paginator = this.yearGroupPaginator;
     this.dataSourceSemesters.paginator = this.semestersPaginator;
     this.dataSourceFormationCenters.paginator = this.formationCenterPaginator;
+    this.dataSourceMissions.paginator = this.missionPaginator;
   }
 
   constructor(
@@ -117,6 +137,7 @@ export class ConfigurationComponent implements OnInit, AfterViewInit {
     private semesterService: SemesterService,
     private tutorTeamService: TutorTeamService,
     private formationCenterService: FormationCenterService,
+    private apprenticeInfoService: ApprenticeInfoService,
     private companyService: CompanyService,
     private _snackBar: MatSnackBar
   ) {
@@ -126,6 +147,7 @@ export class ConfigurationComponent implements OnInit, AfterViewInit {
     this.dataSourceUsers = new MatTableDataSource<User>();
     this.dataSourceYearGroups = new MatTableDataSource<YearGroup>();
     this.dataSourceFormationCenters = new MatTableDataSource<FormationCenter>();
+    this.dataSourceMissions = new MatTableDataSource<ApprenticeInfo>();
   }
 
   public onTabChange($event: MatTabChangeEvent) {
@@ -158,6 +180,11 @@ export class ConfigurationComponent implements OnInit, AfterViewInit {
       case 'formation-centers':
         if (!this.hlFormationCenters) {
           this.loadFormationCenters();
+        }
+        break;
+      case 'missions':
+        if (!this.hlMissions) {
+          this.loadMissions();
         }
         break;
     }
@@ -275,6 +302,28 @@ export class ConfigurationComponent implements OnInit, AfterViewInit {
     });
   }
 
+  private loadMissions() {
+    this.apprenticeInfoService.getAll().subscribe({
+      next: (apprenticeInfoList) => {
+        this.dataSourceMissions = new MatTableDataSource<ApprenticeInfo>(
+          apprenticeInfoList
+        );
+        this.hlMissions = true;
+        this.dataSourceMissions.paginator = this.missionPaginator;
+        this.dataSourceMissions.sort = this.missionSort;
+      },
+      error: (err) => {
+        this._snackBar.open(
+          '❌ Une erreur est survenue lors de la récupération des missions',
+          'Ok',
+          {
+            duration: 2000,
+          }
+        );
+      },
+    });
+  }
+
   //#region Popups
   // Ouvertures
   public openYearGroupPopup() {
@@ -380,11 +429,35 @@ export class ConfigurationComponent implements OnInit, AfterViewInit {
       });
   }
 
-  public openUpdateFormationCenterPopup(formation_center: FormationCenter) {
+  public openUpdateFormationCenterPopup(formationCenter: FormationCenter) {
     this.dialog
       .open(UpdateFormationCenterPopupComponent, {
         width: '600px',
-        data: formation_center,
+        data: formationCenter,
+      })
+      .afterClosed()
+      .subscribe((shouldReload: boolean) => {
+        this.loadFormationCenters();
+      });
+  }
+
+  public openMissionPopup(mission: ApprenticeInfo) {
+    this.dialog
+      .open(ValidateMissionPopupComponent, {
+        width: '1200px',
+        data: mission,
+      })
+      .afterClosed()
+      .subscribe((shouldReload: boolean) => {
+        this.loadFormationCenters();
+      });
+  }
+
+  public openDetailsPopup(company: Company) {
+    this.dialog
+      .open(DetailsCompanyPopupComponent, {
+        width: '1000px',
+        data: company,
       })
       .afterClosed()
       .subscribe((shouldReload: boolean) => {

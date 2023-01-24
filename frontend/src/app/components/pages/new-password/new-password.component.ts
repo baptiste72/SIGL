@@ -24,7 +24,7 @@ export class NewPasswordComponent {
         newPassword: ['', Validators.required],
         confirmPassword: ['', Validators.required],
       },
-      { validator: this.checkPasswords }
+      { validators: this.checkPasswords }
     );
   }
 

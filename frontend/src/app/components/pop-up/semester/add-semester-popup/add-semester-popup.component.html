@@ -9,18 +9,21 @@
 >
   <div mat-dialog-content class="dialog-content">
     <div class="div-input">
-      <h3>Nom</h3>
+      <h3>Semestre</h3>
       <mat-form-field class="full-width" appearance="fill">
-        <mat-label>Semestre 1</mat-label>
-        <input
-          type="text"
-          matInput
-          formControlName="name"
-        />
+        <mat-label>Choisissez un semestre</mat-label>
+        <mat-select required formControlName="name">
+          <mat-option
+            *ngFor="let semester of semesters"
+            [value]="semester.name"
+          >
+            {{ semester.name }}
+          </mat-option>
+        </mat-select>
         <mat-error
           *ngIf="submitted && addSemesterForm.hasError('required', 'name')"
         >
-          Merci de renseigner un nom
+          Merci de sélectionner un semestre
         </mat-error>
       </mat-form-field>
     </div>
@@ -60,10 +63,7 @@
       <h3>Promotion</h3>
       <mat-form-field class="full-width" appearance="fill">
         <mat-label>Choisissez une promotion associée</mat-label>
-        <mat-select
-          required
-          formControlName="yearGroup"
-        >
+        <mat-select required formControlName="yearGroup">
           <mat-option
             *ngFor="let yearGroup of yearGroups"
             [value]="yearGroup.id"
