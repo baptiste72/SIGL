@@ -94,7 +94,7 @@ class ApprenticeList(generics.ListCreateAPIView):
 
 
 class ApprenticeTutorList(generics.ListCreateAPIView):
-    def get(self, request, pk, *args, **kwargs):
+    def get(self, request, pk, *args):
         tutor = Tutor.objects.get(pk=pk).tutor
         tutor_team_list = TutorTeam.objects.filter(tutor=tutor)
         apprentice_list = []
@@ -106,7 +106,7 @@ class ApprenticeTutorList(generics.ListCreateAPIView):
 
 
 class ApprenticeMentorList(generics.ListCreateAPIView):
-    def get(self, request, pk, *args, **kwargs):
+    def get(self, request, pk, *args):
         mentor = Mentor.objects.get(pk=pk).mentor
         mentor_team_list = TutorTeam.objects.filter(mentor=mentor)
         apprentice_list = []
