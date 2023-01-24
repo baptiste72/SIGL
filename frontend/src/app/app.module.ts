@@ -86,12 +86,16 @@ import { UpdateEvaluationPopupComponent } from './components/pop-up/evaluation/u
 import { NotesComponent } from './components/sub-components/notes/notes.component';
 import { NotesMinimalComponent } from './components/sub-components/notes-minimal/notes-minimal.component';
 import { SelectApprenticeComponent } from './components/sub-components/select-apprentice/select-apprentice.component';
+import { AddPeriodPopupComponent } from './components/pop-up/period/add-period-popup/add-period-popup.component';
+import { UpdatePeriodPopupComponent } from './components/pop-up/period/update-period-popup/update-period-popup.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ConnectionComponent,
+    AddPeriodPopupComponent,
     ForgotPasswordComponent,
+    UpdatePeriodPopupComponent,
     NewPasswordComponent,
     DashboardApprenticeComponent,
     NavigationComponent,

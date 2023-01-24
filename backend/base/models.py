@@ -184,6 +184,16 @@ class Deadline(models.Model):
     )
 
 
+class Period(models.Model):
+    name = models.CharField(max_length=255)
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField()
+    description = models.CharField(max_length=1500, null=True, blank=True)
+    yearGroup = models.ForeignKey(
+        YearGroup, related_name="period", on_delete=models.CASCADE
+    )
+
+
 class Note(models.Model):
     title = models.CharField(max_length=400)
     text = models.CharField(max_length=35000, blank=True)

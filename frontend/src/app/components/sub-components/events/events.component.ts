@@ -6,12 +6,18 @@ import { DeadlineService } from 'src/app/services/deadline/deadline.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { Interview } from '@app/models/Interview';
+import { UpdatePeriodPopupComponent } from '@app/components/pop-up/period/update-period-popup/update-period-popup.component';
 import { UpdateInterviewPopupComponent } from '../../pop-up/interview/update-interview-popup/update-interview-popup.component';
 import { UpdateDeadlinePopupComponent } from '@app/components/pop-up/deadline/update-deadline-popup/update-deadline-popup.component';
 import { AuthService } from '@app/services/auth/auth.service';
 import { Subject } from 'rxjs';
 import { startOfDay } from 'date-fns';
-import { CalendarEvent, DAYS_OF_WEEK, CalendarView } from 'angular-calendar';
+import {
+  CalendarEvent,
+  DAYS_OF_WEEK,
+  CalendarView,
+  CalendarMonthViewDay,
+} from 'angular-calendar';
 import { InterviewService } from '@app/services/interview/interview.service';
 import { YearGroupService } from '@app/services/year-group/year-group.service';
 import { ViewDeadlinePopupComponent } from '@app/components/pop-up/deadline/view-deadline-popup/view-deadline-popup.component';
@@ -23,6 +29,8 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
+import { AddPeriodPopupComponent } from '@app/components/pop-up/period/add-period-popup/add-period-popup.component';
+import { PeriodService } from '@app/services/period/period.service';
 
 const colors: any = {
   red: {
@@ -38,7 +46,7 @@ const colors: any = {
     secondary: '#FDF1BA',
   },
 };
-
+const BLUE_CELL: 'blue-cell' = 'blue-cell';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -46,11 +54,19 @@ const colors: any = {
   selector: 'app-events',
   templateUrl: './events.component.html',
   styleUrls: ['./events.component.scss'],
+  styles: [
+    `
+      .blue-cell {
+        background-color: blue !important;
+      }
+    `,
+  ],
 })
-export class EventsComponent {
+export class EventsComponent implements OnInit {
   public refresh = new Subject<void>();
   public interviews: any;
   public deadlines: any;
+  public periods: any;
   public userId: number;
   public role: any;
   view: CalendarView = CalendarView.Month;
@@ -63,26 +79,44 @@ export class EventsComponent {
   viewDate: Date = new Date();
 
   displayedColumnsInterviews: string[] = [
-    'update',
     'Name',
     'Date',
     'First_hour',
     'Last_hour',
     'Description',
     'Guest',
-    'Semester'
+    'Semester',
+  ];
+  displayedColumnsPeriodsStudent: string[] = [
+    'Name',
+    'Start_Date',
+    'End_Date',
+    'Description',
+  ];
+  displayedColumnsPeriods: string[] = [
+    'update',
+    'Name',
+    'Start_Date',
+    'End_Date',
+    'Description',
+    'Promotion',
   ];
   displayedColumnsDeadlines: string[] = [
     'update',
     'Name',
     'Date',
-    'Description'
+    'Description',
   ];
   yearGroups: any;
+  dataSourcePeriodsStudent: any;
+  dataSourcePeriods: any;
   dataSourceDeadlines: any;
   dataSourceInterviews: any;
   selectedInterviewDates: { date: Date; id: number }[] = [];
 
+  @ViewChild('PeriodsPaginatorStudent') periodsPaginatorStudent: any =
+    MatPaginator;
+  @ViewChild('PeriodsPaginator') periodsPaginator: any = MatPaginator;
   @ViewChild('deadlinesPaginator') deadlinesPaginator: any = MatPaginator;
   @ViewChild('interviewsPaginator') interviewsPaginator: any = MatPaginator;
   events: CalendarEvent[] = [
@@ -92,10 +126,11 @@ export class EventsComponent {
       color: colors.yellow,
     },
   ];
-
+  isAuthorize: boolean;
   constructor(
     public authService: AuthService,
     public dialog: MatDialog,
+    private periodService: PeriodService,
     private interviewService: InterviewService,
     private deadlineService: DeadlineService,
     private _snackBar: MatSnackBar,
@@ -104,6 +139,7 @@ export class EventsComponent {
   ) {
     this.userId = this.authService.userValue.id;
     this.role = this.authService.userValue.role;
+    this.isAuthorize = this.role === 'COORDINATOR' || this.role === 'ADMIN';
   }
 
   ngOnInit(): void {
@@ -111,11 +147,14 @@ export class EventsComponent {
     this.yearGroupService.getAll().subscribe((yearGroups) => {
       this.yearGroups = yearGroups;
     });
+    this.getPeriods(this.userId);
     this.getDeadlines(this.userId);
+
     this.refresh.next();
   }
 
   interviewsDates: Date[] = [];
+  cssClass: string = BLUE_CELL;
 
   //récupère les interviews et affiche les données
   private getInterviews(userId: number) {
@@ -255,6 +294,57 @@ export class EventsComponent {
         next: (v) => {
           this.deadlines = v;
           this.calendarTreatementDeadlines(this.deadlines);
+          this.refresh.next();
+        },
+        error: (err) => {
+          this._snackBar.open(
+            '❌ Une erreur est survenue lors de la récupération des Deadlines',
+            'Ok',
+            { duration: 2000 }
+          );
+        },
+      });
+    }
+  }
+
+  beforeMonthViewRender({ body }: { body: CalendarMonthViewDay[] }): void {
+    body.forEach((day) => {
+      this.periods.forEach((period) => {
+        if (
+          day.date >= new Date(period.start_date) &&
+          day.date <= new Date(period.end_date)
+        ) {
+          day.cssClass = this.cssClass;
+        }
+      });
+    });
+  }
+
+  private getPeriods(userId: number) {
+    if (this.role === 'APPRENTICE') {
+      this.periodService.getAllByUserId(userId).subscribe({
+        next: (period) => {
+          this.periods = period;
+          this.beforeMonthViewRender;
+          this.dataSourcePeriodsStudent = new MatTableDataSource<any>(
+            this.periods
+          );
+          this.refresh.next();
+        },
+        error: (err) => {
+          this._snackBar.open(
+            '❌ Une erreur est survenue lors de la récupération des Deadlines',
+            'Ok',
+            { duration: 2000 }
+          );
+        },
+      });
+    } else if (this.role === 'COORDINATOR' || this.role === 'ADMIN') {
+      this.periodService.getAll().subscribe({
+        next: (period) => {
+          this.periods = period;
+          this.beforeMonthViewRender;
+          this.dataSourcePeriods = new MatTableDataSource<any>(this.periods);
           this.refresh.next();
         },
         error: (err) => {
@@ -421,6 +511,20 @@ export class EventsComponent {
       });
   }
 
+  openUpdatePeriod(deadline: any) {
+    this.dialog
+      .open(UpdatePeriodPopupComponent, {
+        width: '600px',
+        data: {
+          dataKey: deadline,
+        },
+      })
+      .afterClosed()
+      .subscribe((shouldReload: boolean) => {
+        this.refreshAll(this.userId);
+      });
+  }
+
   onEventClicked(deadline) {
     let deadlineData = deadline.meta.deadline;
     this.openUpdateDeadline(deadlineData);
@@ -433,6 +537,23 @@ export class EventsComponent {
         data: {
           userId: this.userId,
           date: deadline.day.date,
+        },
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        if (result.event === 'add') {
+          this.pushDeadline(result.data);
+          this.refresh.next();
+        }
+      });
+  }
+
+  addPeriod() {
+    this.dialog
+      .open(AddPeriodPopupComponent, {
+        width: '600px',
+        data: {
+          userId: this.userId,
         },
       })
       .afterClosed()

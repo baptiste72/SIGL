@@ -26,12 +26,12 @@ from api.serializers import (ApprenticeInfoSerializer,
                              RegisterUserSerializer, SemesterSerializer,
                              TreeNoteSerializer, TutorSerializer,
                              TutorTeamSerializer, UserSerializer,
-                             YearGroupSerializer)
+                             YearGroupSerializer,PeriodSerializer)
 from authentication.models import User
 from base.models import (Apprentice, ApprenticeInfo, Company, CompanyUser,
                          ContactCompany, Deadline, Document, Evaluations,
                          FormationCenter, Interview, Mentor, Note, Opco,
-                         Semester, Tutor, TutorTeam, YearGroup)
+                         Semester, Tutor, TutorTeam, YearGroup,Period)
 from base.utilities import Role
 
 
@@ -80,6 +80,25 @@ def get_interviews(request):
 class ApprenticeDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Apprentice.objects.all()
     serializer_class = ApprenticeSerializer
+
+
+class PeriodsByUserId(APIView):
+    def get(self, request, pk):
+        year_group = Apprentice.objects.get(pk=pk).yearGroup
+        deadline_list = Period.objects.filter(yearGroup=year_group)
+        serializers = PeriodSerializer(deadline_list, many=True)
+        return Response(serializers.data)
+
+
+class PeriodsList(generics.ListCreateAPIView):
+    queryset = Period.objects.all()
+    serializer_class = PeriodSerializer
+
+
+class PeriodsDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Period.objects.all()
+    serializer_class = PeriodSerializer
+
 
 
 class DeadlinesByUserId(APIView):

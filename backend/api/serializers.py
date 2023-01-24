@@ -5,7 +5,7 @@ from base.models import (Apprentice,    ApprenticeInfo,
  Company, CompanyUser, ContactCompany,
                          Deadline, Document, Evaluations, FormationCenter,
                          Interview, Mentor, Note, Opco, Semester, Tutor,
-                         TutorTeam, User, YearGroup)
+                         TutorTeam, User, YearGroup,Period)
 
 
 class TutorTeamSerializer(serializers.ModelSerializer):
@@ -186,6 +186,13 @@ class DeadlineSerializer(serializers.ModelSerializer):
         model = Deadline
         fields = ("id","name", "date", "description", "yearGroup")
 
+class PeriodSerializer(serializers.ModelSerializer):
+    end_date = fields.DateTimeField(input_formats=["%Y-%m-%dT%H:%M:%S.%fZ"])
+    start_date = fields.DateTimeField(input_formats=["%Y-%m-%dT%H:%M:%S.%fZ"])
+
+    class Meta:
+        model = Period
+        fields = ("id","name", "start_date","end_date", "description", "yearGroup")
 
 class SemesterSerializer(serializers.ModelSerializer):
     beginDate = fields.DateTimeField()

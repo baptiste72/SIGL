@@ -1,0 +1,111 @@
+<div class="dialog-header bg-red">
+  <h2 mat-dialog-title>Ajout d'une période</h2>
+</div>
+
+<div mat-dialog-content class="dialog-content">
+  <div class="div-input">
+    <h3>Promotion</h3>
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>Choisissez une promotion</mat-label>
+      <mat-select required [(ngModel)]="js_period.yearGroup">
+        <mat-option *ngFor="let yearGroup of yearGroups" [value]="yearGroup.id">
+          {{ yearGroup.worded }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="div-input">
+    <h3>Livrable</h3>
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>Choisissez une période</mat-label>
+      <mat-select required [(ngModel)]="js_period.name">
+        <mat-option *ngFor="let period of type_periods" [value]="period.name">
+          {{ period.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="div-input">
+    <h3>Date et heure de début</h3>
+    <mat-form-field class="full-width" appearance="fill">
+      <input
+        required
+        matInput
+        [(ngModel)]="js_period.start_date"
+        [ngxMatDatetimePicker]="picker1"
+        placeholder="Choisisez une date et une heure"
+        [disabled]="false"
+      />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="$any(picker1)"
+      ></mat-datepicker-toggle>
+      <ngx-mat-datetime-picker
+        #picker1
+        [showSpinners]="true"
+        [showSeconds]="false"
+        [stepHour]="1"
+        [stepMinute]="1"
+        [touchUi]="false"
+        [enableMeridian]="false"
+        [disableMinute]="false"
+        [hideTime]="false"
+      >
+      </ngx-mat-datetime-picker>
+    </mat-form-field>
+  </div>
+  <div class="div-input">
+    <h3>Date et heure de fin</h3>
+    <mat-form-field class="full-width" appearance="fill">
+      <input
+        required
+        matInput
+        [(ngModel)]="js_period.end_date"
+        [ngxMatDatetimePicker]="picker2"
+        placeholder="Choisisez une date et une heure"
+        [disabled]="false"
+      />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="$any(picker2)"
+      ></mat-datepicker-toggle>
+      <ngx-mat-datetime-picker
+        #picker2
+        [showSpinners]="true"
+        [showSeconds]="false"
+        [stepHour]="1"
+        [stepMinute]="1"
+        [touchUi]="false"
+        [enableMeridian]="false"
+        [disableMinute]="false"
+        [hideTime]="false"
+      >
+      </ngx-mat-datetime-picker>
+    </mat-form-field>
+  </div>
+  <div class="div-input">
+    <h3>Description</h3>
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>Ajouter une description</mat-label>
+      <textarea
+        matInput
+        [(ngModel)]="js_period.description"
+        placeholder="Ex. J'ai réalisé..."
+      ></textarea>
+    </mat-form-field>
+  </div>
+</div>
+
+<mat-divider></mat-divider>
+
+<div mat-dialog-actions align="end">
+  <button mat-button class="green bold" (click)="updateperiod(js_period)">
+    MODIFIER
+  </button>
+  <button mat-button class="red bold" (click)="deleteperiodById(js_period.id)">
+    SUPPRIMER
+  </button>
+  <button mat-button class="grey bold" (click)="closeDialog()">ANNULER</button>
+</div>

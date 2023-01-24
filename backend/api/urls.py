@@ -42,6 +42,10 @@ urlpatterns = [
     path("deadlines", views.DeadlinesList.as_view()),
     path("deadlines/<int:pk>/", views.DeadlinesDetail.as_view()),
     path("deadlines/users/<int:pk>/", views.DeadlinesByUserId.as_view()),
+    # periods
+    path("periods", views.PeriodsList.as_view()),
+    path("periods/<int:pk>/", views.PeriodsDetail.as_view()),
+    path("periods/users/<int:pk>/", views.PeriodsByUserId.as_view()),
     # interviews
     path("interviews", views.InterviewList.as_view()),
     path("interviews/<int:pk>/", views.InterviewDetail.as_view()),
