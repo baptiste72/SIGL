@@ -93,7 +93,7 @@ class ApprenticeList(generics.ListCreateAPIView):
     serializer_class = ApprenticeSerializer
 
 
-class ApprenticeTutorList(generics.ListCreateAPIView):
+class ApprenticeTutorList(APIView):
     def get(self, request, pk, **kwargs):
         tutor = Tutor.objects.get(pk=pk).tutor
         tutor_team_list = TutorTeam.objects.filter(tutor=tutor)
@@ -105,7 +105,7 @@ class ApprenticeTutorList(generics.ListCreateAPIView):
         return Response(serializers.data)
 
 
-class ApprenticeMentorList(generics.ListCreateAPIView):
+class ApprenticeMentorList(APIView):
     def get(self, request, pk, **kwargs):
         mentor = Mentor.objects.get(pk=pk).mentor
         mentor_team_list = TutorTeam.objects.filter(mentor=mentor)
