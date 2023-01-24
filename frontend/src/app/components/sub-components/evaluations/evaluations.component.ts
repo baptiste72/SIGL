@@ -43,6 +43,8 @@ export class EvaluationsComponent implements OnInit, OnChanges {
   dataSource: any;
   @ViewChild('documentPaginator') documentPaginator!: MatPaginator;
 
+  @Input() adminView: boolean = false;
+
   constructor(
     public dialog: MatDialog,
     private evaluationService: EvaluationService,
@@ -110,18 +112,33 @@ export class EvaluationsComponent implements OnInit, OnChanges {
   }
 
   private getEvaluations(apprenticeId: number) {
-    this.evaluationService.getByOwner(apprenticeId).subscribe({
-      next: (evaluations) => {
-        this.dataSource = new MatTableDataSource<Evaluation>(evaluations);
-      },
-      error: (err) => {
-        this._snackBar.open(
-          '❌ Une erreur est survenue lors de la récupération des livrables',
-          'Ok',
-          { duration: 2000 }
-        );
-      },
-    });
+    if (this.adminView) {
+      this.evaluationService.getAll().subscribe({
+        next: (evaluations) => {
+          this.dataSource = new MatTableDataSource<Evaluation>(evaluations);
+        },
+        error: (err) => {
+          this._snackBar.open(
+            '❌ Une erreur est survenue lors de la récupération des livrables',
+            'Ok',
+            { duration: 2000 }
+          );
+        },
+      });
+    } else {
+      this.evaluationService.getByOwner(apprenticeId).subscribe({
+        next: (evaluations) => {
+          this.dataSource = new MatTableDataSource<Evaluation>(evaluations);
+        },
+        error: (err) => {
+          this._snackBar.open(
+            '❌ Une erreur est survenue lors de la récupération des livrables',
+            'Ok',
+            { duration: 2000 }
+          );
+        },
+      });
+    }
   }
 
   public downloadEvaluation(id: number, file_name: string) {
