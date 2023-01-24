@@ -42,7 +42,6 @@ const colors: any = {
   },
 };
 
-
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
@@ -74,7 +73,7 @@ export class EventsComponent implements OnInit, OnChanges {
     'Last_hour',
     'Description',
     'Guest',
-    'Semester'
+    'Semester',
   ];
 
   yearGroups: any;
@@ -243,6 +242,7 @@ export class EventsComponent implements OnInit, OnChanges {
     this.events.push(event);
   }
 
+  // Récupère les deadlines
   private getDeadlines(userId: number) {
     if (this.role === 'APPRENTICE') {
       this.deadlineService.getAllByUserId(userId).subscribe({
@@ -277,7 +277,7 @@ export class EventsComponent implements OnInit, OnChanges {
     }
   }
 
-  //refresh l'ensemble des données du calendrier
+  // Refresh l'ensemble des données du calendrier
   private refreshAll(userId: number) {
     if (this.role === 'APPRENTICE') {
       this.deadlineService.getAllByUserId(userId).subscribe({
@@ -385,7 +385,7 @@ export class EventsComponent implements OnInit, OnChanges {
     }
   }
 
-  //ouvre la pop up de création de rendez-vous
+  // Ouvre la pop up de création de rendez-vous
   addEvent(event: any) {
     this.dialog
       .open(AddInterviewPopupComponent, {
@@ -397,10 +397,11 @@ export class EventsComponent implements OnInit, OnChanges {
       })
       .afterClosed()
       .subscribe((result) => {
-        this.refreshAll(this.userId);
+        this.refreshAll(this.apprenticeId);
       });
   }
 
+  // Ouvre la pop up de modification d'un rendez-vous
   openUpdateInterview(interview: Interview) {
     this.dialog
       .open(UpdateInterviewPopupComponent, {
@@ -412,10 +413,11 @@ export class EventsComponent implements OnInit, OnChanges {
       })
       .afterClosed()
       .subscribe((result) => {
-        this.refreshAll(this.userId);
+        this.refreshAll(this.apprenticeId);
       });
   }
 
+  // Ouvre la pop up de modification d'une deadline
   openUpdateDeadline(deadline: any) {
     this.dialog
       .open(UpdateDeadlinePopupComponent, {
@@ -426,15 +428,17 @@ export class EventsComponent implements OnInit, OnChanges {
       })
       .afterClosed()
       .subscribe((shouldReload: boolean) => {
-        this.refreshAll(this.userId);
+        this.refreshAll(this.apprenticeId);
       });
   }
 
+  // Fonction appelé au clique sur une deadline
   onEventClicked(deadline) {
     let deadlineData = deadline.meta.deadline;
     this.openUpdateDeadline(deadlineData);
   }
 
+  // Fonction d'ajout d'une deadline
   addDeadline(deadline: any) {
     this.dialog
       .open(AddDeadlinePopupComponent, {

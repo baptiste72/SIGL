@@ -93,6 +93,30 @@ class ApprenticeList(generics.ListCreateAPIView):
     serializer_class = ApprenticeSerializer
 
 
+class ApprenticeTutorList(generics.ListCreateAPIView):
+    def get(self, request, pk):
+        tutor = Tutor.objects.get(pk=pk).tutor
+        tutor_team_list = TutorTeam.objects.filter(tutor=tutor)
+        apprentice_list = []
+        for tutor_team in tutor_team_list :
+            apprentice = Apprentice.objects.filter(pk=tutor_team.apprentice.pk).first()
+            apprentice_list.append(apprentice)
+        serializers = ApprenticeSerializer(apprentice_list, many=True)
+        return Response(serializers.data)
+
+
+class ApprenticeMentorList(generics.ListCreateAPIView):
+    def get(self, request, pk):
+        mentor = Mentor.objects.get(pk=pk).mentor
+        mentor_team_list = TutorTeam.objects.filter(mentor=mentor)
+        apprentice_list = []
+        for mentor_team in mentor_team_list :
+            apprentice = Apprentice.objects.filter(pk=mentor_team.apprentice.pk).first()
+            apprentice_list.append(apprentice)
+        serializers = ApprenticeSerializer(apprentice_list, many=True)
+        return Response(serializers.data)
+    
+    
 @api_view(["GET"])
 def get_apprentices(request):
     apprentice_list = Apprentice.objects.all()

@@ -168,7 +168,7 @@ class ApprenticeRoleSerializer(serializers.ModelSerializer):
             "role",
             "yearGroup",
         )
-
+        
 
 class InterviewSerializer(serializers.ModelSerializer):
     class Meta:

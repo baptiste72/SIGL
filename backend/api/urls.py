@@ -6,6 +6,8 @@ urlpatterns = [
     # apprentices
     path("apprentices", views.ApprenticeList.as_view()),
     path("apprentices/<int:pk>", views.ApprenticeDetail.as_view()),
+    path("apprentices/tutor/<int:pk>", views.ApprenticeTutorList.as_view()),
+    path("apprentices/mentor/<int:pk>", views.ApprenticeMentorList.as_view()),
     # apprentice-info
     path("apprentice-info", views.ApprenticeInfoList.as_view()),
     path("apprentice-info/<int:pk>", views.ApprenticeInfoDetail.as_view()),
@@ -33,10 +35,6 @@ urlpatterns = [
         views.FormationCenterList.as_view(),
         name="formationCenters",
     ),
-    # apprentice-info
-    path("apprentice-info", views.ApprenticeInfoList.as_view()),
-    path("apprentice-info/<int:pk>", views.ApprenticeInfoDetail.as_view()),
-    path("apprentice-info/validate/<int:pk>", views.ApprenticeInfoValidate.as_view()),
     # notes
     path("notes", views.NotesList.as_view()),
     path("notes/<int:pk>", views.NotesDetail.as_view()),
