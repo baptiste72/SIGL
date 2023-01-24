@@ -89,7 +89,7 @@ import { SelectApprenticeComponent } from './components/sub-components/select-ap
 import { ValidateMissionPopupComponent } from './components/pop-up/apprentice/mission/validate-mission-popup/validate-mission-popup.component';
 import { MatButtonModule } from '@angular/material/button';
 import { DetailsCompanyPopupComponent } from './components/pop-up/company/details-company-popup/details-company-popup.component';
-
+import { MatTooltipModule } from '@angular/material/tooltip';
 @NgModule({
   declarations: [
     AppComponent,
@@ -181,6 +181,7 @@ import { DetailsCompanyPopupComponent } from './components/pop-up/company/detail
     MatCardModule,
     ReactiveFormsModule,
     MatAutocompleteModule,
+    MatTooltipModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
