@@ -1,5 +1,8 @@
 <app-navigation>
   <div class="navigation-content">
-    <app-evaluations class="full-width"></app-evaluations>
+    <app-evaluations
+      class="full-width"
+      [adminView]="user.role === roleEnum.ADMIN"
+    ></app-evaluations>
   </div>
 </app-navigation>
