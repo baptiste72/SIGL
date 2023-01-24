@@ -45,7 +45,7 @@ export class UpdateYearGroupPopupComponent {
           },
           error: (err) => {
             this._snackBar.open(
-              '❌ Une erreur est survenue lors de la modificaiton de la promotion',
+              '❌ Une erreur est survenue lors de la modification de la promotion',
               'Ok',
               {
                 duration: 2000,

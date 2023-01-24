@@ -1,9 +1,6 @@
 import os
 
 from django.http import FileResponse, Http404
-from django.conf import settings
-from django.utils import timezone
-from django.core.mail import send_mail
 from rest_framework import generics, status
 from rest_framework.decorators import api_view
 from rest_framework.parsers import FormParser, MultiPartParser
@@ -16,8 +13,10 @@ from api.helpers.semester_helper import SemesterHelper
 from api.helpers.document_helper import DocumentHelper
 from api.helpers.evaluation_helper import EvaluationHelper
 from api.helpers.data_treatement import DataTreatement
+from api.helpers.mail_helper import MailHelper
 from api.helpers.sftp_helper import SftpHelper
 from api.helpers.tutor_team_helper import TutorTeamHelper
+from api.services.apprentice_service import ApprenticeService
 from api.serializers import (
     ApprenticeInfoSerializer,
     ApprenticeRoleSerializer,
@@ -433,53 +432,16 @@ class ApprenticeInfoValidate(APIView):
         )
         if serializer.is_valid():
             serializer.save()
-            validate_str = "validé" if serializer.data["app_is_validate"] else "refusé"
-            send_mail(
-                # title:
-                "[Projet SIGL] Statut de validation de mission - "
-                + serializer.data["app_first_name"]
-                + " "
-                + serializer.data["app_last_name"],
-                # message:
-                "Bonjour,\n\nLa mission de l'apprenti "
-                + serializer.data["app_first_name"]
-                + " "
-                + serializer.data["app_last_name"]
-                + " a été "
-                + validate_str
-                + ".\n\nCommentaire du coordinateur d'alternance :\n\n"
-                + request.data["comment"]
-                + "\n\nCordialement,\nL'équipe SIGL.",
-                # from:
-                settings.EMAIL_HOST_USER,
-                # to:
-                [user.email],
+            MailHelper.send_validation_mail(
+                serializer=serializer, comment=request.data["comment"], email=user.email
             )
+
             if serializer.data["app_is_validate"]:
-                # On détermine la promotion du futur apprenti
-                apprentice_year_group = YearGroup.objects.filter(
-                    beginDate__year=timezone.now().year
-                ).first()
+                apprentice_data = ApprenticeService.get_apprentice_from_apprentice_info(
+                    request.data["apprenticeInfo"]
+                )
 
-                apprentice_info = request.data["apprenticeInfo"]
-                apprentice_email = (
-                    apprentice_info["app_first_name"]
-                    + "."
-                    + apprentice_info["app_last_name"]
-                    + "@reseau.eseo.fr"
-                ).lower()
-
-                # Dictionnaire de données
-                apprentice_data = {
-                    "last_name": apprentice_info["app_last_name"],
-                    "first_name": apprentice_info["app_first_name"],
-                    "password": "Champ non vide",
-                    "email": apprentice_email,
-                    "role": Role.APPRENTICE.value,
-                    "yearGroup": apprentice_year_group.id,
-                }
-
-                # Sauvegarde l'utilisateur en base
+                # Sauvegarde de l'utilisateur en base
                 apprentice_serializer = ApprenticeRoleSerializer(data=apprentice_data)
                 apprentice_serializer.is_valid(raise_exception=True)
                 apprentice_serializer.save()
