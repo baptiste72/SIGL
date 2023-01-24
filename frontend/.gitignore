@@ -21,6 +21,7 @@ frontend/node_modules/__ngcc_entry_points__.json
 *.launch
 .settings/
 *.sublime-workspace
+*.mp4
 
 # Visual Studio Code
 .vscode/*
