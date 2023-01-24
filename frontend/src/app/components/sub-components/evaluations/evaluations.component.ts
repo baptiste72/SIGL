@@ -1,4 +1,11 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -18,7 +25,8 @@ import { lastValueFrom } from 'rxjs';
   templateUrl: './evaluations.component.html',
   styleUrls: ['./evaluations.component.scss'],
 })
-export class EvaluationsComponent implements OnInit {
+export class EvaluationsComponent implements OnInit, OnChanges {
+  @Input() apprenticeId;
   public user: User;
   readonly roleEnum = Role;
   public displayedColumns: string[] = [
@@ -30,7 +38,7 @@ export class EvaluationsComponent implements OnInit {
     'evaluation-name',
     'owner',
     'promotion',
-    'note'
+    'note',
   ];
   dataSource: any;
   @ViewChild('documentPaginator') documentPaginator!: MatPaginator;
@@ -47,7 +55,15 @@ export class EvaluationsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getEvaluations();
+    this.apprenticeId = this.user.id;
+    this.getEvaluations(this.apprenticeId);
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    for (let propName in changes) {
+      let change = changes[propName];
+      this.getEvaluations(change.currentValue);
+    }
   }
 
   public async deleteEvaluationById(id: any) {
@@ -57,7 +73,7 @@ export class EvaluationsComponent implements OnInit {
     if (shouldDelete) {
       this.evaluationService.delete(id).subscribe({
         next: (v) => {
-          this.getEvaluations();
+          this.getEvaluations(this.apprenticeId);
         },
         error: (err) => {
           this._snackBar.open(
@@ -77,7 +93,7 @@ export class EvaluationsComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((shouldReload: boolean) => {
-        this.getEvaluations();
+        this.getEvaluations(this.apprenticeId);
       });
   }
 
@@ -89,38 +105,23 @@ export class EvaluationsComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((shouldReload: boolean) => {
-        this.getEvaluations();
+        this.getEvaluations(this.apprenticeId);
       });
   }
 
-  private getEvaluations() {
-    if (this.user.role == this.roleEnum.APPRENTICE) {
-      this.evaluationService.getByOwner(this.user.id).subscribe({
-        next: (evaluations) => {
-          this.dataSource = new MatTableDataSource<Evaluation>(evaluations);
-        },
-        error: (err) => {
-          this._snackBar.open(
-            '❌ Une erreur est survenue lors de la récupération des livrables',
-            'Ok',
-            { duration: 2000 }
-          );
-        },
-      });
-    } else {
-      this.evaluationService.getAll().subscribe({
-        next: (evaluations) => {
-          this.dataSource = new MatTableDataSource<Evaluation>(evaluations);
-        },
-        error: (err) => {
-          this._snackBar.open(
-            '❌ Une erreur est survenue lors de la récupération des livrables',
-            'Ok',
-            { duration: 2000 }
-          );
-        },
-      });
-    }
+  private getEvaluations(apprenticeId: number) {
+    this.evaluationService.getByOwner(apprenticeId).subscribe({
+      next: (evaluations) => {
+        this.dataSource = new MatTableDataSource<Evaluation>(evaluations);
+      },
+      error: (err) => {
+        this._snackBar.open(
+          '❌ Une erreur est survenue lors de la récupération des livrables',
+          'Ok',
+          { duration: 2000 }
+        );
+      },
+    });
   }
 
   public downloadEvaluation(id: number, file_name: string) {

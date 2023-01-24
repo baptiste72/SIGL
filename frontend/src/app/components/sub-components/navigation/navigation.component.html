@@ -49,9 +49,7 @@
       <a
         routerLink="/evaluations"
         *ngIf="
-          user.role !== roleEnum.COMPANY &&
-          user.role !== roleEnum.MENTOR &&
-          user.role !== roleEnum.TUTOR
+          user.role === roleEnum.APPRENTICE
         "
         ><div><mat-icon matPrefix>co_present</mat-icon>Livrables</div></a
       >

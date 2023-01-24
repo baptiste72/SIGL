@@ -19,7 +19,10 @@ import { UserService } from '@app/services/user/user.service';
 import {
   ChangeDetectionStrategy,
   Component,
+  Input,
+  OnChanges,
   OnInit,
+  SimpleChanges,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
@@ -47,7 +50,8 @@ const colors: any = {
   templateUrl: './events.component.html',
   styleUrls: ['./events.component.scss'],
 })
-export class EventsComponent {
+export class EventsComponent implements OnInit, OnChanges {
+  @Input() apprenticeId;
   public refresh = new Subject<void>();
   public interviews: any;
   public deadlines: any;
@@ -72,12 +76,7 @@ export class EventsComponent {
     'Guest',
     'Semester'
   ];
-  displayedColumnsDeadlines: string[] = [
-    'update',
-    'Name',
-    'Date',
-    'Description'
-  ];
+
   yearGroups: any;
   dataSourceDeadlines: any;
   dataSourceInterviews: any;
@@ -107,12 +106,22 @@ export class EventsComponent {
   }
 
   ngOnInit(): void {
-    this.getInterviews(this.userId);
+    this.apprenticeId = this.userId;
+    this.getInterviews(this.apprenticeId);
     this.yearGroupService.getAll().subscribe((yearGroups) => {
       this.yearGroups = yearGroups;
     });
-    this.getDeadlines(this.userId);
+    this.getDeadlines(this.apprenticeId);
     this.refresh.next();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    for (let propName in changes) {
+      let change = changes[propName];
+      this.getInterviews(change.currentValue);
+      this.getDeadlines(change.currentValue);
+      this.refresh.next();
+    }
   }
 
   interviewsDates: Date[] = [];
