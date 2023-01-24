@@ -10,6 +10,7 @@ export class ApprenticeInfo {
   app_comp_name: string;
   app_siret: string;
   app_location: string;
+  app_is_validate: boolean;
 
   constructor(
     id: number,
@@ -35,5 +36,6 @@ export class ApprenticeInfo {
     this.app_comp_name = companyName;
     this.app_siret = companySiret;
     this.app_location = companyLocation;
+    this.app_is_validate = false;
   }
 }
