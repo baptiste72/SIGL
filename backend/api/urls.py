@@ -12,6 +12,7 @@ urlpatterns = [
     path("apprentice-info", views.ApprenticeInfoList.as_view()),
     path("apprentice-info/<int:pk>", views.ApprenticeInfoDetail.as_view()),
     path("apprentice-info/company/<int:pk>", views.ApprenticeInfoByCompany.as_view()),
+    path("apprentice-info/validate/<int:pk>", views.ApprenticeInfoValidate.as_view()),
     # companies
     path("companies", views.CompanyList.as_view()),
     path("companies/<int:pk>", views.CompanyDetail.as_view()),
