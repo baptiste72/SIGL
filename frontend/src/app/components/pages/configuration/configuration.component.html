@@ -12,7 +12,7 @@
           <mat-icon>groups</mat-icon>
           Utilisateurs
         </ng-template>
-        <div class="navigation-content margin-bottom-50">
+        <div class="margin-bottom-50">
           <mat-card class="configuration-page-card">
             <mat-card-header class="configuration-page-card-header">
               <mat-card-title class="conf-page-card-title">
@@ -36,7 +36,7 @@
                 </button>
               </div>
 
-              <div>
+              <div class="overflow-scroll">
                 <table mat-table [dataSource]="dataSourceUsers">
                   <ng-container matColumnDef="first_name">
                     <th mat-header-cell *matHeaderCellDef>Prénom</th>
@@ -116,7 +116,7 @@
           <mat-icon>apartment</mat-icon>
           Entreprises
         </ng-template>
-        <div class="navigation-content margin-bottom-50">
+        <div class="margin-bottom-50">
           <mat-card class="configuration-page-card">
             <mat-card-header class="configuration-page-card-header">
               <mat-card-title class="conf-page-card-title">
@@ -130,7 +130,7 @@
             </mat-card-header>
 
             <mat-card-content>
-              <div>
+              <div class="overflow-scroll">
                 <table mat-table [dataSource]="dataSourceCompanies">
                   <!-- Name Column -->
                   <ng-container matColumnDef="name">
@@ -205,7 +205,7 @@
           <mat-icon>diversity_3</mat-icon>
           Équipes pédagogiques
         </ng-template>
-        <div class="navigation-content margin-bottom-50">
+        <div class="margin-bottom-50">
           <mat-card class="configuration-page-card">
             <mat-card-header class="configuration-page-card-header">
               <mat-card-title class="conf-page-card-title">
@@ -229,7 +229,7 @@
                 </button>
               </div>
 
-              <div>
+              <div class="overflow-scroll">
                 <table mat-table [dataSource]="dataSourceTutorTeams">
                   <!-- Apprentice Column -->
                   <ng-container matColumnDef="apprentice">
@@ -313,7 +313,7 @@
           <mat-icon>person_pin_circle</mat-icon>
           Promotions
         </ng-template>
-        <div class="navigation-content margin-bottom-50">
+        <div class="margin-bottom-50">
           <mat-card class="configuration-page-card">
             <mat-card-header class="configuration-page-card-header">
               <mat-card-title class="conf-page-card-title">
@@ -337,7 +337,7 @@
                 </button>
               </div>
 
-              <div>
+              <div class="overflow-scroll">
                 <table mat-table [dataSource]="dataSourceYearGroups">
                   <!-- Name Column -->
                   <ng-container matColumnDef="name">
@@ -406,7 +406,7 @@
           <mat-icon>today</mat-icon>
           Semestres
         </ng-template>
-        <div class="navigation-content margin-bottom-50">
+        <div class="margin-bottom-50">
           <mat-card class="configuration-page-card">
             <mat-card-header class="configuration-page-card-header">
               <mat-card-title class="conf-page-card-title">
@@ -430,7 +430,7 @@
                 </button>
               </div>
 
-              <div>
+              <div class="overflow-scroll">
                 <table mat-table [dataSource]="dataSourceSemesters">
                   <!-- Name Column -->
                   <ng-container matColumnDef="name">
@@ -507,7 +507,7 @@
           <mat-icon>school</mat-icon>
           Centre de formation
         </ng-template>
-        <div class="navigation-content margin-bottom-50">
+        <div class="margin-bottom-50">
           <mat-card class="configuration-page-card">
             <mat-card-header class="configuration-page-card-header">
               <mat-card-title class="conf-page-card-title">
@@ -531,7 +531,7 @@
                 </button>
               </div>
 
-              <div>
+              <div class="overflow-scroll">
                 <table mat-table [dataSource]="dataSourceFormationCenters">
                   <!-- Apprentice Column -->
                   <ng-container matColumnDef="worded">
@@ -617,7 +617,7 @@
           <mat-icon>work</mat-icon>
           Missions
         </ng-template>
-        <div class="navigation-content margin-bottom-50">
+        <div class="margin-bottom-50">
           <mat-card class="configuration-page-card">
             <mat-card-header class="configuration-page-card-header">
               <mat-card-title class="conf-page-card-title">
@@ -631,7 +631,7 @@
             </mat-card-header>
 
             <mat-card-content>
-              <div>
+              <div class="overflow-scroll">
                 <table
                   mat-table
                   [dataSource]="dataSourceMissions"

@@ -31,7 +31,12 @@
     <mat-divider></mat-divider>
     <div mat-dialog-actions align="end">
       <button mat-button class="green bold">MODIFIER</button>
-      <button mat-button class="red bold" (click)="closeDialog()">
+      <button
+        mat-button
+        mat-dialog-close
+        class="red bold"
+        (click)="closeDialog()"
+      >
         ANNULER
       </button>
     </div>

@@ -8,8 +8,10 @@ import { User } from 'src/app/models/User';
 })
 export class DashboardApprenticeComponent {
   public user: User;
+  public apprenticeId = '';
 
   constructor(private authService: AuthService) {
     this.user = this.authService.userValue;
+    this.apprenticeId = this.user.id.toString();
   }
 }

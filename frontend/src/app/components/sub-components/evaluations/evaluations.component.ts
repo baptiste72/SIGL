@@ -25,7 +25,7 @@ import { lastValueFrom } from 'rxjs';
   templateUrl: './evaluations.component.html',
   styleUrls: ['./evaluations.component.scss'],
 })
-export class EvaluationsComponent implements OnInit, OnChanges {
+export class EvaluationsComponent implements OnChanges {
   @Input() apprenticeId;
   public user: User;
   readonly roleEnum = Role;
@@ -56,16 +56,8 @@ export class EvaluationsComponent implements OnInit, OnChanges {
     this.user = this.authService.userValue;
   }
 
-  ngOnInit() {
-    this.apprenticeId = this.user.id;
-    this.getEvaluations(this.apprenticeId);
-  }
-
   ngOnChanges(changes: SimpleChanges) {
-    for (let propName in changes) {
-      let change = changes[propName];
-      this.getEvaluations(change.currentValue);
-    }
+    this.getEvaluations(changes['apprenticeId'].currentValue);
   }
 
   public async deleteEvaluationById(id: any) {

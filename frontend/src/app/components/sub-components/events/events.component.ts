@@ -21,7 +21,6 @@ import {
   Component,
   Input,
   OnChanges,
-  OnInit,
   SimpleChanges,
   ViewChild,
   ViewEncapsulation,
@@ -49,7 +48,7 @@ const colors: any = {
   templateUrl: './events.component.html',
   styleUrls: ['./events.component.scss'],
 })
-export class EventsComponent implements OnInit, OnChanges {
+export class EventsComponent implements OnChanges {
   @Input() apprenticeId;
   public refresh = new Subject<void>();
   public interviews: any;
@@ -104,19 +103,12 @@ export class EventsComponent implements OnInit, OnChanges {
     this.role = this.authService.userValue.role;
   }
 
-  ngOnInit(): void {
-    this.apprenticeId = this.userId;
-    this.getInterviews(this.apprenticeId);
-    this.yearGroupService.getAll().subscribe((yearGroups) => {
-      this.yearGroups = yearGroups;
-    });
-    this.getDeadlines(this.apprenticeId);
-    this.refresh.next();
-  }
-
   ngOnChanges(changes: SimpleChanges) {
     for (let propName in changes) {
       let change = changes[propName];
+      this.yearGroupService.getAll().subscribe((yearGroups) => {
+        this.yearGroups = yearGroups;
+      });
       this.getInterviews(change.currentValue);
       this.getDeadlines(change.currentValue);
       this.refresh.next();

@@ -3,6 +3,7 @@
     <h2>Visualisation de tous les livrables des apprentis</h2>
     <app-evaluations
       class="full-width"
+      [apprenticeId]="apprenticeId"
       [adminView]="user.role === roleEnum.ADMIN"
     ></app-evaluations>
   </div>

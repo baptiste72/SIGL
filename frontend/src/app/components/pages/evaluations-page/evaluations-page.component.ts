@@ -10,8 +10,10 @@ import { AuthService } from '@app/services';
 export class EvaluationsPageComponent {
   readonly roleEnum = Role;
   public user: User;
+  public apprenticeId = '';
 
   constructor(private authService: AuthService) {
     this.user = this.authService.userValue;
+    this.apprenticeId = this.user.id.toString();
   }
 }
