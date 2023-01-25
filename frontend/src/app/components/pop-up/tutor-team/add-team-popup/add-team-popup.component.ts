@@ -105,7 +105,7 @@ export class AddTeamPopupComponent implements OnInit {
     if (this.addTeamForm.valid) {
     this.tutorTeamService.add(this.addTeamForm.value).subscribe({
       next: (v) => {
-        this._snackBar.open('Equipe pédagohique ajoutée', 'Ok', {
+        this._snackBar.open('Equipe pédagogique ajoutée', 'Ok', {
           duration: 2000,
         });
         this.closeDialog();

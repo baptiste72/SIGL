@@ -1,0 +1,212 @@
+[
+    {
+     "nom": "PRODHOMME",
+     "prenom": "Vincent",
+     "email": "vincent.prodhomme@safrangroup.com"
+    },
+    {
+     "nom": "CHAUSSERAY",
+     "prenom": "Laurent",
+     "email": "laurent.chausseray@eolane.com"
+    },
+    {
+     "nom": "FRESNEAU",
+     "prenom": "Emmanuel",
+     "email": "efresneau@groupe-atlantic.com"
+    },
+    {
+     "nom": "CAILLAUD ",
+     "prenom": "Laurent",
+     "email": "laurent.caillaud@edf.fr"
+    },
+    {
+     "nom": "KRAEMER",
+     "prenom": "Nicolas",
+     "email": "nicolas.kraemer@thalesgroup.com"
+    },
+    {
+     "nom": "ILPONSE",
+     "prenom": "Carine",
+     "email": "carine.ilponse@fr.thalesgroup.com"
+    },
+    {
+     "nom": "HUGUET",
+     "prenom": "Guillaume",
+     "email": "guillaume.huguet@asteelflash.com"
+    },
+    {
+     "nom": "GEORGIN",
+     "prenom": "Marc",
+     "email": "service.personnel@lacme.com"
+    },
+    {
+     "nom": "ALLEAUME",
+     "prenom": "Christian",
+     "email": "ca@scrinfo.net"
+    },
+    {
+     "nom": "DERVAULT",
+     "prenom": "Edouard",
+     "email": "edouard.dervault@rca.fr"
+    },
+    {
+     "nom": "CARRILLAT",
+     "prenom": "Cyril",
+     "email": "CCARRILLAT@mgen.fr"
+    },
+    {
+     "nom": "MOUSSU",
+     "prenom": "Christophe",
+     "email": "christophe.moussu@thalesgroup.com"
+    },
+    {
+     "nom": "GUEHENNEC",
+     "prenom": "Freddy",
+     "email": "freddy.guehennec@thalesgroup.com"
+    },
+    {
+     "nom": "CHAMARD ",
+     "prenom": "Antoine",
+     "email": "antoine.chamard@hitachiastemo.com"
+    },
+    {
+     "nom": "DEMARTINI",
+     "prenom": "Jean",
+     "email": "jean.demartini@sensivic.com"
+    },
+    {
+     "nom": "BERTHONNEAU",
+     "prenom": "Julien",
+     "email": "julien.berthonneau@pasquier.fr"
+    },
+    {
+     "nom": "BERTOLOTTI",
+     "prenom": "Romain",
+     "email": "romain.bertolotti@techniquesolaire.com"
+    },
+    {
+     "nom": "DODANE",
+     "prenom": "Bertrand",
+     "email": "b.dodane@nws-tech.fr"
+    },
+    {
+     "nom": "CROS",
+     "prenom": "Christophe",
+     "email": "ccros@mgi.fr"
+    },
+    {
+     "nom": "GOMES DOS REIS",
+     "prenom": "Gaël",
+     "email": "gael.gomes@thalesgroup.com"
+    },
+    {
+     "nom": "JOLY",
+     "prenom": "Thomas",
+     "email": "thomas.joly@centralesupelec.fr"
+    },
+    {
+     "nom": "LACREUSE",
+     "prenom": "Guillaume",
+     "email": "guillaume.lacreuse@socomec.com"
+    },
+    {
+     "nom": "GROLEAU",
+     "prenom": "Olivier",
+     "email": "ogroleau@scheiber.fr"
+    },
+    {
+     "nom": "BILLOIR",
+     "prenom": "Tiphaine",
+     "email": "t.billoir@lacroix.group"
+    },
+    {
+     "nom": "PONCET-BIJONNET ",
+     "prenom": "Xavier",
+     "email": "xponcet-bijonnet@scheiber.fr"
+    },
+    {
+     "nom": "DURAND",
+     "prenom": "Alexandre",
+     "email": "alexandre.durand@capgemini.com"
+    },
+    {
+     "nom": "BRAVARD",
+     "prenom": "Olivier",
+     "email": "olivier.bravard@valeo.com"
+    },
+    {
+     "nom": "DORE",
+     "prenom": "Axel",
+     "email": "axel.dore@mbda-systems.com"
+    },
+    {
+     "nom": "LELEU",
+     "prenom": "Aurélien",
+     "email": "aurelien.leleu@edf.fr"
+    },
+    {
+     "nom": "DELLAMAGGIORE",
+     "prenom": "Martin",
+     "email": "m.dellamaggiore@phyteurop.com"
+    },
+    {
+     "nom": "CHAMBELLAN",
+     "prenom": "Adrien",
+     "email": "adrien.chambellan@cea.fr"
+    },
+    {
+     "nom": "CHAMPION",
+     "prenom": "Arnaud",
+     "email": "achampion@adapei49.asso.fr"
+    },
+    {
+     "nom": "LEROY",
+     "prenom": "Eric",
+     "email": "el@akryvia.com"
+    },
+    {
+     "nom": "CHAGNOLLEAU",
+     "prenom": "Maxime",
+     "email": "maxime.chagnolleau@consertotech.pro"
+    },
+    {
+     "nom": "RIGOT",
+     "prenom": "Jean-Rene",
+     "email": "jean-rene.rigot@safrangroup.com"
+    },
+    {
+     "nom": "PELTIER",
+     "prenom": "Olivier",
+     "email": "olivier.peltier@thalesgroup.com"
+    },
+    {
+     "nom": "ALAYRAC",
+     "prenom": "Christophe",
+     "email": "christophe.alayrac@cresitt.com"
+    },
+    {
+     "nom": "CAILLEAU",
+     "prenom": "Nicolas",
+     "email": "n.cailleau@itancia.com"
+    },
+    {
+     "nom": "JAOUEN",
+     "prenom": "Alain",
+     "email": "a.jaouen@polysoude.com"
+    },
+    {
+     "nom": "CARCANAGUE",
+     "prenom": "Sandie",
+     "email": "s.carcanague@maine-et-loire.fr"
+    },
+    {
+     "nom": "HUBERT",
+     "prenom": "Yohann",
+     "email": "yhubert@telelogos.com"
+    },
+    {
+     "nom": "MUSELET",
+     "prenom": "Corentin",
+     "email": "corentin1.muselet@safrangroup.com"
+    }
+   ]

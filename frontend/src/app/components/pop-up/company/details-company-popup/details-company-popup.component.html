@@ -1,0 +1,64 @@
+<div class="dialog-header bg-red">
+  <h2 mat-dialog-title>Détails sur l'entreprise</h2>
+  <button mat-icon-button mat-dialog-close class="dialog-header-close-btn">
+    <mat-icon fontIcon="close"></mat-icon>
+  </button>
+</div>
+
+<div mat-dialog-content class="dialog-content">
+  <h3>Récapitulatif</h3>
+  <div class="details-recap">
+    <div class="left">
+      <div class="details-field">
+        <mat-icon fontIcon="info"></mat-icon>
+        {{ data.cmp_siret }} (SIRET)
+      </div>
+      <div class="details-field">
+        <mat-icon fontIcon="apartment"></mat-icon>
+        {{ data.cmp_name }}
+      </div>
+      <div class="details-field">
+        <mat-icon fontIcon="label"></mat-icon>
+        {{ data.cmp_work_field }}
+      </div>
+      <div class="details-field">
+        <mat-icon fontIcon="person"></mat-icon>
+        {{ data.cmp_employees }} employés
+      </div>
+    </div>
+    <div class="right">
+      <div class="details-field">
+        <mat-icon fontIcon="https"></mat-icon>
+        {{ data.cmp_naf_ape }} (NAF APE)
+      </div>
+      <div class="details-field">
+        <mat-icon fontIcon="article"></mat-icon>
+        {{ data.cmp_idcc }} (IDCC)
+      </div>
+      <div class="details-field">
+        <mat-icon fontIcon="fact_check"></mat-icon>
+        {{ data.cmp_convention }} (Convention)
+      </div>
+    </div>
+  </div>
+
+  <h3>Contact</h3>
+  <div class="details-recap">
+    <div class="left">
+      <div class="details-field">
+        <mat-icon fontIcon="phone"></mat-icon>
+        {{ data.cmp_phone }}
+      </div>
+      <div class="details-field">
+        <mat-icon fontIcon="email"></mat-icon>
+        {{ data.cmp_email }}
+      </div>
+    </div>
+    <div class="right">
+      <div class="details-field">
+        <mat-icon fontIcon="place"></mat-icon>
+        {{ data.cmp_address }}
+      </div>
+    </div>
+  </div>
+</div>

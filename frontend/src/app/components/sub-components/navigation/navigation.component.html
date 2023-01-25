@@ -27,7 +27,7 @@
         routerLink="/company-information"
         *ngIf="user.role === roleEnum.COMPANY"
         ><div>
-          <mat-icon matPrefix>home</mat-icon>Informations Entreprise
+          <mat-icon matPrefix>info</mat-icon>Informations entreprise
         </div></a
       >
       <!-- DOCUMENTS -->
@@ -49,9 +49,7 @@
       <a
         routerLink="/evaluations"
         *ngIf="
-          user.role !== roleEnum.COMPANY &&
-          user.role !== roleEnum.MENTOR &&
-          user.role !== roleEnum.TUTOR
+          user.role === roleEnum.APPRENTICE || user.role === roleEnum.ADMIN
         "
         ><div><mat-icon matPrefix>co_present</mat-icon>Livrables</div></a
       >

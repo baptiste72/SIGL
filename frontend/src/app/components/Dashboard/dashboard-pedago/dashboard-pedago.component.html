@@ -1,5 +1,48 @@
 <app-navigation>
   <div class="navigation-content">
     <div class="full-width"><h1>Dashboard Pédagogique</h1></div>
+
+    <form>
+      <mat-form-field class="full-width">
+        <mat-label>Sélectionnez un apprenti</mat-label>
+        <input
+          type="text"
+          matInput
+          [formControl]="myControl"
+          [matAutocomplete]="auto"
+        />
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          [displayWith]="displayFn"
+          (optionSelected)="onApprenticeChanged($event.option.value.id)"
+        >
+          <mat-option
+            *ngFor="let option of filteredOptions | async"
+            [value]="option"
+          >
+            {{ option.first_name }} {{ option.last_name }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </form>
+
+    <div class="app-div-full-width" *ngIf="hasLoaded">
+      <app-profile
+        class="app-full-width"
+        [apprenticeId]="apprenticeId"
+      ></app-profile>
+      <app-evaluations
+        class="app-full-width"
+        [apprenticeId]="apprenticeId"
+      ></app-evaluations>
+      <app-notes
+        class="app-full-width"
+        [apprenticeId]="apprenticeId"
+      ></app-notes>
+      <app-events
+        class="app-full-width"
+        [apprenticeId]="apprenticeId"
+      ></app-events>
+    </div>
   </div>
 </app-navigation>

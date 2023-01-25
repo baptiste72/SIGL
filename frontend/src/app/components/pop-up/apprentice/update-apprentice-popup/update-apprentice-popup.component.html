@@ -84,8 +84,13 @@
           Descriptif du poste fiche de poste détaillée des missions confiées
           dans le cadre du contrat d'apprentissage
         </h3>
-        <mat-form-field class="full-width" appearance="fill">
-          <input type="text" matInput formControlName="app_description" />
+        <mat-form-field class="example-full-width">
+          <mat-label>Description de la mission</mat-label>
+          <textarea
+            matInput
+            formControlName="app_description"
+            placeholder="L'apprenti sera amené à réaliser..."
+          ></textarea>
           <mat-hint
             >L'ESEO vérifiera l'adéquation des missions afférentes avec les
             objectifs du diplôme préparé.</mat-hint

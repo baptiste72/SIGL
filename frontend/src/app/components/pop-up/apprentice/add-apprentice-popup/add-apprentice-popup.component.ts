@@ -77,13 +77,11 @@ export class AddApprenticeInfoPopupComponent {
   public addApprentice(data: ApprenticeInfo) {
     this.apprenticeInfoService.add(data).subscribe({
       next: (v) => {
-        console.log('TOTO');
         this._snackBar.open("✔ Données de l'apprenti enregistrées ");
         this.closeDialog();
       },
       error: (err) => {
         console.log(err);
-        console.log(data);
         this._snackBar.open('❌ Une erreur est survenue');
       },
     });

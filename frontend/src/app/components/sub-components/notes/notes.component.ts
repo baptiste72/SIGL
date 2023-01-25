@@ -41,7 +41,7 @@ interface ExampleFlatNode {
   templateUrl: './notes.component.html',
   styleUrls: ['./notes.component.scss'],
 })
-export class NotesComponent implements OnInit, OnChanges {
+export class NotesComponent implements OnChanges {
   @Input() apprenticeId = '';
   public isAvailable = false;
   private notes: any;
@@ -92,25 +92,19 @@ export class NotesComponent implements OnInit, OnChanges {
     this.user = this.authService.userValue;
   }
 
-  ngOnInit(): void {
-    // Récupérer les notes en arborescence pour l'utilisateur
-    this.treeNotes(this.userId.toString());
-    this.note = {
-      title: 'Affichage de la Note Périodique',
-      text: 'Sélectionner une note',
-      id: '',
-      email: '',
-    };
-    console.log(history.state);
-    if (history.state['id'] != undefined) {
-      this.getNote(history.state['id']);
-    }
-  }
-
   ngOnChanges(changes: SimpleChanges) {
     for (let propName in changes) {
       let change = changes[propName];
       this.treeNotes(change.currentValue);
+      this.note = {
+        title: 'Affichage de la Note Périodique',
+        text: 'Sélectionner une note',
+        id: '',
+        email: '',
+      };
+      if (history.state['id'] != undefined) {
+        this.getNote(history.state['id']);
+      }
     }
   }
 
@@ -126,11 +120,9 @@ export class NotesComponent implements OnInit, OnChanges {
 
   public getNote(data: any) {
     this.isAvailable = true;
-    console.log(data);
     this.noteService.get(data).subscribe({
       next: (v) => {
         this.note = v;
-        console.log(this.note);
       },
       error: (err) => {
         this._snackBar.open('❌ Une erreur est survenue', 'Ok', {
@@ -167,7 +159,6 @@ export class NotesComponent implements OnInit, OnChanges {
       })
       .afterClosed()
       .subscribe((result) => {
-        console.log(result);
         if (result.event == 'ajout') {
           this.getNote(result.data.id);
         }

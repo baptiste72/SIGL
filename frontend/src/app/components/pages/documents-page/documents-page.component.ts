@@ -22,12 +22,12 @@ export class DocumentsPageComponent implements AfterViewInit, OnInit {
   public user: User;
   readonly roleEnum = Role;
   displayedColumns: string[] = [
+    'link',
     'name',
     'file_name',
     'user_first_name',
     'user_last_name',
     'yearGroup',
-    'link',
   ];
   dataSource: any;
   @ViewChild('documentPaginator') documentPaginator!: MatPaginator;

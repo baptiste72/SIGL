@@ -33,11 +33,12 @@ export class CompanyInformationComponent implements AfterViewInit {
     'app_last_name',
     'app_job_title',
     'app_phone',
+    'app_is_validate',
     'update',
   ];
 
   public dataSourceApprentices: MatTableDataSource<ApprenticeInfo>;
-  @ViewChild('apprenticePaginator') ApprenticePaginator!: MatPaginator;
+  @ViewChild('apprenticePaginator') apprenticePaginator!: MatPaginator;
 
   public displayedColumnsMentors: string[] = [
     'first_name',
@@ -48,12 +49,12 @@ export class CompanyInformationComponent implements AfterViewInit {
   ];
 
   public dataSourceMentors: MatTableDataSource<Mentor>;
-  @ViewChild('mentorPaginator') MentorPaginator!: MatPaginator;
+  @ViewChild('mentorPaginator') mentorPaginator!: MatPaginator;
 
   ngAfterViewInit(): void {
     this.getCompanyUser(this.authService.userValue.id);
-    this.dataSourceApprentices.paginator = this.ApprenticePaginator;
-    this.dataSourceMentors.paginator = this.MentorPaginator;
+    this.dataSourceApprentices.paginator = this.apprenticePaginator;
+    this.dataSourceMentors.paginator = this.mentorPaginator;
   }
 
   constructor(
@@ -84,7 +85,6 @@ export class CompanyInformationComponent implements AfterViewInit {
     switch ($event.tab.textLabel) {
       case 'apprentices':
         if (!this.hlApprentices) {
-          console.log('toto');
           this.loadApprentices();
         }
         break;
@@ -118,7 +118,7 @@ export class CompanyInformationComponent implements AfterViewInit {
           this.dataSourceApprentices = new MatTableDataSource<ApprenticeInfo>(
             apprenticeData
           );
-          this.dataSourceApprentices.paginator = this.ApprenticePaginator;
+          this.dataSourceApprentices.paginator = this.apprenticePaginator;
           this.hlApprentices = true;
         },
         error: (err) => {
@@ -135,7 +135,7 @@ export class CompanyInformationComponent implements AfterViewInit {
     this.mentorService.getAllByCompany(this.compUser.company_siret).subscribe({
       next: (mentorData) => {
         this.dataSourceMentors = new MatTableDataSource<Mentor>(mentorData);
-        this.dataSourceMentors.paginator = this.MentorPaginator;
+        this.dataSourceMentors.paginator = this.mentorPaginator;
         this.hlMentors = true;
       },
       error: (err) => {
@@ -158,7 +158,6 @@ export class CompanyInformationComponent implements AfterViewInit {
       .subscribe((shouldReload: boolean) => {
         this.loadApprentices();
       });
-    console.log('TUTU');
   }
 
   public openUpdateApprenticeInfoPopup(user: any) {

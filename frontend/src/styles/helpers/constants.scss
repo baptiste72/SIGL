@@ -6,6 +6,7 @@ $blue-violet-gradient2: linear-gradient(0deg, #6593f8 0%, #d300e6 80%);
 $white: white;
 $black: black;
 $red: #df0000ba;
+$yellow: #fff000ba;
 
 $purple: #b201c2;
 
@@ -25,48 +26,52 @@ $box-shadow-tertiary: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
   rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
 
 .purple {
-  color: $purple;
+  color: $purple !important;
+}
+
+.yellow {
+  color: $yellow !important;
 }
 
 .green {
-  color: $green;
+  color: $green !important;
 }
 
 .red {
-  color: $red;
+  color: $red !important;
 }
 
 .blue {
-  color: $blue;
+  color: $blue !important;
 }
 
 .bold {
-  font-weight: bold;
+  font-weight: bold !important;
 }
 
 .bg-red {
-  background-color: $red;
+  background-color: $red !important;
 }
 
 .bg-green {
-  background-color: $green;
+  background-color: $green !important;
 }
 
 .bg-blue {
-  background-color: $blue;
+  background-color: $blue !important;
 }
 
 .bg-gradient {
-  background: $blue-violet-gradient;
+  background: $blue-violet-gradient !important;
 }
 
 .bg-disable {
-  background: $grey;
+  background: $grey !important;
   cursor: default;
 }
 
 .bg-purple {
-  background-color: $purple;
+  background-color: $purple !important;
 }
 
 .margin-bottom-50 {
@@ -83,4 +88,8 @@ $box-shadow-tertiary: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
 
 .text-align-center {
   text-align: center;
+}
+
+.overflow-scroll {
+  overflow: scroll;
 }

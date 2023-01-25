@@ -5,7 +5,7 @@ import {
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import { YearGroupService } from '@app/services/year-group/year-group.service';
-import * as moment from 'moment';
+import moment from 'moment';
 
 @Component({
   selector: 'app-view-deadline-popup',
@@ -25,7 +25,6 @@ export class ViewDeadlinePopupComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.mydata);
     this.yearGroupService.getAll().subscribe((yearGroups) => {
       this.yearGroups = yearGroups;
     });

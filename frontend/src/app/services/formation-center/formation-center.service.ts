@@ -30,9 +30,12 @@ export class FormationCenterService {
     return this.http.delete(`${environment.apiUrl}/${this.urlPrefix}/${id}`);
   }
 
-  public update(formationCenter: FormationCenter): Observable<FormationCenter> {
+  public update(
+    formationCenter: FormationCenter,
+    id: number
+  ): Observable<FormationCenter> {
     return this.http.put<FormationCenter>(
-      `${environment.apiUrl}/${this.urlPrefix}/${formationCenter.id}`,
+      `${environment.apiUrl}/${this.urlPrefix}/${id}`,
       formationCenter
     );
   }

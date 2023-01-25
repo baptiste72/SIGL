@@ -21,6 +21,7 @@ frontend/node_modules/__ngcc_entry_points__.json
 *.launch
 .settings/
 *.sublime-workspace
+*.mp4
 
 # Visual Studio Code
 .vscode/*
@@ -39,7 +40,7 @@ frontend/node_modules/__ngcc_entry_points__.json
 testem.log
 /typings
 package-lock.json
-/test
+/test-reports
 
 # System files
 .DS_Store

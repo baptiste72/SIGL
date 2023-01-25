@@ -109,7 +109,7 @@ export class UpdateTeamPopupComponent implements OnInit {
         .update(this.updateTeamForm.value, this.data.id)
         .subscribe({
           next: (v) => {
-            this._snackBar.open('Equipe pédagohique modifiée', 'Ok', {
+            this._snackBar.open('Equipe pédagogique modifiée', 'Ok', {
               duration: 2000,
             });
             this.closeDialog();

@@ -1,10 +1,18 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { ConfirmDeleteComponent } from '@app/components/pop-up/confirm-delete/confirm-delete.component';
 import { AddEvaluationPopupComponent } from '@app/components/pop-up/evaluation/add-evaluation-popup/add-evaluation-popup.component';
+import { NoteEvaluationPopupComponent } from '@app/components/pop-up/evaluation/note-evaluation-popup/note-evaluation-popup.component';
 import { UpdateEvaluationPopupComponent } from '@app/components/pop-up/evaluation/update-evaluation-popup/update-evaluation-popup.component';
 import { Role } from '@app/helpers/utilities';
 import { Evaluation } from '@app/models/Evaluation';
@@ -18,7 +26,8 @@ import { lastValueFrom } from 'rxjs';
   templateUrl: './evaluations.component.html',
   styleUrls: ['./evaluations.component.scss'],
 })
-export class EvaluationsComponent implements OnInit {
+export class EvaluationsComponent implements OnChanges {
+  @Input() apprenticeId;
   public user: User;
   readonly roleEnum = Role;
   public displayedColumns: string[] = [
@@ -30,10 +39,12 @@ export class EvaluationsComponent implements OnInit {
     'evaluation-name',
     'owner',
     'promotion',
-    'note'
+    'note',
   ];
   dataSource: any;
   @ViewChild('documentPaginator') documentPaginator!: MatPaginator;
+
+  @Input() adminView: boolean = false;
 
   constructor(
     public dialog: MatDialog,
@@ -46,8 +57,8 @@ export class EvaluationsComponent implements OnInit {
     this.user = this.authService.userValue;
   }
 
-  ngOnInit() {
-    this.getEvaluations();
+  ngOnChanges(changes: SimpleChanges) {
+    this.getEvaluations(changes['apprenticeId'].currentValue);
   }
 
   public async deleteEvaluationById(id: any) {
@@ -57,7 +68,7 @@ export class EvaluationsComponent implements OnInit {
     if (shouldDelete) {
       this.evaluationService.delete(id).subscribe({
         next: (v) => {
-          this.getEvaluations();
+          this.getEvaluations(this.apprenticeId);
         },
         error: (err) => {
           this._snackBar.open(
@@ -77,7 +88,7 @@ export class EvaluationsComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((shouldReload: boolean) => {
-        this.getEvaluations();
+        this.getEvaluations(this.apprenticeId);
       });
   }
 
@@ -89,13 +100,25 @@ export class EvaluationsComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((shouldReload: boolean) => {
-        this.getEvaluations();
+        this.getEvaluations(this.apprenticeId);
       });
   }
 
-  private getEvaluations() {
-    if (this.user.role == this.roleEnum.APPRENTICE) {
-      this.evaluationService.getByOwner(this.user.id).subscribe({
+  public openNoteEvaluationPopup(evaluation: any) {
+    this.dialog
+      .open(NoteEvaluationPopupComponent, {
+        width: '600px',
+        data: evaluation,
+      })
+      .afterClosed()
+      .subscribe((shouldReload: boolean) => {
+        this.getEvaluations(this.apprenticeId);
+      });
+  }
+
+  private getEvaluations(apprenticeId: number) {
+    if (this.adminView) {
+      this.evaluationService.getAll().subscribe({
         next: (evaluations) => {
           this.dataSource = new MatTableDataSource<Evaluation>(evaluations);
         },
@@ -108,7 +131,7 @@ export class EvaluationsComponent implements OnInit {
         },
       });
     } else {
-      this.evaluationService.getAll().subscribe({
+      this.evaluationService.getByOwner(apprenticeId).subscribe({
         next: (evaluations) => {
           this.dataSource = new MatTableDataSource<Evaluation>(evaluations);
         },
