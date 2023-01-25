@@ -5,7 +5,6 @@ services:
     container_name: angular
     ports:
       - "80:4200"
-      - "9876:9876"
     volumes:
       - ./../../frontend:/sigl
       - node_modules:/sigl/node_modules

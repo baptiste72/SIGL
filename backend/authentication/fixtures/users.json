@@ -1,0 +1,116 @@
+[
+{
+   "model":"authtoken.token",
+   "pk":"a3cdfc40f93cc7eb454adc827669a09214ca05a6",
+   "fields":{
+      "user":3,
+      "created":"2023-01-20T12:34:06.738Z"
+   }
+},
+{
+   "model":"authtoken.token",
+   "pk":"ded79b30f131fae5f21e1341734357d3ba8032d6",
+   "fields":{
+      "user":1,
+      "created":"2023-01-20T12:17:46.727Z"
+   }
+},
+{
+   "model":"base.formationcenter",
+   "pk":1,
+   "fields":{
+      "worded":"ESEO",
+      "city":"Angers",
+      "postal_code":"49100",
+      "address":"10 Boulevard Jeanneteau"
+   }
+},
+{
+   "model":"base.tutor",
+   "pk":4,
+   "fields":{
+      "formationCenter":1
+   }
+},
+{
+   "model":"base.yeargroup",
+   "pk":1,
+   "fields":{
+      "worded":"Noether",
+      "beginDate":"2020-09-19T22:00:00Z"
+   }
+},
+{
+   "model":"base.apprentice",
+   "pk":3,
+   "fields":{
+      "yearGroup":1
+   }
+},
+{
+   "model":"authentication.user",
+   "pk":1,
+   "fields":{
+      "last_login":null,
+      "is_superuser":false,
+      "first_name":"Admin",
+      "last_name":"SIGL",
+      "is_staff":false,
+      "is_active":true,
+      "date_joined":"2023-01-20T09:46:20.581Z",
+      "email":"contact@projet-sigl.fr",
+      "password":"pbkdf2_sha256$390000$uu22KhrgDY7E5f8PYTNUOc$B03+RJ3OoM7ZUfhvel9YR+vckcjQmi8mHOVZDc5LokU=",
+      "role":"ADMIN",
+      "groups":[
+         
+      ],
+      "user_permissions":[
+         
+      ]
+   }
+},
+{
+   "model":"authentication.user",
+   "pk":3,
+   "fields":{
+      "last_login":null,
+      "is_superuser":false,
+      "first_name":"Alexandre",
+      "last_name":"Nizery",
+      "is_staff":false,
+      "is_active":true,
+      "date_joined":"2023-01-20T12:20:35.489Z",
+      "email":"alexandre.nizery@reseau.eseo.fr",
+      "password":"pbkdf2_sha256$390000$uu22KhrgDY7E5f8PYTNUOc$B03+RJ3OoM7ZUfhvel9YR+vckcjQmi8mHOVZDc5LokU=",
+      "role":"APPRENTICE",
+      "groups":[
+         
+      ],
+      "user_permissions":[
+         
+      ]
+   }
+},
+{
+   "model":"authentication.user",
+   "pk":4,
+   "fields":{
+      "last_login":null,
+      "is_superuser":false,
+      "first_name":"Simon",
+      "last_name":"Ménard",
+      "is_staff":false,
+      "is_active":true,
+      "date_joined":"2023-01-20T12:25:05.360Z",
+      "email":"simon.menard@reseau.eseo.fr",
+      "password":"pbkdf2_sha256$390000$uu22KhrgDY7E5f8PYTNUOc$B03+RJ3OoM7ZUfhvel9YR+vckcjQmi8mHOVZDc5LokU=",
+      "role":"TUTOR",
+      "groups":[
+         
+      ],
+      "user_permissions":[
+         
+      ]
+   }
+}
+]

@@ -7,7 +7,7 @@ import { ApprenticeService } from '@app/services/apprentice/apprentice.service';
 import { InterviewService } from '@app/services/interview/interview.service';
 import { TutorTeamService } from '@app/services/tutor-team/tutor-team.service';
 import { UserService } from '@app/services/user/user.service';
-import * as moment from 'moment';
+import moment from 'moment';
 import { NgForm, FormControl, Validators } from '@angular/forms';
 
 interface Attendees {

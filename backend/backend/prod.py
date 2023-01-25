@@ -4,6 +4,8 @@ SECRET_KEY = "97c4!rh&nner038oh)d&*o*by@=(#mgw4iy5(flk#2@eg-r#+f"
 
 DEBUG = False
 
+ALLOWED_HOSTS = ["projet-sigl.fr"]
+
 CORS_ORIGIN_WHITELIST = ("https://projet-sigl.fr",)
 
 MICROSOFT_GRAPH = {

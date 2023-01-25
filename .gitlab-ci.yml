@@ -50,16 +50,12 @@ test-angular:
   needs: ["build-angular"]
   <<: *install-node-modules
   script:
-    - ng test --watch=false
-  coverage: '/^Statements\s*:\s*([^%]+)/'
+    - npm test
   artifacts:
     when: always
     reports:
       junit:
-        - frontend/test/junit.xml
-      coverage_report:
-        coverage_format: cobertura
-        path: frontend/coverage/frontend/cobertura-coverage.xml
+        - frontend/test-reports/junit.xml
   allow_failure: true
 
 deploy-to-prod:
@@ -75,9 +71,8 @@ deploy-to-prod:
     - chmod 644 ~/.ssh/known_hosts
   script:
     - ssh -p 2222 sigl@projet-sigl.fr 'source .zshrc
-        && rm -rf sigl
-        && git clone git@gitlab.com:baptiste72/sigl.git
         && cd sigl/docker/prod
+        && git pull
         && echo -e "DJANGO_SUPERUSER_EMAIL=${DJANGO_SUPERUSER_EMAIL}\n
                     DJANGO_SUPERUSER_PASSWORD=${DJANGO_SUPERUSER_PASSWORD}\n
                     DJANGO_DB=${DJANGO_DB}\n
