@@ -1,5 +1,6 @@
 import { Browser, BrowserContext, Page, chromium } from 'playwright';
-import { saveVideo } from 'playwright-video'
+import { saveVideo } from 'playwright-video';
+import master from './master.json';
 
 describe('Tests - Coordinateur - CRUD User Compte Entreprise', () => {
 
@@ -57,50 +58,64 @@ describe('Tests - Coordinateur - CRUD User Compte Entreprise', () => {
     });
 
     test("Devrait créer un User avec le rôle Compte Entreprise", async () => {
-      let nom_user = 'CHAUVELIER';
-      let prenom_user = 'Baptiste';
-      let email_user = 'baptiste.chauvelier@reseau.eseo.fr';
-
-      // Clique sur le bouton d'ajout d'un user
-      await page.click('xpath=/html/body/app-root/ng-component/app-navigation/mat-drawer-container/mat-drawer-content/mat-tab-group/div/mat-tab-body[1]/div/div/mat-card/mat-card-content/div[1]/button');
-      await page.waitForTimeout(1000);
-
-      // Rempli le formulaire
-      // Role dropdown menu
-      await page.click('xpath=/html/body/div[2]/div[2]/div/mat-dialog-container/div/div/app-add-user-popup/div[2]/div[1]/mat-form-field/div[1]');
-      await page.waitForTimeout(1000);
-      // Remplissage d'un tableau d'éléments mat-option
-      let options = await page.locator('div > mat-option');
-      // Parcours du tableau
-      for (let i = 0; i < await options.count(); i++) {
-        // Récupération du texte de l'élément
-        const text = await (await options.nth(i)).innerText();
-        // Si le texte correspond à l'élément recherché
-        if (text === 'Compte Entreprise') {
-          // Clique sur l'élément
-          await (await options.nth(i)).click();
-          break;
-        }
+      interface user_compte_entreprise {
+        nom: string,
+        prenom: string,
+        email: string,
       }
+      const result: user_compte_entreprise[] = [];
 
-      // Nom / Prenom / Email
-      await page.fill('xpath=/html/body/div[2]/div[2]/div/mat-dialog-container/div/div/app-add-user-popup/div[2]/div[2]/mat-form-field/div[1]/div[2]/div/input', nom_user);
-      await page.fill('xpath=/html/body/div[2]/div[2]/div/mat-dialog-container/div/div/app-add-user-popup/div[2]/div[3]/mat-form-field/div[1]/div[2]/div/input', prenom_user);
-      await page.fill('xpath=/html/body/div[2]/div[2]/div/mat-dialog-container/div/div/app-add-user-popup/div[2]/div[4]/mat-form-field/div[1]/div[2]/div/input', email_user);
+      master.forEach(element => {
+        let newUser: user_compte_entreprise = {
+          nom: element.nom,
+          prenom: element.prenom,
+          email: element.email,
+        };
+        result.push(newUser);
+      });
 
-      // Clique sur le bouton d'ajout
-      await page.locator('xpath=/html/body/div[2]/div[2]/div/mat-dialog-container/div/div/app-add-user-popup/div[3]/button[1]').click();
-      await page.waitForTimeout(1000);
+      for (let i = 0; i < result.length; i++) {
 
+        // Clique sur le bouton d'ajout d'un user
+        await page.click('xpath=/html/body/app-root/ng-component/app-navigation/mat-drawer-container/mat-drawer-content/mat-tab-group/div/mat-tab-body[1]/div/div/mat-card/mat-card-content/div[1]/button');
+        await page.waitForTimeout(1000);
+
+        // Rempli le formulaire
+        // Role dropdown menu
+        await page.click('xpath=/html/body/div[2]/div[2]/div/mat-dialog-container/div/div/app-add-user-popup/div[2]/div[1]/mat-form-field/div[1]');
+        await page.waitForTimeout(1000);
+        // Remplissage d'un tableau d'éléments mat-option
+        let options = await page.locator('div > mat-option');
+        // Parcours du tableau
+        for (let i = 0; i < await options.count(); i++) {
+          // Récupération du texte de l'élément
+          const text = await (await options.nth(i)).innerText();
+          // Si le texte correspond à l'élément recherché
+          if (text === 'Compte Entreprise') {
+            // Clique sur l'élément
+            await (await options.nth(i)).click();
+            break;
+          }
+        }
+
+        // Nom / Prenom / Email
+        await page.fill('xpath=/html/body/div[2]/div[2]/div/mat-dialog-container/div/div/app-add-user-popup/div[2]/div[2]/mat-form-field/div[1]/div[2]/div/input', result[i].nom);
+        await page.fill('xpath=/html/body/div[2]/div[2]/div/mat-dialog-container/div/div/app-add-user-popup/div[2]/div[3]/mat-form-field/div[1]/div[2]/div/input', result[i].prenom);
+        await page.fill('xpath=/html/body/div[2]/div[2]/div/mat-dialog-container/div/div/app-add-user-popup/div[2]/div[4]/mat-form-field/div[1]/div[2]/div/input', result[i].email);
+
+        // Clique sur le bouton d'ajout
+        await page.locator('xpath=/html/body/div[2]/div[2]/div/mat-dialog-container/div/div/app-add-user-popup/div[3]/button[1]').click();
+        await page.waitForTimeout(1000);
+      }
       // Vérifie que l'user a bien été ajouté
       const rows = await page.locator('tbody > tr');
       for(let i = 0; i <= await rows.count(); i++) {
         const row = await rows.nth(i);
         const name = await row.innerText();
-        if(name.match(nom_user)) {
-          expect(name.match(nom_user));
-          expect(name.match(prenom_user));
-          expect(name.match(email_user));
+        if(name.match(result[0].nom)) {
+          expect(name.match(result[0].nom));
+          expect(name.match(result[0].prenom));
+          expect(name.match(result[0].email));
           break;
         }
       }

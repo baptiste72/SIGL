@@ -109,8 +109,6 @@ describe('Tests - Compte Entreprise - CRUD Entreprise', () => {
       await page.waitForTimeout(5000);
     });
 
-
-
     afterAll(async () => {
       await capture.stop();
       // Clique sur le bouton du menu Déconnexion

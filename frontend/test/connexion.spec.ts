@@ -1,4 +1,4 @@
-import { Browser, BrowserContext, Page, chromium } from 'playwright';
+import { Browser, BrowserContext, Page, chromium } from "playwright";
 
 describe('Connexion User', () => {
 
@@ -19,6 +19,7 @@ describe('Connexion User', () => {
     test("Devrait connecter l'utilisateur", async () => {
       const user = 'contact@projet-sigl.fr'
       const password = 'oHO98*s1mPli'
+
       await page.focus('input[type="email"]');
       await page.fill('input[type="email"]', user);
       await page.press('input[type="email"]', 'Tab');
@@ -30,7 +31,7 @@ describe('Connexion User', () => {
 
       const text = await (await page.locator('.profile')).innerText();
 
-      //console.log(text);
+      console.log(text);
       expect(text.match("Admin SIGL"));
     })
 

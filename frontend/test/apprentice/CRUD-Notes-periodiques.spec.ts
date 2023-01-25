@@ -33,7 +33,6 @@ describe('Tests - Apprentis -  notes periodiques', () => {
     })
 
     test("Devrait pouvoir créer une note périodique", async () => {
-
       // Définition des variables de la note
       const nom_note = 'Note de test';
       const description_note = 'Description de la note de test';

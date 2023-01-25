@@ -1,0 +1,716 @@
+[
+    {
+       "model":"base.company",
+       "pk":"123456789",
+       "fields":{
+          "cmp_name":"SAFRAN ELECTRONICS & DEFENSE ",
+          "cmp_address":" 12 rue Colbert 35306 FOUGÈRES",
+          "cmp_employees":10,
+          "cmp_cpne":15445,
+          "cmp_idcc":1513215,
+          "cmp_convention":"Syntec",
+          "cmp_naf_ape":"N\/A",
+          "cmp_work_field":"Ingénierie",
+          "cmp_phone":606060606,
+          "cmp_email":"business@service.fr",
+          "cmp_internat":"Lu et approuvé"
+       }
+    },
+    {
+       "model":"base.company",
+       "pk":"123456790",
+       "fields":{
+          "cmp_name":"EOLANE",
+          "cmp_address":"ZA de l'Ombrée, Boulevard Jean-Baptiste Colbert, Combrée, 49520 OMBREE D'ANJOU",
+          "cmp_employees":10,
+          "cmp_cpne":15446,
+          "cmp_idcc":1513216,
+          "cmp_convention":"Syntec",
+          "cmp_naf_ape":"N\/A",
+          "cmp_work_field":"Ingénierie",
+          "cmp_phone":606060607,
+          "cmp_email":"business@service.fr",
+          "cmp_internat":"Lu et approuvé"
+       }
+    },
+    {
+       "model":"base.company",
+       "pk":"123456791",
+       "fields":{
+          "cmp_name":"ATLANTIC INDUSTRIE ",
+          "cmp_address":" Rue Monge ZI Nord 85000 LA ROCHE SUR YON",
+          "cmp_employees":10,
+          "cmp_cpne":15447,
+          "cmp_idcc":1513217,
+          "cmp_convention":"Syntec",
+          "cmp_naf_ape":"N\/A",
+          "cmp_work_field":"Ingénierie",
+          "cmp_phone":606060608,
+          "cmp_email":"business@service.fr",
+          "cmp_internat":"Lu et approuvé"
+       }
+    },
+    {
+       "model":"base.company",
+       "pk":"123456792",
+       "fields":{
+          "cmp_name":"EDF ",
+          "cmp_address":" 14 rue Mariotte 44300 NANTES",
+          "cmp_employees":10,
+          "cmp_cpne":15448,
+          "cmp_idcc":1513218,
+          "cmp_convention":"Syntec",
+          "cmp_naf_ape":"N\/A",
+          "cmp_work_field":"Ingénierie",
+          "cmp_phone":606060609,
+          "cmp_email":"business@service.fr",
+          "cmp_internat":"Lu et approuvé"
+       }
+    },
+    {
+       "model":"base.company",
+       "pk":"123456793",
+       "fields":{
+          "cmp_name":"THALES SIX GTS ",
+          "cmp_address":" 110 avenue Maréchal Leclerc 49309 CHOLET",
+          "cmp_employees":10,
+          "cmp_cpne":15449,
+          "cmp_idcc":1513219,
+          "cmp_convention":"Syntec",
+          "cmp_naf_ape":"N\/A",
+          "cmp_work_field":"Ingénierie",
+          "cmp_phone":606060610,
+          "cmp_email":"business@service.fr",
+          "cmp_internat":"Lu et approuvé"
+       }
+    },
+    {
+       "model":"base.company",
+       "pk":"123456794",
+       "fields":{
+          "cmp_name":"THALES DMS ",
+          "cmp_address":" 2 avenue Gay - Lussac 78851 ELANCOURT",
+          "cmp_employees":10,
+          "cmp_cpne":15450,
+          "cmp_idcc":1513220,
+          "cmp_convention":"Syntec",
+          "cmp_naf_ape":"N\/A",
+          "cmp_work_field":"Ingénierie",
+          "cmp_phone":606060611,
+          "cmp_email":"business@service.fr",
+          "cmp_internat":"Lu et approuvé"
+       }
+    },
+    {
+       "model":"base.company",
+       "pk":"123456795",
+       "fields":{
+          "cmp_name":"ASTEELFLASH ",
+          "cmp_address":" 36 rue de Renac 35660 LANGON",
+          "cmp_employees":10,
+          "cmp_cpne":15451,
+          "cmp_idcc":1513221,
+          "cmp_convention":"Syntec",
+          "cmp_naf_ape":"N\/A",
+          "cmp_work_field":"Ingénierie",
+          "cmp_phone":606060612,
+          "cmp_email":"business@service.fr",
+          "cmp_internat":"Lu et approuvé"
+       }
+    },
+    {
+       "model":"base.company",
+       "pk":"123456796",
+       "fields":{
+          "cmp_name":"LACME ",
+          "cmp_address":" Route du Lude 72200 LA FLECHE",
+          "cmp_employees":10,
+          "cmp_cpne":15452,
+          "cmp_idcc":1513222,
+          "cmp_convention":"Syntec",
+          "cmp_naf_ape":"N\/A",
+          "cmp_work_field":"Ingénierie",
+          "cmp_phone":606060613,
+          "cmp_email":"business@service.fr",
+          "cmp_internat":"Lu et approuvé"
+       }
+    },
+    {
+       "model":"base.company",
+       "pk":"123456797",
+       "fields":{
+          "cmp_name":"SCR INFORMATIQUES ",
+          "cmp_address":" ZI du Bignon 44110 ERBRAY",
+          "cmp_employees":10,
+          "cmp_cpne":15453,
+          "cmp_idcc":1513223,
+          "cmp_convention":"Syntec",
+          "cmp_naf_ape":"N\/A",
+          "cmp_work_field":"Ingénierie",
+          "cmp_phone":606060614,
+          "cmp_email":"business@service.fr",
+          "cmp_internat":"Lu et approuvé"
+       }
+    },
+    {
+       "model":"base.company",
+       "pk":"123456798",
+       "fields":{
+          "cmp_name":"RCA ",
+          "cmp_address":" 7 rue Jacques Brel -  Les reflets bâtiment B -  44800 SAINT HERBLAIN",
+          "cmp_employees":10,
+          "cmp_cpne":15454,
+          "cmp_idcc":1513224,
+          "cmp_convention":"Syntec",
+          "cmp_naf_ape":"N\/A",
+          "cmp_work_field":"Ingénierie",
+          "cmp_phone":606060615,
+          "cmp_email":"business@service.fr",
+          "cmp_internat":"Lu et approuvé"
+       }
+    },
+    {
+       "model":"base.company",
+       "pk":"123456799",
+       "fields":{
+          "cmp_name":"MGEN TECHNOLOGIES ",
+          "cmp_address":" 41 RUE DE BONNE NOUVELLE -  37100 TOURS",
+          "cmp_employees":10,
+          "cmp_cpne":15455,
+          "cmp_idcc":1513225,
+          "cmp_convention":"Syntec",
+          "cmp_naf_ape":"N\/A",
+          "cmp_work_field":"Ingénierie",
+          "cmp_phone":606060616,
+          "cmp_email":"business@service.fr",
+          "cmp_internat":"Lu et approuvé"
+       }
+    },
+    {
+       "model":"base.company",
+       "pk":"123456800",
+       "fields":{
+          "cmp_name":"THALES SIX GTS ",
+          "cmp_address":" 110 avenue Maréchal Leclerc 49309 CHOLET",
+          "cmp_employees":10,
+          "cmp_cpne":15456,
+          "cmp_idcc":1513226,
+          "cmp_convention":"Syntec",
+          "cmp_naf_ape":"N\/A",
+          "cmp_work_field":"Ingénierie",
+          "cmp_phone":606060617,
+          "cmp_email":"business@service.fr",
+          "cmp_internat":"Lu et approuvé"
+       }
+    },
+    {
+       "model":"base.company",
+       "pk":"123456801",
+       "fields":{
+          "cmp_name":"THALES SIX GTS ",
+          "cmp_address":" 110 avenue Maréchal Leclerc 49309 CHOLET",
+          "cmp_employees":10,
+          "cmp_cpne":15457,
+          "cmp_idcc":1513227,
+          "cmp_convention":"Syntec",
+          "cmp_naf_ape":"N\/A",
+          "cmp_work_field":"Ingénierie",
+          "cmp_phone":606060618,
+          "cmp_email":"business@service.fr",
+          "cmp_internat":"Lu et approuvé"
+       }
+    },
+    {
+       "model":"base.company",
+       "pk":"123456802",
+       "fields":{
+          "cmp_name":"HITACHI ",
+          "cmp_address":" Parc d'activités Angers -  St barthélémy d'Anjou 49180 SAINT BARTHELEMY D'ANJOU",
+          "cmp_employees":10,
+          "cmp_cpne":15458,
+          "cmp_idcc":1513228,
+          "cmp_convention":"Syntec",
+          "cmp_naf_ape":"N\/A",
+          "cmp_work_field":"Ingénierie",
+          "cmp_phone":606060619,
+          "cmp_email":"business@service.fr",
+          "cmp_internat":"Lu et approuvé"
+       }
+    },
+    {
+       "model":"base.company",
+       "pk":"123456803",
+       "fields":{
+          "cmp_name":"USS SENSIVIC ",
+          "cmp_address":" Le LAB'O Avenue du Champ de Mars 45074 ORLÉANS",
+          "cmp_employees":10,
+          "cmp_cpne":15459,
+          "cmp_idcc":1513229,
+          "cmp_convention":"Syntec",
+          "cmp_naf_ape":"N\/A",
+          "cmp_work_field":"Ingénierie",
+          "cmp_phone":606060620,
+          "cmp_email":"business@service.fr",
+          "cmp_internat":"Lu et approuvé"
+       }
+    },
+    {
+       "model":"base.company",
+       "pk":"123456804",
+       "fields":{
+          "cmp_name":"BRIOCHE PASQUIER ",
+          "cmp_address":" Route d'Yzernay 49360 LES CERQUEUX",
+          "cmp_employees":10,
+          "cmp_cpne":15460,
+          "cmp_idcc":1513230,
+          "cmp_convention":"Syntec",
+          "cmp_naf_ape":"N\/A",
+          "cmp_work_field":"Ingénierie",
+          "cmp_phone":606060621,
+          "cmp_email":"business@service.fr",
+          "cmp_internat":"Lu et approuvé"
+       }
+    },
+    {
+       "model":"base.company",
+       "pk":"123456805",
+       "fields":{
+          "cmp_name":"TECHNIQUE SOLAIRE PRESTATIONS ",
+          "cmp_address":" 26 rue Annet Segeron 86580 BIARD",
+          "cmp_employees":10,
+          "cmp_cpne":15461,
+          "cmp_idcc":1513231,
+          "cmp_convention":"Syntec",
+          "cmp_naf_ape":"N\/A",
+          "cmp_work_field":"Ingénierie",
+          "cmp_phone":606060622,
+          "cmp_email":"business@service.fr",
+          "cmp_internat":"Lu et approuvé"
+       }
+    },
+    {
+       "model":"base.company",
+       "pk":"123456806",
+       "fields":{
+          "cmp_name":"NWS-TECH",
+          "cmp_address":"16 chemin de la Reine Blanche 21130 AUXONNE",
+          "cmp_employees":10,
+          "cmp_cpne":15462,
+          "cmp_idcc":1513232,
+          "cmp_convention":"Syntec",
+          "cmp_naf_ape":"N\/A",
+          "cmp_work_field":"Ingénierie",
+          "cmp_phone":606060623,
+          "cmp_email":"business@service.fr",
+          "cmp_internat":"Lu et approuvé"
+       }
+    },
+    {
+       "model":"base.company",
+       "pk":"123456807",
+       "fields":{
+          "cmp_name":"MGI CONSULTANTS SUD OUEST \/ THALES ALENIA SPACE ",
+          "cmp_address":" 26 Avenue Jean François Champollion 31100 TOULOUSE",
+          "cmp_employees":10,
+          "cmp_cpne":15463,
+          "cmp_idcc":1513233,
+          "cmp_convention":"Syntec",
+          "cmp_naf_ape":"N\/A",
+          "cmp_work_field":"Ingénierie",
+          "cmp_phone":606060624,
+          "cmp_email":"business@service.fr",
+          "cmp_internat":"Lu et approuvé"
+       }
+    },
+    {
+       "model":"base.company",
+       "pk":"123456808",
+       "fields":{
+          "cmp_name":"THALES SIX GTS ",
+          "cmp_address":" 110 avenue Maréchal Leclerc 49309 CHOLET",
+          "cmp_employees":10,
+          "cmp_cpne":15464,
+          "cmp_idcc":1513234,
+          "cmp_convention":"Syntec",
+          "cmp_naf_ape":"N\/A",
+          "cmp_work_field":"Ingénierie",
+          "cmp_phone":606060625,
+          "cmp_email":"business@service.fr",
+          "cmp_internat":"Lu et approuvé"
+       }
+    },
+    {
+       "model":"base.company",
+       "pk":"123456809",
+       "fields":{
+          "cmp_name":"CENTRALESUPELEC EXED ",
+          "cmp_address":" 3 rue Joliot Curie 91190 GIF – SUR – YVETTE ",
+          "cmp_employees":10,
+          "cmp_cpne":15465,
+          "cmp_idcc":1513235,
+          "cmp_convention":"Syntec",
+          "cmp_naf_ape":"N\/A",
+          "cmp_work_field":"Ingénierie",
+          "cmp_phone":606060626,
+          "cmp_email":"business@service.fr",
+          "cmp_internat":"Lu et approuvé"
+       }
+    },
+    {
+       "model":"base.company",
+       "pk":"123456810",
+       "fields":{
+          "cmp_name":"SOCOMEC ",
+          "cmp_address":"14 Rue de Westhouse 67235 BENFELD ",
+          "cmp_employees":10,
+          "cmp_cpne":15466,
+          "cmp_idcc":1513236,
+          "cmp_convention":"Syntec",
+          "cmp_naf_ape":"N\/A",
+          "cmp_work_field":"Ingénierie",
+          "cmp_phone":606060627,
+          "cmp_email":"business@service.fr",
+          "cmp_internat":"Lu et approuvé"
+       }
+    },
+    {
+       "model":"base.company",
+       "pk":"123456811",
+       "fields":{
+          "cmp_name":"SCHEIBER ",
+          "cmp_address":" 2 Bellevue 85120 SAINT PIERRE DU CHEMIN",
+          "cmp_employees":10,
+          "cmp_cpne":15467,
+          "cmp_idcc":1513237,
+          "cmp_convention":"Syntec",
+          "cmp_naf_ape":"N\/A",
+          "cmp_work_field":"Ingénierie",
+          "cmp_phone":606060628,
+          "cmp_email":"business@service.fr",
+          "cmp_internat":"Lu et approuvé"
+       }
+    },
+    {
+       "model":"base.company",
+       "pk":"123456812",
+       "fields":{
+          "cmp_name":"LACROIX SOFREL ",
+          "cmp_address":" 2 rue du plessis 35770 VERN SUR SEICHE",
+          "cmp_employees":10,
+          "cmp_cpne":15468,
+          "cmp_idcc":1513238,
+          "cmp_convention":"Syntec",
+          "cmp_naf_ape":"N\/A",
+          "cmp_work_field":"Ingénierie",
+          "cmp_phone":606060629,
+          "cmp_email":"business@service.fr",
+          "cmp_internat":"Lu et approuvé"
+       }
+    },
+    {
+       "model":"base.company",
+       "pk":"123456813",
+       "fields":{
+          "cmp_name":"SCHEIBER ",
+          "cmp_address":" 117 Rue Jacques Yves Cousteau 85000 MOUILLERON LE CAPTIF",
+          "cmp_employees":10,
+          "cmp_cpne":15469,
+          "cmp_idcc":1513239,
+          "cmp_convention":"Syntec",
+          "cmp_naf_ape":"N\/A",
+          "cmp_work_field":"Ingénierie",
+          "cmp_phone":606060630,
+          "cmp_email":"business@service.fr",
+          "cmp_internat":"Lu et approuvé"
+       }
+    },
+    {
+       "model":"base.company",
+       "pk":"123456814",
+       "fields":{
+          "cmp_name":"CAPGEMINI TECHNOLOGY SERVICES ",
+          "cmp_address":" 4 bis rue Emile Zola -  37000 TOURS",
+          "cmp_employees":10,
+          "cmp_cpne":15470,
+          "cmp_idcc":1513240,
+          "cmp_convention":"Syntec",
+          "cmp_naf_ape":"N\/A",
+          "cmp_work_field":"Ingénierie",
+          "cmp_phone":606060631,
+          "cmp_email":"business@service.fr",
+          "cmp_internat":"Lu et approuvé"
+       }
+    },
+    {
+       "model":"base.company",
+       "pk":"123456815",
+       "fields":{
+          "cmp_name":"VALEO VISION ",
+          "cmp_address":" 26 boulevard de l'industrie 49000 ECOUFLANT",
+          "cmp_employees":10,
+          "cmp_cpne":15471,
+          "cmp_idcc":1513241,
+          "cmp_convention":"Syntec",
+          "cmp_naf_ape":"N\/A",
+          "cmp_work_field":"Ingénierie",
+          "cmp_phone":606060632,
+          "cmp_email":"business@service.fr",
+          "cmp_internat":"Lu et approuvé"
+       }
+    },
+    {
+       "model":"base.company",
+       "pk":"123456816",
+       "fields":{
+          "cmp_name":"MBDA ",
+          "cmp_address":" 1 avenue Réaumur 92358 LE PLESSIS ROBINSON",
+          "cmp_employees":10,
+          "cmp_cpne":15472,
+          "cmp_idcc":1513242,
+          "cmp_convention":"Syntec",
+          "cmp_naf_ape":"N\/A",
+          "cmp_work_field":"Ingénierie",
+          "cmp_phone":606060633,
+          "cmp_email":"business@service.fr",
+          "cmp_internat":"Lu et approuvé"
+       }
+    },
+    {
+       "model":"base.company",
+       "pk":"123456817",
+       "fields":{
+          "cmp_name":"EDF CNPE DE PALUEL ",
+          "cmp_address":"Hameau de, Conteville FR, 76450 CANY-BARVILLE",
+          "cmp_employees":10,
+          "cmp_cpne":15473,
+          "cmp_idcc":1513243,
+          "cmp_convention":"Syntec",
+          "cmp_naf_ape":"N\/A",
+          "cmp_work_field":"Ingénierie",
+          "cmp_phone":606060634,
+          "cmp_email":"business@service.fr",
+          "cmp_internat":"Lu et approuvé"
+       }
+    },
+    {
+       "model":"base.company",
+       "pk":"123456818",
+       "fields":{
+          "cmp_name":"PHYTEUROP ",
+          "cmp_address":" Rue Pierre My 49260 MONTREUIL-BELLAY",
+          "cmp_employees":10,
+          "cmp_cpne":15474,
+          "cmp_idcc":1513244,
+          "cmp_convention":"Syntec",
+          "cmp_naf_ape":"N\/A",
+          "cmp_work_field":"Ingénierie",
+          "cmp_phone":606060635,
+          "cmp_email":"business@service.fr",
+          "cmp_internat":"Lu et approuvé"
+       }
+    },
+    {
+       "model":"base.company",
+       "pk":"123456819",
+       "fields":{
+          "cmp_name":"CEA LIST Nano-INNOV ",
+          "cmp_address":"2 boulevard Thomas Gobert 91120 PALAISEAU",
+          "cmp_employees":10,
+          "cmp_cpne":15475,
+          "cmp_idcc":1513245,
+          "cmp_convention":"Syntec",
+          "cmp_naf_ape":"N\/A",
+          "cmp_work_field":"Ingénierie",
+          "cmp_phone":606060636,
+          "cmp_email":"business@service.fr",
+          "cmp_internat":"Lu et approuvé"
+       }
+    },
+    {
+       "model":"base.company",
+       "pk":"123456820",
+       "fields":{
+          "cmp_name":"ADAPEI49 ",
+          "cmp_address":" 126 Rue Saint Léonard 49000 ANGERS",
+          "cmp_employees":10,
+          "cmp_cpne":15476,
+          "cmp_idcc":1513246,
+          "cmp_convention":"Syntec",
+          "cmp_naf_ape":"N\/A",
+          "cmp_work_field":"Ingénierie",
+          "cmp_phone":606060637,
+          "cmp_email":"business@service.fr",
+          "cmp_internat":"Lu et approuvé"
+       }
+    },
+    {
+       "model":"base.company",
+       "pk":"123456821",
+       "fields":{
+          "cmp_name":"AKRYVIA ",
+          "cmp_address":" 1 rue de la noe 44300 NANTES",
+          "cmp_employees":10,
+          "cmp_cpne":15477,
+          "cmp_idcc":1513247,
+          "cmp_convention":"Syntec",
+          "cmp_naf_ape":"N\/A",
+          "cmp_work_field":"Ingénierie",
+          "cmp_phone":606060638,
+          "cmp_email":"business@service.fr",
+          "cmp_internat":"Lu et approuvé"
+       }
+    },
+    {
+       "model":"base.company",
+       "pk":"123456822",
+       "fields":{
+          "cmp_name":"CONSERTO ",
+          "cmp_address":" 4 boulevard du Zenith 44800 SAINT HERBLAIN",
+          "cmp_employees":10,
+          "cmp_cpne":15478,
+          "cmp_idcc":1513248,
+          "cmp_convention":"Syntec",
+          "cmp_naf_ape":"N\/A",
+          "cmp_work_field":"Ingénierie",
+          "cmp_phone":606060639,
+          "cmp_email":"business@service.fr",
+          "cmp_internat":"Lu et approuvé"
+       }
+    },
+    {
+       "model":"base.company",
+       "pk":"123456823",
+       "fields":{
+          "cmp_name":"SAFRAN DATA SYSTEMS ",
+          "cmp_address":" 5 avenue des Andes CS90101 -  91978 COURTABOEUF ",
+          "cmp_employees":10,
+          "cmp_cpne":15479,
+          "cmp_idcc":1513249,
+          "cmp_convention":"Syntec",
+          "cmp_naf_ape":"N\/A",
+          "cmp_work_field":"Ingénierie",
+          "cmp_phone":606060640,
+          "cmp_email":"business@service.fr",
+          "cmp_internat":"Lu et approuvé"
+       }
+    },
+    {
+       "model":"base.company",
+       "pk":"123456824",
+       "fields":{
+          "cmp_name":"THALES SIX GTS ",
+          "cmp_address":" 110 avenue Maréchal Leclerc 49309 CHOLET",
+          "cmp_employees":10,
+          "cmp_cpne":15480,
+          "cmp_idcc":1513250,
+          "cmp_convention":"Syntec",
+          "cmp_naf_ape":"N\/A",
+          "cmp_work_field":"Ingénierie",
+          "cmp_phone":606060641,
+          "cmp_email":"business@service.fr",
+          "cmp_internat":"Lu et approuvé"
+       }
+    },
+    {
+       "model":"base.company",
+       "pk":"123456825",
+       "fields":{
+          "cmp_name":"CRESITT INDUSTRIE ",
+          "cmp_address":" Le Lab'O 1 avenue du champ de mars -  45100 ORLEANS",
+          "cmp_employees":10,
+          "cmp_cpne":15481,
+          "cmp_idcc":1513251,
+          "cmp_convention":"Syntec",
+          "cmp_naf_ape":"N\/A",
+          "cmp_work_field":"Ingénierie",
+          "cmp_phone":606060642,
+          "cmp_email":"business@service.fr",
+          "cmp_internat":"Lu et approuvé"
+       }
+    },
+    {
+       "model":"base.company",
+       "pk":"123456826",
+       "fields":{
+          "cmp_name":"ITANCIA ",
+          "cmp_address":" 12 avenue de la Chapelle -  La Jubaudière -  49510 BEAUPREAU EN MAUGES",
+          "cmp_employees":10,
+          "cmp_cpne":15482,
+          "cmp_idcc":1513252,
+          "cmp_convention":"Syntec",
+          "cmp_naf_ape":"N\/A",
+          "cmp_work_field":"Ingénierie",
+          "cmp_phone":606060643,
+          "cmp_email":"business@service.fr",
+          "cmp_internat":"Lu et approuvé"
+       }
+    },
+    {
+       "model":"base.company",
+       "pk":"123456827",
+       "fields":{
+          "cmp_name":"POLYSOUDE ",
+          "cmp_address":" 2 rue Paul Beaupère 44300 NANTES",
+          "cmp_employees":10,
+          "cmp_cpne":15483,
+          "cmp_idcc":1513253,
+          "cmp_convention":"Syntec",
+          "cmp_naf_ape":"N\/A",
+          "cmp_work_field":"Ingénierie",
+          "cmp_phone":606060644,
+          "cmp_email":"business@service.fr",
+          "cmp_internat":"Lu et approuvé"
+       }
+    },
+    {
+       "model":"base.company",
+       "pk":"123456828",
+       "fields":{
+          "cmp_name":"CONSEIL DEPARTEMENTAL 49 ",
+          "cmp_address":" Direction des systèmes d'information Bâtiment Célestin Port 48B Boulevard Maréchal Foch -  49000 ANGERS  ",
+          "cmp_employees":10,
+          "cmp_cpne":15484,
+          "cmp_idcc":1513254,
+          "cmp_convention":"Syntec",
+          "cmp_naf_ape":"N\/A",
+          "cmp_work_field":"Ingénierie",
+          "cmp_phone":606060645,
+          "cmp_email":"business@service.fr",
+          "cmp_internat":"Lu et approuvé"
+       }
+    },
+    {
+       "model":"base.company",
+       "pk":"123456829",
+       "fields":{
+          "cmp_name":"TELELOGOS ",
+          "cmp_address":" 3 avenue du bois l'abbé 49070 BEAUCOUZE",
+          "cmp_employees":10,
+          "cmp_cpne":15485,
+          "cmp_idcc":1513255,
+          "cmp_convention":"Syntec",
+          "cmp_naf_ape":"N\/A",
+          "cmp_work_field":"Ingénierie",
+          "cmp_phone":606060646,
+          "cmp_email":"business@service.fr",
+          "cmp_internat":"Lu et approuvé"
+       }
+    },
+    {
+       "model":"base.company",
+       "pk":"123456830",
+       "fields":{
+          "cmp_name":"SAFRAN ELECTRONICS & DEFENSE ",
+          "cmp_address":" 12 rue Colbert 35306 FOUGÈRES",
+          "cmp_employees":10,
+          "cmp_cpne":15486,
+          "cmp_idcc":1513256,
+          "cmp_convention":"Syntec",
+          "cmp_naf_ape":"N\/A",
+          "cmp_work_field":"Ingénierie",
+          "cmp_phone":606060647,
+          "cmp_email":"business@service.fr",
+          "cmp_internat":"Lu et approuvé"
+       }
+    }
+ ]

@@ -34,9 +34,9 @@ describe('Tests - Coordinateur - CRUD User Apprentis', () => {
     })
 
     test("Devrait créer un User avec le rôle apprenti", async () => {
-      let nom_user = 'Test1';
-      let prenom_user = 'Withlove';
-      let email_user = 'test1.withlove@reseau.eseo.fr';
+      let nom_user = 'NIZERY';
+      let prenom_user = 'Alexandre';
+      let email_user = 'alexandre.nizery@reseau.eseo.fr';
       let promotion_user = 'Noether';
       let role_user = 'Apprenti';
 
@@ -107,10 +107,10 @@ describe('Tests - Coordinateur - CRUD User Apprentis', () => {
     });
 
     test("Devrait modifier un User avec le rôle apprenti", async () => {
-      let user_to_modify = 'Test1';
-      let nom_user = 'Testmodif';
-      let prenom_user = 'Withlove';
-      let email_user = 'withlove.Testmodif@reseau.eseo.fr';
+      let user_to_modify = 'NIZERY';
+      let nom_user = 'NIZERYAL';
+      let prenom_user = 'Alexandrie';
+      let email_user = 'alexandrie.nyzeryal@reseau.eseo.fr';
       // Tableau qui boucle sur les utilisateurs jusqu'à trouvé celui à modifier
       let elem;
       let rows = await page.locator('tbody > tr');
@@ -152,7 +152,7 @@ describe('Tests - Coordinateur - CRUD User Apprentis', () => {
     })
 
     test("Devrait supprimer un user", async () => {
-      let user_to_delete = 'Testmodif';
+      let user_to_delete = 'NYZERYAL';
       let rows = await page.locator('tbody > tr');
       for(let i = 0; i <= await rows.count(); i++) {
         const row = await rows.nth(i);
