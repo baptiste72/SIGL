@@ -17,7 +17,7 @@ describe('Tests - Coordinateur - CRUD User TP', () => {
 
       context = await browser.newContext();
       page = await context.newPage();
-      capture = await saveVideo(page, 'recording.mp4')
+      capture = await saveVideo(page, 'CRUD_TP.mp4')
 
       await page.goto("https://projet-sigl.fr/")
       const user = 'contact@projet-sigl.fr'
@@ -33,14 +33,34 @@ describe('Tests - Coordinateur - CRUD User TP', () => {
       expect(text.match("Admin SIGL"));
     })
 
-    test("Devrait créer un User avec le rôle TP", async () => {
-      let nom_user = 'CHAUVELIER';
-      let prenom_user = 'Baptiste';
-      let email_user = 'baptiste.chauvelier@reseau.eseo.fr';
-
+    beforeEach(async () => {
       // Clique sur le bouton du menu de configuration
-      await page.click('xpath=/html/body/app-root/ng-component/app-navigation/mat-drawer-container/mat-drawer/div/div/a[7]');
-      await page.waitForTimeout(1000);
+      const menu = await page.locator('html > body > app-root > ng-component > app-navigation > mat-drawer-container > mat-drawer > div > div > a');
+      for(let i = 0; i < await menu.count(); i++) {
+        if(await (await menu.nth(i).innerText()).match("Configuration")) {
+          await menu.nth(i).click();
+          break;
+        }
+      }
+      await page.waitForTimeout(500);
+    });
+
+    afterEach(async () => {
+      // Clique sur le bouton Dashboard
+      const menu = await page.locator('html > body > app-root > ng-component > app-navigation > mat-drawer-container > mat-drawer > div > div > a');
+      for(let i = 0; i < await menu.count(); i++) {
+        if(await (await menu.nth(i).innerText()).match("Dashboard")) {
+          await menu.nth(i).click();
+          break;
+        }
+      }
+      await page.waitForTimeout(500);
+    });
+
+    test("Devrait créer un User avec le rôle TP", async () => {
+      let nom_user = 'TANIOU';
+      let prenom_user = 'Hugo';
+      let email_user = 'hugo.taniou@reseau.eseo.fr';
 
       // Clique sur le bouton d'ajout d'un user
       await page.click('xpath=/html/body/app-root/ng-component/app-navigation/mat-drawer-container/mat-drawer-content/mat-tab-group/div/mat-tab-body[1]/div/div/mat-card/mat-card-content/div[1]/button');
@@ -98,7 +118,14 @@ describe('Tests - Coordinateur - CRUD User TP', () => {
 
     afterAll(async () => {
       await capture.stop();
-      await page.click('body > app-root > ng-component > app-navigation > mat-drawer-container > mat-drawer > div > div > a:nth-child(7)')
+      // Clique sur le bouton du menu Déconnexion
+      const menu = await page.locator('html > body > app-root > ng-component > app-navigation > mat-drawer-container > mat-drawer > div > div > a');
+      for(let i = 0; i < await menu.count(); i++) {
+        if(await (await menu.nth(i).innerText()).match("Déconnexion")) {
+          await menu.nth(i).click();
+          break;
+        }
+      }
       await page.waitForTimeout(1000);
       expect(await page.url()).toBe("https://projet-sigl.fr/login");
       await page.close();

@@ -16,7 +16,7 @@ describe('Tests - Coordinateur - CRUD CentreFormation', () => {
 
       context = await browser.newContext();
       page = await context.newPage();
-      capture = await saveVideo(page, 'recording.mp4')
+      capture = await saveVideo(page, 'CRUD_CDF.mp4')
 
       await page.goto("https://projet-sigl.fr/")
       const user = 'contact@projet-sigl.fr'
@@ -32,6 +32,43 @@ describe('Tests - Coordinateur - CRUD CentreFormation', () => {
       expect(text.match("Admin SIGL"));
     })
 
+    beforeEach(async () => {
+      // Clique sur le bouton du menu de configuration
+      const menu = await page.locator('html > body > app-root > ng-component > app-navigation > mat-drawer-container > mat-drawer > div > div > a');
+      for(let i = 0; i < await menu.count(); i++) {
+        if(await (await menu.nth(i).innerText()).match("Configuration")) {
+          await menu.nth(i).click();
+          break;
+        }
+      }
+      await page.waitForTimeout(500);
+
+      // Clique sur le menu des cdf
+      const menu_defilant = await page.locator('html > body > app-root > ng-component > app-navigation > mat-drawer-container > mat-drawer-content > mat-tab-group > mat-tab-header > div > div > div > div');
+      // Boucle sur les menus défilants
+      for(let i = 0; i < await menu_defilant.count(); i++) {
+        // Récupération du nom du menu défilant
+        let nom = await (await menu_defilant.nth(i).locator('span.mdc-tab__content > span.mdc-tab__text-label')).innerText();
+        // Si le nom du menu défilant est "Promotions"
+        if(nom.match("Centre de formation")) {
+          // CLique sur le menu défilant
+          await menu_defilant.nth(i).click();
+        }
+      }
+    });
+
+    afterEach(async () => {
+      // Clique sur le bouton Dashboard
+      const menu = await page.locator('html > body > app-root > ng-component > app-navigation > mat-drawer-container > mat-drawer > div > div > a');
+      for(let i = 0; i < await menu.count(); i++) {
+        if(await (await menu.nth(i).innerText()).match("Dashboard")) {
+          await menu.nth(i).click();
+          break;
+        }
+      }
+      await page.waitForTimeout(500);
+    });
+
     test("Devrait créer un Centre de Formation", async () => {
 
       let nom_centre_formation = 'ESEO';
@@ -39,99 +76,153 @@ describe('Tests - Coordinateur - CRUD CentreFormation', () => {
       let code_postal_centre_formation = '49000';
       let ville_centre_formation = 'Angers';
 
-      // Click sur le bouton du menu amenant à la page de configuration
-      await page.click('xpath=/html/body/app-root/ng-component/app-navigation/mat-drawer-container/mat-drawer/div/div/a[7]');
-      expect(await page.url()).toBe("https://projet-sigl.fr/configuration");
-
-      // Click sur le bouton amenant à l'interface de gestion des centres de formation
-      await page.locator('xpath=/html/body/app-root/ng-component/app-navigation/mat-drawer-container/mat-drawer-content/mat-tab-group/mat-tab-header/div/div/div/div[6]').click();
-      await page.waitForTimeout(1000);
-
       // Click sur le bouton d'ajout d'un centre de formation
       await page.locator('xpath=/html/body/app-root/ng-component/app-navigation/mat-drawer-container/mat-drawer-content/mat-tab-group/div/mat-tab-body[6]/div/div/mat-card/mat-card-content/div[1]/button').click();
-      await page.waitForTimeout(1000);
+      await page.waitForTimeout(500);
 
       // Rentrée des informations dans les champs attendus
       await page.locator('xpath=/html/body/div[2]/div[2]/div/mat-dialog-container/div/div/app-add-formation-center-popup/form/div/div[1]/mat-form-field/div[1]/div[2]/div/input').fill(nom_centre_formation);
       await page.locator('xpath=/html/body/div[2]/div[2]/div/mat-dialog-container/div/div/app-add-formation-center-popup/form/div/div[2]/mat-form-field/div[1]/div[2]/div/input').fill(ville_centre_formation);
       await page.locator('xpath=/html/body/div[2]/div[2]/div/mat-dialog-container/div/div/app-add-formation-center-popup/form/div/div[3]/mat-form-field/div[1]/div[2]/div/input').fill(code_postal_centre_formation);
       await page.locator('xpath=/html/body/div[2]/div[2]/div/mat-dialog-container/div/div/app-add-formation-center-popup/form/div/div[4]/mat-form-field/div[1]/div[2]/div/input').fill(adresse_centre_formation);
-      await page.waitForTimeout(1000);
+      await page.waitForTimeout(500);
       // Clique sur le bouton de validation
       await page.locator('xpath=/html/body/div[2]/div[2]/div/mat-dialog-container/div/div/app-add-formation-center-popup/form/div/div[5]/button[1]').click();
-      await page.waitForTimeout(1000);
+      await page.waitForTimeout(500);
+
+      let nom_centre_formation2 = 'Polytech';
+      let adresse_centre_formation2 = 'Bvd Jean Moulin';
+      let code_postal_centre_formation2 = '75000';
+      let ville_centre_formation2 = 'Paris';
+
+      // Click sur le bouton d'ajout d'un centre de formation
+      await page.locator('xpath=/html/body/app-root/ng-component/app-navigation/mat-drawer-container/mat-drawer-content/mat-tab-group/div/mat-tab-body[6]/div/div/mat-card/mat-card-content/div[1]/button').click();
+      await page.waitForTimeout(500);
+
+      // Rentrée des informations dans les champs attendus
+      await page.locator('xpath=/html/body/div[2]/div[2]/div/mat-dialog-container/div/div/app-add-formation-center-popup/form/div/div[1]/mat-form-field/div[1]/div[2]/div/input').fill(nom_centre_formation2);
+      await page.locator('xpath=/html/body/div[2]/div[2]/div/mat-dialog-container/div/div/app-add-formation-center-popup/form/div/div[2]/mat-form-field/div[1]/div[2]/div/input').fill(ville_centre_formation2);
+      await page.locator('xpath=/html/body/div[2]/div[2]/div/mat-dialog-container/div/div/app-add-formation-center-popup/form/div/div[3]/mat-form-field/div[1]/div[2]/div/input').fill(code_postal_centre_formation2);
+      await page.locator('xpath=/html/body/div[2]/div[2]/div/mat-dialog-container/div/div/app-add-formation-center-popup/form/div/div[4]/mat-form-field/div[1]/div[2]/div/input').fill(adresse_centre_formation2);
+      await page.waitForTimeout(500);
+
+      // Clique sur le bouton de validation
+      await page.locator('xpath=/html/body/div[2]/div[2]/div/mat-dialog-container/div/div/app-add-formation-center-popup/form/div/div[5]/button[1]').click();
+      await page.waitForTimeout(500);
 
       // Vérification de la création du centre de formation
-      await page.waitForSelector('xpath=/html/body/app-root/ng-component/app-navigation/mat-drawer-container/mat-drawer-content/mat-tab-group/div/mat-tab-body[6]/div/div/mat-card/mat-card-content/div[2]/table/tbody/tr/td[1]');
-      const text = await (await page.locator('xpath=/html/body/app-root/ng-component/app-navigation/mat-drawer-container/mat-drawer-content/mat-tab-group/div/mat-tab-body[6]/div/div/mat-card/mat-card-content/div[2]/table/tbody/tr/td[1]')).innerText();
-      expect(text.match(nom_centre_formation));
+      await page.waitForTimeout(500);
+      const rows = await page.locator('tbody > tr');
+      for(let i = 0; i <= await rows.count(); i++) {
+        const row = await rows.nth(i);
+        const name = await row.innerText();
+        if(name.match(nom_centre_formation)) {
+          expect(name.match(nom_centre_formation));
+          expect(name.match(ville_centre_formation));
+          expect(name.match(code_postal_centre_formation));
+          expect(name.match(adresse_centre_formation));
+          break;
+        }
+      }
     })
 
-    // test("Devrait modifier un Centre de Formation", async () => {
-    //
-    //   let nom_centre_formation = 'ESIA';
-    //   let adresse_centre_formation = 'Bvd Paul Bert';
-    //   let code_postal_centre_formation = '53000';
-    //   let ville_centre_formation = 'Laval';
-    //
-    //   // Click sur le bouton du menu amenant à la page de configuration
-    //   await page.click('xpath=/html/body/app-root/ng-component/app-navigation/mat-drawer-container/mat-drawer/div/div/a[7]');
-    //   expect(await page.url()).toBe("https://projet-sigl.fr/configuration");
-    //
-    //   // Click sur le bouton amenant à l'interface de gestion des centres de formation
-    //   await page.locator('xpath=/html/body/app-root/ng-component/app-navigation/mat-drawer-container/mat-drawer-content/mat-tab-group/mat-tab-header/div/div/div/div[6]').click();
-    //   await page.waitForTimeout(1000);
-    //
-    //   // Click sur le bouton de modification d'un centre de formation
-    //   await page.locator('xpath=/html/body/app-root/ng-component/app-navigation/mat-drawer-container/mat-drawer-content/mat-tab-group/div/mat-tab-body[6]/div/div/mat-card/mat-card-content/div[2]/table/tbody/tr/td[5]/button[1]').click();
-    //   await page.waitForTimeout(1000);
-    //
-    //   // Rentrée des informations dans les champs attendus
-    //   await page.locator('xpath=/html/body/div[2]/div[2]/div/mat-dialog-container/div/div/app-update-formation-center-popup/form/div/div[1]/mat-form-field/div[1]/div[2]/div/input').fill(nom_centre_formation);
-    //   await page.locator('xpath=/html/body/div[2]/div[2]/div/mat-dialog-container/div/div/app-update-formation-center-popup/form/div/div[2]/mat-form-field/div[1]/div[2]/div/input').fill(ville_centre_formation);
-    //   await page.locator('xpath=/html/body/div[2]/div[2]/div/mat-dialog-container/div/div/app-update-formation-center-popup/form/div/div[3]/mat-form-field/div[1]/div[2]/div/input').fill(code_postal_centre_formation);
-    //   await page.locator('xpath=/html/body/div[2]/div[2]/div/mat-dialog-container/div/div/app-update-formation-center-popup/form/div/div[4]/mat-form-field/div[1]/div[2]/div/input').fill(adresse_centre_formation);
-    //   await page.waitForTimeout(1000);
-    //   // Clique sur le bouton de validation
-    //   await page.locator('xpath=/html/body/div[2]/div[2]/div/mat-dialog-container/div/div/app-update-formation-center-popup/form/div/div[5]/button[1]').click();
-    //   await page.waitForTimeout(1000);
-    //
-    //   // Vérification de la modification du centre de formation
-    //   await page.waitForSelector('xpath=/html/body/app-root/ng-component/app-navigation/mat-drawer-container/mat-drawer-content/mat-tab-group/div/mat-tab-body[6]/div/div/mat-card/mat-card-content/div[2]/table/tbody/tr/td[1]');
-    //   const text = await (await page.locator('xpath=/html/body/app-root/ng-component/app-navigation/mat-drawer-container/mat-drawer-content/mat-tab-group/div/mat-tab-body[6]/div/div/mat-card/mat-card-content/div[2]/table/tbody/tr/td[1]')).innerText();
-    //   expect(text.match(nom_centre_formation));
-    // })
+    test("Devrait modifier un Centre de Formation", async () => {
+      let ancien_nom_cdf = 'ESEO';
+      let nouveau_nom_cdf = 'ESIA';
+      let adresse_centre_formation = 'Bvd Paul Bert';
+      let code_postal_centre_formation = '53000';
+      let ville_centre_formation = 'Laval';
+
+      // Recherche le CDF à modifier et clique sur le bouton de modification
+      let rows = await page.locator('tbody > tr');
+      for(let i = 0; i <= await rows.count(); i++) {
+        const row = await rows.nth(i);
+        const cell_num = await row.locator('td');
+        const name = await cell_num.nth(0).innerText();
+        if(name === ancien_nom_cdf) {
+          await rows.nth(i).locator('td').nth(4).locator('button').nth(0).click();
+          break;
+        }
+      }
+      await page.waitForTimeout(1000);
+
+      // Rentrée des informations dans les champs attendus
+      await page.locator('xpath=/html/body/div[2]/div[2]/div/mat-dialog-container/div/div/app-update-formation-center-popup/form/div/div[1]/mat-form-field/div[1]/div[2]/div/input').fill(nouveau_nom_cdf);
+      await page.locator('xpath=/html/body/div[2]/div[2]/div/mat-dialog-container/div/div/app-update-formation-center-popup/form/div/div[2]/mat-form-field/div[1]/div[2]/div/input').fill(ville_centre_formation);
+      await page.locator('xpath=/html/body/div[2]/div[2]/div/mat-dialog-container/div/div/app-update-formation-center-popup/form/div/div[3]/mat-form-field/div[1]/div[2]/div/input').fill(code_postal_centre_formation);
+      await page.locator('xpath=/html/body/div[2]/div[2]/div/mat-dialog-container/div/div/app-update-formation-center-popup/form/div/div[4]/mat-form-field/div[1]/div[2]/div/input').fill(adresse_centre_formation);
+      await page.waitForTimeout(1000);
+
+      // Clique sur le bouton de validation Non fonctionnel
+      await page.locator('xpath=/html/body/div[2]/div[2]/div/mat-dialog-container/div/div/app-update-formation-center-popup/form/div/div[5]/button[1]').click();
+      await page.waitForTimeout(1000);
+
+      // Clique donc sur le bouton annuler
+      await page.locator('xpath=/html/body/div[2]/div[2]/div/mat-dialog-container/div/div/app-update-formation-center-popup/form/div/div[5]/button[2]').click();
+
+      // Vérification de la modification du centre de formation
+      let found = false;
+      rows = await page.locator('tbody > tr');
+      let tds = await rows.allInnerTexts();
+      let td;
+      // Boucle sur les td
+      for(let i = 0; i < tds.length; i++) {
+        td = tds[i];
+        // Si le td contient le nom du cdf
+        if(td === nouveau_nom_cdf) {
+          found = true;
+          break;
+        }
+      }
+      expect(found).toBe(true);
+    })
 
     test("Devrait supprimer un Centre de Formation", async () => {
-
-      // // Click sur le bouton du menu amenant à la page de configuration
-      // await page.click('xpath=/html/body/app-root/ng-component/app-navigation/mat-drawer-container/mat-drawer/div/div/a[7]');
-      // expect(await page.url()).toBe("https://projet-sigl.fr/configuration");
-
-      // // Click sur le bouton amenant à l'interface de gestion des centres de formation
-      // await page.locator('xpath=/html/body/app-root/ng-component/app-navigation/mat-drawer-container/mat-drawer-content/mat-tab-group/mat-tab-header/div/div/div/div[6]').click();
-      // await page.waitForTimeout(1000);
-
-      // Click sur le bouton de suppression d'un centre de formation
-      await page.locator('xpath=/html/body/app-root/ng-component/app-navigation/mat-drawer-container/mat-drawer-content/mat-tab-group/div/mat-tab-body[6]/div/div/mat-card/mat-card-content/div[2]/table/tbody/tr/td[5]/button[2]').click();
-      await page.waitForTimeout(1000);
+      let nom_centre_formation = 'ESEO';
+      // Recherche le CDF à supprimer et clique sur le bouton de suppression
+      let rows = await page.locator('tbody > tr');
+      for(let i = 0; i <= await rows.count(); i++) {
+        const row = await rows.nth(i);
+        const cell_num = await row.locator('td');
+        const name = await cell_num.nth(0).innerText();
+        if(name === nom_centre_formation) {
+          await rows.nth(i).locator('td').nth(4).locator('button').nth(1).click();
+          break;
+        }
+      }
+      await page.waitForTimeout(500);
 
       // Click sur le bouton de confirmation
       await page.click('xpath=/html/body/div[2]/div[2]/div/mat-dialog-container/div/div/app-confirm-delete/div[3]/button[1]');
-      await page.waitForTimeout(1000);
+      await page.waitForTimeout(500);
 
       // Vérification de la suppression du centre de formation
-      let delCF = 0;
-      try {
-        await page.click('xpath=/html/body/app-root/ng-component/app-navigation/mat-drawer-container/mat-drawer-content/mat-tab-group/div/mat-tab-body[6]/div/div/mat-card/mat-card-content/div[2]/table/tbody/tr/td[5]/button[2]', { timeout: 2000 });
-        delCF = 0;
-      } catch (e) { delCF = 1; }
-      expect(delCF).toBe(1);
+      let found = false;
+      rows = await page.locator('tbody > tr');
+      let tds = await rows.allInnerTexts();
+      let td;
+      // Boucle sur les td
+      for(let i = 0; i < tds.length; i++) {
+        td = tds[i];
+        // Si le td contient le nom du cdf
+        if(td === nom_centre_formation) {
+          found = true;
+          break;
+        }
+      }
+      expect(found).toBe(false);
     })
 
     afterAll(async () => {
       await capture.stop();
-      await page.click('body > app-root > ng-component > app-navigation > mat-drawer-container > mat-drawer > div > div > a:nth-child(7)')
+      // Clique sur le bouton du menu Déconnexion
+      const menu = await page.locator('html > body > app-root > ng-component > app-navigation > mat-drawer-container > mat-drawer > div > div > a');
+      for(let i = 0; i < await menu.count(); i++) {
+        if(await (await menu.nth(i).innerText()).match("Déconnexion")) {
+          await menu.nth(i).click();
+          break;
+        }
+      }
       await page.waitForTimeout(1000);
       expect(await page.url()).toBe("https://projet-sigl.fr/login");
       await page.close();

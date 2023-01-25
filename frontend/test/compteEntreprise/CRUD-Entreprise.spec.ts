@@ -29,8 +29,6 @@ describe('Tests - Compte Entreprise - CRUD Entreprise', () => {
       expect(await page.url()).toBe("https://projet-sigl.fr/dashboard-company");
       const dashboardName = await (await page.locator('body > app-root > ng-component > app-navigation > mat-drawer-container > mat-drawer-content > div.navigation-content > div > h1')).innerText();
       expect(dashboardName.match("Dashboard Entreprise"));
-      const text = await (await page.locator('.profile')).innerText();
-      expect(text.match("Simon MENARD"));
     })
 
     test("Devrait créer une entreprise via le compte approprié", async () => {
@@ -110,6 +108,8 @@ describe('Tests - Compte Entreprise - CRUD Entreprise', () => {
       expect(popup_exist).toBe(1);
       await page.waitForTimeout(5000);
     });
+
+
 
     afterAll(async () => {
       await capture.stop();

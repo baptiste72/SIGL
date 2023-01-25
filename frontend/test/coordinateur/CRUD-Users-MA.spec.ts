@@ -17,11 +17,11 @@ describe('Tests - Coordinateur - CRUD User MA', () => {
 
       context = await browser.newContext();
       page = await context.newPage();
-      capture = await saveVideo(page, 'recording.mp4')
+      capture = await saveVideo(page, 'CRUD_MA.mp4')
 
       await page.goto("https://projet-sigl.fr/")
-      const user = 'contact@projet-sigl.fr'
-      const password = 'oHO98*s1mPli'
+      const user = 'contact@projet-sigl.fr';
+      const password = 'oHO98*s1mPli';
       await page.fill('input[type="email"]', user);
       await page.fill('input[name="password"]', password);
       await page.click('button[type="submit"]');
@@ -34,9 +34,9 @@ describe('Tests - Coordinateur - CRUD User MA', () => {
     })
 
     test("Devrait créer un User avec le rôle MA", async () => {
-      let nom_user = '';
-      let prenom_user = '';
-      let email_user = '@reseau.eseo.fr';
+      let nom_user = 'TANIOU';
+      let prenom_user = 'Hugo';
+      let email_user = 'hugo.taniou@reseau.eseo.fr';
 
       // Clique sur le bouton du menu de configuration
       await page.click('xpath=/html/body/app-root/ng-component/app-navigation/mat-drawer-container/mat-drawer/div/div/a[7]');
@@ -99,7 +99,14 @@ describe('Tests - Coordinateur - CRUD User MA', () => {
 
     afterAll(async () => {
       await capture.stop();
-      await page.click('body > app-root > ng-component > app-navigation > mat-drawer-container > mat-drawer > div > div > a:nth-child(7)')
+      // Clique sur le bouton du menu Déconnexion
+      const menu = await page.locator('html > body > app-root > ng-component > app-navigation > mat-drawer-container > mat-drawer > div > div > a');
+      for(let i = 0; i < await menu.count(); i++) {
+        if(await (await menu.nth(i).innerText()).match("Déconnexion")) {
+          await menu.nth(i).click();
+          break;
+        }
+      }
       await page.waitForTimeout(1000);
       expect(await page.url()).toBe("https://projet-sigl.fr/login");
       await page.close();

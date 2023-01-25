@@ -7,7 +7,6 @@ describe('Tests - Coordinateur - CRUD User Compte Entreprise', () => {
     let context: BrowserContext;
     let page: Page;
     let capture;
-    const TIMEOUT = { timeout: 5000 };
 
     beforeAll(async () => {
       browser = await chromium.launch({
@@ -17,7 +16,7 @@ describe('Tests - Coordinateur - CRUD User Compte Entreprise', () => {
 
       context = await browser.newContext();
       page = await context.newPage();
-      capture = await saveVideo(page, 'recording.mp4')
+      capture = await saveVideo(page, 'CRUD_CompteEntreprise.mp4')
 
       await page.goto("https://projet-sigl.fr/")
       const user = 'contact@projet-sigl.fr'
@@ -34,9 +33,9 @@ describe('Tests - Coordinateur - CRUD User Compte Entreprise', () => {
     })
 
     test("Devrait créer un User avec le rôle Compte Entreprise", async () => {
-      let nom_user = 'MENARD';
-      let prenom_user = 'Simon';
-      let email_user = 'simon.menard@reseau.eseo.fr';
+      let nom_user = 'CHAUVELIER';
+      let prenom_user = 'Baptiste';
+      let email_user = 'baptiste.chauvelier@reseau.eseo.fr';
 
       // Clique sur le bouton du menu de configuration
       await page.click('xpath=/html/body/app-root/ng-component/app-navigation/mat-drawer-container/mat-drawer/div/div/a[7]');
@@ -89,7 +88,14 @@ describe('Tests - Coordinateur - CRUD User Compte Entreprise', () => {
 
     afterAll(async () => {
       await capture.stop();
-      await page.click('body > app-root > ng-component > app-navigation > mat-drawer-container > mat-drawer > div > div > a:nth-child(7)')
+      // Clique sur le bouton du menu Déconnexion
+      const menu = await page.locator('html > body > app-root > ng-component > app-navigation > mat-drawer-container > mat-drawer > div > div > a');
+      for(let i = 0; i < await menu.count(); i++) {
+        if(await (await menu.nth(i).innerText()).match("Déconnexion")) {
+          await menu.nth(i).click();
+          break;
+        }
+      }
       await page.waitForTimeout(1000);
       expect(await page.url()).toBe("https://projet-sigl.fr/login");
       await page.close();

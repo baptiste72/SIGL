@@ -17,7 +17,7 @@ describe('Tests - Coordinateur - CRUD User Apprentis', () => {
 
       context = await browser.newContext();
       page = await context.newPage();
-      capture = await saveVideo(page, 'recording.mp4')
+      capture = await saveVideo(page, 'CRUD-Apprentis.mp4')
 
       await page.goto("https://projet-sigl.fr/")
       const user = 'contact@projet-sigl.fr'
@@ -34,12 +34,20 @@ describe('Tests - Coordinateur - CRUD User Apprentis', () => {
     })
 
     test("Devrait créer un User avec le rôle apprenti", async () => {
-      let nom_user = 'NIZERY';
-      let prenom_user = 'alexandre';
-      let email_user = 'alexandre.nizery@reseau.eseo.fr';
+      let nom_user = 'Test1';
+      let prenom_user = 'Withlove';
+      let email_user = 'test1.withlove@reseau.eseo.fr';
+      let promotion_user = 'Noether';
+      let role_user = 'Apprenti';
 
       // Clique sur le bouton du menu de configuration
-      await page.click('xpath=/html/body/app-root/ng-component/app-navigation/mat-drawer-container/mat-drawer/div/div/a[7]');
+      const menu = await page.locator('html > body > app-root > ng-component > app-navigation > mat-drawer-container > mat-drawer > div > div > a');
+      for(let i = 0; i < await menu.count(); i++) {
+        if(await (await menu.nth(i).innerText()).match("Configuration")) {
+          await menu.nth(i).click();
+          break;
+        }
+      }
       await page.waitForTimeout(1000);
 
       // Clique sur le bouton d'ajout d'un user
@@ -48,25 +56,33 @@ describe('Tests - Coordinateur - CRUD User Apprentis', () => {
 
       // Rempli le formulaire
       // Role dropdown menu
-      try {
-        await page.waitForSelector('xpath=/html/body/div[2]/div[2]/div/mat-dialog-container/div/div/app-add-user-popup/div[2]/div[1]/mat-form-field/div[1]', TIMEOUT);
-        await page.locator('xpath=/html/body/div[2]/div[2]/div/mat-dialog-container/div/div/app-add-user-popup/div[2]/div[1]/mat-form-field/div[1]').click();
-        await page.waitForTimeout(1000);
-        await page.waitForSelector('xpath=/html/body/div[2]/div[4]/div/div/mat-option[1]', TIMEOUT);
-        await page.locator('xpath=/html/body/div[2]/div[4]/div/div/mat-option[1]').click();
-      } catch (error) {
-        console.log("Erreur : ", error);
+      await page.waitForSelector('xpath=/html/body/div[2]/div[2]/div/mat-dialog-container/div/div/app-add-user-popup/div[2]/div[1]/mat-form-field/div[1]/div[2]');
+      await page.locator('xpath=/html/body/div[2]/div[2]/div/mat-dialog-container/div/div/app-add-user-popup/div[2]/div[1]/mat-form-field/div[1]/div[2]').click();
+      let role_mat = await page.locator('div > mat-option');
+      let role_text;
+      for(let i = 0; i < await role_mat.count(); i++) {
+        role_text = await role_mat.nth(i).locator('span').innerText();
+        if(role_text === role_user){
+          await role_mat.nth(i).click();
+          break;
+        }
       }
+      await page.waitForTimeout(1000);
+
       // Promotion dropdown menu
-      try {
-        await page.waitForSelector('xpath=/html/body/div[2]/div[2]/div/mat-dialog-container/div/div/app-add-user-popup/div[2]/div[2]/mat-form-field/div[1]/div[2]', TIMEOUT);
-        await page.locator('xpath=/html/body/div[2]/div[2]/div/mat-dialog-container/div/div/app-add-user-popup/div[2]/div[2]/mat-form-field/div[1]/div[2]').click();
-        await page.waitForTimeout(1000);
-        await page.waitForSelector('xpath=/html/body/div[2]/div[4]/div/div/mat-option', TIMEOUT);
-        await page.locator('xpath=/html/body/div[2]/div[4]/div/div/mat-option').click();
-      } catch (error) {
-        console.log("Erreur : ", error);
+      await page.waitForSelector('xpath=/html/body/div[2]/div[2]/div/mat-dialog-container/div/div/app-add-user-popup/div[2]/div[2]/mat-form-field/div[1]/div[2]');
+      await page.locator('xpath=/html/body/div[2]/div[2]/div/mat-dialog-container/div/div/app-add-user-popup/div[2]/div[2]/mat-form-field/div[1]/div[2]').click();
+      let promo_mat = await page.locator('div > mat-option');
+      let promo_text;
+      for(let i = 0; i < await promo_mat.count(); i++) {
+        promo_text = await promo_mat.nth(i).locator('span').innerText();
+        if(promo_text === promotion_user){
+          await promo_mat.nth(i).click();
+          break;
+        }
       }
+      await page.waitForTimeout(1000);
+
       // Nom / Prenom / Email
       await page.fill('xpath=/html/body/div[2]/div[2]/div/mat-dialog-container/div/div/app-add-user-popup/div[2]/div[3]/mat-form-field/div[1]/div[2]/div/input', nom_user);
       await page.fill('xpath=/html/body/div[2]/div[2]/div/mat-dialog-container/div/div/app-add-user-popup/div[2]/div[4]/mat-form-field/div[1]/div[2]/div/input', prenom_user);
@@ -91,10 +107,10 @@ describe('Tests - Coordinateur - CRUD User Apprentis', () => {
     });
 
     test("Devrait modifier un User avec le rôle apprenti", async () => {
-      let user_to_modify = 'MENARD';
-      let nom_user = 'NIZERYAL';
-      let prenom_user = 'Alexandrie';
-      let email_user = 'alexandre.nizery@reseau.eseo.fr';
+      let user_to_modify = 'Test1';
+      let nom_user = 'Testmodif';
+      let prenom_user = 'Withlove';
+      let email_user = 'withlove.Testmodif@reseau.eseo.fr';
       // Tableau qui boucle sur les utilisateurs jusqu'à trouvé celui à modifier
       let elem;
       let rows = await page.locator('tbody > tr');
@@ -136,7 +152,7 @@ describe('Tests - Coordinateur - CRUD User Apprentis', () => {
     })
 
     test("Devrait supprimer un user", async () => {
-      let user_to_delete = 'NIZERYAL';
+      let user_to_delete = 'Testmodif';
       let rows = await page.locator('tbody > tr');
       for(let i = 0; i <= await rows.count(); i++) {
         const row = await rows.nth(i);
@@ -172,7 +188,14 @@ describe('Tests - Coordinateur - CRUD User Apprentis', () => {
 
     afterAll(async () => {
       await capture.stop();
-      await page.click('body > app-root > ng-component > app-navigation > mat-drawer-container > mat-drawer > div > div > a:nth-child(7)')
+      // Clique sur le bouton du menu Déconnexion
+      const menu = await page.locator('html > body > app-root > ng-component > app-navigation > mat-drawer-container > mat-drawer > div > div > a');
+      for(let i = 0; i < await menu.count(); i++) {
+        if(await (await menu.nth(i).innerText()).match("Déconnexion")) {
+          await menu.nth(i).click();
+          break;
+        }
+      }
       await page.waitForTimeout(1000);
       expect(await page.url()).toBe("https://projet-sigl.fr/login");
       await page.close();
