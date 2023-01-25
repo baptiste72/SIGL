@@ -82,7 +82,6 @@ export class AddApprenticeInfoPopupComponent {
       },
       error: (err) => {
         console.log(err);
-        console.log(data);
         this._snackBar.open('❌ Une erreur est survenue');
       },
     });

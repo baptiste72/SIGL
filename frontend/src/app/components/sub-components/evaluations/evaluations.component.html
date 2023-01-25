@@ -66,6 +66,20 @@
                 fontIcon="close"
               ></mat-icon>
             </button>
+            <button
+              *ngIf="
+                user.role === roleEnum.TUTOR ||
+                user.role === roleEnum.MENTOR
+              "
+              (click)="openNoteEvaluationPopup(element)"
+            >
+              <mat-icon
+                class="yellow"
+                aria-hidden="false"
+                aria-label="documents icon"
+                fontIcon="grade"
+              ></mat-icon>
+            </button>
           </td>
         </ng-container>
 

@@ -158,7 +158,6 @@ export class CompanyInformationComponent implements AfterViewInit {
       .subscribe((shouldReload: boolean) => {
         this.loadApprentices();
       });
-    console.log('TUTU');
   }
 
   public openUpdateApprenticeInfoPopup(user: any) {
