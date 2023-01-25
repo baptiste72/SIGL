@@ -18,6 +18,18 @@ export class ApprenticeService {
     );
   }
 
+  public getAllByTutorId(id: number): Observable<Apprentice[]> {
+    return this.http.get<Apprentice[]>(
+      `${environment.apiUrl}/${this.urlPrefix}/tutor/${id}`
+    );
+  }
+
+  public getAllByMentorId(id: number): Observable<Apprentice[]> {
+    return this.http.get<Apprentice[]>(
+      `${environment.apiUrl}/${this.urlPrefix}/mentor/${id}`
+    );
+  }
+
   public getById(id: number): Observable<Apprentice> {
     return this.http.get<Apprentice>(
       `${environment.apiUrl}/${this.urlPrefix}/${id}`

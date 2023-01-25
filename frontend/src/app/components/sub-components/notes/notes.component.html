@@ -25,7 +25,7 @@
           matTreeNodePadding
         >
           <button
-            mat-icon-button
+            class="tree-toggle"
             matTreeNodeToggle
             [attr.aria-label]="'Toggle ' + node.id"
           >
@@ -64,7 +64,6 @@
           *ngIf="user.role === roleEnum.APPRENTICE"
         >
           <button
-            mat-icon-button
             *ngIf="isAvailable"
             class="btn-modify-note green"
             (click)="openModifyDialog()"
@@ -72,7 +71,6 @@
             <mat-icon>edit</mat-icon>MODIFIER
           </button>
           <button
-            mat-icon-button
             *ngIf="isAvailable"
             class="btn-delete-note red"
             (click)="deleteNoteById(this.note.id)"

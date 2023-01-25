@@ -1,4 +1,11 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -18,7 +25,8 @@ import { lastValueFrom } from 'rxjs';
   templateUrl: './evaluations.component.html',
   styleUrls: ['./evaluations.component.scss'],
 })
-export class EvaluationsComponent implements OnInit {
+export class EvaluationsComponent implements OnChanges {
+  @Input() apprenticeId;
   public user: User;
   readonly roleEnum = Role;
   public displayedColumns: string[] = [
@@ -30,10 +38,12 @@ export class EvaluationsComponent implements OnInit {
     'evaluation-name',
     'owner',
     'promotion',
-    'note'
+    'note',
   ];
   dataSource: any;
   @ViewChild('documentPaginator') documentPaginator!: MatPaginator;
+
+  @Input() adminView: boolean = false;
 
   constructor(
     public dialog: MatDialog,
@@ -46,8 +56,8 @@ export class EvaluationsComponent implements OnInit {
     this.user = this.authService.userValue;
   }
 
-  ngOnInit() {
-    this.getEvaluations();
+  ngOnChanges(changes: SimpleChanges) {
+    this.getEvaluations(changes['apprenticeId'].currentValue);
   }
 
   public async deleteEvaluationById(id: any) {
@@ -57,7 +67,7 @@ export class EvaluationsComponent implements OnInit {
     if (shouldDelete) {
       this.evaluationService.delete(id).subscribe({
         next: (v) => {
-          this.getEvaluations();
+          this.getEvaluations(this.apprenticeId);
         },
         error: (err) => {
           this._snackBar.open(
@@ -77,7 +87,7 @@ export class EvaluationsComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((shouldReload: boolean) => {
-        this.getEvaluations();
+        this.getEvaluations(this.apprenticeId);
       });
   }
 
@@ -89,13 +99,13 @@ export class EvaluationsComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((shouldReload: boolean) => {
-        this.getEvaluations();
+        this.getEvaluations(this.apprenticeId);
       });
   }
 
-  private getEvaluations() {
-    if (this.user.role == this.roleEnum.APPRENTICE) {
-      this.evaluationService.getByOwner(this.user.id).subscribe({
+  private getEvaluations(apprenticeId: number) {
+    if (this.adminView) {
+      this.evaluationService.getAll().subscribe({
         next: (evaluations) => {
           this.dataSource = new MatTableDataSource<Evaluation>(evaluations);
         },
@@ -108,7 +118,7 @@ export class EvaluationsComponent implements OnInit {
         },
       });
     } else {
-      this.evaluationService.getAll().subscribe({
+      this.evaluationService.getByOwner(apprenticeId).subscribe({
         next: (evaluations) => {
           this.dataSource = new MatTableDataSource<Evaluation>(evaluations);
         },

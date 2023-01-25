@@ -75,3 +75,8 @@
 .tree-child:hover {
   color: $green;
 }
+
+.tree-toggle {
+  display: flex;
+  align-items: center;
+}
