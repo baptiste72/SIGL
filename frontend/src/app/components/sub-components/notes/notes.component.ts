@@ -102,7 +102,6 @@ export class NotesComponent implements OnChanges {
         id: '',
         email: '',
       };
-      console.log(history.state);
       if (history.state['id'] != undefined) {
         this.getNote(history.state['id']);
       }
@@ -121,11 +120,9 @@ export class NotesComponent implements OnChanges {
 
   public getNote(data: any) {
     this.isAvailable = true;
-    console.log(data);
     this.noteService.get(data).subscribe({
       next: (v) => {
         this.note = v;
-        console.log(this.note);
       },
       error: (err) => {
         this._snackBar.open('❌ Une erreur est survenue', 'Ok', {
@@ -162,7 +159,6 @@ export class NotesComponent implements OnChanges {
       })
       .afterClosed()
       .subscribe((result) => {
-        console.log(result);
         if (result.event == 'ajout') {
           this.getNote(result.data.id);
         }

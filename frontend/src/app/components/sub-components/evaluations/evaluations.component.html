@@ -26,7 +26,7 @@
       <table mat-table [dataSource]="dataSource">
         <!-- Administration Column -->
         <ng-container matColumnDef="link">
-          <th mat-header-cell *matHeaderCellDef>Téléchargement</th>
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
           <td mat-cell *matCellDef="let element">
             <button (click)="downloadEvaluation(element.id, element.file_name)">
               <mat-icon
@@ -64,6 +64,19 @@
                 aria-hidden="false"
                 aria-label="documents icon"
                 fontIcon="close"
+              ></mat-icon>
+            </button>
+            <button
+              *ngIf="
+                user.role === roleEnum.TUTOR || user.role === roleEnum.MENTOR
+              "
+              (click)="openNoteEvaluationPopup(element)"
+            >
+              <mat-icon
+                class="yellow"
+                aria-hidden="false"
+                aria-label="documents icon"
+                fontIcon="grade"
               ></mat-icon>
             </button>
           </td>

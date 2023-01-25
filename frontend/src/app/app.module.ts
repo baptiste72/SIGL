@@ -86,6 +86,8 @@ import { UpdateEvaluationPopupComponent } from './components/pop-up/evaluation/u
 import { NotesComponent } from './components/sub-components/notes/notes.component';
 import { NotesMinimalComponent } from './components/sub-components/notes-minimal/notes-minimal.component';
 import { SelectApprenticeComponent } from './components/sub-components/select-apprentice/select-apprentice.component';
+import { NoteEvaluationPopupComponent } from './components/pop-up/evaluation/note-evaluation-popup/note-evaluation-popup.component';
+
 import { ValidateMissionPopupComponent } from './components/pop-up/apprentice/mission/validate-mission-popup/validate-mission-popup.component';
 import { MatButtonModule } from '@angular/material/button';
 import { DetailsCompanyPopupComponent } from './components/pop-up/company/details-company-popup/details-company-popup.component';
@@ -143,6 +145,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     UpdateEvaluationPopupComponent,
     NotesComponent,
     SelectApprenticeComponent,
+    NoteEvaluationPopupComponent,
     ValidateMissionPopupComponent,
     DetailsCompanyPopupComponent,
   ],

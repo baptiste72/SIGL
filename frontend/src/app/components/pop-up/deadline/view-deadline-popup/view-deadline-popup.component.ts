@@ -25,7 +25,6 @@ export class ViewDeadlinePopupComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.mydata);
     this.yearGroupService.getAll().subscribe((yearGroups) => {
       this.yearGroups = yearGroups;
     });

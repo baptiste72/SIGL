@@ -759,6 +759,8 @@ class EvaluationDetail(APIView):
         evaluation.status = request.data.get("status")
         evaluation.yeargroup = request.data.get("yeargroup")
         evaluation.user = User.objects.get(pk=request.data.get("user"))
+        if request.data.get("note"):
+            evaluation.note = request.data.get("note")
         serializer = EvaluationSerializer(evaluation, data=request.data)
         if serializer.is_valid():
             evaluation.save()

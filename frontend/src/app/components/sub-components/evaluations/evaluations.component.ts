@@ -12,6 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { ConfirmDeleteComponent } from '@app/components/pop-up/confirm-delete/confirm-delete.component';
 import { AddEvaluationPopupComponent } from '@app/components/pop-up/evaluation/add-evaluation-popup/add-evaluation-popup.component';
+import { NoteEvaluationPopupComponent } from '@app/components/pop-up/evaluation/note-evaluation-popup/note-evaluation-popup.component';
 import { UpdateEvaluationPopupComponent } from '@app/components/pop-up/evaluation/update-evaluation-popup/update-evaluation-popup.component';
 import { Role } from '@app/helpers/utilities';
 import { Evaluation } from '@app/models/Evaluation';
@@ -94,6 +95,18 @@ export class EvaluationsComponent implements OnChanges {
   public openUpdateEvaluationPopup(evaluation: any) {
     this.dialog
       .open(UpdateEvaluationPopupComponent, {
+        width: '600px',
+        data: evaluation,
+      })
+      .afterClosed()
+      .subscribe((shouldReload: boolean) => {
+        this.getEvaluations(this.apprenticeId);
+      });
+  }
+
+  public openNoteEvaluationPopup(evaluation: any) {
+    this.dialog
+      .open(NoteEvaluationPopupComponent, {
         width: '600px',
         data: evaluation,
       })
