@@ -22,22 +22,26 @@ export class SemesterService {
     );
   }
 
+  public get(id: number): Observable<Semester> {
+    return this.http.get<Semester>(
+      `${environment.apiUrl}/${this.urlPrefix}/${id}`
+    );
+  }
+
   public add(semester: Semester): Observable<Semester> {
     return this.http.post<Semester>(
-      `${environment.apiUrl}/${this.urlPrefix}/add`,
+      `${environment.apiUrl}/${this.urlPrefix}`,
       semester
     );
   }
 
   public delete(id: number): Observable<any> {
-    return this.http.delete(
-      `${environment.apiUrl}/${this.urlPrefix}/delete/${id}`
-    );
+    return this.http.delete(`${environment.apiUrl}/${this.urlPrefix}/${id}`);
   }
 
-  public update(semester: Semester): Observable<Semester> {
-    return this.http.post<Semester>(
-      `${environment.apiUrl}/${this.urlPrefix}/update`,
+  public update(semester: Semester, id: number): Observable<Semester> {
+    return this.http.put<Semester>(
+      `${environment.apiUrl}/${this.urlPrefix}/${id}`,
       semester
     );
   }

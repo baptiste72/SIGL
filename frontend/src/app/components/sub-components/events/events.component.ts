@@ -19,7 +19,9 @@ import { UserService } from '@app/services/user/user.service';
 import {
   ChangeDetectionStrategy,
   Component,
-  OnInit,
+  Input,
+  OnChanges,
+  SimpleChanges,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
@@ -39,7 +41,6 @@ const colors: any = {
   },
 };
 
-
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
@@ -47,7 +48,8 @@ const colors: any = {
   templateUrl: './events.component.html',
   styleUrls: ['./events.component.scss'],
 })
-export class EventsComponent {
+export class EventsComponent implements OnChanges {
+  @Input() apprenticeId;
   public refresh = new Subject<void>();
   public interviews: any;
   public deadlines: any;
@@ -70,14 +72,9 @@ export class EventsComponent {
     'Last_hour',
     'Description',
     'Guest',
-    'Semester'
+    'Semester',
   ];
-  displayedColumnsDeadlines: string[] = [
-    'update',
-    'Name',
-    'Date',
-    'Description'
-  ];
+
   yearGroups: any;
   dataSourceDeadlines: any;
   dataSourceInterviews: any;
@@ -106,13 +103,16 @@ export class EventsComponent {
     this.role = this.authService.userValue.role;
   }
 
-  ngOnInit(): void {
-    this.getInterviews(this.userId);
-    this.yearGroupService.getAll().subscribe((yearGroups) => {
-      this.yearGroups = yearGroups;
-    });
-    this.getDeadlines(this.userId);
-    this.refresh.next();
+  ngOnChanges(changes: SimpleChanges) {
+    for (let propName in changes) {
+      let change = changes[propName];
+      this.yearGroupService.getAll().subscribe((yearGroups) => {
+        this.yearGroups = yearGroups;
+      });
+      this.getInterviews(change.currentValue);
+      this.getDeadlines(change.currentValue);
+      this.refresh.next();
+    }
   }
 
   interviewsDates: Date[] = [];
@@ -234,6 +234,7 @@ export class EventsComponent {
     this.events.push(event);
   }
 
+  // Récupère les deadlines
   private getDeadlines(userId: number) {
     if (this.role === 'APPRENTICE') {
       this.deadlineService.getAllByUserId(userId).subscribe({
@@ -268,7 +269,7 @@ export class EventsComponent {
     }
   }
 
-  //refresh l'ensemble des données du calendrier
+  // Refresh l'ensemble des données du calendrier
   private refreshAll(userId: number) {
     if (this.role === 'APPRENTICE') {
       this.deadlineService.getAllByUserId(userId).subscribe({
@@ -376,7 +377,7 @@ export class EventsComponent {
     }
   }
 
-  //ouvre la pop up de création de rendez-vous
+  // Ouvre la pop up de création de rendez-vous
   addEvent(event: any) {
     this.dialog
       .open(AddInterviewPopupComponent, {
@@ -388,10 +389,11 @@ export class EventsComponent {
       })
       .afterClosed()
       .subscribe((result) => {
-        this.refreshAll(this.userId);
+        this.refreshAll(this.apprenticeId);
       });
   }
 
+  // Ouvre la pop up de modification d'un rendez-vous
   openUpdateInterview(interview: Interview) {
     this.dialog
       .open(UpdateInterviewPopupComponent, {
@@ -403,10 +405,11 @@ export class EventsComponent {
       })
       .afterClosed()
       .subscribe((result) => {
-        this.refreshAll(this.userId);
+        this.refreshAll(this.apprenticeId);
       });
   }
 
+  // Ouvre la pop up de modification d'une deadline
   openUpdateDeadline(deadline: any) {
     this.dialog
       .open(UpdateDeadlinePopupComponent, {
@@ -417,15 +420,17 @@ export class EventsComponent {
       })
       .afterClosed()
       .subscribe((shouldReload: boolean) => {
-        this.refreshAll(this.userId);
+        this.refreshAll(this.apprenticeId);
       });
   }
 
+  // Fonction appelé au clique sur une deadline
   onEventClicked(deadline) {
     let deadlineData = deadline.meta.deadline;
     this.openUpdateDeadline(deadlineData);
   }
 
+  // Fonction d'ajout d'une deadline
   addDeadline(deadline: any) {
     this.dialog
       .open(AddDeadlinePopupComponent, {

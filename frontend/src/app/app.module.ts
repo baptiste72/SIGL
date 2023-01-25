@@ -88,6 +88,10 @@ import { NotesMinimalComponent } from './components/sub-components/notes-minimal
 import { SelectApprenticeComponent } from './components/sub-components/select-apprentice/select-apprentice.component';
 import { NoteEvaluationPopupComponent } from './components/pop-up/evaluation/note-evaluation-popup/note-evaluation-popup.component';
 
+import { ValidateMissionPopupComponent } from './components/pop-up/apprentice/mission/validate-mission-popup/validate-mission-popup.component';
+import { MatButtonModule } from '@angular/material/button';
+import { DetailsCompanyPopupComponent } from './components/pop-up/company/details-company-popup/details-company-popup.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 @NgModule({
   declarations: [
     AppComponent,
@@ -142,6 +146,8 @@ import { NoteEvaluationPopupComponent } from './components/pop-up/evaluation/not
     NotesComponent,
     SelectApprenticeComponent,
     NoteEvaluationPopupComponent,
+    ValidateMissionPopupComponent,
+    DetailsCompanyPopupComponent,
   ],
   imports: [
     CalendarModule.forRoot({
@@ -165,6 +171,8 @@ import { NoteEvaluationPopupComponent } from './components/pop-up/evaluation/not
     MatSelectModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatSortModule,
+    MatButtonModule,
     FormsModule,
     MatSnackBarModule,
     MatSortModule,
@@ -176,6 +184,7 @@ import { NoteEvaluationPopupComponent } from './components/pop-up/evaluation/not
     MatCardModule,
     ReactiveFormsModule,
     MatAutocompleteModule,
+    MatTooltipModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

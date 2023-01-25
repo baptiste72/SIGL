@@ -1,5 +1,12 @@
 <app-navigation>
   <div class="navigation-content">
-    <app-events class="full-width"></app-events>
+    <h2>Mise en place des échéances et dates clés</h2>
+    <mat-icon
+      aria-hidden="false"
+      fontIcon="informations"
+      matTooltip="Cliquez sur une case du calendrier pour ajouter une échéance ou un entretien"
+      matTooltipHideDelay="100000"
+    ></mat-icon>
+    <app-events class="full-width" [apprenticeId]="apprenticeId"></app-events>
   </div>
 </app-navigation>

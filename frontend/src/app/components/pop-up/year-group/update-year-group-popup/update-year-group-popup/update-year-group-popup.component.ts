@@ -34,21 +34,25 @@ export class UpdateYearGroupPopupComponent {
   updatePromotion() {
     this.submitted = true;
     if (this.updateYearGroupForm.valid) {
-      this.yearGroupService.update(this.updateYearGroupForm.value).subscribe({
-        next: (v) => {
-          this._snackBar.open('✔ Promotion modifiée', 'Ok', { duration: 2000 });
-          this.closeDialog();
-        },
-        error: (err) => {
-          this._snackBar.open(
-            '❌ Une erreur est survenue lors de la modificaiton de la promotion',
-            'Ok',
-            {
+      this.yearGroupService
+        .update(this.updateYearGroupForm.value, this.data.id)
+        .subscribe({
+          next: (v) => {
+            this._snackBar.open('✔ Promotion modifiée', 'Ok', {
               duration: 2000,
-            }
-          );
-        },
-      });
+            });
+            this.closeDialog();
+          },
+          error: (err) => {
+            this._snackBar.open(
+              '❌ Une erreur est survenue lors de la modification de la promotion',
+              'Ok',
+              {
+                duration: 2000,
+              }
+            );
+          },
+        });
     }
   }
 }

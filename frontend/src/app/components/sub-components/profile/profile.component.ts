@@ -1,9 +1,5 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Apprentice } from '@app/models/Apprentice';
-import { User } from '@app/models/User';
-import { AuthService, UserService } from '@app/services';
 import { ApprenticeService } from '@app/services/apprentice/apprentice.service';
 
 @Component({
@@ -11,7 +7,7 @@ import { ApprenticeService } from '@app/services/apprentice/apprentice.service';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnChanges {
   @Input() apprenticeId;
   public apprentice!: Apprentice;
 
@@ -21,6 +17,17 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getApprenticeById(this.apprenticeId);
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    for (let propName in changes) {
+      let change = changes[propName];
+      this.getApprenticeById(change.currentValue);
+    }
+  }
+
+  getApprenticeById(apprenticeId: number) {
     this.apprenticeSerivce.getById(this.apprenticeId).subscribe({
       next: (apprentice) => {
         this.apprentice = apprentice;

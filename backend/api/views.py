@@ -13,25 +13,54 @@ from api.helpers.semester_helper import SemesterHelper
 from api.helpers.document_helper import DocumentHelper
 from api.helpers.evaluation_helper import EvaluationHelper
 from api.helpers.data_treatement import DataTreatement
+from api.helpers.mail_helper import MailHelper
 from api.helpers.sftp_helper import SftpHelper
 from api.helpers.tutor_team_helper import TutorTeamHelper
-from api.serializers import (ApprenticeInfoSerializer,
-                             ApprenticeRoleSerializer, ApprenticeSerializer,
-                             ChangePasswordSerializer, CompanySerializer,
-                             CompanyUserSerializer, ContactCompanySerializer,
-                             DeadlineSerializer, DocumentSerializer,
-                             EvaluationSerializer, FormationCenterSerializer,
-                             InterviewSerializer, MentorSerializer,
-                             NoteSerializer, OpcoSerializer,
-                             RegisterUserSerializer, SemesterSerializer,
-                             TreeNoteSerializer, TutorSerializer,
-                             TutorTeamSerializer, UserSerializer,
-                             YearGroupSerializer)
+from api.services.apprentice_service import ApprenticeService
+from api.serializers import (
+    ApprenticeInfoSerializer,
+    ApprenticeRoleSerializer,
+    ApprenticeSerializer,
+    ChangePasswordSerializer,
+    CompanySerializer,
+    CompanyUserSerializer,
+    ContactCompanySerializer,
+    DeadlineSerializer,
+    DocumentSerializer,
+    EvaluationSerializer,
+    FormationCenterSerializer,
+    InterviewSerializer,
+    MentorSerializer,
+    NoteSerializer,
+    OpcoSerializer,
+    RegisterUserSerializer,
+    SemesterSerializer,
+    TreeNoteSerializer,
+    TutorSerializer,
+    TutorTeamSerializer,
+    UserSerializer,
+    YearGroupSerializer,
+)
 from authentication.models import User
-from base.models import (Apprentice, ApprenticeInfo, Company, CompanyUser,
-                         ContactCompany, Deadline, Document, Evaluations,
-                         FormationCenter, Interview, Mentor, Note, Opco,
-                         Semester, Tutor, TutorTeam, YearGroup)
+from base.models import (
+    Apprentice,
+    ApprenticeInfo,
+    Company,
+    CompanyUser,
+    ContactCompany,
+    Deadline,
+    Document,
+    Evaluations,
+    FormationCenter,
+    Interview,
+    Mentor,
+    Note,
+    Opco,
+    Semester,
+    Tutor,
+    TutorTeam,
+    YearGroup,
+)
 from base.utilities import Role
 
 
@@ -43,6 +72,7 @@ class MentorList(generics.ListCreateAPIView):
 class MentorDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Mentor.objects.all()
     serializer_class = MentorSerializer
+
 
 class MentorByCompany(APIView):
     def get(self, request, pk):
@@ -63,6 +93,30 @@ class ApprenticeList(generics.ListCreateAPIView):
     serializer_class = ApprenticeSerializer
 
 
+class ApprenticeTutorList(APIView):
+    def get(self, request, pk, **kwargs):
+        tutor = Tutor.objects.get(pk=pk).tutor
+        tutor_team_list = TutorTeam.objects.filter(tutor=tutor)
+        apprentice_list = []
+        for tutor_team in tutor_team_list :
+            apprentice = Apprentice.objects.filter(pk=tutor_team.apprentice.pk).first()
+            apprentice_list.append(apprentice)
+        serializers = ApprenticeSerializer(apprentice_list, many=True)
+        return Response(serializers.data)
+
+
+class ApprenticeMentorList(APIView):
+    def get(self, request, pk, **kwargs):
+        mentor = Mentor.objects.get(pk=pk).mentor
+        mentor_team_list = TutorTeam.objects.filter(mentor=mentor)
+        apprentice_list = []
+        for mentor_team in mentor_team_list :
+            apprentice = Apprentice.objects.filter(pk=mentor_team.apprentice.pk).first()
+            apprentice_list.append(apprentice)
+        serializers = ApprenticeSerializer(apprentice_list, many=True)
+        return Response(serializers.data)
+    
+    
 @api_view(["GET"])
 def get_apprentices(request):
     apprentice_list = Apprentice.objects.all()
@@ -186,11 +240,14 @@ def update_year_group(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(["GET"])
-def get_semesters(request):
-    semester_list = Semester.objects.all()
-    serializers = SemesterSerializer(semester_list, many=True)
-    return Response(serializers.data)
+class YearGroupList(generics.ListCreateAPIView):
+    queryset = YearGroup.objects.all()
+    serializer_class = YearGroupSerializer
+
+
+class YearGroupDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = YearGroup.objects.all()
+    serializer_class = YearGroupSerializer
 
 
 class SemesterByYearGroup(APIView):
@@ -200,35 +257,14 @@ class SemesterByYearGroup(APIView):
         return Response(serializers.data)
 
 
-@api_view(["POST"])
-def add_semester(request):
-    serializer = SemesterSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class SemesterList(generics.ListCreateAPIView):
+    queryset = Semester.objects.all()
+    serializer_class = SemesterSerializer
 
 
-@api_view(["DELETE"])
-def delete_semester(request, pk):
-    semester = Semester.objects.get(id=pk)
-    semester.delete()
-    return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-@api_view(["POST"])
-def update_semester(request):
-    semester = Semester.objects.get(pk=request.data.get("id"))
-    semester.name = request.data.get("name")
-    semester.beginDate = request.data.get("beginDate")
-    semester.endDate = request.data.get("endDate")
-    year_group = YearGroup.objects.get(pk=request.data.get("yearGroup"))
-    semester.year_group = year_group
-    serializer = SemesterSerializer(semester, data=request.data)
-    if serializer.is_valid():
-        semester.save()
-        return Response(serializer.data)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class SemesterDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Semester.objects.all()
+    serializer_class = SemesterSerializer
 
 
 class FormationCenterList(APIView):
@@ -335,20 +371,6 @@ class UserList(APIView):
 
         return Response(serializer.data)
 
-class ApprenticeInfoList(generics.ListCreateAPIView):
-    queryset = ApprenticeInfo.objects.all()
-    serializer_class = ApprenticeInfoSerializer
-
-class ApprenticeInfoDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = ApprenticeInfo.objects.all()
-    serializer_class = ApprenticeInfoSerializer
-
-class ApprenticeInfoByCompany(APIView):
-    def get(self, request, pk):
-        apprentice_list = ApprenticeInfo.objects.filter(app_siret=pk)
-        serializers = ApprenticeInfoSerializer(apprentice_list, many=True)
-        return Response(serializers.data)
-
 
 class CompanyDetail(APIView):
     def get_object(self, pk):
@@ -398,6 +420,57 @@ class CompanyUserDetail(generics.RetrieveUpdateDestroyAPIView):
 class CompanyUserList(generics.ListCreateAPIView):
     queryset = CompanyUser.objects.all()
     serializer_class = CompanyUserSerializer
+
+
+class ApprenticeInfoByCompany(APIView):
+    def get(self, request, pk):
+        apprentice_list = ApprenticeInfo.objects.filter(app_siret=pk)
+        serializers = ApprenticeInfoSerializer(apprentice_list, many=True)
+        return Response(serializers.data)
+
+
+class ApprenticeInfoList(generics.ListCreateAPIView):
+    queryset = ApprenticeInfo.objects.all()
+    serializer_class = ApprenticeInfoSerializer
+
+
+class ApprenticeInfoDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ApprenticeInfo.objects.all()
+    serializer_class = ApprenticeInfoSerializer
+
+
+class ApprenticeInfoValidate(APIView):
+    def get_object(self, pk):
+        try:
+            return ApprenticeInfo.objects.get(pk=pk)
+        except ApprenticeInfo.DoesNotExist as exc:
+            raise Http404 from exc
+
+    def put(self, request, pk):
+        apprentice_info = self.get_object(pk)
+        company_user = CompanyUser.objects.get(company_siret=apprentice_info.app_siret)
+
+        user = User.objects.get(pk=company_user.id)
+        serializer = ApprenticeInfoSerializer(
+            apprentice_info, data=request.data["apprenticeInfo"]
+        )
+        if serializer.is_valid():
+            serializer.save()
+            MailHelper.send_validation_mail(
+                serializer=serializer, comment=request.data["comment"], email=user.email
+            )
+
+            if serializer.data["app_is_validate"]:
+                apprentice_data = ApprenticeService.get_apprentice_from_apprentice_info(
+                    request.data["apprenticeInfo"]
+                )
+
+                # Sauvegarde de l'utilisateur en base
+                apprentice_serializer = ApprenticeRoleSerializer(data=apprentice_data)
+                apprentice_serializer.is_valid(raise_exception=True)
+                apprentice_serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class OpcoDetail(APIView):
@@ -461,6 +534,7 @@ class ContactCompanyList(generics.ListCreateAPIView):
     queryset = ContactCompany.objects.all()
     serializer_class = ContactCompanySerializer
 
+
 class TutorTeamByTutorId(APIView):
     def get(self, request, pk):
         try:
@@ -470,6 +544,7 @@ class TutorTeamByTutorId(APIView):
         serializer = TutorTeamSerializer(tutor_team)
         return Response(serializer.data)
 
+
 class TutorTeamByMentorId(APIView):
     def get(self, request, pk):
         try:
@@ -478,7 +553,8 @@ class TutorTeamByMentorId(APIView):
             raise Http404 from exc
         serializer = TutorTeamSerializer(tutor_team)
         return Response(serializer.data)
-    
+
+
 class TutorTeamByApprenticeId(APIView):
     def get(self, request, pk):
         try:
@@ -488,6 +564,7 @@ class TutorTeamByApprenticeId(APIView):
 
         serializer = TutorTeamSerializer(tutor_team)
         return Response(serializer.data)
+
 
 class TutorTeamDetail(APIView):
     def get_object(self, pk):
@@ -622,6 +699,7 @@ class DocumentByYearGroup(APIView):
         response = DocumentHelper.getAllDocuments(serializers)
         return Response(response)
 
+
 class EvaluationList(APIView):
     parser_classes = (MultiPartParser, FormParser)
 
@@ -674,7 +752,7 @@ class EvaluationDetail(APIView):
             pass
         evaluation.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-    
+
     def put(self, request, pk):
         evaluation = self.get_object(pk, Evaluations)
         evaluation.type = request.data.get("type")
