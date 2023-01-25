@@ -85,7 +85,6 @@ export class CompanyInformationComponent implements AfterViewInit {
     switch ($event.tab.textLabel) {
       case 'apprentices':
         if (!this.hlApprentices) {
-          console.log('toto');
           this.loadApprentices();
         }
         break;

@@ -40,7 +40,7 @@
                 AJOUT APPRENTI
               </button>
             </div>
-            <div>
+            <div class="overflow-scroll">
               <table mat-table [dataSource]="dataSourceApprentices">
                 <ng-container matColumnDef="app_first_name">
                   <th mat-header-cell *matHeaderCellDef>Prénom</th>
@@ -146,7 +146,7 @@
                 AJOUT MAITRE D'APPRENTISSAGE
               </button>
             </div>
-            <div>
+            <div class="overflow-scroll">
               <table mat-table [dataSource]="dataSourceMentors">
                 <ng-container matColumnDef="first_name">
                   <th mat-header-cell *matHeaderCellDef>Prénom</th>
